@@ -1,2 +1,6 @@
+.DS_Store
+.thumbs.db
 node_modules
-5*.json
+build/
+dist/
+node_modules/
