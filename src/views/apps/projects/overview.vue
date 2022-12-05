@@ -42,7 +42,7 @@ export default {
             <div class="card mt-n4 mx-n4">
                 <div class="bg-soft-warning">
                     <div class="card-body pb-0 px-4">
-                        <div class="row mb-3">
+                        <div class="row">
                             <div class="col-md">
                                 <div class="row align-items-center g-3">
                                     <div class="col-md-auto">
