@@ -232,6 +232,12 @@ export default [
     component: () => import("../views/apps/projects/create"),
   },
   {
+    path: "/apps/projects-gantt",
+    name: "projects-gantt",
+    meta: { title: "projects-gantt", authRequired: true },
+    component: () => import("../views/apps/projects/gantt"),
+  },
+  {
     path: "/apps/tasks-details",
     name: "tasks-details",
     meta: { title: "Tasks Details", authRequired: true },

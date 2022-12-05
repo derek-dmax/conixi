@@ -1633,7 +1633,7 @@ export default {
                 <!-- end tab pane -->
                 <div class="tab-pane fade" id="project-gantt" role="tabpanel">
                     <div class="card">
-                        <iframe style="height:900px;" src="https://d-band.github.io/gantt/">
+                        <iframe style="height:900px;" src="./projects-gantt">
                         </iframe>
                     </div>
                     <!-- end team list -->
