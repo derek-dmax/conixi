@@ -19,7 +19,7 @@
       return {
         title: "Setting",
         items: [{
-            text: "Velzon",
+            text: "Conixi",
             href: "/",
           },
           {
@@ -454,7 +454,7 @@ Hi I'm Anna Adame,It will be as simple as Occidental; in fact, it will be Occide
                           <div class="mb-3">
                             <label for="companyName" class="form-label">Company Name</label>
                             <input type="text" class="form-control" id="companyName" placeholder="Company name"
-                              value="Themesbrand" />
+                              value="Conixi" />
                           </div>
                         </div>
                         <!--end col-->

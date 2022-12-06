@@ -63,9 +63,9 @@
         allTask: [{
             id: 1,
             taskId: "#VLZ632",
-            project: "Velzon - v1.0.0",
+            project: "Conixi - v1.0.0",
             task: "Error message when placing an orders?",
-            creater: "Robert McMahon",
+            creater: "Alex Raubitschek",
             subItem: [{
                 id: 1,
                 img: require("@/assets/images/users/avatar-3.jpg")

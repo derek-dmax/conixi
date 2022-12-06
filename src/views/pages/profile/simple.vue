@@ -18,7 +18,7 @@ export default {
       title: "Profile",
       items: [
         {
-          text: "Velzon",
+          text: "Conixi",
           href: "/",
         },
         {
@@ -75,7 +75,7 @@ export default {
                 <i
                   class="ri-building-line me-1 text-white-75 fs-16 align-middle"
                 ></i
-                >Themesbrand
+                >Conixi
               </div>
             </div>
           </div>
@@ -1107,7 +1107,7 @@ export default {
                                           </div>
                                           <div class="flex-grow-1 ms-3">
                                             <h6 class="fs-14 mb-1">
-                                              Velzon admin dashboard templates
+                                              Conixi admin dashboard templates
                                               layout upload
                                             </h6>
                                             <small class="text-muted"
@@ -2550,7 +2550,7 @@ export default {
                           <div class="d-flex">
                             <div class="flex-grow-1 text-muted overflow-hidden">
                               <h5 class="fs-14 text-truncate">
-                                <a href="#" class="text-dark">Velzon Project</a>
+                                <a href="#" class="text-dark">Conixi Project</a>
                               </h5>
                               <p class="text-muted text-truncate mb-0">
                                 Last Update :
@@ -3590,7 +3590,7 @@ export default {
                                   <div class="ms-3 flex-grow-1">
                                     <h6 class="fs-15 mb-0">
                                       <a href="javascript:void(0);"
-                                        >Velzon-logo.png</a
+                                        >Conixi-logo.png</a
                                       >
                                     </h6>
                                   </div>

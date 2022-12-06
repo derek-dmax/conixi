@@ -54,13 +54,13 @@ export default {
                                     </div>
                                     <div class="col-md">
                                         <div>
-                                            <h4 class="fw-bold">Velzon - Admin & Dashboard</h4>
+                                            <h4 class="fw-bold">Conixi - Admin & Dashboard</h4>
                                             <div class="hstack gap-3 flex-wrap">
-                                                <div><i class="ri-building-line align-bottom me-1"></i> Themesbrand</div>
+                                                <div><i class="ri-building-line align-bottom me-1"></i> Conixi</div>
                                                 <div class="vr"></div>
-                                                <div>Create Date : <span class="fw-medium">15 Sep, 2021</span></div>
+                                                <div>Create Date : <span class="fw-medium">15 Sep, 2022</span></div>
                                                 <div class="vr"></div>
-                                                <div>Due Date : <span class="fw-medium">29 Dec, 2021</span></div>
+                                                <div>Due Date : <span class="fw-medium">29 Dec, 2022</span></div>
                                                 <div class="vr"></div>
                                                 <div class="badge rounded-pill bg-info fs-12">New</div>
                                                 <div class="badge rounded-pill bg-danger fs-12">High</div>
@@ -135,8 +135,10 @@ export default {
                                 <div class="card-body">
                                     <div class="text-muted">
                                         <h6 class="mb-3 fw-semibold text-uppercase">Summary</h6>
-                                        <p>It will be as simple as occidental in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is. The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
-
+                                        <p>Projects are one of the cornerstones of a successful business. Sector or industry aside, strategic initiatives focused on specific areas of the business help drive an organization forward, growing, progressing, and evolving year after year. Also, implementing effective management reports will create a data-driven approach to making business decisions and obtaining sustainable business success.
+                                            <br/><br/>
+                                            But despite the business-boosting potential (and vital importance) of successfully delivering collaborative strategies, a mere 58% of organizations understand the value of project management to its fullest, according to the global survey conducted by the Project Management Insitute. Armed with this knowledge, you can gain a significant edge on the competition and boost your project exponentially.
+                                        </p>
                                         <ul class="ps-4 vstack gap-2">
                                             <li>Product Design, Figma (Software), Prototype</li>
                                             <li>Four Dashboards : Ecommerce, Analytics, Project,etc.</li>
@@ -155,13 +157,13 @@ export default {
                                                 <div class="col-lg-3 col-sm-6">
                                                     <div>
                                                         <p class="mb-2 text-uppercase fw-medium">Create Date :</p>
-                                                        <h5 class="fs-15 mb-0">15 Sep, 2021</h5>
+                                                        <h5 class="fs-15 mb-0">15 Sep, 2022</h5>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-sm-6">
                                                     <div>
                                                         <p class="mb-2 text-uppercase fw-medium">Due Date :</p>
-                                                        <h5 class="fs-15 mb-0">29 Dec, 2021</h5>
+                                                        <h5 class="fs-15 mb-0">29 Dec, 2022</h5>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-sm-6">
@@ -225,7 +227,7 @@ export default {
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1 overflow-hidden">
-                                                                <h5 class="fs-13 mb-1"><a href="#" class="text-body text-truncate d-block">Velzon admin.ppt</a></h5>
+                                                                <h5 class="fs-13 mb-1"><a href="#" class="text-body text-truncate d-block">Conixi admin.ppt</a></h5>
                                                                 <div>2.4MB</div>
                                                             </div>
                                                             <div class="flex-shrink-0 ms-2">
@@ -280,7 +282,7 @@ export default {
                                                 <img src="@/assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h5 class="fs-13">Joseph Parker <small class="text-muted ms-2">20 Dec 2021 - 05:47AM</small></h5>
+                                                <h5 class="fs-13">Joseph Parker <small class="text-muted ms-2">20 Dec 2022 - 05:47AM</small></h5>
                                                 <p class="text-muted">I am getting message from customers that when they place order always get error message .</p>
                                                 <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
                                                 <div class="d-flex mt-4">
@@ -288,7 +290,7 @@ export default {
                                                         <img src="@/assets/images/users/avatar-10.jpg" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
-                                                        <h5 class="fs-13">Alexis Clarke <small class="text-muted ms-2">22 Dec 2021 - 02:32PM</small></h5>
+                                                        <h5 class="fs-13">Alexis Clarke <small class="text-muted ms-2">22 Dec 2022 - 02:32PM</small></h5>
                                                         <p class="text-muted">Please be sure to check your Spam mailbox to see if your email filters have identified the email from Dell as spam.</p>
                                                         <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
                                                     </div>
@@ -300,7 +302,7 @@ export default {
                                                 <img src="@/assets/images/users/avatar-6.jpg" alt="" class="avatar-xs rounded-circle" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h5 class="fs-13">Donald Palmer <small class="text-muted ms-2">24 Dec 2021 - 05:20PM</small></h5>
+                                                <h5 class="fs-13">Donald Palmer <small class="text-muted ms-2">24 Dec 2022 - 05:20PM</small></h5>
                                                 <p class="text-muted">If you have further questions, please contact Customer Support from the “Action Menu” on your <a href="javascript:void(0);" class="text-decoration-underline">Online Order Support</a>.</p>
                                                 <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
                                             </div>
@@ -386,7 +388,7 @@ export default {
                                                     <img src="@/assets/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Nancy Martino</a></h5>
+                                                    <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Laura Van Zyl</a></h5>
                                                 </div>
                                                 <div class="flex-shrink-0">
                                                     <div class="d-flex align-items-center gap-1">
@@ -436,7 +438,7 @@ export default {
                                                     <img src="@/assets/images/users/avatar-3.jpg" alt="" class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Frank Hook</a></h5>
+                                                    <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Alex Raubitschek</a></h5>
                                                 </div>
                                                 <div class="flex-shrink-0">
                                                     <div class="d-flex align-items-center gap-1">
@@ -588,7 +590,7 @@ export default {
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
-                                                    <h5 class="fs-13 mb-1"><a href="#" class="text-body text-truncate d-block">Velzon-admin.ppt</a></h5>
+                                                    <h5 class="fs-13 mb-1"><a href="#" class="text-body text-truncate d-block">Conixi-admin.ppt</a></h5>
                                                     <div>2.4MB</div>
                                                 </div>
                                                 <div class="flex-shrink-0 ms-2">
@@ -717,7 +719,7 @@ export default {
                                                     </td>
                                                     <td>Zip File</td>
                                                     <td>4.57 MB</td>
-                                                    <td>12 Dec 2021</td>
+                                                    <td>12 Dec 2022</td>
                                                     <td>
                                                         <div class="dropdown">
                                                             <a href="javascript:void(0);" class="btn btn-soft-secondary btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="true">
@@ -747,7 +749,7 @@ export default {
                                                     </td>
                                                     <td>PDF File</td>
                                                     <td>8.89 MB</td>
-                                                    <td>24 Nov 2021</td>
+                                                    <td>24 Nov 2022</td>
                                                     <td>
                                                         <div class="dropdown">
                                                             <a href="javascript:void(0);" class="btn btn-soft-secondary btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="true">
@@ -777,7 +779,7 @@ export default {
                                                     </td>
                                                     <td>MP4 File</td>
                                                     <td>14.62 MB</td>
-                                                    <td>19 Nov 2021</td>
+                                                    <td>19 Nov 2022</td>
                                                     <td>
                                                         <div class="dropdown">
                                                             <a href="javascript:void(0);" class="btn btn-soft-secondary btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="true">
@@ -807,7 +809,7 @@ export default {
                                                     </td>
                                                     <td>XSL File</td>
                                                     <td>2.38 KB</td>
-                                                    <td>14 Nov 2021</td>
+                                                    <td>14 Nov 2022</td>
                                                     <td>
                                                         <div class="dropdown">
                                                             <a href="javascript:void(0);" class="btn btn-soft-secondary btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="true">
@@ -837,7 +839,7 @@ export default {
                                                     </td>
                                                     <td>Floder File</td>
                                                     <td>87.24 MB</td>
-                                                    <td>08 Nov 2021</td>
+                                                    <td>08 Nov 2022</td>
                                                     <td>
                                                         <div class="dropdown">
                                                             <a href="javascript:void(0);" class="btn btn-soft-secondary btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="true">
@@ -861,13 +863,13 @@ export default {
                                                                 </div>
                                                             </div>
                                                             <div class="ms-3 flex-grow-1">
-                                                                <h5 class="fs-14 mb-0"><a href="javascript:void(0);" class="text-dark">Velzon-logo.png</a></h5>
+                                                                <h5 class="fs-14 mb-0"><a href="javascript:void(0);" class="text-dark">Conixi-logo.png</a></h5>
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td>PNG File</td>
                                                     <td>879 KB</td>
-                                                    <td>02 Nov 2021</td>
+                                                    <td>02 Nov 2022</td>
                                                     <td>
                                                         <div class="dropdown">
                                                             <a href="javascript:void(0);" class="btn btn-soft-secondary btn-sm btn-icon" data-bs-toggle="dropdown" aria-expanded="true">
@@ -916,13 +918,13 @@ export default {
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1">Nancy Martino <span class="badge bg-soft-secondary text-secondary align-middle">In Progress</span></h6>
+                                        <h6 class="mb-1">Laura Van Zyl <span class="badge bg-soft-secondary text-secondary align-middle">In Progress</span></h6>
                                         <p class="text-muted mb-2"><i class="ri-file-text-line align-middle ms-2"></i> Create new project Buildng product</p>
                                         <div class="avatar-group mb-2">
                                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Christi">
                                                 <img src="@/assets/images/users/avatar-4.jpg" alt="" class="rounded-circle avatar-xs" />
                                             </a>
-                                            <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Frank Hook">
+                                            <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Alex Raubitschek">
                                                 <img src="@/assets/images/users/avatar-3.jpg" alt="" class="rounded-circle avatar-xs" />
                                             </a>
                                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
@@ -948,7 +950,7 @@ export default {
                                         <img src="@/assets/images/users/avatar-2.jpg" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1">Natasha Carey <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
+                                        <h6 class="mb-1">Laura Van Zyl <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
                                         <p class="text-muted mb-2">Adding a new event with attachments</p>
                                         <div class="row">
                                             <div class="col-xxl-4">
@@ -974,7 +976,7 @@ export default {
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h6 class="mb-1">Bethany Johnson</h6>
-                                        <p class="text-muted mb-2">added a new member to velzon dashboard</p>
+                                        <p class="text-muted mb-2">added a new member to conixi dashboard</p>
                                         <small class="mb-0 text-muted">19 Nov</small>
                                     </div>
                                 </div>
@@ -1080,7 +1082,7 @@ export default {
                                                 <img src="@/assets/images/users/avatar-2.jpg" alt="" class="img-fluid d-block rounded-circle" />
                                             </div>
                                             <div class="team-content">
-                                                <a href="#" class="d-block"><h5 class="fs-16 mb-1">Nancy Martino</h5></a>
+                                                <a href="#" class="d-block"><h5 class="fs-16 mb-1">Laura Van Zyl</h5></a>
                                                 <p class="text-muted mb-0">Team Leader & HR</p>
                                             </div>
                                         </div>
@@ -1192,7 +1194,7 @@ export default {
                                                 <img src="@/assets/images/users/avatar-3.jpg" alt="" class="img-fluid d-block rounded-circle" />
                                             </div>
                                             <div class="team-content">
-                                                <a href="#" class="d-block"><h5 class="fs-16 mb-1">Frank Hook</h5></a>
+                                                <a href="#" class="d-block"><h5 class="fs-16 mb-1">Alex Raubitschek</h5></a>
                                                 <p class="text-muted mb-0">Project Manager</p>
                                             </div>
                                         </div>

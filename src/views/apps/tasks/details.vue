@@ -103,7 +103,7 @@ export default {
                   </tr>
                   <tr>
                     <td class="fw-medium">Project Name</td>
-                    <td>Velzon - Admin Dashboard</td>
+                    <td>Conixi - Admin Dashboard</td>
                   </tr>
                   <tr>
                     <td class="fw-medium">Priority</td>
@@ -435,7 +435,7 @@ export default {
                       <a
                         href="javascript:void(0);"
                         class="text-body text-truncate d-block"
-                        >Velzon admin.ppt</a
+                        >Conixi admin.ppt</a
                       >
                     </h5>
                     <div>2.4MB</div>
@@ -1047,7 +1047,7 @@ export default {
                             <div class="ms-3 flex-grow-1">
                               <h6 class="fs-15 mb-0">
                                 <a href="javascript:void(0);"
-                                  >Velzon admin.ppt</a
+                                  >Conixi admin.ppt</a
                                 >
                               </h6>
                             </div>

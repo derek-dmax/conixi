@@ -54,7 +54,7 @@ export default {
           file: "2",
         },
         {
-          title: "Velzon - Admin Layout Design",
+          title: "Conixi - Admin Layout Design",
           description:
             "The dashboard is the front page of the Administration UI.",
           features: ["Layout", "Admin", "Dashboard"],

@@ -1114,7 +1114,7 @@
                                 <p>Premium Multipurpose Admin & Dashboard Template</p>
                                 <p class="ff-secondary">You can build any type of web application like eCommerce, CRM,
                                     CMS, Project
-                                    management apps, Admin Panels, etc using Velzon.</p>
+                                    management apps, Admin Panels, etc using Conixi.</p>
                             </div>
                         </div>
                     </div>
@@ -1184,7 +1184,7 @@
                     <div class="col-sm-6">
 
                         <div>
-                            <p class="copy-rights mb-0 currentyear">{{new Date().getFullYear()}} © Velzon - Themesbrand
+                            <p class="copy-rights mb-0 currentyear">{{new Date().getFullYear()}} © Conixi - Conixi
                             </p>
                         </div>
                     </div>

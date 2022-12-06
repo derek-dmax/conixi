@@ -251,7 +251,7 @@
                                 <div style="text-align: center; margin: 28px auto 0px auto;">
                                     <p
                                         style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">
-                                        2022 Conixi. Design & Develop by Themesbrand</p>
+                                        2022 Conixi. Design & Develop by Conixi</p>
                                 </div>
                             </div>
                         </td>
@@ -351,7 +351,7 @@
                                 <div style="text-align: center; margin: 28px auto 0px auto;">
                                     <p
                                         style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">
-                                        2022 Conixi. Design & Develop by Themesbrand</p>
+                                        2022 Conixi. Design & Develop by Conixi</p>
                                 </div>
                             </div>
                         </td>
@@ -495,7 +495,7 @@
                                 <div style="text-align: center; margin: 28px auto 0px auto;">
                                     <p
                                         style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">
-                                        2022 Conixi. Design & Develop by Themesbrand</p>
+                                        2022 Conixi. Design & Develop by Conixi</p>
                                 </div>
                             </div>
                         </td>

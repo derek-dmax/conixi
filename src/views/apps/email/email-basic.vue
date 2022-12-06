@@ -151,7 +151,7 @@
                                     </ul>
                                     <p
                                         style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">
-                                        2022 Conixi. Design & Develop by Themesbrand</p>
+                                        2022 Conixi. Design & Develop by Conixi</p>
                                 </div>
                             </div>
                         </td>
@@ -261,7 +261,7 @@
                                     </ul>
                                     <p
                                         style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">
-                                        2022 Conixi. Design & Develop by Themesbrand</p>
+                                        2022 Conixi. Design & Develop by Conixi</p>
                                 </div>
                             </div>
                         </td>
@@ -365,7 +365,7 @@
                                         <a href="" style="font-weight: 500;">info@conixi.co.uk</a></p>
                                     <p
                                         style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">
-                                        2022 Conixi. Design & Develop by Themesbrand</p>
+                                        2022 Conixi. Design & Develop by Conixi</p>
                                 </div>
                             </div>
                         </td>
@@ -484,7 +484,7 @@
                                             style="font-weight: 500px;">info@conixi.co.uk</a></p>
                                     <p
                                         style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">
-                                        2022 Conixi. Design & Develop by Themesbrand</p>
+                                        2022 Conixi. Design & Develop by Conixi</p>
                                 </div>
                             </div>
                         </td>

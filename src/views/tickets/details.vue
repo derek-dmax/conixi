@@ -49,7 +49,7 @@ export default {
                       <div class="hstack gap-3 flex-wrap">
                         <div class="text-muted">
                           <i class="ri-building-line align-bottom me-1"></i>
-                          Themesbrand
+                          Conixi
                         </div>
                         <div class="vr"></div>
                         <div class="text-muted">
@@ -394,11 +394,11 @@ userIdx: {}
                   </tr>
                   <tr>
                     <td class="fw-medium">Client</td>
-                    <td>Themesbrand</td>
+                    <td>Conixi</td>
                   </tr>
                   <tr>
                     <td class="fw-medium">Project</td>
-                    <td>Velzon - Admin Dashboard</td>
+                    <td>Conixi - Admin Dashboard</td>
                   </tr>
                   <tr>
                     <td class="fw-medium">Assigned To:</td>
@@ -538,7 +538,7 @@ userIdx: {}
               </div>
               <div class="flex-grow-1 ms-3">
                 <h6 class="mb-1">
-                  <a href="javascript:void(0);">Velzon-admin.zip</a>
+                  <a href="javascript:void(0);">Conixi-admin.zip</a>
                 </h6>
                 <small class="text-muted">3.2 MB</small>
               </div>
@@ -568,7 +568,7 @@ userIdx: {}
               </div>
               <div class="flex-grow-1 ms-3">
                 <h6 class="mb-1">
-                  <a href="javascript:void(0);">Velzon-admin.ppt</a>
+                  <a href="javascript:void(0);">Conixi-admin.ppt</a>
                 </h6>
                 <small class="text-muted">4.5 MB</small>
               </div>

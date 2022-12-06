@@ -220,20 +220,20 @@ export default {
                 <div class="pb-3">
                   <h5 class="mb-1">
                     <a href="javascript:void(0);"
-                      >Velzon - Responsive Bootstrap 5 Admin Dashboard</a
+                      >Conixi - Responsive Bootstrap 5 Admin Dashboard</a
                     >
                   </h5>
                   <p class="text-success mb-2">
                     https://themesbrand.com/velzon/index.html
                   </p>
                   <p class="text-muted mb-2">
-                    Velzon admin is super flexible, powerful, clean, modern &
+                    Conixi admin is super flexible, powerful, clean, modern &
                     responsive admin template based on
                     <span class="fw-semibold">bootstrap 5</span> stable with
                     unlimited possibilities. You can simply change to any layout
                     or mode by changing a couple of lines of code. You can start
                     small and large projects or update design in your existing
-                    project using Velzon it is very quick and easy as it is
+                    project using Conixi it is very quick and easy as it is
                     beautiful, adroit, and delivers the ultimate user
                     experience.
                   </p>
@@ -260,7 +260,7 @@ export default {
                           <i class="ri-user-line"></i>
                         </div>
                         <div class="flex-grow-1 fs-13 ms-1">
-                          <span class="fw-medium">Themesbrand</span>
+                          <span class="fw-medium">Conixi</span>
                         </div>
                       </div>
                     </li>
@@ -353,7 +353,7 @@ export default {
                 <div class="py-3">
                   <h5 class="mb-1">
                     <a href="javascript:void(0);"
-                      >Skote - Admin & Dashboard Template by Themesbrand</a
+                      >Skote - Admin & Dashboard Template by Conixi</a
                     >
                   </h5>
                   <p class="text-success mb-2">
@@ -391,7 +391,7 @@ export default {
                           <i class="ri-user-line"></i>
                         </div>
                         <div class="flex-grow-1 fs-13 ms-1">
-                          <span class="fw-medium">Themesbrand</span>
+                          <span class="fw-medium">Conixi</span>
                         </div>
                       </div>
                     </li>
@@ -443,7 +443,7 @@ export default {
                           <i class="ri-user-line"></i>
                         </div>
                         <div class="flex-grow-1 fs-13 ms-1">
-                          <span class="fw-medium">Themesbrand</span>
+                          <span class="fw-medium">Conixi</span>
                         </div>
                       </div>
                     </li>
@@ -456,7 +456,7 @@ export default {
                   <h5 class="mb-1">
                     <a href="javascript:void(0);"
                       >Doson - Angular Admin & Dashboard Template by
-                      Themesbrand</a
+                      Conixi</a
                     >
                   </h5>
                   <p class="text-success mb-2">
@@ -493,7 +493,7 @@ export default {
                           <i class="ri-user-line"></i>
                         </div>
                         <div class="flex-grow-1 fs-13 ms-1">
-                          <span class="fw-medium">Themesbrand</span>
+                          <span class="fw-medium">Conixi</span>
                         </div>
                       </div>
                     </li>
@@ -2286,7 +2286,7 @@ export default {
                       <h5 class="mb-1">
                         <a href="javascript:void(0);"
                           >Admin dashboard templates - Material Design for
-                          Velzon</a
+                          Conixi</a
                         >
                       </h5>
                       <p class="text-success">
@@ -2303,13 +2303,13 @@ export default {
                         </div>
                         <div class="flex-grow-1 ms-sm-3 mt-2 mt-sm-0">
                           <p class="text-muted mb-0">
-                            Velzon admin is super flexible, powerful, clean,
+                            Conixi admin is super flexible, powerful, clean,
                             modern & responsive admin template based on
                             <b>bootstrap 5</b> stable with unlimited
                             possibilities. You can simply change to any layout
                             or mode by changing a couple of lines of code. You
                             can start small and large projects or update design
-                            in your existing project using Velzon it is very
+                            in your existing project using Conixi it is very
                             quick and easy as it is beautiful, adroit, and
                             delivers the ultimate user experience.
                           </p>
@@ -2345,7 +2345,7 @@ export default {
                                   <i class="ri-user-line"></i>
                                 </div>
                                 <div class="flex-grow-1 fs-13 ms-1">
-                                  <span class="fw-medium">Themesbrand</span>
+                                  <span class="fw-medium">Conixi</span>
                                 </div>
                               </div>
                             </li>
@@ -2375,13 +2375,13 @@ export default {
                         </div>
                         <div class="flex-grow-1 ms-sm-3 mt-2 mt-sm-0">
                           <p class="text-muted mb-0">
-                            Velzon admin is super flexible, powerful, clean,
+                            Conixi admin is super flexible, powerful, clean,
                             modern & responsive admin template based on
                             <b>bootstrap 5</b> stable with unlimited
                             possibilities. You can simply change to any layout
                             or mode by changing a couple of lines of code. You
                             can start small and large projects or update design
-                            in your existing project using Velzon it is very
+                            in your existing project using Conixi it is very
                             quick and easy as it is beautiful, adroit, and
                             delivers the ultimate user experience.
                           </p>
@@ -2417,7 +2417,7 @@ export default {
                                   <i class="ri-user-line"></i>
                                 </div>
                                 <div class="flex-grow-1 fs-13 ms-1">
-                                  <span class="fw-medium">Themesbrand</span>
+                                  <span class="fw-medium">Conixi</span>
                                 </div>
                               </div>
                             </li>
@@ -2430,7 +2430,7 @@ export default {
                     <div class="list-element mt-4">
                       <h5 class="mb-1">
                         <a href="javascript:void(0);"
-                          >Velzon - The Most Popular Bootstrap 5 HTML, Angular &
+                          >Conixi - The Most Popular Bootstrap 5 HTML, Angular &
                           React Js Admin</a
                         >
                       </h5>
@@ -2448,13 +2448,13 @@ export default {
                         </div>
                         <div class="flex-grow-1 ms-sm-3 mt-2 mt-sm-0">
                           <p class="text-muted mb-0">
-                            Velzon admin is super flexible, powerful, clean,
+                            Conixi admin is super flexible, powerful, clean,
                             modern & responsive admin template based on
                             <b>bootstrap 5</b> stable with unlimited
                             possibilities. You can simply change to any layout
                             or mode by changing a couple of lines of code. You
                             can start small and large projects or update design
-                            in your existing project using Velzon it is very
+                            in your existing project using Conixi it is very
                             quick and easy as it is beautiful, adroit, and
                             delivers the ultimate user experience.
                           </p>
@@ -2490,7 +2490,7 @@ export default {
                                   <i class="ri-user-line"></i>
                                 </div>
                                 <div class="flex-grow-1 fs-13 ms-1">
-                                  <span class="fw-medium">Themesbrand</span>
+                                  <span class="fw-medium">Conixi</span>
                                 </div>
                               </div>
                             </li>
@@ -2503,7 +2503,7 @@ export default {
                     <div class="list-element mt-4">
                       <h5 class="mb-1">
                         <a href="javascript:void(0);"
-                          >Velzon Admin Dashboard (website analytics) with
+                          >Conixi Admin Dashboard (website analytics) with
                           Bootstrap 5</a
                         >
                       </h5>
@@ -2521,13 +2521,13 @@ export default {
                         </div>
                         <div class="flex-grow-1 ms-sm-3 mt-2 mt-sm-0">
                           <p class="text-muted mb-0">
-                            Velzon admin is super flexible, powerful, clean,
+                            Conixi admin is super flexible, powerful, clean,
                             modern & responsive admin template based on
                             <b>bootstrap 5</b> stable with unlimited
                             possibilities. You can simply change to any layout
                             or mode by changing a couple of lines of code. You
                             can start small and large projects or update design
-                            in your existing project using Velzon it is very
+                            in your existing project using Conixi it is very
                             quick and easy as it is beautiful, adroit, and
                             delivers the ultimate user experience.
                           </p>
@@ -2563,7 +2563,7 @@ export default {
                                   <i class="ri-user-line"></i>
                                 </div>
                                 <div class="flex-grow-1 fs-13 ms-1">
-                                  <span class="fw-medium">Themesbrand</span>
+                                  <span class="fw-medium">Conixi</span>
                                 </div>
                               </div>
                             </li>
@@ -2593,13 +2593,13 @@ export default {
                         </div>
                         <div class="flex-grow-1 ms-sm-3 mt-2 mt-sm-0">
                           <p class="text-muted mb-0">
-                            Velzon admin is super flexible, powerful, clean,
+                            Conixi admin is super flexible, powerful, clean,
                             modern & responsive admin template based on
                             <b>bootstrap 5</b> stable with unlimited
                             possibilities. You can simply change to any layout
                             or mode by changing a couple of lines of code. You
                             can start small and large projects or update design
-                            in your existing project using Velzon it is very
+                            in your existing project using Conixi it is very
                             quick and easy as it is beautiful, adroit, and
                             delivers the ultimate user experience.
                           </p>
@@ -2635,7 +2635,7 @@ export default {
                                   <i class="ri-user-line"></i>
                                 </div>
                                 <div class="flex-grow-1 fs-13 ms-1">
-                                  <span class="fw-medium">Themesbrand</span>
+                                  <span class="fw-medium">Conixi</span>
                                 </div>
                               </div>
                             </li>

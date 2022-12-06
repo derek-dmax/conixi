@@ -89,7 +89,7 @@ export default {
             }
         });
 
-        document.querySelector('.currentyear').innerHTML = new Date().getFullYear() + " © Velzon - Themesbrand";
+        document.querySelector('.currentyear').innerHTML = new Date().getFullYear() + " © Conixi - Conixi";
     },
 };
 </script>
@@ -155,9 +155,9 @@ export default {
                     <div class="col-lg-8 col-sm-10">
                         <div class="text-center mt-lg-5 pt-5">
                             <h1 class="display-6 fw-semibold mb-3 lh-base">The better way to manage your website with
-                                <span class="text-success">Velzon </span>
+                                <span class="text-success">Conixi </span>
                             </h1>
-                            <p class="lead text-muted lh-base">Velzon is a fully responsive, multipurpose and premium
+                            <p class="lead text-muted lh-base">Conixi is a fully responsive, multipurpose and premium
                                 Bootstrap 5 Admin & Dashboard Template built in multiple frameworks.</p>
 
                             <div class="d-flex gap-2 justify-content-center mt-4">
@@ -583,7 +583,7 @@ export default {
                 <div class="row align-items-center gy-4">
                     <div class="col-sm">
                         <div>
-                            <h4 class="text-white mb-0 fw-semibold">Build your web App/SaaS with Velzon dashboard</h4>
+                            <h4 class="text-white mb-0 fw-semibold">Build your web App/SaaS with Conixi dashboard</h4>
                         </div>
                     </div>
                     <!-- end col -->
@@ -1872,7 +1872,7 @@ export default {
                 <div class="row align-items-center gy-4">
                     <div class="col-sm">
                         <div>
-                            <h4 class="text-white mb-0 fw-semibold">Build your web App/SaaS with Velzon dashboard</h4>
+                            <h4 class="text-white mb-0 fw-semibold">Build your web App/SaaS with Conixi dashboard</h4>
                         </div>
                     </div>
                     <!-- end col -->
@@ -1904,7 +1904,7 @@ export default {
                                 <p>Premium Multipurpose Admin & Dashboard Template</p>
                                 <p class="ff-secondary">You can build any type of web application like eCommerce, CRM,
                                     CMS, Project
-                                    management apps, Admin Panels, etc using Velzon.</p>
+                                    management apps, Admin Panels, etc using Conixi.</p>
                             </div>
                         </div>
                     </div>

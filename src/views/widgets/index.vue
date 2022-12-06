@@ -44,7 +44,7 @@ export default {
       title: "Widgets",
       items: [
         {
-          text: "Velzon",
+          text: "Conixi",
           href: "/",
         },
         {
