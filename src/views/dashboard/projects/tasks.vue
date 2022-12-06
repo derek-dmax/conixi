@@ -64,7 +64,7 @@ export default {
                   </label>
                 </div>
               </td>
-              <td class="text-muted">03 Nov 2021</td>
+              <td class="text-muted">03 Nov 2022</td>
               <td><span class="badge badge-soft-success">Completed</span></td>
               <td>
                 <a
@@ -98,7 +98,7 @@ export default {
                   </label>
                 </div>
               </td>
-              <td class="text-muted">17 Nov 2021</td>
+              <td class="text-muted">17 Nov 2022</td>
               <td><span class="badge badge-soft-warning">Progress</span></td>
               <td>
                 <a
@@ -132,7 +132,7 @@ export default {
                   </label>
                 </div>
               </td>
-              <td class="text-muted">26 Nov 2021</td>
+              <td class="text-muted">26 Nov 2022</td>
               <td><span class="badge badge-soft-success">Completed</span></td>
               <td>
                 <a
@@ -166,7 +166,7 @@ export default {
                   </label>
                 </div>
               </td>
-              <td class="text-muted">10 Dec 2021</td>
+              <td class="text-muted">10 Dec 2022</td>
               <td><span class="badge badge-soft-danger">Pending</span></td>
               <td>
                 <a
@@ -200,7 +200,7 @@ export default {
                   </label>
                 </div>
               </td>
-              <td class="text-muted">22 Dec 2021</td>
+              <td class="text-muted">22 Dec 2022</td>
               <td><span class="badge badge-soft-warning">Progress</span></td>
               <td>
                 <a
@@ -234,7 +234,7 @@ export default {
                   </label>
                 </div>
               </td>
-              <td class="text-muted">31 Dec 2021</td>
+              <td class="text-muted">31 Dec 2022</td>
               <td><span class="badge badge-soft-danger">Pending</span></td>
               <td>
                 <a

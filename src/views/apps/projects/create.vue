@@ -30,7 +30,7 @@ export default {
       dropzoneFile.value = document.querySelector(".dropzoneFile").files[0];
       files.value.push(dropzoneFile.value);
     };
-     watch(
+    watch(
       () => [...files.value],
       (currentValue) => {
         return currentValue;
@@ -51,15 +51,84 @@ export default {
           active: true,
         },
       ],
-      value: ["C#", "HTML", "CSS"],
+      value: [],
       value3: ["Private"],
-      value4: ["Designing"],
+      category: ["Designing"],
+      client: ["CSG"],
+      subCategory: ["Designing"],
       value5: ["Ellen Smith"],
       value1: ["Inprogress"],
       value2: ["High"],
+      clients: ["CSG", "Hampshire CC", "Mid-Lothian", "Luton BC"],
+      categories: [
+        { value: "Asset Management", label: "Asset Management" },
+        { value: "Business Strategy", label: "Business Strategy" },
+        { value: "Change Management", label: "Change Management" },
+        { value: "Construction", label: "Construction" },
+        { value: "Engineering", label: "Engineering" },
+        { value: "Finance", label: "Finance" },
+        { value: "Legal", label: "Legal" },
+        { value: "Procurement", label: "Procurement" },
+        { value: "Security", label: "Security" },
+        { value: "Technology", label: "Technology" },
+      ],
+      subCategories: [
+        { category: "Construction", value: "Architecture", label: "Architecture" },
+        {
+          category: "Construction",
+          value: "Building Control",
+          label: "Building Control",
+        },
+        {
+          category: "Construction",
+          value: "Construction Project Management",
+          label: "Construction Project Management",
+        },
+        {
+          category: "Construction",
+          value: "Development Control",
+          label: "Development Control",
+        },
+        {
+          category: "Construction",
+          value: "Ground Engineering",
+          label: "Ground Engineering",
+        },
+      ],
+      skills: [
+        {
+          category: "Construction",
+          subCategory: "Ground Engineering",
+          value: "Architect",
+          label: "Architect",
+        },
+        {
+          category: "Construction",
+          subCategory: "Ground Engineering",
+          value: "Ground Preparation",
+          label: "Ground Preparation",
+        },
+        {
+          category: "Construction",
+          subCategory: "Ground Engineering",
+          value: "Civil Engineering",
+          label: "Civil Engineering",
+        },
+        {
+          category: "Construction",
+          subCategory: "Ground Engineering",
+          value: "Surveying",
+          label: "Surveying",
+        },
+        {
+          category: "Construction",
+          subCategory: "Ground Engineering",
+          value: "Site Control",
+          label: "Site Control",
+        },
+      ],
       editor: ClassicEditor,
-      editorData:
-        "<p>It will be as simple as occidental in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is. The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary.</p><ul><li>Product Design, Figma (Software), Prototype</li><li>Four Dashboards : Ecommerce, Analytics, Project etc.</li><li>Create calendar, chat and email app pages.</li><li>Add authentication pages</li></ul>",
+      editorData: "<p>Add description</p>",
       content: "<h1>Some initial content</h1>",
     };
   },
@@ -86,28 +155,33 @@ export default {
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
-            <div class="mb-3">
-              <label class="form-label" for="project-title-input"
-                >Project Title</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="project-title-input"
-                placeholder="Enter project title"
-              />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label" for="project-thumbnail-img"
-                >Thumbnail Image</label
-              >
-              <input
-                class="form-control"
-                id="project-thumbnail-img"
-                type="file"
-                accept="image/png, image/gif, image/jpeg"
-              />
+            <div class="row">
+              <div class="col-lg-7">
+                <div class="mb-3 mb-lg-0">
+                  <label class="form-label" for="project-title-input">
+                    Project Title
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="project-title-input"
+                    placeholder="Enter project title"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-5">
+                <div class="mb-3 mb-lg-0">
+                  <label class="form-label" for="project-thumbnail-img"
+                    >Thumbnail Image</label
+                  >
+                  <input
+                    class="form-control"
+                    id="project-thumbnail-img"
+                    type="file"
+                    accept="image/png, image/gif, image/jpeg"
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="mb-3">
@@ -118,9 +192,7 @@ export default {
             <div class="row">
               <div class="col-lg-4">
                 <div class="mb-3 mb-lg-0">
-                  <label for="choices-priority-input" class="form-label"
-                    >Priority</label
-                  >
+                  <label for="choices-priority-input" class="form-label">Priority</label>
 
                   <Multiselect
                     v-model="value2"
@@ -137,9 +209,7 @@ export default {
               </div>
               <div class="col-lg-4">
                 <div class="mb-3 mb-lg-0">
-                  <label for="choices-status-input" class="form-label"
-                    >Status</label
-                  >
+                  <label for="choices-status-input" class="form-label">Status</label>
 
                   <Multiselect
                     v-model="value1"
@@ -182,11 +252,7 @@ export default {
 
               <DropZone @drop.prevent="drop" @change="selectedFile" />
 
-              <div
-                class="border rounded"
-                v-for="(file, index) of files"
-                :key="index"
-              >
+              <div class="border rounded" v-for="(file, index) of files" :key="index">
                 <div class="d-flex p-2">
                   <div class="flex-grow-1">
                     <div class="pt-1">
@@ -196,10 +262,7 @@ export default {
                       <p class="fs-13 text-muted mb-0" data-dz-size="">
                         <strong>{{ file.size / 1024 }}</strong> KB
                       </p>
-                      <strong
-                        class="error text-danger"
-                        data-dz-errormessage=""
-                      ></strong>
+                      <strong class="error text-danger" data-dz-errormessage=""></strong>
                     </div>
                   </div>
                   <div class="flex-shrink-0 ms-3">
@@ -219,9 +282,7 @@ export default {
         <!-- end card -->
         <div class="text-end mb-4">
           <button type="submit" class="btn btn-danger w-sm me-1">Delete</button>
-          <button type="submit" class="btn btn-secondary w-sm me-1">
-            Draft
-          </button>
+          <button type="submit" class="btn btn-secondary w-sm me-1">Draft</button>
           <button type="submit" class="btn btn-success w-sm">Create</button>
         </div>
       </div>
@@ -229,48 +290,39 @@ export default {
       <div class="col-lg-4">
         <div class="card">
           <div class="card-header">
-            <h5 class="card-title mb-0">Privacy</h5>
-          </div>
-          <div class="card-body">
-            <div>
-              <label for="choices-privacy-status-input" class="form-label"
-                >Status</label
-              >
-              <Multiselect
-                v-model="value3"
-                :close-on-select="true"
-                :searchable="true"
-                :create-option="true"
-                :options="[
-                  { value: 'Private', label: 'Private' },
-                  { value: 'Team', label: 'Team' },
-                  { value: 'Public', label: 'Public' },
-                ]"
-              />
-            </div>
-          </div>
-          <!-- end card body -->
-        </div>
-        <!-- end card -->
-
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title mb-0">Tags</h5>
+            <h5 class="card-title mb-0">Dimensions</h5>
           </div>
           <div class="card-body">
             <div class="mb-3">
-              <label for="choices-categories-input" class="form-label"
-                >Categories</label
-              >
+              <label for="choices-categories-input" class="form-label">Client</label>
               <Multiselect
-                v-model="value4"
+                v-model="client"
                 :close-on-select="true"
                 :searchable="true"
                 :create-option="true"
-                :options="[
-                  { value: 'Designing', label: 'Designing' },
-                  { value: 'Development', label: 'Development' },
-                ]"
+                :options="clients"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="choices-categories-input" class="form-label">Category</label>
+              <Multiselect
+                v-model="category"
+                :close-on-select="true"
+                :searchable="true"
+                :create-option="true"
+                :options="categories"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="choices-categories-input" class="form-label"
+                >Sub-Category</label
+              >
+              <Multiselect
+                v-model="subCategory"
+                :close-on-select="true"
+                :searchable="true"
+                :create-option="true"
+                :options="subCategories"
               />
             </div>
 
@@ -283,15 +335,7 @@ export default {
                 :close-on-select="true"
                 :searchable="true"
                 :create-option="true"
-                :options="[
-                  { value: 'UI/UX', label: 'UI/UX' },
-                  { value: 'Figma', label: 'Figma' },
-                  { value: 'HTML', label: 'HTML' },
-                  { value: 'CSS', label: 'CSS' },
-                  { value: 'Javascript', label: 'Javascript' },
-                  { value: 'C#', label: 'C#' },
-                  { value: 'Nodejs', label: 'Nodejs' },
-                ]"
+                :options="skills"
               />
             </div>
           </div>
@@ -305,9 +349,7 @@ export default {
           </div>
           <div class="card-body">
             <div class="mb-3">
-              <label for="choices-lead-input" class="form-label"
-                >Team Lead</label
-              >
+              <label for="choices-lead-input" class="form-label">Owner</label>
               <Multiselect
                 v-model="value5"
                 :close-on-select="true"
@@ -352,9 +394,7 @@ export default {
                   title="Sylvia Wright"
                 >
                   <div class="avatar-xs">
-                    <div class="avatar-title rounded-circle bg-secondary">
-                      S
-                    </div>
+                    <div class="avatar-title rounded-circle bg-secondary">S</div>
                   </div>
                 </a>
                 <a
@@ -399,9 +439,54 @@ export default {
           <!-- end card body -->
         </div>
         <!-- end card -->
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Privacy</h5>
+          </div>
+          <div class="card-body">
+            <div>
+              <label for="choices-privacy-status-input" class="form-label">Status</label>
+              <Multiselect
+                v-model="value3"
+                :close-on-select="true"
+                :searchable="true"
+                :create-option="true"
+                :options="[
+                  { value: 'Private', label: 'Private' },
+                  { value: 'Team', label: 'Team' },
+                  { value: 'Public', label: 'Public' },
+                ]"
+              />
+            </div>
+          </div>
+          <!-- end card body -->
+        </div>
+        <!-- end card -->
       </div>
       <!-- end col -->
     </div>
     <!-- end row -->
   </Layout>
 </template>
+<style>
+.form-control-inline {
+  position: relative;
+  width: 89%;
+  left: 11%;
+  top: -36px;
+  display: block;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--vz-body-color);
+  background-color: var(--vz-input-bg);
+  background-clip: padding-box;
+  border: 1px solid var(--vz-input-border);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+</style>

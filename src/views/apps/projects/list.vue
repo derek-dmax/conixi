@@ -33,8 +33,8 @@
             id: 1,
             time: "Updated 3hrs ago",
             img: require("@/assets/images/brands/slack.png"),
-            label: "Slack brand logo design",
-            caption: "Create a Brand logo design for a conixi admin.",
+            label: "Conixi - Admin & Dashboard",
+            caption: "Build project dashboard plus admin section.",
             number: "18/42",
             progressBar: "34%",
             subItem: [{
@@ -46,7 +46,7 @@
                 imgNumber: "+"
               },
             ],
-            date: "10 Jul, 2021",
+            date: "10 Jul, 2022",
           },
           {
             id: 2,
@@ -74,7 +74,7 @@
                 imgNumber: "+"
               },
             ],
-            date: "18 May, 2021",
+            date: "18 May, 2022",
           },
           {
             id: 3,
@@ -98,7 +98,7 @@
                 imgNumber: "+"
               },
             ],
-            date: "21 Feb, 2021",
+            date: "21 Feb, 2022",
           },
           {
             id: 4,
@@ -123,7 +123,7 @@
                 imgNumber: "+"
               },
             ],
-            date: "03 Aug, 2021",
+            date: "03 Aug, 2022",
           },
         ],
 
@@ -132,7 +132,7 @@
             label: "Multipurpose landing template",
             status: "Inprogess",
             statusClass: "warning",
-            deadline: "18 Sep, 2021",
+            deadline: "18 Sep, 2022",
             subItem: [{
                 id: 1,
                 imgNumber: "D",
@@ -158,7 +158,7 @@
             label: "Dashboard UI",
             status: "Completed",
             statusClass: "success",
-            deadline: "10 Jun, 2021",
+            deadline: "10 Jun, 2022",
             subItem: [{
                 id: 1,
                 imgTeam: require("@/assets/images/users/avatar-7.jpg")
@@ -173,41 +173,6 @@
               },
             ],
             progressBar: "95%",
-          },
-          {
-            id: 3,
-            label: "Vector Images",
-            status: "Inprogess",
-            statusClass: "warning",
-            deadline: "08 Apr, 2021",
-            subItem: [{
-                id: 1,
-                imgNumber: "C",
-                bgColor: "info"
-              },
-              {
-                id: 2,
-                imgNumber: "+"
-              },
-            ],
-            progressBar: "41%",
-          },
-          {
-            id: 4,
-            label: "Authentication",
-            status: "Inprogess",
-            statusClass: "warning",
-            deadline: "22 Nov, 2021",
-            subItem: [{
-                id: 1,
-                imgTeam: require("@/assets/images/users/avatar-8.jpg")
-              },
-              {
-                id: 2,
-                imgNumber: "+"
-              },
-            ],
-            progressBar: "35%",
           },
         ],
       };
@@ -621,8 +586,8 @@
         <div>
           <p class="mb-sm-0 text-muted">
             Showing <span class="fw-semibold">1</span> to
-            <span class="fw-semibold">10</span> of
-            <span class="fw-semibold text-decoration-underline">12</span>
+            <span class="fw-semibold">6</span> of
+            <span class="fw-semibold text-decoration-underline">6</span>
             entries
           </p>
         </div>
@@ -639,18 +604,6 @@
           </li>
           <li class="page-item active">
             <a href="#" class="page-link">1</a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">2</a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">3</a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">4</a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">5</a>
           </li>
           <li class="page-item">
             <a href="#" class="page-link">Next</a>

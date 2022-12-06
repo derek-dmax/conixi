@@ -6,7 +6,7 @@ export default {
         {
           id: 1,
           img: require("@/assets/images/users/avatar-1.jpg"),
-          name: "Donald Risher",
+          name: "Davida Risher",
           position: "Product Manager",
           hours: "110",
           tasks: "258",
@@ -16,7 +16,7 @@ export default {
         {
           id: 2,
           img: require("@/assets/images/users/avatar-2.jpg"),
-          name: "Jansh Brown",
+          name: "Laura Van Zyl",
           position: "Lead Developer",
           hours: "83",
           tasks: "105",
@@ -66,7 +66,7 @@ export default {
         {
           id: 7,
           img: require("@/assets/images/users/avatar-3.jpg"),
-          name: "Joseph Jackson",
+          name: "Alex Raubitschek",
           position: "React Developer",
           hours: "117",
           tasks: "125",

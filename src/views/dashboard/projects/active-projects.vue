@@ -7,7 +7,7 @@ export default {
           id: 1,
           projectName: "Brand Logo Design",
           img: require("@/assets/images/users/avatar-1.jpg"),
-          projectLead: "Donald Risher",
+          projectLead: "Davida Risher",
           percentage: "53%",
           subItem: [
             { id: 1, assImg: require("@/assets/images/users/avatar-1.jpg") },
@@ -16,13 +16,13 @@ export default {
           ],
           badge: "Inprogress",
           badgeClass: "warning",
-          dueDate: "06 Sep 2021",
+          dueDate: "06 Sep 2022",
         },
         {
           id: 2,
           projectName: "Redesign - Landing Page",
           img: require("@/assets/images/users/avatar-2.jpg"),
-          projectLead: "Prezy William",
+          projectLead: "Laura Van Zyl",
           percentage: "0%",
           subItem: [
             { id: 1, assImg: require("@/assets/images/users/avatar-5.jpg") },
@@ -30,13 +30,13 @@ export default {
           ],
           badge: "Pending",
           badgeClass: "danger",
-          dueDate: "13 Nov 2021",
+          dueDate: "13 Nov 2022",
         },
         {
           id: 3,
           projectName: "Multipurpose Landing Template",
           img: require("@/assets/images/users/avatar-3.jpg"),
-          projectLead: "Boonie Hoynas",
+          projectLead: "Alex Raubitschek",
           percentage: "100%",
           subItem: [
             { id: 1, assImg: require("@/assets/images/users/avatar-1.jpg") },
@@ -44,7 +44,7 @@ export default {
           ],
           badge: "Completed",
           badgeClass: "success",
-          dueDate: "26 Nov 2021",
+          dueDate: "26 Nov 2022",
         },
         {
           id: 4,
@@ -57,7 +57,7 @@ export default {
           ],
           badge: "Progress",
           badgeClass: "warning",
-          dueDate: "15 Dec 2021",
+          dueDate: "15 Dec 2022",
         },
         {
           id: 5,
@@ -72,7 +72,7 @@ export default {
           ],
           badge: "Progress",
           badgeClass: "warning",
-          dueDate: "21 Dec 2021",
+          dueDate: "21 Dec 2022",
         },
       ],
     };

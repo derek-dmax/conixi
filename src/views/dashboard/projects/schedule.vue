@@ -92,7 +92,7 @@ export default {
               fs-4
             "
           >
-            25
+            22
           </span>
         </div>
         <div class="flex-grow-1 ms-3">
