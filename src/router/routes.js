@@ -226,6 +226,12 @@ export default [
     component: () => import("../views/apps/projects/overview"),
   },
   {
+    path: "/apps/projects-view",
+    name: "projects View",
+    meta: { title: "Projects-view", authRequired: true },
+    component: () => import("../views/apps/projects/view"),
+  },
+  {
     path: "/apps/projects-create",
     name: "projects-create",
     meta: { title: "projects-create", authRequired: true },

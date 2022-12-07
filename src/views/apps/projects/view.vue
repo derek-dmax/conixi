@@ -4,43 +4,46 @@ import appConfig from "../../../../app.config";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  methods: {
-    ...mapActions("projects", ["updateProject"]),
-    toggleFavourite(ele) {
-      ele.target.closest(".favourite-btn").classList.toggle("active");
-    },
-  },
   page: {
-    title: "Overview",
-    meta: [{ name: "description", content: appConfig.description }],
+    title: "Project List",
+    meta: [
+      {
+        name: "description",
+        content: appConfig.description,
+      },
+    ],
   },
-  created: () => {
-    let queryParams = new URLSearchParams(window.location.search);
-
-    // eslint-disable-next-line no-unused-vars
+  data() {
+    return {
+      title: "Project List",
+      selProject: {},
+      items: [
+        {
+          text: "Projects",
+          href: "/",
+        },
+        {
+          text: "Project List",
+          active: true,
+        },
+      ],
+    }
+  },
+  created() {
+    const queryParams = new URLSearchParams(window.location.search);
     const currId = queryParams.get("id");
+
+    this.selProject = this.projectList[currId];
+    console.log(this.selProject.favourite);  
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
   },
-  data() {
-    return {
-      title: "Overview",
-      project: {},
-      items: [
-        {
-          text: "Pages",
-          href: "/",
-        },
-        {
-          text: "Overview",
-          active: true,
-        },
-      ],
-    };
-  },
   components: {
     Layout,
+  },
+  methods: {
+    ...mapActions("projects", ["updateProject"]),
   },
 };
 </script>
@@ -59,7 +62,7 @@ export default {
                       <div class="avatar-md">
                         <div class="avatar-title bg-white rounded-circle">
                           <img
-                            src="@/assets/images/brands/slack.png"
+                            :src="selProject.img"
                             alt=""
                             class="avatar-xs"
                           />
@@ -68,22 +71,34 @@ export default {
                     </div>
                     <div class="col-md">
                       <div>
-                        <h4 class="fw-bold">Conixi - Admin & Dashboard</h4>
+                        <h4 class="fw-bold">{{selProject.label}}</h4>
                         <div class="hstack gap-3 flex-wrap">
                           <div>
-                            <i class="ri-building-line align-bottom me-1"></i> Conixi
+                            <i class="ri-building-line align-bottom me-1"></i> {{ selProject.client }}
                           </div>
                           <div class="vr"></div>
                           <div>
-                            Create Date : <span class="fw-medium">15 Sep, 2022</span>
+                            Create Date : <span class="fw-medium">{{ selProject.createdDate }}</span>
                           </div>
                           <div class="vr"></div>
                           <div>
-                            Due Date : <span class="fw-medium">29 Dec, 2022</span>
+                            Category : <span class="fw-medium">{{ selProject.category }}</span>
                           </div>
                           <div class="vr"></div>
-                          <div class="badge rounded-pill bg-info fs-12">New</div>
-                          <div class="badge rounded-pill bg-danger fs-12">High</div>
+                          <div>
+                            Sub Category : <span class="fw-medium">{{ selProject.subCategory }}</span>
+                          </div>
+                          <div class="vr"></div>
+                          <div>
+                            Due Date : <span class="fw-medium">{{ selProject.dueDate }}</span>
+                          </div>
+                          <div class="vr"></div>
+                          <div v-if="selProject.id === 2" class="badge rounded-pill bg-info fs-12">New</div>
+                          <div class="badge round-pill fs-12"
+                                :class="{ 'bg-warning' : selProject.priority == 'Medium', 'bg-danger' : selProject.priority == 'High'}"
+                                >
+                                {{ selProject.priority }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -91,8 +106,24 @@ export default {
                 </div>
                 <div class="col-md-auto">
                   <div class="hstack gap-1 flex-wrap">
-                    <button type="button" class="btn py-0 fs-16 favourite-btn active">
-                      <i class="ri-star-fill" @click="toggleFavourite"></i>
+                    <button
+                      type="button"
+                      class="btn avatar-xs mt-n1 p-0 favourite-btn"
+                      @click="
+                        updateProject({
+                          id: selProject.id,
+                          updates: { favourite: !selProject.favourite },
+                        })
+                      "
+                    >
+                      <span class="bg-transparent fs-15">
+                        <i
+                          class="ri-star-fill"
+                          style="color: orange"
+                          v-if="selProject.favourite"
+                        ></i>
+                        <i class="ri-star-line" style="color: #cdcfd8" v-else></i>
+                      </span>
                     </button>
                     <button type="button" class="btn py-0 fs-16 text-body">
                       <i class="ri-share-line"></i>
@@ -175,6 +206,7 @@ export default {
                   <div class="card-body">
                     <div class="text-muted">
                       <h6 class="mb-3 fw-semibold text-uppercase">Summary</h6>
+                      <p>{{ selProject.caption}}</p>
                       <p>
                         Projects are one of the cornerstones of a successful business.
                         Sector or industry aside, strategic initiatives focused on
@@ -210,25 +242,30 @@ export default {
                           <div class="col-lg-3 col-sm-6">
                             <div>
                               <p class="mb-2 text-uppercase fw-medium">Create Date :</p>
-                              <h5 class="fs-15 mb-0">15 Sep, 2022</h5>
+                              <h5 class="fs-15 mb-0">{{ selProject.createdDate }}</h5>
                             </div>
                           </div>
                           <div class="col-lg-3 col-sm-6">
                             <div>
                               <p class="mb-2 text-uppercase fw-medium">Due Date :</p>
-                              <h5 class="fs-15 mb-0">29 Dec, 2022</h5>
+                              <h5 class="fs-15 mb-0">{{ selProject.dueDate }}</h5>
                             </div>
                           </div>
                           <div class="col-lg-3 col-sm-6">
                             <div>
                               <p class="mb-2 text-uppercase fw-medium">Priority :</p>
-                              <div class="badge bg-danger fs-12">High</div>
+                              <div
+                                class="badge fs-12"
+                                :class="{ 'bg-warning' : selProject.priority == 'Medium', 'bg-danger' : selProject.priority == 'High'}"
+                                >
+                                {{ selProject.priority }}
+                              </div>
                             </div>
                           </div>
                           <div class="col-lg-3 col-sm-6">
                             <div>
                               <p class="mb-2 text-uppercase fw-medium">Status :</p>
-                              <div class="badge bg-warning fs-12">Inprogess</div>
+                              <div class="badge bg-warning fs-12">{{ selProject.status }}</div>
                             </div>
                           </div>
                         </div>
@@ -426,23 +463,7 @@ export default {
                                 class="avatar-xs rounded-circle"
                               />
                             </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h5 class="fs-13">
-                                Alexis Clarke
-                                <small class="text-muted ms-2"
-                                  >22 Dec 2022 - 02:32PM</small
-                                >
-                              </h5>
-                              <p class="text-muted">
-                                Please be sure to check your Spam mailbox to see if your
-                                email filters have identified the email from Dell as spam.
-                              </p>
-                              <a
-                                href="javascript: void(0);"
-                                class="badge text-muted bg-light"
-                                ><i class="mdi mdi-reply"></i> Reply</a
-                              >
-                            </div>
+
                           </div>
                         </div>
                       </div>
@@ -580,13 +601,7 @@ export default {
                   <div class="card-body">
                     <h5 class="card-title mb-4">Skills</h5>
                     <div class="d-flex flex-wrap gap-2 fs-16">
-                      <div class="badge fw-medium badge-soft-secondary">UI/UX</div>
-                      <div class="badge fw-medium badge-soft-secondary">Figma</div>
-                      <div class="badge fw-medium badge-soft-secondary">HTML</div>
-                      <div class="badge fw-medium badge-soft-secondary">CSS</div>
-                      <div class="badge fw-medium badge-soft-secondary">Javascript</div>
-                      <div class="badge fw-medium badge-soft-secondary">C#</div>
-                      <div class="badge fw-medium badge-soft-secondary">Nodejs</div>
+                      <div class="badge fw-medium badge-soft-secondary" v-for="(item, index) in selProject.skills" :key='index'>{{ item }}</div>
                     </div>
                   </div>
                   <!-- end card body -->
@@ -611,307 +626,21 @@ export default {
                   <div class="card-body">
                     <div data-simplebar style="height: 235px" class="mx-n3 px-3">
                       <div class="vstack gap-3">
-                        <div class="d-flex align-items-center">
+                        <div
+                          class="d-flex align-items-center"
+                          v-for="(member, index) in selProject.members"
+                          :key="index"
+                          >
                           <div class="avatar-xs flex-shrink-0 me-3">
                             <img
-                              src="@/assets/images/users/avatar-2.jpg"
+                              :src="member.img"
                               alt=""
                               class="img-fluid rounded-circle"
                             />
                           </div>
                           <div class="flex-grow-1">
                             <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">Laura Van Zyl</a>
-                            </h5>
-                          </div>
-                          <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center gap-1">
-                              <button type="button" class="btn btn-light btn-sm">
-                                Message
-                              </button>
-                              <div class="dropdown">
-                                <button
-                                  class="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  <i class="ri-more-fill"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-eye-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >View</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-star-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Favourite</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Delete</a
-                                    >
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- end member item -->
-                        <div class="d-flex align-items-center">
-                          <div class="avatar-xs flex-shrink-0 me-3">
-                            <div
-                              class="avatar-title bg-soft-danger text-danger rounded-circle"
-                            >
-                              HB
-                            </div>
-                          </div>
-                          <div class="flex-grow-1">
-                            <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">Henry Baird</a>
-                            </h5>
-                          </div>
-                          <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center gap-1">
-                              <button type="button" class="btn btn-light btn-sm">
-                                Message
-                              </button>
-                              <div class="dropdown">
-                                <button
-                                  class="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  <i class="ri-more-fill"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-eye-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >View</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-star-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Favourite</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Delete</a
-                                    >
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- end member item -->
-                        <div class="d-flex align-items-center">
-                          <div class="avatar-xs flex-shrink-0 me-3">
-                            <img
-                              src="@/assets/images/users/avatar-3.jpg"
-                              alt=""
-                              class="img-fluid rounded-circle"
-                            />
-                          </div>
-                          <div class="flex-grow-1">
-                            <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">Alex Raubitschek</a>
-                            </h5>
-                          </div>
-                          <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center gap-1">
-                              <button type="button" class="btn btn-light btn-sm">
-                                Message
-                              </button>
-                              <div class="dropdown">
-                                <button
-                                  class="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  <i class="ri-more-fill"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-eye-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >View</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-star-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Favourite</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Delete</a
-                                    >
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- end member item -->
-                        <div class="d-flex align-items-center">
-                          <div class="avatar-xs flex-shrink-0 me-3">
-                            <img
-                              src="@/assets/images/users/avatar-4.jpg"
-                              alt=""
-                              class="img-fluid rounded-circle"
-                            />
-                          </div>
-                          <div class="flex-grow-1">
-                            <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">Jennifer Carter</a>
-                            </h5>
-                          </div>
-                          <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center gap-1">
-                              <button type="button" class="btn btn-light btn-sm">
-                                Message
-                              </button>
-                              <div class="dropdown">
-                                <button
-                                  class="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  <i class="ri-more-fill"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-eye-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >View</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-star-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Favourite</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Delete</a
-                                    >
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- end member item -->
-                        <div class="d-flex align-items-center">
-                          <div class="avatar-xs flex-shrink-0 me-3">
-                            <div
-                              class="avatar-title bg-soft-success text-success rounded-circle"
-                            >
-                              AC
-                            </div>
-                          </div>
-                          <div class="flex-grow-1">
-                            <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">Alexis Clarke</a>
-                            </h5>
-                          </div>
-                          <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center gap-1">
-                              <button type="button" class="btn btn-light btn-sm">
-                                Message
-                              </button>
-                              <div class="dropdown">
-                                <button
-                                  class="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                  type="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  <i class="ri-more-fill"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-eye-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >View</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-star-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Favourite</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Delete</a
-                                    >
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- end member item -->
-                        <div class="d-flex align-items-center">
-                          <div class="avatar-xs flex-shrink-0 me-3">
-                            <img
-                              src="@/assets/images/users/avatar-7.jpg"
-                              alt=""
-                              class="img-fluid rounded-circle"
-                            />
-                          </div>
-                          <div class="flex-grow-1">
-                            <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">Joseph Parker</a>
+                              <a href="#" class="text-body d-block">{{ member.name}}</a>
                             </h5>
                           </div>
                           <div class="flex-shrink-0">
@@ -1998,11 +1727,11 @@ export default {
                     <div class="col-lg-4 col">
                       <div class="row text-muted text-center">
                         <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">225</h5>
+                          <h5 class="mb-1">2</h5>
                           <p class="text-muted mb-0">Projects</p>
                         </div>
                         <div class="col-6">
-                          <h5 class="mb-1">197</h5>
+                          <h5 class="mb-1">17</h5>
                           <p class="text-muted mb-0">Tasks</p>
                         </div>
                       </div>
@@ -2086,11 +1815,11 @@ export default {
                     <div class="col-lg-4 col">
                       <div class="row text-muted text-center">
                         <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">352</h5>
+                          <h5 class="mb-1">3</h5>
                           <p class="text-muted mb-0">Projects</p>
                         </div>
                         <div class="col-6">
-                          <h5 class="mb-1">376</h5>
+                          <h5 class="mb-1">32</h5>
                           <p class="text-muted mb-0">Tasks</p>
                         </div>
                       </div>
@@ -2174,11 +1903,11 @@ export default {
                     <div class="col-lg-4 col">
                       <div class="row text-muted text-center">
                         <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">164</h5>
+                          <h5 class="mb-1">4</h5>
                           <p class="text-muted mb-0">Projects</p>
                         </div>
                         <div class="col-6">
-                          <h5 class="mb-1">182</h5>
+                          <h5 class="mb-1">18</h5>
                           <p class="text-muted mb-0">Tasks</p>
                         </div>
                       </div>
@@ -2243,14 +1972,14 @@ export default {
                       <div class="team-profile-img">
                         <div class="avatar-lg img-thumbnail rounded-circle">
                           <img
-                            src="@/assets/images/users/avatar-8.jpg"
+                            src="@/assets/images/users/derekm.jpg"
                             alt=""
                             class="img-fluid d-block rounded-circle"
                           />
                         </div>
                         <div class="team-content">
                           <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">Jennifer Carter</h5></a
+                            ><h5 class="fs-16 mb-1">Derek Macrae</h5></a
                           >
                           <p class="text-muted mb-0">UI/UX Designer</p>
                         </div>
@@ -2259,519 +1988,11 @@ export default {
                     <div class="col-lg-4 col">
                       <div class="row text-muted text-center">
                         <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">225</h5>
+                          <h5 class="mb-1">3</h5>
                           <p class="text-muted mb-0">Projects</p>
                         </div>
                         <div class="col-6">
-                          <h5 class="mb-1">197</h5>
-                          <p class="text-muted mb-0">Tasks</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col">
-                      <div class="text-end">
-                        <router-link to="/pages/profile" class="btn btn-light view-btn"
-                          >View Profile</router-link
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end card-->
-              <div class="card team-box">
-                <div class="card-body px-4">
-                  <div class="row align-items-center team-row">
-                    <div class="col team-settings">
-                      <div class="row align-items-center">
-                        <div class="col">
-                          <div class="flex-shrink-0 me-2">
-                            <button type="button" class="btn fs-16 p-0 favourite-btn">
-                              <i class="ri-star-fill"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col text-end dropdown">
-                          <a
-                            href="javascript:void(0);"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i class="ri-more-fill fs-17"></i>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-eye-fill text-muted me-2 align-bottom"></i
-                                >View</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-star-fill text-muted me-2 align-bottom"></i
-                                >Favourite</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i
-                                  class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                ></i
-                                >Delete</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="team-profile-img">
-                        <div class="avatar-lg img-thumbnail rounded-circle">
-                          <div
-                            class="avatar-title bg-soft-success text-success rounded-circle"
-                          >
-                            ME
-                          </div>
-                        </div>
-                        <div class="team-content">
-                          <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">Megan Elmore</h5></a
-                          >
-                          <p class="text-muted mb-0">Team Leader & Web Developer</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="row text-muted text-center">
-                        <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">201</h5>
-                          <p class="text-muted mb-0">Projects</p>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-1">263</h5>
-                          <p class="text-muted mb-0">Tasks</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col">
-                      <div class="text-end">
-                        <router-link to="/pages/profile" class="btn btn-light view-btn"
-                          >View Profile</router-link
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end card-->
-              <div class="card team-box">
-                <div class="card-body px-4">
-                  <div class="row align-items-center team-row">
-                    <div class="col team-settings">
-                      <div class="row align-items-center">
-                        <div class="col">
-                          <div class="flex-shrink-0 me-2">
-                            <button type="button" class="btn fs-16 p-0 favourite-btn">
-                              <i class="ri-star-fill"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col text-end dropdown">
-                          <a
-                            href="javascript:void(0);"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i class="ri-more-fill fs-17"></i>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-eye-fill text-muted me-2 align-bottom"></i
-                                >View</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-star-fill text-muted me-2 align-bottom"></i
-                                >Favourite</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i
-                                  class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                ></i
-                                >Delete</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="team-profile-img">
-                        <div class="avatar-lg img-thumbnail rounded-circle">
-                          <img
-                            src="@/assets/images/users/avatar-4.jpg"
-                            alt=""
-                            class="img-fluid d-block rounded-circle"
-                          />
-                        </div>
-                        <div class="team-content">
-                          <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">Alexis Clarke</h5></a
-                          >
-                          <p class="text-muted mb-0">Backend Developer</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="row text-muted text-center">
-                        <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">132</h5>
-                          <p class="text-muted mb-0">Projects</p>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-1">147</h5>
-                          <p class="text-muted mb-0">Tasks</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col">
-                      <div class="text-end">
-                        <router-link to="/pages/profile" class="btn btn-light view-btn"
-                          >View Profile</router-link
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end card-->
-              <div class="card team-box">
-                <div class="card-body px-4">
-                  <div class="row align-items-center team-row">
-                    <div class="col team-settings">
-                      <div class="row align-items-center">
-                        <div class="col">
-                          <div class="flex-shrink-0 me-2">
-                            <button type="button" class="btn fs-16 p-0 favourite-btn">
-                              <i class="ri-star-fill"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col text-end dropdown">
-                          <a
-                            href="javascript:void(0);"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i class="ri-more-fill fs-17"></i>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-eye-fill text-muted me-2 align-bottom"></i
-                                >View</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-star-fill text-muted me-2 align-bottom"></i
-                                >Favourite</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i
-                                  class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                ></i
-                                >Delete</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="team-profile-img">
-                        <div class="avatar-lg img-thumbnail rounded-circle">
-                          <div class="avatar-title bg-soft-info text-info rounded-circle">
-                            NC
-                          </div>
-                        </div>
-                        <div class="team-content">
-                          <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">Nathan Cole</h5></a
-                          >
-                          <p class="text-muted mb-0">Front-End Developer</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="row text-muted text-center">
-                        <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">352</h5>
-                          <p class="text-muted mb-0">Projects</p>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-1">376</h5>
-                          <p class="text-muted mb-0">Tasks</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col">
-                      <div class="text-end">
-                        <router-link to="/pages/profile" class="btn btn-light view-btn"
-                          >View Profile</router-link
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end card-->
-              <div class="card team-box">
-                <div class="card-body px-4">
-                  <div class="row align-items-center team-row">
-                    <div class="col team-settings">
-                      <div class="row align-items-center">
-                        <div class="col">
-                          <div class="flex-shrink-0 me-2">
-                            <button type="button" class="btn fs-16 p-0 favourite-btn">
-                              <i class="ri-star-fill"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col text-end dropdown">
-                          <a
-                            href="javascript:void(0);"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i class="ri-more-fill fs-17"></i>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-eye-fill text-muted me-2 align-bottom"></i
-                                >View</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-star-fill text-muted me-2 align-bottom"></i
-                                >Favourite</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i
-                                  class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                ></i
-                                >Delete</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="team-profile-img">
-                        <div class="avatar-lg img-thumbnail rounded-circle">
-                          <img
-                            src="@/assets/images/users/avatar-7.jpg"
-                            alt=""
-                            class="img-fluid d-block rounded-circle"
-                          />
-                        </div>
-                        <div class="team-content">
-                          <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">Joseph Parker</h5></a
-                          >
-                          <p class="text-muted mb-0">Team Leader & HR</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="row text-muted text-center">
-                        <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">64</h5>
-                          <p class="text-muted mb-0">Projects</p>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-1">93</h5>
-                          <p class="text-muted mb-0">Tasks</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col">
-                      <div class="text-end">
-                        <router-link to="/pages/profile" class="btn btn-light view-btn"
-                          >View Profile</router-link
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end card-->
-              <div class="card team-box">
-                <div class="card-body px-4">
-                  <div class="row align-items-center team-row">
-                    <div class="col team-settings">
-                      <div class="row align-items-center">
-                        <div class="col">
-                          <div class="flex-shrink-0 me-2">
-                            <button type="button" class="btn fs-16 p-0 favourite-btn">
-                              <i class="ri-star-fill"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col text-end dropdown">
-                          <a
-                            href="javascript:void(0);"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i class="ri-more-fill fs-17"></i>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-eye-fill text-muted me-2 align-bottom"></i
-                                >View</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-star-fill text-muted me-2 align-bottom"></i
-                                >Favourite</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i
-                                  class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                ></i
-                                >Delete</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="team-profile-img">
-                        <div class="avatar-lg img-thumbnail rounded-circle">
-                          <img
-                            src="@/assets/images/users/avatar-5.jpg"
-                            alt=""
-                            class="img-fluid d-block rounded-circle"
-                          />
-                        </div>
-                        <div class="team-content">
-                          <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">Erica Kernan</h5></a
-                          >
-                          <p class="text-muted mb-0">Web Designer</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="row text-muted text-center">
-                        <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">345</h5>
-                          <p class="text-muted mb-0">Projects</p>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-1">298</h5>
-                          <p class="text-muted mb-0">Tasks</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col">
-                      <div class="text-end">
-                        <router-link to="/pages/profile" class="btn btn-light view-btn"
-                          >View Profile</router-link
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end card-->
-              <div class="card team-box">
-                <div class="card-body px-4">
-                  <div class="row align-items-center team-row">
-                    <div class="col team-settings">
-                      <div class="row align-items-center">
-                        <div class="col">
-                          <div class="flex-shrink-0 me-2">
-                            <button type="button" class="btn fs-16 p-0 favourite-btn">
-                              <i class="ri-star-fill"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col text-end dropdown">
-                          <a
-                            href="javascript:void(0);"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i class="ri-more-fill fs-17"></i>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-eye-fill text-muted me-2 align-bottom"></i
-                                >View</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="ri-star-fill text-muted me-2 align-bottom"></i
-                                >Favourite</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i
-                                  class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                ></i
-                                >Delete</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="team-profile-img">
-                        <div class="avatar-lg img-thumbnail rounded-circle">
-                          <div
-                            class="avatar-title border bg-light text-primary rounded-circle"
-                          >
-                            DP
-                          </div>
-                        </div>
-                        <div class="team-content">
-                          <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">Donald Palmer</h5></a
-                          >
-                          <p class="text-muted mb-0">Wed Developer</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col">
-                      <div class="row text-muted text-center">
-                        <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">97</h5>
-                          <p class="text-muted mb-0">Projects</p>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-1">135</h5>
+                          <h5 class="mb-1">19</h5>
                           <p class="text-muted mb-0">Tasks</p>
                         </div>
                       </div>
@@ -2793,7 +2014,7 @@ export default {
             <div class="row g-0 text-center text-sm-start align-items-center mb-3">
               <div class="col-sm-6">
                 <div>
-                  <p class="mb-sm-0">Showing 1 to 10 of 12 entries</p>
+                  <p class="mb-sm-0">Showing 1 to 4 of 4 entries</p>
                 </div>
               </div>
               <!-- end col -->
@@ -2805,10 +2026,6 @@ export default {
                     <a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
                   </li>
                   <li class="page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item active"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item"><a href="#" class="page-link">3</a></li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
                   <li class="page-item">
                     <a href="#" class="page-link"
                       ><i class="mdi mdi-chevron-right"></i
