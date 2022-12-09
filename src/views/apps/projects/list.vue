@@ -31,162 +31,7 @@ export default {
           active: true,
         },
       ],
-      projectListWidgets1: [
-        {
-          id: 1,
-          time: "Updated 3hrs ago",
-          img: require("@/assets/images/brands/slack.png"),
-          label: "Conixi - Admin & Dashboard",
-          caption: "Build project dashboard plus admin section.",
-          number: "18/42",
-          progressBar: "34%",
-          subItem: [
-            {
-              id: 1,
-              imgFooter: require("@/assets/images/users/avatar-2.jpg"),
-            },
-            {
-              id: 2,
-              imgNumber: "+",
-            },
-          ],
-          date: "10 Jul, 2022",
-        },
-        {
-          id: 2,
-          time: "Last update : 08 May",
-          img: require("@/assets/images/brands/dribbble.png"),
-          label: "Redesign - Landing page",
-          caption: "Resign a landing page design. as per abc minimal design.",
-          number: "22/56",
-          progressBar: "54%",
-          subItem: [
-            {
-              id: 1,
-              imgFooter: require("@/assets/images/users/avatar-3.jpg"),
-            },
-            {
-              id: 2,
-              imgNumber: "S",
-              bgColor: "secondary",
-            },
-            {
-              id: 3,
-              imgFooter: require("@/assets/images/users/avatar-4.jpg"),
-            },
-            {
-              id: 4,
-              imgNumber: "+",
-            },
-          ],
-          date: "18 May, 2022",
-        },
-        {
-          id: 3,
-          time: "Updated 2hrs ago",
-          img: require("@/assets/images/brands/mail_chimp.png"),
-          label: "Chat Application",
-          caption:
-            "Create a Chat application for business messaging needs. Collaborate efficiently with secure direct messages and group chats.",
-          number: "14/20",
-          progressBar: "65%",
-          subItem: [
-            {
-              id: 1,
-              imgFooter: require("@/assets/images/users/avatar-5.jpg"),
-            },
-            {
-              id: 2,
-              imgNumber: "M",
-              bgColor: "warning",
-            },
-            {
-              id: 3,
-              imgNumber: "+",
-            },
-          ],
-          date: "21 Feb, 2022",
-        },
-        {
-          id: 4,
-          time: "Last update : 21 Jun",
-          img: require("@/assets/images/brands/dropbox.png"),
-          label: "Project App",
-          caption:
-            "Create a project application for a project management and task management.",
-          number: "20/34",
-          progressBar: "78%",
-          subItem: [
-            {
-              id: 1,
-              imgNumber: "K",
-              bgColor: "info",
-            },
-            {
-              id: 2,
-              imgNumber: "M",
-              bgColor: "danger",
-            },
-            {
-              id: 3,
-              imgNumber: "+",
-            },
-          ],
-          date: "03 Aug, 2022",
-        },
-      ],
-
-      projectListWidgets2: [
-        {
-          id: 1,
-          label: "Multipurpose landing template",
-          status: "Inprogess",
-          statusClass: "warning",
-          deadline: "18 Sep, 2022",
-          subItem: [
-            {
-              id: 1,
-              imgNumber: "D",
-              bgColor: "danger",
-            },
-            {
-              id: 2,
-              imgTeam: require("@/assets/images/users/avatar-5.jpg"),
-            },
-            {
-              id: 3,
-              imgTeam: require("@/assets/images/users/avatar-6.jpg"),
-            },
-            {
-              id: 4,
-              imgNumber: "+",
-            },
-          ],
-          progressBar: "50%",
-        },
-        {
-          id: 2,
-          label: "Dashboard UI",
-          status: "Completed",
-          statusClass: "success",
-          deadline: "10 Jun, 2022",
-          subItem: [
-            {
-              id: 1,
-              imgTeam: require("@/assets/images/users/avatar-7.jpg"),
-            },
-            {
-              id: 2,
-              imgTeam: require("@/assets/images/users/avatar-8.jpg"),
-            },
-            {
-              id: 3,
-              imgNumber: "+",
-            },
-          ],
-          progressBar: "95%",
-        },
-      ],
+      currItem: null,
     };
   },
   computed: {
@@ -199,7 +44,7 @@ export default {
     MoreHorizontalIcon,
   },
   methods: {
-    ...mapActions("projects", ["updateProject"]),
+    ...mapActions("projects", ["updateProject","deleteProject"]),
   },
 };
 </script>
@@ -237,6 +82,24 @@ export default {
         </div>
       </div>
     </div>
+
+    <div id="delModal" class="modal fade" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delModalLabel">Delete Project?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">This will remove the project from the system. Are you sure you want to do this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deleteProject(this.currItem)">Delete Project</button>
+            </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <div class="row">
       <div
@@ -287,7 +150,7 @@ export default {
                           ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                           View</router-link
                         >
-                        <router-link class="dropdown-item" to="/apps/projects-create"
+                        <router-link class="dropdown-item" :to="{ name: 'projects View', query: { id: item.id } }"
                           ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                           Edit</router-link
                         >
@@ -296,7 +159,8 @@ export default {
                           class="dropdown-item"
                           href="#"
                           data-bs-toggle="modal"
-                          data-bs-target="#removeProjectModal"
+                          data-bs-target="#delModal"
+                          @click="this.currItem = item.id"
                           ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                           Remove</a
                         >

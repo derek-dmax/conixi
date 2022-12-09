@@ -461,7 +461,7 @@
                   </div>
                   <div class="mb-2">
                     <input type="text" class="form-control bg-light border-0" data-plugin="cleave-phone"
-                      id="billingPhoneno" placeholder="(123)456-7890" required />
+                      id="billingPhoneno" placeholder="(44)456-7890" required />
                     <div class="invalid-feedback">
                       Please enter a phone number
                     </div>
@@ -504,7 +504,7 @@
                       </div>
                       <div class="mb-2">
                         <input type="text" class="form-control bg-light border-0" data-plugin="cleave-phone"
-                          id="shippingPhoneno" placeholder="(123)456-7890" required />
+                          id="shippingPhoneno" placeholder="(44)456-7890" required />
                         <div class="invalid-feedback">
                           Please enter a phone number
                         </div>

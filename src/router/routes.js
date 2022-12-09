@@ -118,9 +118,9 @@ export default [
     component: () => import("../views/auth/logout/basic")
   },
   {
-    path: "/calendar",
-    name: "calendar",
-    meta: { title: "Calendar", authRequired: true },
+    path: "/milestones",
+    name: "milestones",
+    meta: { title: "Milestones", authRequired: true },
     component: () => import("../views/calendar/index"),
   },
   {
@@ -280,9 +280,9 @@ export default [
     component: () => import("../views/apps/crm/contacts"),
   },
   {
-    path: "/apps/crm-companies",
-    name: "crm-companies",
-    meta: { title: "CRM companies", authRequired: true },
+    path: "/apps/crm-suppliers",
+    name: "crm-suppliers",
+    meta: { title: "Suppliers", authRequired: true },
     component: () => import("../views/apps/crm/companies"),
   },
   {

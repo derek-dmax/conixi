@@ -28,13 +28,13 @@
     },
     data() {
       return {
-        title: "Companies",
+        title: "Suppliers",
         items: [{
-            text: "CRM",
+            text: "Suppliers",
             href: "/",
           },
           {
-            text: "Contacts",
+            text: "List",
             active: true,
           },
         ],
@@ -43,7 +43,7 @@
         perPage: 8,
         pages: [],
         searchQuery: null,
-        companies: [{
+        suppliers: [{
             id: "1",
             name: "Nesta Technologies",
             owner: "Tonya Noble",
@@ -132,7 +132,7 @@
             website: "www.syntycesolu.com",
             contact_email: "info@syntycesolu.com",
             since: "1991",
-            image_src: require("@/assets/images/brands/mail_chimp.png")
+            image_src: require("@/assets/images/companies/img-4.png")
           },
           {
             id: "8",
@@ -184,7 +184,7 @@
     },
     computed: {
       displayedPosts() {
-        return this.paginate(this.companies);
+        return this.paginate(this.suppliers);
       },
       resultQuery() {
         if (this.searchQuery) {
@@ -192,7 +192,7 @@
           return this.displayedPosts.filter((data) => {
             return (
               data.compnayId.toLowerCase().includes(search) ||
-              data.companyName.toLowerCase().includes(search) ||
+              data.supplierName.toLowerCase().includes(search) ||
               data.owner.toLowerCase().includes(search) ||
               data.industryType.toLowerCase().includes(search) ||
               data.rating.toLowerCase().includes(search) ||
@@ -205,7 +205,7 @@
       },
     },
     watch: {
-      companies() {
+      suppliers() {
         this.setPages();
       },
     },
@@ -219,36 +219,36 @@
     },
     methods: {
       editdata(data) {
-        document.getElementById('exampleModalLabel').innerHTML = "Edit Company"
-        let result = this.companies.findIndex(o => o._id == data._id)
+        document.getElementById('exampleModalLabel').innerHTML = "Edit Supplier"
+        let result = this.suppliers.findIndex(o => o._id == data._id)
         document.getElementById('id').value = data._id
-        document.getElementById('companyname').value = this.companies[result].name;
-        document.getElementById('ownername').value = this.companies[result].owner;
-        document.getElementById('industrytype').value = this.companies[result].industry_type;
-        document.getElementById('starvalue').value = this.companies[result].star_value;
-        document.getElementById('location').value = this.companies[result].location;
-        document.getElementById('employee').value = this.companies[result].employee;
-        document.getElementById('website').value = this.companies[result].website;
-        document.getElementById('contactemail').value = this.companies[result].contact_email;
-        document.getElementById('since').value = this.companies[result].since;
+        document.getElementById('suppliername').value = this.suppliers[result].name;
+        document.getElementById('ownername').value = this.suppliers[result].owner;
+        document.getElementById('industrytype').value = this.suppliers[result].industry_type;
+        document.getElementById('starvalue').value = this.suppliers[result].star_value;
+        document.getElementById('location').value = this.suppliers[result].location;
+        document.getElementById('employee').value = this.suppliers[result].employee;
+        document.getElementById('website').value = this.suppliers[result].website;
+        document.getElementById('contactemail').value = this.suppliers[result].contact_email;
+        document.getElementById('since').value = this.suppliers[result].since;
 
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('add-btn').style.display = 'none'
       },
       updateorder() {
-        let result = this.companies.findIndex(o => o._id == document.getElementById('id').value)
-        this.companies[result].name = document.getElementById('companyname').value;
-        this.companies[result].owner = document.getElementById('ownername').value;
-        this.companies[result].industry_type = document.getElementById('industrytype').value;
-        this.companies[result].star_value = document.getElementById('starvalue').value;
-        this.companies[result].location = document.getElementById('location').value;
-        this.companies[result].employee = document.getElementById('employee').value;
-        this.companies[result].website = document.getElementById('website').value;
-        this.companies[result].contact_email = document.getElementById('contactemail').value;
-        this.companies[result].since = document.getElementById('since').value;
+        let result = this.suppliers.findIndex(o => o._id == document.getElementById('id').value)
+        this.suppliers[result].name = document.getElementById('suppliername').value;
+        this.suppliers[result].owner = document.getElementById('ownername').value;
+        this.suppliers[result].industry_type = document.getElementById('industrytype').value;
+        this.suppliers[result].star_value = document.getElementById('starvalue').value;
+        this.suppliers[result].location = document.getElementById('location').value;
+        this.suppliers[result].employee = document.getElementById('employee').value;
+        this.suppliers[result].website = document.getElementById('website').value;
+        this.suppliers[result].contact_email = document.getElementById('contactemail').value;
+        this.suppliers[result].since = document.getElementById('since').value;
         document.getElementById('closemodal').click();
         axios.patch(`https://api-node.themesbrand.website/apps/company/${document.getElementById('id').value}`, this
-            .companies[
+            .suppliers[
               result])
           .then(() => {
 
@@ -267,7 +267,7 @@
           confirmButtonText: "Yes, delete it!",
         }).then((result) => {
           if (result.value) {
-            this.companies.splice(this.companies.indexOf(event), 1);
+            this.suppliers.splice(this.suppliers.indexOf(event), 1);
             axios.delete(`https://api-node.themesbrand.website/apps/company/${event._id}`)
               .then(() => {
 
@@ -290,13 +290,13 @@
         });
         if (typeof ids_array !== "undefined" && ids_array.length > 0) {
           if (confirm("Are you sure you want to delete this?")) {
-            var cusList = this.companies;
+            var cusList = this.suppliers;
             ids_array.forEach(function (id) {
               cusList = cusList.filter(function (orders) {
                 return orders.id != id;
               });
             });
-            this.companies = cusList;
+            this.suppliers = cusList;
             document.getElementById("checkAll").checked = false;
             var itemss = document.getElementsByName("chk_child");
             itemss.forEach(function (ele) {
@@ -318,8 +318,8 @@
         }
       },
       addorder() {
-        var id = this.companies.length + 1;
-        var name = document.getElementById('companyname').value
+        var id = this.suppliers.length + 1;
+        var name = document.getElementById('suppliername').value
         var owner = document.getElementById('ownername').value
         var industry_type = document.getElementById('industrytype').value
         var star_value = document.getElementById('starvalue').value
@@ -344,7 +344,7 @@
             since: since,
             image_src: require("@/assets/images/brands/dribbble.png"),
           };
-          this.companies.push(data)
+          this.suppliers.push(data)
           axios.post(`https://api-node.themesbrand.website/apps/company`, data)
             .then(() => {
 
@@ -357,7 +357,7 @@
       },
       addnew() {
         document.getElementById("addform").reset();
-        document.getElementById('exampleModalLabel').innerHTML = "Add Company";
+        document.getElementById('exampleModalLabel').innerHTML = "Add Supplier";
         document.getElementById('add-btn').style.display = 'block';
         document.getElementById('edit-btn').style.display = 'none';
       },
@@ -374,27 +374,27 @@
         document.getElementById('sic').innerHTML = data.since
       },
       setPages() {
-        let numberOfPages = Math.ceil(this.companies.length / this.perPage);
+        let numberOfPages = Math.ceil(this.suppliers.length / this.perPage);
         this.pages = [];
         for (let index = 1; index <= numberOfPages; index++) {
           this.pages.push(index);
         }
       },
-      paginate(companies) {
+      paginate(suppliers) {
         let page = this.page;
         let perPage = this.perPage;
         let from = page * perPage - perPage;
         let to = page * perPage;
-        return companies.slice(from, to);
+        return suppliers.slice(from, to);
       },
     },
     beforeMount() {
       axios.get('https://api-node.themesbrand.website/apps/company').then((data) => {
-        this.companies = [];
+        this.suppliers = [];
         data.data.data.forEach(row => {
           // row.image_src = `@/assets/images/products/img-8.png`;
           row.image_src = 'https://api-node.themesbrand.website/images/' + row.image_src;
-          this.companies.push(row);
+          this.suppliers.push(row);
         })
       }).catch((er) => {
         console.log(er)
@@ -436,7 +436,7 @@
             <div class="d-flex align-items-center flex-wrap gap-2">
               <div class="flex-grow-1">
                 <button class="btn btn-info add-btn me-1" data-bs-toggle="modal" href="#showModal" @click="addnew">
-                  <i class="ri-add-fill me-1 align-bottom"></i> Add Company
+                  <i class="ri-add-fill me-1 align-bottom"></i> Add Supplier
                 </button>
                 <button class="btn btn-soft-danger" @click="deleteMultiple">
                   <i class="ri-delete-bin-2-line"></i>
@@ -466,12 +466,12 @@
       </div>
       <!--end col-->
       <div class="col-xxl-9">
-        <div class="card" id="companyList">
+        <div class="card" id="supplierList">
           <div class="card-header">
             <div class="row g-2">
               <div class="col-md-3">
                 <div class="search-box">
-                  <input type="text" class="form-control search" placeholder="Search for company..." />
+                  <input type="text" class="form-control search" placeholder="Search for supplier..." />
                   <i class="ri-search-line search-icon"></i>
                 </div>
               </div>
@@ -482,7 +482,7 @@
                   <Multiselect class="form-control" style="width: 130px" v-model="value" :close-on-select="true"
                     :searchable="true" :create-option="true" :options="[
                       { value: 'Owner', label: 'Owner' },
-                      { value: 'Company', label: 'Company' },
+                      { value: 'Supplier', label: 'Supplier' },
                       { value: 'location', label: 'Location' },
                     ]" />
                 </div>
@@ -501,7 +501,7 @@
                         </div>
                       </th>
                       <th class="sort" data-sort="name" scope="col">
-                        Company Name
+                        Supplier Name
                       </th>
                       <th class="sort" data-sort="owner" scope="col">Owner</th>
                       <th class="sort" data-sort="industry_type" scope="col">
@@ -621,7 +621,7 @@
             <div class="position-relative d-inline-block">
               <div class="avatar-md">
                 <div class="avatar-title bg-light rounded-circle">
-                  <img src="@/assets/images/brands/mail_chimp.png" alt="" class="avatar-xs" id="imageid" />
+                  <img src="@/assets/images/companies/img-4.png" alt="" class="avatar-xs" id="imageid" />
                 </div>
               </div>
             </div>
@@ -651,7 +651,7 @@
               Information
             </h6>
             <p class="text-muted mb-4">
-              A company incurs fixed and variable costs such as the purchase of
+              A supplier incurs fixed and variable costs such as the purchase of
               raw materials, salaries and overhead, as explained by
               AccountingTools, Inc. Business owners have the discretion to
               determine the actions.
@@ -665,7 +665,7 @@
                   </tr>
                   <tr>
                     <td class="fw-medium" scope="row">Location</td>
-                    <td id="loc">Damascus, Syria</td>
+                    <td id="loc">Basingstoke, Hampshire</td>
                   </tr>
                   <tr>
                     <td class="fw-medium" scope="row">Employee</td>
@@ -717,7 +717,7 @@
                 <div class="col-lg-12">
                   <div>
                     <label for="name-field" class="form-label">Name</label>
-                    <input type="text" id="companyname" class="form-control" placeholder="Enter company name"
+                    <input type="text" id="suppliername" class="form-control" placeholder="Enter supplier name"
                       required />
                   </div>
                 </div>
@@ -782,7 +782,7 @@
             <div class="modal-footer">
               <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" id="closemodal" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success" id="add-btn" @click="addorder">Add Company</button>
+                <button type="submit" class="btn btn-success" id="add-btn" @click="addorder">Add Supplier</button>
                 <button type="button" class="btn btn-success" id="edit-btn" @click="updateorder">Update</button>
               </div>
             </div>

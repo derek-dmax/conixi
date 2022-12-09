@@ -158,7 +158,7 @@
                 <div class="collapse menu-dropdown" id="sidebarApps">
                   <ul class="nav nav-sm flex-column">
                     <li class="nav-item">
-                      <router-link to="/calendar" class="nav-link" data-key="t-calendar">
+                      <router-link to="/milestones" class="nav-link" data-key="t-calendar">
                         {{ $t("t-calendar") }}
                       </router-link>
                     </li>

@@ -13,6 +13,7 @@ export const state = {
             subCategory: "Design and Development",
             skills: ["UI", "HTML", "CSS", "Vue"],
             caption: "Build project dashboard plus admin section.",
+            description: "Build project dashboard plus admin section.",
             number: "18/42",
             progressBar: "34%",
             status: "Testing",
@@ -54,6 +55,7 @@ export const state = {
             subCategory: "Website",
             skills: ["UI", "Graphic Design", "Website Dev"],
             caption: "Re-design a landing page as per abc minimal design.",
+            description: "Re-design a landing page as per abc minimal design.",
             number: "22/56",
             progressBar: "54%",
             status: "In Progress",
@@ -104,6 +106,7 @@ export const state = {
             subCategory: "Development",
             skills: ["System Design", "Database Design", "Vue", "NestJS"],
             caption: "Create an application for project management and task management.",
+            description: "Create an application for project management and task management.",
             number: "20/34",
             progressBar: "78%",
             status: "In Progress",
@@ -146,12 +149,26 @@ export const state = {
 export const mutations = {
     updateProject(state, payload) {
         Object.assign(state.projectList[payload.id], payload.updates);
+    },
+    deleteProject(state, id) {
+        console.log('deleteProject: ', id)
+        delete state.projectList[id];
+    },
+    createProject(state, payload) {
+        console.log('createProject: ', payload)
+        state.projectList[payload.id] = payload;
     }
 };
 
 export const actions = {
     updateProject({ commit }, payload) {
         commit('updateProject', payload)
+    },
+    deleteProject({ commit }, id) {
+        commit('deleteProject', id)
+    },
+    createProject({ commit }, payload) {
+        commit('createProject', payload)
     }
 };
 

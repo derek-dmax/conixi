@@ -289,9 +289,9 @@
                     <!--end col-->
                     <div class="col-lg-4">
                       <div class="mb-3">
-                        <label for="zipcodeInput" class="form-label">Zip Code</label>
-                        <input type="text" class="form-control" minlength="5" maxlength="6" id="zipcodeInput"
-                          placeholder="Enter zipcode" value="90011" />
+                        <label for="postcodeInput" class="form-label">Zip Code</label>
+                        <input type="text" class="form-control" minlength="5" maxlength="6" id="postcodeInput"
+                          placeholder="Enter postcode" value="90011" />
                       </div>
                     </div>
                     <!--end col-->

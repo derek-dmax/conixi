@@ -24,45 +24,45 @@
           },
         ],
         amount: 875,
-        billing_address: "305 S San Gabriel Blvd, California, United States - 91776",
-        billing_name: "David Nichols",
-        billing_phone: "+(123) 456-7890",
+        billing_address: "30 Gabriel Road, Alton, Hampshire - HP2 4RF",
+        billing_name: "Ragner Resources",
+        billing_phone: "+(44) 1727 789045",
         billing_taxno: "12-3456789",
         card_holder_name: "David Nichols",
         card_number: "xxx xxxx xxxx 1234",
-        company_address: "403 H Fan Faranh Blvd, London, United States",
-        contact: 8987894122,
-        country: "Brazil",
-        date: "2021-04-06T16:28:00.000Z",
+        company_address: "403 H Fan Faranh Blvd, London, United Kingdom",
+        contact: "01727 821222",
+        country: "UK",
+        date: "2021-04-06T16:28:00.000",
         discount: "53.99",
-        email: "velzon@themesbrand.com",
-        estimated_tax: "44.99",
+        email: "admin@conixi.co.uk",
+        estimated_tax: "920",
         img: "assets/images/users/lauraheadshot.jpg",
         invoiceId: "#VL25000351",
         name: "Laura Van Zyl",
-        notes: "All accounts are to be paid within 7 days from receipt of invoice. To be paid by cheque or credit card or direct payment online. If account is not paid within 7 days the credits details supplied as confirmation of work undertaken will be charged the agreed quoted fee noted above.",
+        notes: "All accounts will be paid within 14 days from due date of invoice. If account is not paid within 14 days please contact our accounts payable department.",
         payment_method: "Mastercard",
         postalcode: 91798,
         product_detail: [{
-          name: 'Urban Ladder Pashe Chair',
-          category: 'Furniture',
-          price: '160',
-          stock: '2'
-        }, {
-          name: '350 ml Glass Grocery Container',
-          category: 'Kitchen Storage & Containers',
-          price: '39.96',
+          name: 'Initial Task Delivery',
+          category: 'Main Module Code Stage One',
+          price: '1600',
           stock: '1'
+        }, {
+          name: 'Additional Time & Materials',
+          category: 'Coding Outside of Specifications',
+          price: '250',
+          stock: '12'
         }],
-        registration_no: "6561",
-        shipping_address: "345 Elm Ave, Solvang California, United States - 91776",
+        registration_no: "9000906561",
+        shipping_address: "345 Elm Ave, Alton, Hampshire - HP1 5AF",
         shipping_charge: "65.00",
         shipping_name: "Donald Palmer",
-        shipping_phone: "+(234) 987-01234",
+        shipping_phone: "+(44) 01987-01234",
         shipping_taxno: "12-3456789",
-        status: "Paid",
-        sub_total: 359.96,
-        total_amount: 415.96,
+        status: "Not Yet Due",
+        sub_total: 4600.00,
+        total_amount: 5520.00,
         website: "www.conixi.co.uk",
       };
     },
@@ -148,13 +148,12 @@
                   height="17">
                 <div class="mt-sm-5 mt-4">
                   <h6 class="text-muted text-uppercase fw-semibold">Address</h6>
-                  <p class="text-muted mb-1" id="address-details">California, United States</p>
-                  <p class="text-muted mb-0" id="zip-code"><span>Zip-code:</span> 90201</p>
+                  <p class="text-muted mb-1" id="address-details">Alton, Hampshire</p>
+                  <p class="text-muted mb-0" id="postcode"><span>Postcode:</span> HP1 5AF</p>
                 </div>
               </div>
               <div class="flex-shrink-0 mt-sm-0 mt-3">
-                <h6><span class="text-muted fw-normal">Legal
-                    Registration No: </span>
+                <h6><span class="text-muted fw-normal">Company No: </span>
                   <span id="legal-register-no">{{registration_no}}</span>
                 </h6>
                 <h6><span class="text-muted fw-normal">Email: </span>
@@ -176,14 +175,13 @@
               </div>
               <!--end col-->
               <div class="col-lg-3 col-6">
-                <p class="text-muted mb-2 text-uppercase fw-semibold">Date</p>
-                <h5 class="fs-14 mb-0"><span id="invoice-date">{{date}}</span> <small class="text-muted"
-                    id="invoice-time">02:36PM</small></h5>
+                <p class="text-muted mb-2 text-uppercase fw-semibold">Due Date</p>
+                <h5 class="fs-14 mb-0"><span id="invoice-date">25th Feb 2023</span></h5>
               </div>
               <!--end col-->
               <div class="col-lg-3 col-6">
-                <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
-                <span class="badge fs-11" id="payment-status">{{status}}</span>
+                <p class="text-muted mb-0 text-uppercase fw-semibold">Payment Status</p>
+                <span class="badge bg-warning fs-11" id="payment-status">{{status}}</span>
               </div>
               <!--end col-->
               <div class="col-lg-3 col-6">
@@ -202,15 +200,7 @@
                 <p class="fw-medium mb-2" id="billing-name">{{billing_name}}</p>
                 <p class="text-muted mb-1" id="billing-address">{{billing_address}}</p>
                 <p class="text-muted mb-1" id="billing-phone">Phone: {{billing_phone}}</p>
-                <p class="text-muted mb-0" id="billing-tax">Tax: {{billing_taxno}}</p>
-              </div>
-              <!--end col-->
-              <div class="col-sm-6">
-                <h6 class="text-muted text-uppercase fw-semibold mb-3">Shipping Address</h6>
-                <p class="fw-medium mb-2" id="shipping-name">{{shipping_name}}</p>
-                <p class="text-muted mb-1" id="shipping-address">{{shipping_address}}</p>
-                <p class="text-muted mb-0" id="shipping-phone">Phone: {{shipping_phone}}</p>
-                <p class="text-muted mb-0" id="shipping-tax">Tax: {{shipping_taxno}}</p>
+                <p class="text-muted mb-0" id="billing-tax">VAT: {{billing_taxno}}</p>
               </div>
               <!--end col-->
             </div>
@@ -223,7 +213,7 @@
                 <thead>
                   <tr class="table-active">
                     <th scope="col" style="width: 50px;">#</th>
-                    <th scope="col">Product Details</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Rate</th>
                     <th scope="col">Quantity</th>
                     <th scope="col" class="text-end">Amount</th>
@@ -231,13 +221,13 @@
                 </thead>
                 <tbody id="products-list">
                   <tr v-for="(item, index) of product_detail" :key="index">
-                    <th scope="row">01</th>
+                    <th scope="row">0{{(index+1)}}</th>
                     <td class="text-start">
                       <span class="fw-medium">{{item.name}}</span>
                       <p class="text-muted mb-0">{{item.category}}
                       </p>
                     </td>
-                    <td>${{item.price}}</td>
+                    <td>£{{item.price}}</td>
                     <td>{{item.stock}}</td>
                     <td class="text-end">{{item.price*item.stock}}</td>
                   </tr>
@@ -248,23 +238,15 @@
                         <tbody>
                           <tr>
                             <td>Sub Total</td>
-                            <td class="text-end">${{sub_total}}</td>
+                            <td class="text-end">£{{sub_total}}</td>
                           </tr>
                           <tr>
-                            <td>Estimated Tax (12.5%)</td>
-                            <td class="text-end">${{estimated_tax}}</td>
-                          </tr>
-                          <tr>
-                            <td>Discount <small class="text-muted">(VELZON15)</small></td>
-                            <td class="text-end">- ${{discount}}</td>
-                          </tr>
-                          <tr>
-                            <td>Shipping Charge</td>
-                            <td class="text-end">${{shipping_charge}}</td>
+                            <td>VAT (20%)</td>
+                            <td class="text-end">£{{estimated_tax}}</td>
                           </tr>
                           <tr class="border-top border-top-dashed">
                             <th scope="row">Total Amount</th>
-                            <td class="text-end">${{total_amount}}</td>
+                            <td class="text-end">£{{total_amount}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -274,17 +256,6 @@
                 </tbody>
               </table>
               <!--end table-->
-            </div>
-            <div class="mt-3">
-              <h6 class="text-muted text-uppercase fw-semibold mb-3">Payment Details:</h6>
-              <p class="text-muted mb-1">Payment Method: <span class="fw-medium"
-                  id="payment-method">{{payment_method}}</span></p>
-              <p class="text-muted mb-1">Card Holder: <span class="fw-medium"
-                  id="card-holder-name">{{card_holder_name}}</span></p>
-              <p class="text-muted mb-1">Card Number: <span class="fw-medium" id="card-number">{{card_number}}</span>
-              </p>
-              <p class="text-muted">Total Amount: <span class="fw-medium" id="">$ </span><span
-                  id="card-total-amount">{{total_amount}}</span></p>
             </div>
             <div class="mt-4">
               <div class="alert alert-info">

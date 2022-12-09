@@ -492,14 +492,14 @@ export default {
                     <!--end col-->
                     <div class="col-lg-4">
                       <div class="mb-3">
-                        <label for="zipcodeidInput" class="form-label"
+                        <label for="postcodeidInput" class="form-label"
                           >Zip Code</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          id="zipcodeidInput"
-                          placeholder="Enter your zipcode"
+                          id="postcodeidInput"
+                          placeholder="Enter your postcode"
                         />
                       </div>
                     </div>

@@ -300,7 +300,7 @@
                       </router-link>
                     </li>
                     <li class="nav-item">
-                      <router-link to="/apps/crm-companies" class="nav-link" data-key="t-companies">
+                      <router-link to="/apps/crm-suppliers" class="nav-link" data-key="t-companies">
                         {{ $t("t-companies") }}
                       </router-link>
                     </li>

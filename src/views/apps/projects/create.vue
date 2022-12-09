@@ -4,6 +4,7 @@ import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import uuid from "uuid";
 
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -13,6 +14,8 @@ import useVuelidate from "@vuelidate/core";
 import Layout from "../../../layouts/main.vue";
 import PageHeader from "@/components/page-header";
 import appConfig from "../../../../app.config";
+import { mapActions } from "vuex";
+import moment from 'moment';
 
 export default {
   page: {
@@ -51,6 +54,58 @@ export default {
           active: true,
         },
       ],
+      selProject: {
+        id: uuid(),
+        time: "Last update : " + moment().format('Do MMM, YYYY'),
+        client: null,
+        favourite: false,
+        img: require("@/assets/images/brands/dribbble.png"),
+        label: "",
+        category: "",
+        subCategory: "",
+        skills: [],
+        caption: "Re-design a landing page as per abc minimal design.",
+        description: "Re-design a landing page as per abc minimal design.",
+        number: "22/56",
+        progressBar: "54%",
+        status: "In Progress",
+        priority: "Medium",
+        members: [
+          {
+            name: "Laura Van Zyl",
+            img: require("@/assets/images/users/avatar-2.jpg"),
+            projects: 2,
+            tasks: 12,
+          },
+          {
+            name: "Alex Raubitschek",
+            img: require("@/assets/images/users/avatar-3.jpg"),
+            projects: 2,
+            tasks: 9,
+          },
+        ],
+        subItem: [
+          {
+            id: 1,
+            imgFooter: require("@/assets/images/users/avatar-3.jpg"),
+          },
+          {
+            id: 2,
+            imgNumber: "S",
+            bgColor: "secondary",
+          },
+          {
+            id: 3,
+            imgFooter: require("@/assets/images/users/avatar-4.jpg"),
+          },
+          {
+            id: 4,
+            imgNumber: "+",
+          },
+        ],
+        createdDate: moment().format("DD MMM, YYYY"),
+        dueDate: "10 Mar, 2023",
+      },
       value: [],
       value3: ["Private"],
       category: ["Designing"],
@@ -133,6 +188,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("projects", ["createProject"]),
     deleteRecord(ele) {
       ele.target.parentElement.parentElement.remove();
     },
@@ -151,6 +207,16 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title" :items="items" />
+    <div class="row g-4 mb-3">
+      <button
+        type="submit"
+        class="btn btn-secondary w-sm col-sm-auto"
+        style="margin-right: 10px"
+      >
+        Draft
+      </button>
+      <button @click="createProject(selProject)" class="btn btn-success w-sm col-sm-auto">Create</button>
+    </div>
     <div class="row">
       <div class="col-lg-8">
         <div class="card">
@@ -164,6 +230,7 @@ export default {
                   <input
                     type="text"
                     class="form-control"
+                    v-model="selProject.label"
                     id="project-title-input"
                     placeholder="Enter project title"
                   />
@@ -195,7 +262,7 @@ export default {
                   <label for="choices-priority-input" class="form-label">Priority</label>
 
                   <Multiselect
-                    v-model="value2"
+                    v-model="selProject.priority"
                     :close-on-select="true"
                     :searchable="true"
                     :create-option="true"
@@ -212,7 +279,7 @@ export default {
                   <label for="choices-status-input" class="form-label">Status</label>
 
                   <Multiselect
-                    v-model="value1"
+                    v-model="selProject.status"
                     :close-on-select="true"
                     :searchable="true"
                     :create-option="true"
@@ -230,7 +297,7 @@ export default {
                   >
 
                   <flat-pickr
-                    v-model="date"
+                    v-model="selProject.dueDate"
                     :config="config"
                     class="form-control"
                   ></flat-pickr>
@@ -281,7 +348,6 @@ export default {
         </div>
         <!-- end card -->
         <div class="text-end mb-4">
-          <button type="submit" class="btn btn-danger w-sm me-1">Delete</button>
           <button type="submit" class="btn btn-secondary w-sm me-1">Draft</button>
           <button type="submit" class="btn btn-success w-sm">Create</button>
         </div>
@@ -296,7 +362,7 @@ export default {
             <div class="mb-3">
               <label for="choices-categories-input" class="form-label">Client</label>
               <Multiselect
-                v-model="client"
+                v-model="selProject.client"
                 :close-on-select="true"
                 :searchable="true"
                 :create-option="true"
@@ -306,7 +372,7 @@ export default {
             <div class="mb-3">
               <label for="choices-categories-input" class="form-label">Category</label>
               <Multiselect
-                v-model="category"
+                v-model="selProject.category"
                 :close-on-select="true"
                 :searchable="true"
                 :create-option="true"
@@ -318,7 +384,7 @@ export default {
                 >Sub-Category</label
               >
               <Multiselect
-                v-model="subCategory"
+                v-model="selProject.subCategory"
                 :close-on-select="true"
                 :searchable="true"
                 :create-option="true"
@@ -330,7 +396,7 @@ export default {
               <label for="choices-text-input" class="form-label">Skills</label>
               <Multiselect
                 class="form-control"
-                v-model="value"
+                v-model="selProject.skills"
                 mode="tags"
                 :close-on-select="true"
                 :searchable="true"

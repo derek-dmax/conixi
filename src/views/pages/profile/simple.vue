@@ -69,7 +69,7 @@ export default {
                 <i
                   class="ri-map-pin-user-line me-1 text-white-75 fs-16 align-middle"
                 ></i
-                >California, United States
+                >Alton, Hampshire
               </div>
               <div>
                 <i
@@ -208,7 +208,7 @@ export default {
                             <tr>
                               <th class="ps-0" scope="row">Location :</th>
                               <td class="text-muted">
-                                California, United States
+                                Alton, Hampshire
                               </td>
                             </tr>
                             <tr>

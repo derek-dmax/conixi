@@ -397,7 +397,7 @@
                     </tr>
                     <tr>
                       <th><span class="fw-medium">Contact No.</span></th>
-                      <td>+(123) 9876 654 321</td>
+                      <td>+(44) 9876 654 321</td>
                     </tr>
                     <tr>
                       <th><span class="fw-medium">Fax</span></th>

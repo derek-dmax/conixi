@@ -1566,9 +1566,9 @@ Remember me
                         type="number"
                         class="form-control"
                         id="zipfloatingInput"
-                        placeholder="Enter your zipcode"
+                        placeholder="Enter your postcode"
                       />
-                      <label for="zipfloatingInput">Zipcode</label>
+                      <label for="zipfloatingInput">Postcode</label>
                     </div>
                   </div>
                   <div class="col-lg-12">
@@ -1634,8 +1634,8 @@ Remember me
 &lt;/div&gt;
 &lt;div class=&quot;col-lg-4&quot;&gt;
 &lt;div class=&quot;form-floating&quot;&gt;
-&lt;input type=&quot;number&quot; class=&quot;form-control&quot; id=&quot;zipfloatingInput&quot; placeholder=&quot;Enter your zipcode&quot;&gt;
-&lt;label for=&quot;zipfloatingInput&quot;&gt;Zipcode&lt;/label&gt;
+&lt;input type=&quot;number&quot; class=&quot;form-control&quot; id=&quot;zipfloatingInput&quot; placeholder=&quot;Enter your postcode&quot;&gt;
+&lt;label for=&quot;zipfloatingInput&quot;&gt;Postcode&lt;/label&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;col-lg-12&quot;&gt;

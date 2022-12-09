@@ -893,9 +893,15 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link menu-link" to="/calendar">
+          <router-link class="nav-link menu-link" to="/milestones">
             <i class="ri-medal-2-line"></i>
             <span data-key="t-calendar">{{ $t("t-calendar") }}</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link menu-link" to="/apps/crm-suppliers">
+            <i class="ri-building-line"></i>
+            <span data-key="t-companies">{{ $t("t-companies") }}</span>
           </router-link>
         </li>
         <li class="nav-item">
