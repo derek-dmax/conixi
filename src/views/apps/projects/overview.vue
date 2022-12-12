@@ -1644,13 +1644,13 @@ export default {
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Activities</h5>
-                <div class="acitivity-timeline py-3">
-                  <div class="acitivity-item d-flex">
+                <div class="activity-timeline py-3">
+                  <div class="activity-item d-flex">
                     <div class="flex-shrink-0">
                       <img
                         src="@/assets/images/users/avatar-1.jpg"
                         alt=""
-                        class="avatar-xs rounded-circle acitivity-avatar"
+                        class="avatar-xs rounded-circle activity-avatar"
                       />
                     </div>
                     <div class="flex-grow-1 ms-3">
@@ -1666,8 +1666,8 @@ export default {
                       <small class="mb-0 text-muted">Today</small>
                     </div>
                   </div>
-                  <div class="acitivity-item py-3 d-flex">
-                    <div class="flex-shrink-0 avatar-xs acitivity-avatar">
+                  <div class="activity-item py-3 d-flex">
+                    <div class="flex-shrink-0 avatar-xs activity-avatar">
                       <div
                         class="avatar-title bg-soft-success text-success rounded-circle"
                       >
@@ -1746,12 +1746,12 @@ export default {
                       <small class="mb-0 text-muted">Yesterday</small>
                     </div>
                   </div>
-                  <div class="acitivity-item py-3 d-flex">
+                  <div class="activity-item py-3 d-flex">
                     <div class="flex-shrink-0">
                       <img
                         src="@/assets/images/users/avatar-2.jpg"
                         alt=""
-                        class="avatar-xs rounded-circle acitivity-avatar"
+                        class="avatar-xs rounded-circle activity-avatar"
                       />
                     </div>
                     <div class="flex-grow-1 ms-3">
@@ -1796,12 +1796,12 @@ export default {
                       <small class="mb-0 text-muted">25 Nov</small>
                     </div>
                   </div>
-                  <div class="acitivity-item py-3 d-flex">
+                  <div class="activity-item py-3 d-flex">
                     <div class="flex-shrink-0">
                       <img
                         src="@/assets/images/users/avatar-6.jpg"
                         alt=""
-                        class="avatar-xs rounded-circle acitivity-avatar"
+                        class="avatar-xs rounded-circle activity-avatar"
                       />
                     </div>
                     <div class="flex-grow-1 ms-3">
@@ -1812,9 +1812,9 @@ export default {
                       <small class="mb-0 text-muted">19 Nov</small>
                     </div>
                   </div>
-                  <div class="acitivity-item py-3 d-flex">
+                  <div class="activity-item py-3 d-flex">
                     <div class="flex-shrink-0">
-                      <div class="avatar-xs acitivity-avatar">
+                      <div class="avatar-xs activity-avatar">
                         <div
                           class="avatar-title rounded-circle bg-soft-danger text-danger"
                         >
@@ -1835,12 +1835,12 @@ export default {
                       <small class="mb-0 text-muted">16 Nov</small>
                     </div>
                   </div>
-                  <div class="acitivity-item py-3 d-flex">
+                  <div class="activity-item py-3 d-flex">
                     <div class="flex-shrink-0">
                       <img
                         src="@/assets/images/users/avatar-7.jpg"
                         alt=""
-                        class="avatar-xs rounded-circle acitivity-avatar"
+                        class="avatar-xs rounded-circle activity-avatar"
                       />
                     </div>
                     <div class="flex-grow-1 ms-3">
@@ -1852,9 +1852,9 @@ export default {
                       <small class="mb-0 text-muted">22 Oct</small>
                     </div>
                   </div>
-                  <div class="acitivity-item py-3 d-flex">
+                  <div class="activity-item py-3 d-flex">
                     <div class="flex-shrink-0">
-                      <div class="avatar-xs acitivity-avatar">
+                      <div class="avatar-xs activity-avatar">
                         <div class="avatar-title rounded-circle bg-soft-info text-info">
                           <i class="ri-line-chart-line"></i>
                         </div>
@@ -1874,12 +1874,12 @@ export default {
                       <small class="mb-0 text-muted">15 Oct</small>
                     </div>
                   </div>
-                  <div class="acitivity-item d-flex">
+                  <div class="activity-item d-flex">
                     <div class="flex-shrink-0">
                       <img
                         src="@/assets/images/users/avatar-8.jpg"
                         alt=""
-                        class="avatar-xs rounded-circle acitivity-avatar"
+                        class="avatar-xs rounded-circle activity-avatar"
                       />
                     </div>
                     <div class="flex-grow-1 ms-3">

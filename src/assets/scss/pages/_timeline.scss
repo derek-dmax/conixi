@@ -402,18 +402,18 @@
 
 //activity-timeline
 
-.acitivity-timeline {
+.activity-timeline {
     position: relative;
     overflow: hidden;
 
-    .acitivity-item {
+    .activity-item {
         position: relative;
 
         .flex-shrink-0 {
             z-index: 2;
         }
 
-        .acitivity-avatar {
+        .activity-avatar {
             background-color: var(--#{$prefix}card-bg-custom);
             border: 3px solid var(--#{$prefix}card-bg-custom);
             height: 32px;

@@ -43,8 +43,8 @@
 
 //activity-timeline
 
-.acitivity-timeline {
-    .acitivity-item {
+.activity-timeline {
+    .activity-item {
         &:before {
             border-left: 1px dashed $border-color;
             right: 16px;
@@ -366,7 +366,7 @@
         right: auto;
     }
 
-    .acitivity-item {
+    .activity-item {
         &::before {
             border-right: 1px dashed $border-color;
             right: 16px;

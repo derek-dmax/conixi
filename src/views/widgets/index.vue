@@ -2207,9 +2207,9 @@ export default {
               <!-- end cardheader -->
               <div class="card-body p-0">
                 <div data-simplebar style="max-height: 364px" class="p-3">
-                  <div class="acitivity-timeline acitivity-main">
-                    <div class="acitivity-item d-flex">
-                      <div class="flex-shrink-0 avatar-xs acitivity-avatar">
+                  <div class="activity-timeline activity-main">
+                    <div class="activity-item d-flex">
+                      <div class="flex-shrink-0 avatar-xs activity-avatar">
                         <div
                           class="
                             avatar-title
@@ -2229,8 +2229,8 @@ export default {
                         <small class="mb-0 text-muted">02:14 PM Today</small>
                       </div>
                     </div>
-                    <div class="acitivity-item py-3 d-flex">
-                      <div class="flex-shrink-0 avatar-xs acitivity-avatar">
+                    <div class="activity-item py-3 d-flex">
+                      <div class="flex-shrink-0 avatar-xs activity-avatar">
                         <div
                           class="
                             avatar-title
@@ -2294,12 +2294,12 @@ export default {
                         </p>
                       </div>
                     </div>
-                    <div class="acitivity-item py-3 d-flex">
+                    <div class="activity-item py-3 d-flex">
                       <div class="flex-shrink-0">
                         <img
                           src="@/assets/images/users/avatar-2.jpg"
                           alt=""
-                          class="avatar-xs rounded-circle acitivity-avatar"
+                          class="avatar-xs rounded-circle activity-avatar"
                         />
                       </div>
                       <div class="flex-grow-1 ms-3">
@@ -2313,9 +2313,9 @@ export default {
                         <small class="mb-0 text-muted">25 Dec, 2021</small>
                       </div>
                     </div>
-                    <div class="acitivity-item py-3 d-flex">
+                    <div class="activity-item py-3 d-flex">
                       <div class="flex-shrink-0">
-                        <div class="avatar-xs acitivity-avatar">
+                        <div class="avatar-xs activity-avatar">
                           <div class="avatar-title rounded-circle bg-secondary">
                             <i class="mdi mdi-sale fs-14"></i>
                           </div>
@@ -2337,9 +2337,9 @@ export default {
                         <small class="mb-0 text-muted">12 Dec, 2021</small>
                       </div>
                     </div>
-                    <div class="acitivity-item py-3 d-flex">
+                    <div class="activity-item py-3 d-flex">
                       <div class="flex-shrink-0">
-                        <div class="avatar-xs acitivity-avatar">
+                        <div class="avatar-xs activity-avatar">
                           <div
                             class="
                               avatar-title
@@ -2360,9 +2360,9 @@ export default {
                         <small class="mb-0 text-muted">25 Nov, 2021</small>
                       </div>
                     </div>
-                    <div class="acitivity-item py-3 d-flex">
+                    <div class="activity-item py-3 d-flex">
                       <div class="flex-shrink-0">
-                        <div class="avatar-xs acitivity-avatar">
+                        <div class="avatar-xs activity-avatar">
                           <div class="avatar-title rounded-circle bg-secondary">
                             <i class="mdi mdi-sale fs-14"></i>
                           </div>
@@ -2384,9 +2384,9 @@ export default {
                         <small class="mb-0 text-muted">22 Oct, 2021</small>
                       </div>
                     </div>
-                    <div class="acitivity-item py-3 d-flex">
+                    <div class="activity-item py-3 d-flex">
                       <div class="flex-shrink-0">
-                        <div class="avatar-xs acitivity-avatar">
+                        <div class="avatar-xs activity-avatar">
                           <div
                             class="
                               avatar-title
@@ -2413,12 +2413,12 @@ export default {
                         <small class="mb-0 text-muted">15 Oct</small>
                       </div>
                     </div>
-                    <div class="acitivity-item d-flex">
+                    <div class="activity-item d-flex">
                       <div class="flex-shrink-0">
                         <img
                           src="@/assets/images/users/avatar-3.jpg"
                           alt=""
-                          class="avatar-xs rounded-circle acitivity-avatar"
+                          class="avatar-xs rounded-circle activity-avatar"
                         />
                       </div>
                       <div class="flex-grow-1 ms-3">

@@ -32,6 +32,12 @@ export const state = {
                     tasks: 11
                 }
             ],
+            suppliers: [
+                {
+                    name: "DMax Design",
+                    img: require("@/assets/images/companies/img-2.png"),
+                }
+            ],
             subItem: [{
                 id: 1,
                 imgFooter: require("@/assets/images/users/avatar-2.jpg")
@@ -72,6 +78,12 @@ export const state = {
                     img: require("@/assets/images/users/avatar-3.jpg"),
                     projects: 2,
                     tasks: 9
+                }
+            ],
+            suppliers: [
+                {
+                    name: "DMax Design",
+                    img: require("@/assets/images/companies/img-2.png"),
                 }
             ],
             subItem: [{
@@ -123,6 +135,12 @@ export const state = {
                     img: require("@/assets/images/users/derekm.jpg"),
                     projects: 2,
                     tasks: 11
+                }
+            ],
+            suppliers: [
+                {
+                    name: "DMax Design",
+                    img: require("@/assets/images/companies/img-2.png"),
                 }
             ],
             subItem: [{

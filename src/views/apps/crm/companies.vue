@@ -191,7 +191,7 @@
           const search = this.searchQuery.toLowerCase();
           return this.displayedPosts.filter((data) => {
             return (
-              data.compnayId.toLowerCase().includes(search) ||
+              data.companyId.toLowerCase().includes(search) ||
               data.supplierName.toLowerCase().includes(search) ||
               data.owner.toLowerCase().includes(search) ||
               data.industryType.toLowerCase().includes(search) ||
@@ -492,7 +492,7 @@
           <div class="card-body">
             <div>
               <div class="table-responsive table-card mb-3">
-                <table class="table align-middle table-nowrap mb-0" id="customerTable">
+                <table class="table align-middle table-nowrap mb-0" id="supplierTable">
                   <thead class="table-light">
                     <tr>
                       <th scope="col" style="width: 50px">
