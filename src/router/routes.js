@@ -160,60 +160,6 @@ export default [
     component: () => import("../views/apps/email/email-ecommerce"),
   },
   {
-    path: "/apps/nft-auction",
-    name: "auction",
-    meta: { title: "Live Auction", authRequired: true },
-    component: () => import("../views/apps/nft/nft-auction"),
-  },
-  {
-    path: "/apps/nft-collection",
-    name: "collection",
-    meta: { title: "Collactions", authRequired: true },
-    component: () => import("../views/apps/nft/nft-collection"),
-  },
-  {
-    path: "/apps/nft-create",
-    name: "create",
-    meta: { title: "Create", authRequired: true },
-    component: () => import("../views/apps/nft/nft-create"),
-  },
-  {
-    path: "/apps/nft-creators",
-    name: "creators",
-    meta: { title: "Creators", authRequired: true },
-    component: () => import("../views/apps/nft/nft-creators"),
-  },
-  {
-    path: "/apps/nft-explore",
-    name: "explore",
-    meta: { title: "Explore Now", authRequired: true },
-    component: () => import("../views/apps/nft/nft-explore"),
-  },
-  {
-    path: "/apps/nft-item-detail",
-    name: "item-detail",
-    meta: { title: "Item Detail", authRequired: true },
-    component: () => import("../views/apps/nft/nft-item-detail"),
-  },
-  {
-    path: "/apps/nft-marketplace",
-    name: "marketplace",
-    meta: { title: "Marketplace", authRequired: true },
-    component: () => import("../views/apps/nft/nft-marketplace"),
-  },
-  {
-    path: "/apps/nft-ranking",
-    name: "ranking",
-    meta: { title: "Ranking", authRequired: true },
-    component: () => import("../views/apps/nft/nft-ranking"),
-  },
-  {
-    path: "/apps/nft-wallet",
-    name: "nft-wallet",
-    meta: { title: "Wallet", authRequired: true },
-    component: () => import("../views/apps/nft/nft-wallet"),
-  },
-  {
     path: "/apps/projects-list",
     name: "projects-list",
     meta: { title: "Projects List", authRequired: true },
@@ -236,12 +182,6 @@ export default [
     name: "projects-create",
     meta: { title: "projects-create", authRequired: true },
     component: () => import("../views/apps/projects/create"),
-  },
-  {
-    path: "/apps/projects-gantt",
-    name: "projects-gantt",
-    meta: { title: "projects-gantt", authRequired: true },
-    component: () => import("../views/apps/projects/gantt"),
   },
   {
     path: "/apps/tasks-details",

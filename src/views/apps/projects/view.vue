@@ -6,7 +6,7 @@ import Draggable from "vue3-draggable";
 import moment from "moment";
 import projectLegals from "../../../components/projectLegals.vue";
 import projectMilestones from "../../../components/projectMilestones.vue";
-//import projectGANTT from "../../../components/projectGANTT.vue";
+import projectGANTT from "../../../components/projectGANTT.vue";
 
 export default {
   page: {
@@ -90,7 +90,7 @@ export default {
     Draggable,
     projectLegals,
     projectMilestones,
-  //  projectGANTT,
+    projectGANTT,
   },
   methods: {
     ...mapActions("projects", ["updateProject"]),
@@ -1989,7 +1989,7 @@ export default {
           <!-- end tab pane -->
           <div class="tab-pane fade" id="project-gantt" role="tabpanel">
             <div class="card">
-              <iframe style="height: 900px" src="./projects-gantt"></iframe>
+              <projectGANTT style="height: 900px"></projectGANTT>
             </div>
             <!-- end team list -->
           </div>
