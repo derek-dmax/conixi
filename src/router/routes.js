@@ -97,14 +97,6 @@ export default [
     component: () => import("../views/dashboard/analytics/index"),
   },
   {
-    path: "/dashboard/nft",
-    name: "dashboard-nft",
-    meta: {
-      title: "NFT Dashboard", authRequired: true,
-    },
-    component: () => import("../views/dashboard/nft/index"),
-  },
-  {
     path: "/logout",
     name: "logout",
     meta: {
@@ -624,12 +616,6 @@ export default [
     name: "landing",
     meta: { title: "Landing", authRequired: true },
     component: () => import("../views/landing/index"),
-  },
-  {
-    path: "/nft-landing",
-    name: "nft-landing",
-    meta: { title: "Landing", authRequired: true },
-    component: () => import("../views/landing/nft-landing"),
   },
   {
     path: "/pages/starter",

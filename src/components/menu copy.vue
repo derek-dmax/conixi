@@ -1418,61 +1418,6 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a href="#nftmarketplace" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                  aria-controls="nftmarketplace" data-key="t-supprt-tickets">
-                  {{ $t("t-nft-marketplace") }}
-                </a>
-                <div class="collapse menu-dropdown" id="nftmarketplace">
-                  <ul class="nav nav-sm flex-column">
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-marketplace" class="nav-link" data-key="t-list-view">
-                        {{ $t("t-marketplace") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-explore" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-explore-now") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-auction" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-live-auction") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-item-detail" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-item-details") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-collection" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-collections") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-creators" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-creators") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-ranking" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-ranking") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-wallet" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-wallet-connect") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/apps/nft-create" class="nav-link" data-key="t-ticket-details">
-                        {{ $t("t-create-nft") }}
-                      </router-link>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
                 <router-link to="/apps-file-manager" class="nav-link" data-key="t-file-manager">
                   {{ $t("t-file-manager") }}
                   <span class="badge badge-pill bg-danger" data-key="t-new">{{
@@ -1791,12 +1736,6 @@
                   <span data-key="t-landing">{{ $t("t-one-page") }}</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link menu-link" target="_blank" href="/nft-landing">
-                  <span data-key="t-landing">{{ $t("t-nft-landing") }}</span>
-                </a>
-              </li>
-
             </ul>
           </div>
         </li>
