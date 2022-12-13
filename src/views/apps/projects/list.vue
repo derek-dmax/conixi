@@ -178,13 +178,13 @@ export default {
                   </div>
                 </div>
                 <div class="flex-grow-1">
-                  <h5 class="mb-1 fs-15">
+                  <h5 class="mb-2 fs-16">
                     <router-link :to="{ name: 'projects View' , query: { id: item.id } }"
                       >{{ item.label }}</router-link
                     >
                   </h5>
-                  <p class="text-muted text-truncate-two-lines mb-3">
-                    {{ item.caption }}
+                  <p class="text-muted mb-0" v-for="(service, index) in item.services" :key="index">
+                    {{ service }}
                   </p>
                 </div>
               </div>

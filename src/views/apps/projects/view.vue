@@ -4,6 +4,9 @@ import appConfig from "../../../../app.config";
 import { mapGetters, mapActions } from "vuex";
 import Draggable from "vue3-draggable";
 import moment from "moment";
+import projectLegals from "../../../components/projectLegals.vue";
+import projectMilestones from "../../../components/projectMilestones.vue";
+//import projectGANTT from "../../../components/projectGANTT.vue";
 
 export default {
   page: {
@@ -22,6 +25,7 @@ export default {
       exampleList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
       recChanges: false,
       todayDate: moment().format("Do") + " day of " + moment().format("MMMM YYYY"),
+      currId: 1,
       paymentItems: [
         {
           id: 2,
@@ -69,336 +73,13 @@ export default {
           changeDescription: false,
         },
       ],
-      sowItems: [
-        {
-          id: 1,
-          text: "Office installation",
-          progress: 0.4,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 3,
-          text: "Furniture installation",
-          start_date: moment().add(5, "days"),
-          duration: "8",
-          parent: "1",
-          progress: 0.6,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 4,
-          text: "The employee relocation",
-          start_date: moment().add(9, "days"),
-          duration: "6",
-          parent: "1",
-          progress: 0.5,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 5,
-          text: "Interior office",
-          start_date: moment().add(12, "days"),
-          duration: "7",
-          parent: "2",
-          progress: 0.6,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 6,
-          text: "Air conditioners check",
-          start_date: moment(),
-          duration: "7",
-          parent: "2",
-          progress: 0.6,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 7,
-          text: "Workplaces preparation",
-          start_date: moment().add(4, "days"),
-          duration: "8",
-          parent: "3",
-          progress: 0.6,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 8,
-          text: "Preparing workplaces",
-          start_date: moment().add(12, "days"),
-          duration: "5",
-          parent: "4",
-          progress: 0.5,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 9,
-          text: "Workplaces importation",
-          start_date: moment().add(13, "days"),
-          duration: "4",
-          parent: "4",
-          progress: 0.5,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 11,
-          text: "Product launch",
-          progress: 0.6,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 13,
-          text: "Development",
-          start_date: moment().subtract(5, "days"),
-          duration: "7",
-          parent: "11",
-          progress: 0.5,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 14,
-          text: "Analysis",
-          start_date: moment().subtract(4, "days"),
-          duration: "6",
-          parent: "11",
-          progress: 0.8,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 15,
-          text: "Design",
-          start_date: moment().subtract(4, "days"),
-          duration: "5",
-          parent: "11",
-          progress: 0.2,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 16,
-          text: "Documentation creation",
-          start_date: moment().subtract(3, "days"),
-          duration: "7",
-          parent: "11",
-          progress: 0,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 17,
-          text: "Develop System",
-          start_date: moment().subtract(2, "days"),
-          duration: "2",
-          parent: "13",
-          progress: 1,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 25,
-          text: "Beta Release",
-          start_date: moment().add(22, "days"),
-          parent: "13",
-          progress: 0,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 18,
-          text: "Integrate System",
-          start_date: moment().add(30, "days"),
-          duration: "2",
-          parent: "13",
-          progress: 0.8,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 19,
-          text: "Test",
-          start_date: moment().add(37, "days"),
-          duration: "4",
-          parent: "13",
-          progress: 0.2,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 20,
-          text: "Marketing",
-          start_date: moment().add(42, "days"),
-          duration: "4",
-          parent: "13",
-          progress: 0,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 21,
-          text: "Design database",
-          start_date: moment().subtract(23, "days"),
-          duration: "4",
-          parent: "15",
-          progress: 0.5,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 22,
-          text: "Software design",
-          start_date: moment().subtract(22, "days"),
-          duration: "4",
-          parent: "15",
-          progress: 0.1,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 23,
-          text: "Interface setup",
-          start_date: moment().subtract(17, "days"),
-          duration: "5",
-          parent: "15",
-          progress: 0,
-          open: true,
-          payment: 0,
-          status: "unpaid",
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-        {
-          id: 24,
-          text: "Release v1.0",
-          start_date: moment().add(43, "days"),
-          parent: "11",
-          progress: 0,
-          open: true,
-          status: "unpaid",
-          payment: 12000,
-          changePayment: false,
-          changeStatus: false,
-          changeDate: false,
-          changeDescription: false,
-        },
-      ],
     };
   },
   created() {
     const queryParams = new URLSearchParams(window.location.search);
-    const currId = queryParams.get("id");
+    this.currId = queryParams.get("id");
 
-    this.selProject = this.projectList[currId];
+    this.selProject = this.projectList[this.currId];
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
@@ -407,12 +88,12 @@ export default {
     Layout,
     // eslint-disable-next-line vue/no-unused-components
     Draggable,
+    projectLegals,
+    projectMilestones,
+  //  projectGANTT,
   },
   methods: {
     ...mapActions("projects", ["updateProject"]),
-    changeSOW() {
-      console.log(this.sowItems);
-    },
   },
 };
 </script>
@@ -585,8 +266,13 @@ export default {
                   <div class="card-body">
                     <div class="text-muted">
                       <h6 class="mb-3 fw-semibold text-uppercase">Summary</h6>
-                      <p>{{ selProject.caption }}</p>
-                      <p>
+                      <p class="mb-3">The following services are involved:</p>
+                      <ul>
+                        <li class="text-muted mb-0" v-for="(service, index) in selProject.services" :key="index">
+                          {{ service }}
+                        </li>
+                      </ul>
+                      <p class="mt-3">
                         Projects are one of the cornerstones of a successful business.
                         Sector or industry aside, strategic initiatives focused on
                         specific areas of the business help drive an organization forward,
@@ -1850,13 +1536,13 @@ export default {
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Statement of Work</h5>
-                <div class="row" style="margin-top: -10px">
+                <div class="row" style="margin-top: -30px;">
                   <span class="col-11"></span>
                   <button
                     data-bs-toggle="modal"
                     data-bs-target=".bs-example-modal-xl"
                     class="col-1 btn-sml rounded-pill bg-info waves-effect waves-light"
-                    style="padding: 0"
+                    style="padding: 0;margin-left:-22px"
                     type="button"
                     v-if="!recChanges"
                   >
@@ -1879,104 +1565,7 @@ export default {
                     </span>
                   </button>
                 </div>
-                <div class="row">
-                  <div class="left col-5">
-                    <div class="dz-title">Tasks</div>
-                    <draggable v-model="sowItems" transition="100" class="drop-zone">
-                      <template v-slot:item="{ item }">
-                        <div class="draggable-item">
-                          {{
-                            item.id +
-                            ". " +
-                            item.text +
-                            (item.start_date
-                              ? " (" + item.start_date.format("Do MMM") + ")"
-                              : "")
-                          }}
-                          <span v-if="item.payment"><i class="ri-star-fill text-warning"></i></span>
-                        </div>
-                      </template>
-                    </draggable>
-                    <pre>{{ JSON.stringify(sowItems, undefined, 4) }}</pre>
-                  </div>
-
-                  <div class="right col-7">
-                    <div class="dz-title">Payment Milestones</div>
-                    <draggable v-model="paymentItems" transition="100" class="drop-zone">
-                      <template v-slot:item="{ item }">
-                        <div
-                          class="draggable-item row"
-                          :class="{
-                            sowPaid: item.status === 'paid',
-                            sowDue: item.status === 'due',
-                          }"
-                        >
-                          <span class="col-5">
-                            {{ item.id + ". " + item.text }}
-                          </span>
-                          <span class="col-3">
-                            {{
-                              item.start_date ? item.start_date.format("Do MMM") : ""
-                            }}</span
-                          >
-                          <span class="col-2">
-                            <span
-                              v-if="!item.changePayment"
-                              @click="item.changePayment = !item.changePayment"
-                              style="cursor: pointer"
-                            >
-                              £{{
-                                item.payment ? item.payment.toLocaleString("en-US") : ""
-                              }}
-                            </span>
-                            <input
-                              v-else
-                              style="
-                                padding-top: 1px !important;
-                                padding-bottom: 1px !important;
-                                margin-top: -3px;
-                                margin-left: -20px;
-                              "
-                              type="number"
-                              class="form-control"
-                              id="{'changePayment_' + item.id}"
-                              placeholder="Chnge payment amount"
-                              @change="recChanges = true"
-                              v-model="item.payment"
-                            />
-                          </span>
-                          <span
-                            class="col-1"
-                            v-if="!item.changePayment"
-                            @click="item.changePayment = !item.changePayment"
-                            style="cursor: pointer"
-                            ><i class="mdi mdi-square-edit-outline"></i
-                          ></span>
-                          <span
-                            class="col-1"
-                            v-else
-                            @click="item.changePayment = !item.changePayment"
-                            style="cursor: pointer"
-                          >
-                            <i class="mdi mdi-close-box-outline"></i>
-                          </span>
-                          <span
-                            v-if="item.status === 'paid' && !item.changePayment"
-                            class="col-1 badge text-bg-success statusBadge"
-                            >PAID</span
-                          >
-                          <span
-                            class="col-1 badge text-bg-warning statusBadge"
-                            v-if="item.status === 'due'"
-                            >DUE</span
-                          >
-                        </div>
-                      </template>
-                    </draggable>
-
-                    <pre>{{ JSON.stringify(paymentItems, undefined, 4) }}</pre>
-                  </div>
-                </div>
+                <projectMilestones :currId="currId"></projectMilestones>
               </div>
               <!--end card-body-->
             </div>
@@ -1990,132 +1579,7 @@ export default {
             aria-hidden="true"
             style="display: none"
           >
-            <div class="modal-dialog modal-xl">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="myExtraLargeModalLabel">
-                    GENERAL SERVICE AGREEMENT
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <h6 class="fs-17 md-2">
-                    THIS GENERAL SERVICE AGREEMENT (the "Agreement") is dated this
-                    {{ todayDate }}.
-                  </h6>
-                  <div class="row mt-4">
-                    <div class="col">
-                      <h5 class="fs-14">CLIENT</h5>
-                      <p class="mb-0">CSG</p>
-                      <p class="mb-0">Hampshire</p>
-                      <p>(the "Client")</p>
-                    </div>
-                    <div class="col">
-                      <h5 class="fs-14">CONTRACTOR</h5>
-                      <p class="mb-0">DMax Design</p>
-                      <p class="mb-0">St Albans</p>
-                      <p>(the "Contractor")</p>
-                    </div>
-                  </div>
-                  <section class="mt-1">
-                    <h6 class="fs-16 my-3">BACKGROUND</h6>
-                    <p>
-                      <ol>
-                        <li>The Client is of the opinion that the Contractor has the necessary qualifications,
-                          experience and abilities to provide services to the Client.</li>
-                        <li>The Contractor is agreeable to providing such services to the Client on the terms and
-                          conditions set out in this Agreement.</li>
-                      </ol>
-                    </p>
-                  </section>
-                  <section class="mt-1">
-                    <p><b>IN CONSIDERATION OF</b> the matters described above and of the mutual benefits and obligations set forth in this Agreement,
-                    the receipt and sufficiency of which consideration is hereby acknowledged, the Client and the Contractor
-                    (individually the "Party" and collectively the "Parties" to this Agreement) agree as follows:</p>
-                  </section>
-                  <section class="mt-1">
-                    <h6 class="fs-16 my-3">SERVICES PROVIDED</h6>
-                    <p>
-                      <ol>
-                        <li>The Client hereby agrees to engage the Contractor to provide the Client with the following services (the "Services"):
-                          <ol>
-                            <li>Create a web application; and</li>
-                            <li>Deploy the application to AWS.</li>
-                          </ol>
-                        </li>
-                        <li>The Services will also include any other tasks which the Parties may agree on.
-                          The Contractor hereby agrees to provide such Services to the Client.
-                        </li>
-                      </ol>
-                    </p>
-                  </section>
-                  <section class="mt-1">
-                    <h6 class="fs-16 my-3">TERM OF AGREEMENT</h6>
-                    <p>
-                      <ol>
-                        <li>The term of this Agreement (the "Term") will begin on the date of this Agreement and will
-                          remain in full force and effect until the completion of the Services, subject to earlier
-                          termination as provided in this Agreement. The Term may be extended with the written consent of the Parties.
-                        </li>
-                        <li>In the event that either Party wishes to terminate this Agreement prior to the completion of the Services,
-                          that Party will be required to provide 30 days' written notice to the other Party.
-                        </li>
-                      </ol>
-                    </p>
-                  </section>
-                  <section class="mt-1">
-                    <h6 class="fs-16 my-3">PAYMENT ON MILESTONES</h6>
-                    <p>
-                      <ol>
-                        <li>Payment will become due when the following milestones have been delivered and signed off by the client.
-                          <ol class="mt-2">
-                            <li v-for="(item, index) in paymentItems" :key="index" class="mt-2 row">
-                              <b class="col-6">{{ item.text }}</b>
-                              <span class="col-4">due on {{ item.start_date.format('Do') + ' day of ' + item.start_date.format('MMMM, YYYY') }}</span>
-                              <span class="col-2">£{{item.payment.toLocaleString("en-US")}}</span>
-                            </li>
-                          </ol>
-                        </li>
-                      </ol>
-                    </p>
-                  </section>
-                  <section class="mt-1">
-                    <h6 class="fs-16 my-3">PERFORMANCE</h6>
-                    <p>
-                      <ol>
-                        <li>The Parties agree to do everything necessary to ensure that the terms of this Agreement take effect.
-                        </li>
-                      </ol>
-                    </p>
-                  </section>
-                  <section class="mt-1">
-                    <h6 class="fs-16 my-3">CURRENCY</h6>
-                    <p>
-                      <ol>
-                        <li>Except as otherwise provided in this Agreement, all monetary amounts referred to in this Agreement are in GBP.
-                        </li>
-                      </ol>
-                    </p>
-                  </section>
-                </div>
-                <div class="modal-footer">
-                  <a
-                    href="javascript:void(0);"
-                    class="btn btn-link link-success fw-medium"
-                    data-bs-dismiss="modal"
-                    ><i class="ri-close-line me-1 align-middle"></i> Close</a
-                  >
-                  <button type="button" class="btn btn-primary">Save as PDF</button>
-                </div>
-              </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
+            <projectLegals :paymentItems="paymentItems" :todayDate="todayDate" :selProject= "selProject"/>
           </div>
           <div class="tab-pane fade" id="project-team" role="tabpanel">
             <div class="row g-4 mb-3">
@@ -2525,7 +1989,7 @@ export default {
           <!-- end tab pane -->
           <div class="tab-pane fade" id="project-gantt" role="tabpanel">
             <div class="card">
-              <iframe style="height: 900px" src="./projects-gantt"> </iframe>
+              <iframe style="height: 900px" src="./projects-gantt"></iframe>
             </div>
             <!-- end team list -->
           </div>
@@ -2538,51 +2002,4 @@ export default {
   </Layout>
 </template>
 <style>
-.dragHandle {
-  background-color: whitesmoke;
-  border-radius: 4px;
-}
-.statusBadge {
-  font-size: 0.7rem;
-  margin-top: -20px;
-  max-height: 24px;
-  max-width: 51px;
-}
-.dz-title {
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  margin-bottom: -32px;
-  margin-left: 30px;
-  padding: 0;
-}
-.draggable-item {
-  display: flex;
-  justify-content: left;
-  background-color: rgb(241, 241, 241);
-  box-shadow: 0px 2px 5px #aaa;
-  margin: 1%;
-  padding: 1%;
-}
-.sowPaid {
-  background-color: rgb(209, 237, 209) !important;
-}
-.sowDue {
-  background-color: rgb(237, 230, 209) !important;
-}
-.drop-zone {
-  display: flex;
-  flex-direction: column;
-  border: 1px grey dashed;
-  box-shadow: 0px 3px 5px #aaa;
-  margin: 30px;
-  padding: 10px;
-  min-height: 800px;
-}
-pre {
-  background-color: #eee;
-  margin: 30px;
-  padding: 10px;
-  width: 400px;
-  min-height: 200px;
-}
 </style>

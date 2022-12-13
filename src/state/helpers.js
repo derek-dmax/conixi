@@ -7,6 +7,13 @@ export const authComputed = {
   ...mapGetters('auth', ['loggedIn']),
 }
 
+export const projectComputed = {
+  ...mapState('project', {
+    project: (state) => state.project,
+  }),
+  ...mapGetters('project', ['projectList'])
+}
+
 export const layoutComputed = {
   ...mapState('layout', {
     layoutType: (state) => state.layoutType,
@@ -30,6 +37,8 @@ export const layoutMethods = mapActions('layout',
 export const authFackMethods = mapActions('authfack', ['login', 'registeruser', 'logout'])
 
 export const notificationMethods = mapActions('notification', ['success', 'error', 'clear'])
+
+export const projectMethods = mapActions('projects', ['updateProjectTask', 'createProject', 'updateProject'])
 
 export const todoComputed = {
   ...mapState('todo', {

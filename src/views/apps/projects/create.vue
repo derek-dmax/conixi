@@ -16,6 +16,7 @@ import PageHeader from "@/components/page-header";
 import appConfig from "../../../../app.config";
 import { mapActions } from "vuex";
 import moment from 'moment';
+import { gantt } from "dhtmlx-gantt";
 
 export default {
   page: {
@@ -64,12 +65,47 @@ export default {
         category: "",
         subCategory: "",
         skills: [],
-        caption: "Re-design a landing page as per abc minimal design.",
+        services: [
+                "Service 1",
+                "Service 2",
+            ],
         description: "Re-design a landing page as per abc minimal design.",
-        number: "22/56",
-        progressBar: "54%",
+        number: "0/2",
+        progressBar: "0%",
         status: "In Progress",
         priority: "Medium",
+        tasks: [
+          {
+                    id: 1,
+                    type:gantt.config.types.project, 
+                    text: "Project Scoping & Design",
+                    progress: 0.4,
+                    open: true,
+                    duration: "12",
+                    start_date: moment().add(10, "days"),
+                    payment: 0,
+                    parent: null,
+                    status: "unpaid",
+                    changeStatus: false,
+                    changeDate: false,
+                    changeDescription: false,
+                },
+                {
+                    id: 2,
+                    type:gantt.config.types.project, 
+                    text: "Sample Milestone",
+                    progress: 0.4,
+                    open: true,
+                    duration: "12",
+                    start_date: moment().add(15, "days"),
+                    payment: 100,
+                    parent: null,
+                    status: "unpaid",
+                    changeStatus: false,
+                    changeDate: false,
+                    changeDescription: false,
+                },
+        ],
         members: [
           {
             name: "Laura Van Zyl",
@@ -189,6 +225,13 @@ export default {
   },
   methods: {
     ...mapActions("projects", ["createProject"]),
+    projectCreate(payload) {
+      this.createProject(payload)
+      console.log(payload)
+      this.$router.push({
+        path: '/apps/projects-list'
+      })
+    },
     deleteRecord(ele) {
       ele.target.parentElement.parentElement.remove();
     },
@@ -215,7 +258,7 @@ export default {
       >
         Draft
       </button>
-      <button @click="createProject(selProject)" class="btn btn-success w-sm col-sm-auto">Create</button>
+      <button @click="projectCreate(selProject)" class="btn btn-success w-sm col-sm-auto">Create</button>
     </div>
     <div class="row">
       <div class="col-lg-8">

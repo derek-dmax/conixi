@@ -468,7 +468,11 @@
                   {{ item.prefix }}{{ item.counter }}{{ item.suffix }}
                 </h4>
                 <span class="badge bg-warning me-1">{{ item.badge }}</span>
-                <span class="text-muted"> {{ item.caption }}</span>
+                <ul class="text-muted mb-3">
+                  <li v-for="(service, index) in item.services" :key="index">
+                    {{ service }}
+                  </li>
+                </ul>
               </div>
               <div class="avatar-sm flex-shrink-0">
                 <span class="avatar-title bg-light rounded fs-3">
