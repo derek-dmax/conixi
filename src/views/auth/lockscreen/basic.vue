@@ -162,7 +162,7 @@
                                     <p class="text-muted">Enter your password to unlock the screen!</p>
                                 </div>
                                 <div class="user-thumb text-center">
-                                    <img src="@/assets/images/users/avatar-1.jpg"
+                                    <img src="@/assets/images/users/derekm.jpg"
                                         class="rounded-circle img-thumbnail avatar-lg" alt="thumbnail">
                                     <h5 class="font-size-15 mt-3">Derek Macrae</h5>
                                 </div>

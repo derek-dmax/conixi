@@ -104,14 +104,14 @@ export default {
               <div>
                 <router-link to="/" class="d-inline-block auth-logo">
                   <img
-                    src="@/assets/images/c-logo-light.jpg"
+                    src="@/assets/images/c-logo-light-tr.png"
                     alt=""
                     height="20"
                   />
                 </router-link>
               </div>
               <p class="mt-3 fs-15 fw-medium">
-                Premium Admin & Dashboard Template
+                Procurement for Humans
               </p>
             </div>
           </div>

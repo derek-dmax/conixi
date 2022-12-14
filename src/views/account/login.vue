@@ -23,7 +23,8 @@ export default {
   },
   data() {
     return {
-      email: "admin@themesbrand.com",
+      email: "",
+      passedEmail: "admin@themesbrand.com",
       password: "123456",
       submitted: false,
       authError: null,
@@ -49,8 +50,12 @@ export default {
     ...notificationMethods,
 
     async signinapi() {
+      if (this.email !== "derek@conixi.co.uk" && this.email !== "derek@dmax.design") {
+        this.passedEmail = ""
+      }
+
       const result = await axios.post('https://api-node.themesbrand.website/auth/signin', {
-        email: this.email,
+        email: this.passedEmail,
         password: this.password
       });
       if (result.data.status == 'errors') {
@@ -78,7 +83,7 @@ export default {
           this.authError = null;
           return (
             this.logIn({
-              email: this.email,
+              email: this.passedEmail,
               password: this.password,
             })
               // eslint-disable-next-line no-unused-vars

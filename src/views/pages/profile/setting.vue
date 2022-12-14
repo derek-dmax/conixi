@@ -70,7 +70,7 @@
                   mx-auto
                   mb-4
                 ">
-                <img src="@/assets/images/users/avatar-1.jpg" class="
+                <img src="@/assets/images/users/derekm.jpg" class="
                     rounded-circle
                     avatar-xl
                     img-thumbnail
@@ -85,8 +85,8 @@
                   </label>
                 </div>
               </div>
-              <h5 class="fs-16 mb-1">Anna Adame</h5>
-              <p class="text-muted mb-0">Lead Designer / Developer</p>
+              <h5 class="fs-16 mb-1">Derek Macrae</h5>
+              <p class="text-muted mb-0">Chief Technical Officer</p>
             </div>
           </div>
         </div>

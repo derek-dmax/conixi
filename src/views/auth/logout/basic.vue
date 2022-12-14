@@ -153,12 +153,14 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
+                          <div class="text-center text-white-50">
                             <div>
                                 <router-link to="/" class="d-inline-block auth-logo">
-                                    <img src="@/assets/images/c-logo-light.jpg" alt="" height="20">
+                                    <img src="@/assets/images/c-logo-light-tr.png" alt="" height="50">
                                 </router-link>
                             </div>
-                            <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                            <p class="fs-18 fw-medium">Procurement for Humans</p>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -172,8 +174,8 @@
                                     :height="180" :width="180" />
                                 <div class="mt-4 pt-2">
                                     <h5>You are Logged Out</h5>
-                                    <p class="text-muted">Thank you for using <span class="fw-semibold">velzon</span>
-                                        admin template</p>
+                                    <p class="text-muted">Thank you for using the <span class="fw-semibold">Conixi</span>
+                                        application</p>
                                     <div class="mt-4">
                                         <router-link to="/auth/signin-basic" class="btn btn-success w-100">Sign In
                                         </router-link>

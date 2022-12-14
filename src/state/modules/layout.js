@@ -8,7 +8,8 @@ export const state = {
   sidebarView: 'default',
   sidebarColor: 'dark',
   sidebarImage: 'none',
-  preloader: 'disable'
+  preloader: 'disable',
+  userType: 'consultant',
 }
 
 export const mutations = {
@@ -41,6 +42,9 @@ export const mutations = {
   },
   CHANGE_PRELOADER(state, preloader) {
     state.preloader = preloader;
+  },
+  CHANGE_USERTYPE(state, userType) {
+    state.userType = userType;
   },
 }
 
@@ -84,5 +88,9 @@ export const actions = {
 
   changePreloader({ commit }, { preloader }) {
     commit('CHANGE_PRELOADER', preloader)
+  },
+
+  changeUserType({ commit }, { userType }) {
+    commit('CHANGE_USERTYPE', userType)
   }
 }
