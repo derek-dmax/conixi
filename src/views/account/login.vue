@@ -1,25 +1,20 @@
 <script>
-import {
-  required,
-  email,
-  helpers
-} from "@vuelidate/validators";
+import { required, email, helpers } from "@vuelidate/validators";
 import appConfig from "../../../app.config";
-import axios from 'axios';
+import axios from "axios";
+import { layoutMethods, layoutComputed } from "@/state/helpers";
 
-import {
-  authMethods,
-  authFackMethods,
-  notificationMethods,
-} from "@/state/helpers";
+import { authMethods, authFackMethods, notificationMethods } from "@/state/helpers";
 
 export default {
   page: {
     title: "Login",
-    meta: [{
-      name: "description",
-      content: appConfig.description,
-    },],
+    meta: [
+      {
+        name: "description",
+        content: appConfig.description,
+      },
+    ],
   },
   data() {
     return {
@@ -42,28 +37,47 @@ export default {
     },
   },
   computed: {
-
+    ...layoutComputed,
+    userType: {
+      get() {
+        return this.$store ? this.$store.state.layout.userType : "" || "";
+      },
+      set(userType) {
+        this.changeUserType({
+          userType: userType,
+        });
+      },
+    },
   },
   methods: {
+    ...layoutMethods,
     ...authMethods,
     ...authFackMethods,
     ...notificationMethods,
 
     async signinapi() {
       if (this.email !== "derek@conixi.co.uk" && this.email !== "derek@dmax.design") {
-        this.passedEmail = ""
+        this.passedEmail = "";
       }
 
-      const result = await axios.post('https://api-node.themesbrand.website/auth/signin', {
-        email: this.passedEmail,
-        password: this.password
-      });
-      if (result.data.status == 'errors') {
-        return this.authError = result.data.data;
+      const result = await axios.post(
+        "https://api-node.themesbrand.website/auth/signin",
+        {
+          email: this.passedEmail,
+          password: this.password,
+        }
+      );
+      if (result.data.status == "errors") {
+        return (this.authError = result.data.data);
       }
-      localStorage.setItem('jwt', result.data.token);
+
+      localStorage.setItem("jwt", result.data.token);
+      console.log(this.email);
+      if (this.email === "derek@dmax.design") {
+        this.userType = "supplier";
+      }
       this.$router.push({
-        path: '/apps/projects-list'
+        path: "/apps/projects-list",
       });
     },
 
@@ -92,7 +106,7 @@ export default {
                 this.isAuthError = false;
                 // Redirect to the originally requested page, or to the home page
                 this.$router.push({
-                  path: '/'
+                  path: "/",
                 });
               })
               .catch((error) => {
@@ -132,128 +146,136 @@ export default {
       <div class="bg-overlay"></div>
 
       <div class="shape">
-
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
-          viewBox="0 0 1440 120">
-          <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 1440 120"
+        >
+          <path
+            d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"
+          ></path>
         </svg>
       </div>
-      <Particles id="tsparticles" :options="{
-        particles: {
-          number: {
-            value: 90,
-            density: {
-              enable: true,
-              value_area: 800,
-            },
-          },
-          color: {
-            value: '#ffffff',
-          },
-          shape: {
-            type: 'circle',
-            stroke: {
-              width: 0,
-              color: '#000000',
-            },
-            polygon: {
-              nb_sides: 5,
-            },
-            image: {
-              src: 'img/github.svg',
-              width: 100,
-              height: 100,
-            },
-          },
-          opacity: {
-            value: 0.8,
-            random: true,
-            anim: {
-              enable: true,
-              speed: 1,
-              opacity_min: 0,
-              sync: false,
-            },
-          },
-          size: {
-            value: 4,
-            random: true,
-            anim: {
-              enable: false,
-              speed: 4,
-              size_min: 0.2,
-              sync: false,
-            },
-          },
-          line_linked: {
-            enable: false,
-            distance: 150,
-            color: '#ffffff',
-            opacity: 0.4,
-            width: 1,
-          },
-          move: {
-            enable: true,
-            speed: 2,
-            direction: 'none',
-            random: false,
-            straight: false,
-            out_mode: 'out',
-            attract: {
-              enable: false,
-              rotateX: 600,
-              rotateY: 1200,
-            },
-          },
-        },
-        interactivity: {
-          detect_on: 'canvas',
-          events: {
-            onhover: {
-              enable: true,
-              mode: 'bubble',
-            },
-            onclick: {
-              enable: true,
-              mode: 'repulse',
-            },
-            resize: true,
-          },
-          modes: {
-            grab: {
-              distance: 400,
-              line_linked: {
-                opacity: 1,
+      <Particles
+        id="tsparticles"
+        :options="{
+          particles: {
+            number: {
+              value: 90,
+              density: {
+                enable: true,
+                value_area: 800,
               },
             },
-            bubble: {
-              distance: 400,
-              size: 4,
-              duration: 2,
-              opacity: 0.8,
-              speed: 3,
+            color: {
+              value: '#ffffff',
             },
-            repulse: {
-              distance: 200,
+            shape: {
+              type: 'circle',
+              stroke: {
+                width: 0,
+                color: '#000000',
+              },
+              polygon: {
+                nb_sides: 5,
+              },
+              image: {
+                src: 'img/github.svg',
+                width: 100,
+                height: 100,
+              },
             },
-            push: {
-              particles_nb: 4,
+            opacity: {
+              value: 0.8,
+              random: true,
+              anim: {
+                enable: true,
+                speed: 1,
+                opacity_min: 0,
+                sync: false,
+              },
             },
-            remove: {
-              particles_nb: 2,
+            size: {
+              value: 4,
+              random: true,
+              anim: {
+                enable: false,
+                speed: 4,
+                size_min: 0.2,
+                sync: false,
+              },
+            },
+            line_linked: {
+              enable: false,
+              distance: 150,
+              color: '#ffffff',
+              opacity: 0.4,
+              width: 1,
+            },
+            move: {
+              enable: true,
+              speed: 2,
+              direction: 'none',
+              random: false,
+              straight: false,
+              out_mode: 'out',
+              attract: {
+                enable: false,
+                rotateX: 600,
+                rotateY: 1200,
+              },
             },
           },
-        },
-        retina_detect: true,
-        config_demo: {
-          hide_card: false,
-          background_color: '#b61924',
-          background_image: '',
-          background_position: '50% 50%',
-          background_repeat: 'no-repeat',
-          background_size: 'cover',
-        },
-      }" />
+          interactivity: {
+            detect_on: 'canvas',
+            events: {
+              onhover: {
+                enable: true,
+                mode: 'bubble',
+              },
+              onclick: {
+                enable: true,
+                mode: 'repulse',
+              },
+              resize: true,
+            },
+            modes: {
+              grab: {
+                distance: 400,
+                line_linked: {
+                  opacity: 1,
+                },
+              },
+              bubble: {
+                distance: 400,
+                size: 4,
+                duration: 2,
+                opacity: 0.8,
+                speed: 3,
+              },
+              repulse: {
+                distance: 200,
+              },
+              push: {
+                particles_nb: 4,
+              },
+              remove: {
+                particles_nb: 2,
+              },
+            },
+          },
+          retina_detect: true,
+          config_demo: {
+            hide_card: false,
+            background_color: '#b61924',
+            background_image: '',
+            background_position: '50% 50%',
+            background_repeat: 'no-repeat',
+            background_size: 'cover',
+          },
+        }"
+      />
     </div>
 
     <!-- auth page content -->
@@ -263,12 +285,12 @@ export default {
           <div class="col-lg-12">
             <div class="text-center text-white-50">
               <div>
-                  <router-link to="/" class="d-inline-block auth-logo">
-                      <img src="@/assets/images/c-logo-light-tr.png" alt="" height="50">
-                  </router-link>
+                <router-link to="/" class="d-inline-block auth-logo">
+                  <img src="@/assets/images/c-logo-light-tr.png" alt="" height="50" />
+                </router-link>
               </div>
               <p class="fs-18 fw-medium">Procurement for Humans</p>
-          </div>
+            </div>
           </div>
         </div>
         <!-- end row -->
@@ -282,16 +304,26 @@ export default {
                   <p class="text-muted">Sign in to access your account.</p>
                 </div>
                 <div class="p-2 mt-4">
-                  <b-alert v-model="authError" variant="danger" class="mt-3" dismissible>{{ authError }}</b-alert>
+                  <b-alert
+                    v-model="authError"
+                    variant="danger"
+                    class="mt-3"
+                    dismissible
+                    >{{ authError }}</b-alert
+                  >
 
-                  <div>
-
-                  </div>
+                  <div></div>
 
                   <form @submit.prevent="tryToLogIn">
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="Enter email" v-model="email" />
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        placeholder="Enter email"
+                        v-model="email"
+                      />
                       <div class="invalid-feedback">
                         <span></span>
                       </div>
@@ -299,15 +331,24 @@ export default {
 
                     <div class="mb-3">
                       <div class="float-end">
-                        <router-link to="/forgot-password" class="text-muted">Forgot
-                          password?</router-link>
+                        <router-link to="/forgot-password" class="text-muted"
+                          >Forgot password?</router-link
+                        >
                       </div>
                       <label class="form-label" for="password-input">Password</label>
                       <div class="position-relative auth-pass-inputgroup mb-3">
-                        <input type="password" v-model="password" class="form-control pe-5" placeholder="Enter password"
-                          id="password-input" />
-                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                          type="button" id="password-addon">
+                        <input
+                          type="password"
+                          v-model="password"
+                          class="form-control pe-5"
+                          placeholder="Enter password"
+                          id="password-input"
+                        />
+                        <button
+                          class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                          type="button"
+                          id="password-addon"
+                        >
                           <i class="ri-eye-fill align-middle"></i>
                         </button>
                         <div class="invalid-feedback">
@@ -317,13 +358,23 @@ export default {
                     </div>
 
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="auth-remember-check" />
-                      <label class="form-check-label" for="auth-remember-check">Remember
-                        me</label>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="auth-remember-check"
+                      />
+                      <label class="form-check-label" for="auth-remember-check"
+                        >Remember me</label
+                      >
                     </div>
 
                     <div class="mt-4">
-                      <button class="btn btn-success w-100" type="submit" @click="signinapi">
+                      <button
+                        class="btn btn-success w-100"
+                        type="submit"
+                        @click="signinapi"
+                      >
                         Sign In
                       </button>
                     </div>
@@ -333,7 +384,6 @@ export default {
               <!-- end card body -->
             </div>
             <!-- end card -->
-
           </div>
         </div>
         <!-- end row -->
@@ -348,8 +398,7 @@ export default {
         <div class="row">
           <div class="col-lg-12">
             <div class="text-center">
-              <p class="mb-0 text-muted">
-                &copy; {{ new Date().getFullYear() }} Conixi</p>
+              <p class="mb-0 text-muted">&copy; {{ new Date().getFullYear() }} Conixi</p>
             </div>
           </div>
         </div>

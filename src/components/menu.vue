@@ -24,6 +24,11 @@
           return this.$store ? this.$store.state.layout.layoutType : {} || {};
         },
       },
+      userType: {
+        get() {
+          return this.$store ? this.$store.state.layout.userType : "" || "";
+        },
+      },
     },
 
     watch: {
@@ -35,6 +40,7 @@
     },
 
     mounted() {
+      console.log('userType: ',this.userType)
     if (document.querySelectorAll(".navbar-nav .collapse")) {
       let collapses = document.querySelectorAll(".navbar-nav .collapse");
 
@@ -898,7 +904,7 @@
             <span data-key="t-calendar">{{ $t("t-calendar") }}</span>
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="userType !== 'supplier'">
           <router-link class="nav-link menu-link" to="/apps/crm-suppliers">
             <i class="ri-building-line"></i>
             <span data-key="t-companies">{{ $t("t-companies") }}</span>

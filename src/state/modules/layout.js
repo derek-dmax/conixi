@@ -44,6 +44,7 @@ export const mutations = {
     state.preloader = preloader;
   },
   CHANGE_USERTYPE(state, userType) {
+    console.log(userType)
     state.userType = userType;
   },
 }
@@ -91,6 +92,7 @@ export const actions = {
   },
 
   changeUserType({ commit }, { userType }) {
+    console.log(userType)
     commit('CHANGE_USERTYPE', userType)
   }
 }

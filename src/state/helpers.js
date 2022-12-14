@@ -32,7 +32,7 @@ export const authMethods = mapActions('auth', ['logIn', 'logOut', 'register', 'r
 
 export const layoutMethods = mapActions('layout', 
 ['changeLayoutType', 'changeLayoutWidth', 'changeSidebarSize', 'changeTopbar', 'changeMode', 'changePosition', 'changeSidebarView',
- 'changeSidebarColor','changeSidebarImage','changePreloader'])
+ 'changeSidebarColor','changeSidebarImage','changePreloader', 'changeUserType'])
 
 export const authFackMethods = mapActions('authfack', ['login', 'registeruser', 'logout'])
 
