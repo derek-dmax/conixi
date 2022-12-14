@@ -22,9 +22,9 @@ export default {
   },
 
   mounted: function () {
+    console.log(this.$props.selProject.tasks.length)
     this.$props.tasks.data = this.$props.tasks.data.slice(0, this.$props.selProject.tasks.length)
     this.$props.selProject.tasks.forEach((task, index) => {
-      console.log(task)
       if(task.type) {
         this.$props.tasks.data[index].type = task.type
       } else {
