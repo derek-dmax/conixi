@@ -12,6 +12,9 @@
               (item.start_date ? " (" + item.start_date.format("Do MMM") + ")" : "")
             }}
             <span v-if="item.payment"><i class="ri-star-fill text-warning"></i></span>
+            <div class="progress progress-sm">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
           </div>
         </template>
       </draggable>

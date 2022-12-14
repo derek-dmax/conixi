@@ -1,14 +1,25 @@
 <template>
   <div>
-    <Gantt class="left-container" :tasks="tasks"></Gantt>
+    <Gantt class="left-container" :tasks="tasks" :selProject="selProject"></Gantt>
   </div>
 </template>
 
 <script setup>
-import Gantt from "./gantt-comp.vue";
-import { gantt } from "dhtmlx-gantt";
-//import { ref } from "vue";
+import Gantt from "./gantt-comp.vue"
+import { gantt } from "dhtmlx-gantt"
+import { computed, defineProps, ref } from "vue"
+import { useStore } from "vuex"
 
+const store = useStore()
+let projectList = computed(() => store.getters["projects/projectList"])
+/*
+    props
+*/
+const props = defineProps(["currId"])
+console.log(props)
+
+let selProject = projectList.value[props.currId]
+console.log(selProject)
 /* const links = [
   { id: "1", source: "1", target: "2", type: "1" },
 
@@ -24,20 +35,37 @@ import { gantt } from "dhtmlx-gantt";
   { id: "10", source: "11", target: "12", type: "1" },
 ];
 const currId = ref(null);
- */const tasks = {
+*/
+const taskData = ref({
+    data: [],
+    links: [
+        { id: "1", source: "1", target: "2", type: "1" },
+        { id: "2", source: "2", target: "3", type: "0" },
+        { id: "3", source: "3", target: "4", type: "0" },
+        { id: "4", source: "2", target: "5", type: "2" },
+        { id: "5", source: "2", target: "6", type: "2" },
+        { id: "6", source: "3", target: "7", type: "2" },
+        { id: "7", source: "4", target: "8", type: "2" },
+        { id: "8", source: "4", target: "9", type: "2" },
+        { id: "9", source: "4", target: "10", type: "2" },
+        { id: "10", source: "11", target: "12", type: "1" },
+    ]
+});
+console.log(taskData.value)
+//selProject.value.tasks.forEach(task => console.log(task))
+const tasks = {
   data: [
     {
       id: 1,
-      text: "Office installation",
+      text: "1 Office installation",
       type: gantt.config.types.project,
       progress: 0.4,
       open: true,
     },
     {
       id: 2,
-      text: "Office facing",
-      type: gantt.config.types.project,
-      start_date: "2022-04-02",
+      text: "2 Office facing",
+      start_date: "2022-12-02",
       duration: "8",
       progress: 0.6,
       parent: "1",
@@ -45,9 +73,8 @@ const currId = ref(null);
     },
     {
       id: 3,
-      text: "Furniture installation",
-      type: gantt.config.types.project,
-      start_date: "2022-04-11",
+      text: "3 Furniture installation",
+      start_date: "2022-12-11",
       duration: "8",
       parent: "1",
       progress: 0.6,
@@ -55,198 +82,204 @@ const currId = ref(null);
     },
     {
       id: 4,
-      text: "The employee relocation",
-      type: gantt.config.types.project,
-      start_date: "2022-04-13",
-      duration: "6",
+      text: "4 Furniture installation",
+      start_date: "2022-12-18",
+      duration: "3",
       parent: "1",
-      progress: 0.5,
+      progress: 0.6,
       open: true,
     },
     {
       id: 5,
-      text: "Interior office",
-      start_date: "2022-04-02",
-      duration: "7",
-      parent: "2",
+      text: "5 Interior office",
+      type: gantt.config.types.project,
       progress: 0.6,
       open: true,
     },
     {
       id: 6,
-      text: "Air conditioners check",
-      start_date: "2022-04-03",
+      text: "6 Air conditioners check",
+      start_date: "2022-12-03",
       duration: "7",
-      parent: "2",
+      parent: "5",
       progress: 0.6,
       open: true,
     },
     {
       id: 7,
-      text: "Workplaces preparation",
-      start_date: "2022-04-11",
+      text: "7 Workplaces preparation",
+      start_date: "2022-12-11",
       duration: "8",
-      parent: "3",
+      parent: "5",
       progress: 0.6,
       open: true,
     },
     {
       id: 8,
       text: "Preparing workplaces",
-      start_date: "2022-04-14",
+      start_date: "2022-12-14",
       duration: "5",
-      parent: "4",
+      parent: "5",
       progress: 0.5,
       open: true,
     },
     {
       id: 9,
       text: "Workplaces importation",
-      start_date: "2022-04-14",
-      duration: "4",
-      parent: "4",
+      start_date: "2022-12-14",
+      duration: "5",
       progress: 0.5,
       open: true,
     },
     {
       id: 10,
       text: "Workplaces exportation",
-      start_date: "2022-04-14",
-      duration: "3",
-      parent: "4",
+      start_date: "2022-12-14",
+      duration: "5",
+      progress: 0.5,
+      open: true,
+    },    {
+      id: 10,
+      text: "Workplaces exportation",
+      start_date: "2022-12-14",
+      duration: "5",
       progress: 0.5,
       open: true,
     },
     {
       id: 11,
+      text: "Workplaces exportation",
+      start_date: "2022-12-14",
+      duration: "5",
+      progress: 0.5,
+      open: true,
+    },
+
+    {
+      id: 12,
       text: "Product launch",
-      type: gantt.config.types.project,
+      type: gantt.config.types.milestone,
       progress: 0.6,
       open: true,
     },
     {
-      id: 12,
+      id: 13,
       text: "Perform Initial testing",
-      start_date: "2022-04-03",
-      duration: "5",
-      parent: "11",
+      type: gantt.config.types.milestone,
       progress: 1,
       open: true,
     },
     {
-      id: 13,
+      id: 14,
       text: "Development",
-      type: gantt.config.types.project,
-      start_date: "2022-04-02",
-      duration: "7",
-      parent: "11",
+      type: gantt.config.types.milestone,
       progress: 0.5,
       open: true,
     },
     {
-      id: 14,
+      id: 15,
       text: "Analysis",
-      start_date: "2022-04-02",
+      start_date: "2022-12-02",
       duration: "6",
       parent: "11",
       progress: 0.8,
       open: true,
     },
     {
-      id: 15,
+      id: 16,
       text: "Design",
       type: gantt.config.types.project,
-      start_date: "2022-04-02",
+      start_date: "2022-12-02",
       duration: "5",
       parent: "11",
       progress: 0.2,
       open: true,
     },
     {
-      id: 16,
+      id: 17,
       text: "Documentation creation",
-      start_date: "2022-04-02",
+      start_date: "2022-12-02",
       duration: "7",
       parent: "11",
       progress: 0,
       open: true,
     },
     {
-      id: 17,
+      id: 18,
       text: "Develop System",
-      start_date: "2022-04-03",
+      start_date: "2022-12-03",
       duration: "2",
       parent: "13",
       progress: 1,
       open: true,
     },
     {
-      id: 25,
+      id: 19,
       text: "Beta Release",
-      start_date: "2022-04-06",
+      start_date: "2022-12-06",
       type: gantt.config.types.milestone,
       parent: "13",
       progress: 0,
       open: true,
     },
     {
-      id: 18,
+      id: 20,
       text: "Integrate System",
-      start_date: "2022-04-08",
+      start_date: "2022-12-08",
       duration: "2",
       parent: "13",
       progress: 0.8,
       open: true,
     },
     {
-      id: 19,
+      id: 21,
       text: "Test",
-      start_date: "2022-04-10",
+      start_date: "2022-12-10",
       duration: "4",
       parent: "13",
       progress: 0.2,
       open: true,
     },
     {
-      id: 20,
+      id: 22,
       text: "Marketing",
-      start_date: "2022-04-10",
+      start_date: "2022-12-10",
       duration: "4",
       parent: "13",
       progress: 0,
       open: true,
     },
     {
-      id: 21,
+      id: 23,
       text: "Design database",
-      start_date: "2022-04-03",
+      start_date: "2022-12-03",
       duration: "4",
       parent: "15",
       progress: 0.5,
       open: true,
     },
     {
-      id: 22,
+      id: 24,
       text: "Software design",
-      start_date: "2022-04-03",
+      start_date: "2022-12-03",
       duration: "4",
       parent: "15",
       progress: 0.1,
       open: true,
     },
     {
-      id: 23,
+      id: 25,
       text: "Interface setup",
-      start_date: "2022-04-03",
+      start_date: "2022-12-03",
       duration: "5",
       parent: "15",
       progress: 0,
       open: true,
     },
     {
-      id: 24,
+      id: 26,
       text: "Release v1.0",
-      start_date: "2022-04-15",
+      start_date: "2022-12-15",
       type: gantt.config.types.milestone,
       parent: "11",
       progress: 0,
@@ -254,32 +287,13 @@ const currId = ref(null);
     },
   ],
   links: [
-    { id: "1", source: "1", target: "2", type: "1" },
-
-    { id: "2", source: "2", target: "3", type: "0" },
-    { id: "3", source: "3", target: "4", type: "0" },
-    { id: "4", source: "2", target: "5", type: "2" },
-    { id: "5", source: "2", target: "6", type: "2" },
-    { id: "6", source: "3", target: "7", type: "2" },
-    { id: "7", source: "4", target: "8", type: "2" },
-    { id: "8", source: "4", target: "9", type: "2" },
-    { id: "9", source: "4", target: "10", type: "2" },
-
-    { id: "10", source: "11", target: "12", type: "1" },
-    { id: "11", source: "11", target: "13", type: "1" },
-    { id: "12", source: "11", target: "14", type: "1" },
-    { id: "13", source: "11", target: "15", type: "1" },
-    { id: "14", source: "11", target: "16", type: "1" },
-
-    { id: "15", source: "13", target: "17", type: "1" },
-    { id: "16", source: "17", target: "25", type: "0" },
-    { id: "23", source: "25", target: "18", type: "0" },
-    { id: "17", source: "18", target: "19", type: "0" },
-    { id: "18", source: "19", target: "20", type: "0" },
-    { id: "19", source: "15", target: "21", type: "2" },
-    { id: "20", source: "15", target: "22", type: "2" },
-    { id: "21", source: "15", target: "23", type: "2" },
-    { id: "22", source: "13", target: "24", type: "0" },
+    { id: "1", source: "2", target: "3", type: "0" },
+    { id: "2", source: "3", target: "4", type: "0" },
+    { id: "3", source: "4", target: "5", type: "0" },
+    { id: "4", source: "7", target: "8", type: "0" },
+    { id: "5", source: "8", target: "9", type: "0" },
+    { id: "6", source: "6", target: "7", type: "0" },
+    { id: "7", source: "9", target: "10", type: "0" }
   ],
 };
 </script>
@@ -1395,7 +1409,7 @@ div.dhx_modal_cover {
 .gantt_task_progress {
   text-align: center;
   z-index: 0;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.25);
 }
 .gantt_task_progress_wrapper {
   border-radius: inherit;

@@ -1989,7 +1989,7 @@ export default {
           <!-- end tab pane -->
           <div class="tab-pane fade" id="project-gantt" role="tabpanel">
             <div class="card">
-              <projectGANTT style="height: 900px"></projectGANTT>
+              <projectGANTT style="height: 900px" currId="FAB0d41d5b5d22c"></projectGANTT>
             </div>
             <!-- end team list -->
           </div>
