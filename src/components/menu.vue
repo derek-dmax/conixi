@@ -12,6 +12,10 @@
     },
     data() {
       return {
+        userType: "consultant",
+        userName: "Derek Macrae",
+        userOrg: "Conixi",
+        userTitle: "CTO",
         settings: {
           minScrollbarLength: 60,
         },
@@ -24,11 +28,6 @@
           return this.$store ? this.$store.state.layout.layoutType : {} || {};
         },
       },
-      userType: {
-        get() {
-          return this.$store ? this.$store.state.layout.userType : "" || "";
-        },
-      },
     },
 
     watch: {
@@ -38,9 +37,13 @@
         deep: true,
       },
     },
-
+    created() {
+      this.userType = localStorage.getItem("userType");
+      this.userOrg = localStorage.getItem("userOrg");
+      this.userName = localStorage.getItem("userName");
+      this.userTitle = localStorage.getItem("userTitle");
+    },
     mounted() {
-      console.log('userType: ',this.userType)
     if (document.querySelectorAll(".navbar-nav .collapse")) {
       let collapses = document.querySelectorAll(".navbar-nav .collapse");
 

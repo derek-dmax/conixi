@@ -31,7 +31,13 @@ export default {
           active: true,
         },
       ],
+      filteredProjects: {},
+      userType: "consultant",
+      userName: "Derek Macrae",
+      userOrg: "Conixi",
+      userTitle: "CTO",
       currItem: null,
+      projectKeys: 0
     };
   },
   computed: {
@@ -43,8 +49,23 @@ export default {
     Multiselect,
     MoreHorizontalIcon,
   },
+  created() {
+    this.userType = localStorage.getItem("userType");
+    this.userName = localStorage.getItem("userName");
+    this.userOrg = localStorage.getItem("userOrg");
+    this.userTitle = localStorage.getItem("userTitle");
+    if (this.userType === "supplier") {
+      this.projectKeys = Object.keys(this.projectList);
+      this.projectKeys.forEach((key) => {
+        if (this.projectList[key].suppliers[0].name !== this.userOrg) {
+          this.deleteProject(key);
+          this.projectKeys = Object.keys(this.projectList);
+        }
+      });
+    }
+  },
   methods: {
-    ...mapActions("projects", ["updateProject","deleteProject"]),
+    ...mapActions("projects", ["updateProject", "deleteProject"]),
   },
 };
 </script>
@@ -54,7 +75,7 @@ export default {
     <PageHeader :title="title" :items="items" />
     <div class="row g-4 mb-3">
       <div class="col-sm-auto">
-        <div>
+        <div v-if="userType !== 'supplier'">
           <router-link to="/apps/projects-create" class="btn btn-success"
             ><i class="ri-add-line align-bottom me-1"></i> Add New</router-link
           >
@@ -83,23 +104,50 @@ export default {
       </div>
     </div>
 
-    <div id="delModal" class="modal fade" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true" style="display: none;">
+    <div
+      id="delModal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="delModalLabel"
+      aria-hidden="true"
+      style="display: none"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="delModalLabel">Delete Project?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted">This will remove the project from the system. Are you sure you want to do this?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deleteProject(this.currItem)">Delete Project</button>
-            </div>
-          </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="delModalLabel">Delete Project?</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted">
+              This will remove the project from the system. Are you sure you want to do
+              this?
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              @click="deleteProject(this.currItem)"
+            >
+              Delete Project
+            </button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
     <div class="row">
       <div
@@ -146,11 +194,15 @@ export default {
                       </button>
 
                       <div class="dropdown-menu dropdown-menu-end">
-                        <router-link class="dropdown-item" :to="{ name: 'projects View', query: { id: item.id } }"
+                        <router-link
+                          class="dropdown-item"
+                          :to="{ name: 'projects View', query: { id: item.id } }"
                           ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                           View</router-link
                         >
-                        <router-link class="dropdown-item" :to="{ name: 'projects View', query: { id: item.id } }"
+                        <router-link
+                          class="dropdown-item"
+                          :to="{ name: 'projects View', query: { id: item.id } }"
                           ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                           Edit</router-link
                         >
@@ -179,11 +231,16 @@ export default {
                 </div>
                 <div class="flex-grow-1">
                   <h5 class="mb-2 fs-16">
-                    <router-link :to="{ name: 'projects View' , query: { id: item.id } }"
+                    <router-link
+                      :to="{ name: 'projects View', query: { id: item.id } }"
                       >{{ item.label }}</router-link
                     >
                   </h5>
-                  <p class="text-muted mb-0" v-for="(service, index) in item.services" :key="index">
+                  <p
+                    class="text-muted mb-0"
+                    v-for="(service, index) in item.services"
+                    :key="index"
+                  >
                     {{ service }}
                   </p>
                 </div>
@@ -231,11 +288,7 @@ export default {
                     :title="subitem.name"
                   >
                     <div class="avatar-xxs">
-                      <img
-                        :src="subitem.img"
-                        alt=""
-                        class="rounded-circle img-fluid"
-                      />
+                      <img :src="subitem.img" alt="" class="rounded-circle img-fluid" />
                     </div>
                   </a>
                 </div>
@@ -261,7 +314,7 @@ export default {
         <div>
           <p class="mb-sm-0 text-muted">
             Showing <span class="fw-semibold">1</span> to
-            <span class="fw-semibold">{{ projectList.length }}</span> of
+            <span class="fw-semibold">{{ projectKeys.length }}</span> of
             <span class="fw-semibold text-decoration-underline">{{
               projectList.length
             }}</span>

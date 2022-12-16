@@ -473,8 +473,8 @@ export const state = {
             ],
             suppliers: [
                 {
-                    name: "DMax Design",
-                    img: require("@/assets/images/companies/img-2.png"),
+                    name: "Ventura Associates",
+                    img: require("@/assets/images/companies/img-6.png"),
                 }
             ],
             subItem: [{
@@ -739,7 +739,8 @@ export const mutations = {
         if(payload.updates.payment !== undefined) selTask.payment = payload.updates.payment;
     },
     deleteProject(state, id) {
-        delete state.projectList[id];
+        console.log('deleteProject: ', id)
+        delete state.projectList[id]
     },
     createProject(state, payload) {
         console.log('createProject: ', payload)

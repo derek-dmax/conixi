@@ -47,6 +47,36 @@ export default {
           userType: userType,
         });
       },
+      userOrg: {
+        get() {
+          return this.$store ? this.$store.state.layout.userOrg : "" || "";
+        },
+        set(userOrg) {
+          this.changeUserOrg({
+            userOrg: userOrg,
+          });
+        },
+      },
+      userName: {
+        get() {
+          return this.$store ? this.$store.state.layout.userName : "" || "";
+        },
+        set(userName) {
+          this.changeUserName({
+            userName: userName,
+          });
+        },
+      },
+      userTitle: {
+        get() {
+          return this.$store ? this.$store.state.layout.userTitle : "" || "";
+        },
+        set(userTitle) {
+          this.changeUserTitle({
+            userTitle: userTitle,
+          });
+        },
+      },
     },
   },
   methods: {
@@ -56,7 +86,7 @@ export default {
     ...notificationMethods,
 
     async signinapi() {
-      if (this.email !== "derek@conixi.co.uk" && this.email !== "derek@dmax.design") {
+      if (this.email !== "derek@conixi.co.uk" && this.email !== "derek@dmax.design" && this.email !== "consultant@ventura.co.uk") {
         this.passedEmail = "";
       }
 
@@ -75,7 +105,20 @@ export default {
       console.log(this.email);
       if (this.email === "derek@dmax.design") {
         this.userType = "supplier";
+        this.userOrg = "DMax Design"
+        this.userName = "Derek Macrae"
+        this.userTitle = "Supply Consultant"
       }
+      if (this.email === "consultant@ventura.co.uk") {
+        this.userType = "supplier";
+        this.userOrg = "Ventura Associates"
+        this.userName = "Val Dugan"
+        this.userTitle = "Team Manager"
+      }
+      localStorage.setItem("userType", this.userType);
+      localStorage.setItem("userName", this.userName);
+      localStorage.setItem("userOrg", this.userOrg);
+      localStorage.setItem("userTitle", this.userTitle);
       this.$router.push({
         path: "/apps/projects-list",
       });

@@ -10,6 +10,9 @@ export const state = {
   sidebarImage: 'none',
   preloader: 'disable',
   userType: 'consultant',
+  userOrg: 'conixi',
+  userName: 'Derek Macrae',
+  userTitle: 'CTO',
 }
 
 export const mutations = {
@@ -46,6 +49,18 @@ export const mutations = {
   CHANGE_USERTYPE(state, userType) {
     console.log(userType)
     state.userType = userType;
+  },
+  CHANGE_USERORG(state, userOrg) {
+    console.log(userOrg)
+    state.userOrg = userOrg;
+  },
+  CHANGE_USERNAME(state, userName) {
+    console.log(userName)
+    state.userName = userName;
+  },
+  CHANGE_USERTITLE(state, userTitle) {
+    console.log(userTitle)
+    state.userTitle = userTitle;
   },
 }
 
@@ -94,5 +109,20 @@ export const actions = {
   changeUserType({ commit }, { userType }) {
     console.log(userType)
     commit('CHANGE_USERTYPE', userType)
+  },
+
+  changeUserOrg({ commit }, { userOrg }) {
+    console.log(userOrg)
+    commit('CHANGE_USERORG', userOrg)
+  },
+
+  changeUserName({ commit }, { userName }) {
+    console.log(userName)
+    commit('CHANGE_USERNAME', userName)
+  },
+
+  changeUserTitle({ commit }, { userTitle }) {
+    console.log(userTitle)
+    commit('CHANGE_USERTITLE', userTitle)
   }
 }

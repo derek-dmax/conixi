@@ -11,6 +11,10 @@
   export default {
     data() {
       return {
+        userType: "consultant",
+        userName: "Derek Macrae",
+        userOrg: "Conixi",
+        userTitle: "CTO",
         languages: [{
             flag: require("@/assets/images/flags/us.svg"),
             language: "gb-en",
@@ -23,6 +27,12 @@
         value: null,
         myVar: 1,
       };
+    },
+    created() {
+      this.userType = localStorage.getItem("userType");
+      this.userOrg = localStorage.getItem("userOrg");
+      this.userName = localStorage.getItem("userName");
+      this.userTitle = localStorage.getItem("userTitle");
     },
     components: {
       SimpleBar
@@ -733,11 +743,14 @@
               <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="d-flex align-items-center">
-                  <img class="rounded-circle header-profile-user" src="@/assets/images/users/derekm.jpg"
+                  <img class="rounded-circle header-profile-user" v-if="userName === 'Derek Macrae'" src="@/assets/images/users/derekm.jpg"
+                    alt="Header Avatar" />
+                  <img class="rounded-circle header-profile-user" v-else src="@/assets/images/users/avatar-6.jpg"
                     alt="Header Avatar" />
                   <span class="text-start ms-xl-2">
-                    <span class=" d-none d-xl-inline-block ms-1 fw-medium user-name-text">Derek Macrae</span>
-                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">CTO</span>
+                    <span class=" d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ userName }}</span>
+                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{  userTitle }}</span>
+                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{  userOrg }}</span>
                   </span>
                 </span>
               </button>
