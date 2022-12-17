@@ -751,7 +751,6 @@ export const actions = {
         commit('updateProject', payload)
     },
     updateProjectTask({ commit }, payload) {
-        console.log('updateProjectTask(a): ', payload.id)
         commit('updateProjectTask', payload)
     },
     deleteProject({ commit }, id) {

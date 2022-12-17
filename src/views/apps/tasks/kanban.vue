@@ -2,6 +2,7 @@
 import { VueDraggableNext } from "vue-draggable-next";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import { mapGetters, mapActions } from "vuex"
 
 import Layout from "../../../layouts/main.vue";
 import PageHeader from "@/components/page-header";
@@ -12,19 +13,19 @@ import animationData from "@/components/widgets/gsqxdxog.json";
 
 export default {
   page: {
-    title: "Kanban Board",
+    title: "Task Status",
     meta: [{ name: "description", content: appConfig.description }],
   },
   data() {
     return {
-      title: "Kanban Board",
+      title: "Task Status",
       items: [
         {
           text: "Tasks",
           href: "/",
         },
         {
-          text: "Kanban Board",
+          text: "Task Status",
           active: true,
         },
       ],
@@ -40,21 +41,7 @@ export default {
       defaultOptions: { animationData: animationData },
       unassigned: [
         {
-          title: "Profile Page Satructure",
-          description:
-            "Profile Page means a web page accessible to the public or to guests.",
-          features: ["Admin"],
-          users: [
-            require("@/assets/images/users/avatar-6.jpg"),
-            require("@/assets/images/users/avatar-5.jpg"),
-          ],
-          id: "#VL2436",
-          watch: "04",
-          message: "19",
-          file: "2",
-        },
-        {
-          title: "Conixi - Admin Layout Design",
+          title: "Design New Landing Page",
           description:
             "The dashboard is the front page of the Administration UI.",
           features: ["Layout", "Admin", "Dashboard"],
@@ -186,7 +173,7 @@ export default {
           date: " 05 Jan, 2022",
         },
       ],
-      newData: [
+      paidData: [
         {
           title: "Banner Design for FB & Twitter",
           image: require("@/assets/images/small/img-4.jpg"),
@@ -212,6 +199,22 @@ export default {
     log(event) {
       console.log(event);
     },
+    ...mapActions("projects", ["updateProject", "deleteProject"]),
+  },
+  created() {
+    this.userType = localStorage.getItem("userType");
+    this.userName = localStorage.getItem("userName");
+    this.userOrg = localStorage.getItem("userOrg");
+    this.userTitle = localStorage.getItem("userTitle");
+    if (this.userType === "supplier") {
+      this.projectKeys = Object.keys(this.projectList);
+      this.projectKeys.forEach((key) => {
+        if (this.projectList[key].suppliers[0].name !== this.userOrg) {
+          this.deleteProject(key);
+          this.projectKeys = Object.keys(this.projectList);
+        }
+      });
+    }
   },
   components: {
     Layout,
@@ -220,6 +223,9 @@ export default {
     lottie: Lottie,
     flatPickr,
   },
+  computed: {
+    ...mapGetters("projects", ["projectList"]),
+  },
 };
 </script>
 
@@ -227,332 +233,13 @@ export default {
   <Layout>
     <PageHeader :title="title" :items="items" />
 
-    <div class="card">
-      <div class="card-body">
-        <div class="row g-2">
-          <div class="col-lg-auto">
-            <div class="hstack gap-2">
-              <button
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#createboardModal"
-              >
-                <i class="ri-add-line align-bottom me-1"></i> Create Board
-              </button>
-            </div>
-          </div>
-          <!--end col-->
-          <div class="col-lg-3 col-auto">
-            <div class="search-box">
-              <input
-                type="text"
-                class="form-control search"
-                placeholder="Search for project, tasks..."
-              />
-              <i class="ri-search-line search-icon"></i>
-            </div>
-          </div>
-          <div class="col-auto ms-sm-auto">
-            <div class="avatar-group" id="newMembar">
-              <a
-                href="javascript: void(0);"
-                class="avatar-group-item"
-                data-bs-toggle="tooltip"
-                data-bs-trigger="hover"
-                data-bs-placement="top"
-                title="Nancy"
-              >
-                <img
-                  src="@/assets/images/users/avatar-5.jpg"
-                  alt=""
-                  class="rounded-circle avatar-xs"
-                />
-              </a>
-              <a
-                href="javascript: void(0);"
-                class="avatar-group-item"
-                data-bs-toggle="tooltip"
-                data-bs-trigger="hover"
-                data-bs-placement="top"
-                title="Frank"
-              >
-                <img
-                  src="@/assets/images/users/avatar-3.jpg"
-                  alt=""
-                  class="rounded-circle avatar-xs"
-                />
-              </a>
-              <a
-                href="javascript: void(0);"
-                class="avatar-group-item"
-                data-bs-toggle="tooltip"
-                data-bs-trigger="hover"
-                data-bs-placement="top"
-                title="Tonya"
-              >
-                <img
-                  src="@/assets/images/users/avatar-10.jpg"
-                  alt=""
-                  class="rounded-circle avatar-xs"
-                />
-              </a>
-              <a
-                href="javascript: void(0);"
-                class="avatar-group-item"
-                data-bs-toggle="tooltip"
-                data-bs-trigger="hover"
-                data-bs-placement="top"
-                title="Thomas"
-              >
-                <img
-                  src="@/assets/images/users/avatar-8.jpg"
-                  alt=""
-                  class="rounded-circle avatar-xs"
-                />
-              </a>
-              <a
-                href="javascript: void(0);"
-                class="avatar-group-item"
-                data-bs-toggle="tooltip"
-                data-bs-trigger="hover"
-                data-bs-placement="top"
-                title="Herbert"
-              >
-                <img
-                  src="@/assets/images/users/avatar-2.jpg"
-                  alt=""
-                  class="rounded-circle avatar-xs"
-                />
-              </a>
-              <a
-                href="#addmemberModal"
-                data-bs-toggle="modal"
-                class="avatar-group-item"
-              >
-                <div class="avatar-xs">
-                  <div class="avatar-title rounded-circle">+</div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <!--end col-->
-        </div>
-        <!--end row-->
-      </div>
-      <!--end card-body-->
-    </div>
-    <!--end card-->
-
     <div class="tasks-board mb-3" id="kanbanboard">
-      <div class="tasks-list">
-        <div class="d-flex mb-3">
-          <div class="flex-grow-1">
-            <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Unassigned
-              <small class="badge bg-success align-bottom ms-1">2</small>
-            </h6>
-          </div>
-          <div class="flex-shrink-0">
-            <div class="dropdown card-header-dropdown">
-              <a
-                class="text-reset dropdown-btn"
-                href="#"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <span class="fw-medium text-muted fs-12"
-                  >Priority<i class="mdi mdi-chevron-down ms-1"></i
-                ></span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-end">
-                <a class="dropdown-item" href="#">Priority</a>
-                <a class="dropdown-item" href="#">Date Added</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-simplebar class="tasks-wrapper px-3 mx-n3">
-          <div id="unassigned-task" class="tasks">
-            <draggable
-              :list="unassigned"
-              class="dragArea"
-              :group="{ name: 'todo' }"
-            >
-              <div
-                class="card tasks-box"
-                v-for="(data, index) of unassigned"
-                :key="index"
-              >
-                <div class="card-body">
-                  <div class="d-flex mb-2">
-                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
-                        data.title
-                      }}</router-link>
-                    </h6>
-                    <div class="dropdown">
-                      <a
-                        href="javascript:void(0);"
-                        class="text-muted"
-                        id="dropdownMenuLink1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        ><i class="ri-more-fill"></i
-                      ></a>
-                      <ul
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuLink1"
-                      >
-                        <li>
-                          <router-link
-                            class="dropdown-item"
-                            to="/apps/tasks-details"
-                            ><i
-                              class="ri-eye-fill align-bottom me-2 text-muted"
-                            ></i>
-                            View</router-link
-                          >
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#"
-                            ><i
-                              class="
-                                ri-edit-2-line
-                                align-bottom
-                                me-2
-                                text-muted
-                              "
-                            ></i>
-                            Edit</a
-                          >
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            data-bs-toggle="modal"
-                            href="#deleteRecordModal"
-                            ><i
-                              class="
-                                ri-delete-bin-5-line
-                                align-bottom
-                                me-2
-                                text-muted
-                              "
-                            ></i>
-                            Delete</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <p class="text-muted">{{ data.description }}</p>
-                  <div class="mb-3">
-                    <div class="d-flex mb-1">
-                      <div class="flex-grow-1">
-                        <h6 class="text-muted mb-0">
-                          <span class="text-secondary">15%</span> of 100%
-                        </h6>
-                      </div>
-                      <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.date }}</span>
-                      </div>
-                    </div>
-                    <div class="progress rounded-3 progress-sm">
-                      <div
-                        class="progress-bar bg-danger"
-                        role="progressbar"
-                        style="width: 15%"
-                        aria-valuenow="15"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                      <span
-                        class="badge badge-soft-primary me-1"
-                        v-for="(item, index) of data.features"
-                        :key="index"
-                        >item</span
-                      >
-                    </div>
-                    <div class="flex-shrink-0">
-                      <div class="avatar-group">
-                        <a
-                          href="javascript: void(0);"
-                          v-for="(item, index) of data.users"
-                          :key="index"
-                          class="avatar-group-item"
-                          data-bs-toggle="tooltip"
-                          data-bs-trigger="hover"
-                          data-bs-placement="top"
-                          title="Alexis"
-                        >
-                          <img
-                            :src="item"
-                            alt=""
-                            class="rounded-circle avatar-xxs"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer border-top-dashed">
-                  <div class="d-flex">
-                    <div class="flex-grow-1">
-                      <h6 class="text-muted mb-0">#VL2436</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <ul class="link-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-eye-line align-bottom"></i> 04</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i
-                              class="ri-question-answer-line align-bottom"
-                            ></i>
-                            19</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-attachment-2 align-bottom"></i> 02</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <!--end card-body-->
-              </div>
-              <!--end card-->
-            </draggable>
-          </div>
-          <!--end tasks-->
-        </div>
-        <div class="my-3">
-          <button
-            class="btn btn-soft-info w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#creatertaskModal"
-          >
-            Add More
-          </button>
-        </div>
-      </div>
-      <!--end tasks-list-->
-      <div class="tasks-list">
-        <div class="d-flex mb-3">
+      <div class="tasks-list my-0">
+        <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               To Do
-              <small class="badge bg-secondary align-bottom ms-1">2</small>
+              <small class="badge bg-primary align-bottom ms-1">{{todo.length}}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -577,14 +264,14 @@ export default {
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
           <div id="todo-task" class="tasks">
-            <draggable :list="todo" class="dragArea" group="todo">
+            <draggable :list="todo" class="dragArea" group="dragData" style="min-height:90px">
               <div
-                class="card tasks-box"
+                class="card tasks-box my-2"
                 v-for="(data, index) of todo"
                 :key="index"
               >
                 <div class="card-body">
-                  <div class="d-flex mb-2">
+                  <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
                         data.title
@@ -645,12 +332,11 @@ export default {
                       </ul>
                     </div>
                   </div>
-                  <p class="text-muted">{{ data.description }}</p>
-                  <div class="mb-3">
-                    <div class="d-flex mb-1">
+                  <div class="mb-0">
+                    <div class="d-flex mb-0">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">15%</span> of 100%
+                          <span class="text-secondary">Not Started</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
@@ -661,70 +347,11 @@ export default {
                       <div
                         class="progress-bar bg-danger"
                         role="progressbar"
-                        style="width: 15%"
-                        aria-valuenow="15"
+                        style="width: 0"
+                        aria-valuenow="0"
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                      <span
-                        class="badge badge-soft-primary me-1"
-                        v-for="(item, index) of data.features"
-                        :key="index"
-                        >item</span
-                      >
-                    </div>
-                    <div class="flex-shrink-0">
-                      <div class="avatar-group">
-                        <a
-                          href="javascript: void(0);"
-                          v-for="(item, index) of data.users"
-                          :key="index"
-                          class="avatar-group-item"
-                          data-bs-toggle="tooltip"
-                          data-bs-trigger="hover"
-                          data-bs-placement="top"
-                          title="Alexis"
-                        >
-                          <img
-                            :src="item"
-                            alt=""
-                            class="rounded-circle avatar-xxs"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer border-top-dashed">
-                  <div class="d-flex">
-                    <div class="flex-grow-1">
-                      <h6 class="text-muted mb-0">#VL2436</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <ul class="link-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-eye-line align-bottom"></i> 04</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i
-                              class="ri-question-answer-line align-bottom"
-                            ></i>
-                            19</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-attachment-2 align-bottom"></i> 02</a
-                          >
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>
@@ -734,23 +361,14 @@ export default {
             </draggable>
           </div>
         </div>
-        <div class="my-3">
-          <button
-            class="btn btn-soft-info w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#creatertaskModal"
-          >
-            Add More
-          </button>
-        </div>
       </div>
       <!--end tasks-list-->
-      <div class="tasks-list">
-        <div class="d-flex mb-3">
+      <div class="tasks-list my-0">
+        <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Inprogress
-              <small class="badge bg-warning align-bottom ms-1">2</small>
+              In Progress
+              <small class="badge bg-warning align-bottom ms-1">{{inprogress.length}}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -775,14 +393,14 @@ export default {
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
           <div id="inprogress-task" class="tasks">
-            <draggable :list="inprogress" class="dragArea" group="reviews">
+            <draggable :list="inprogress" class="dragArea" group="dragData" style="min-height:90px">
               <div
-                class="card tasks-box"
+                class="card tasks-box my-2"
                 v-for="(data, index) of inprogress"
                 :key="index"
               >
                 <div class="card-body">
-                  <div class="d-flex mb-2">
+                  <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
                         data.title
@@ -843,12 +461,11 @@ export default {
                       </ul>
                     </div>
                   </div>
-                  <p class="text-muted">{{ data.description }}</p>
-                  <div class="mb-3">
-                    <div class="d-flex mb-1">
+                  <div class="mb-0">
+                    <div class="d-flex mb-0">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">15%</span> of 100%
+                          <span class="text-secondary">15%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
@@ -866,65 +483,6 @@ export default {
                       ></div>
                     </div>
                   </div>
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                      <span
-                        class="badge badge-soft-primary me-1"
-                        v-for="(item, index) of data.features"
-                        :key="index"
-                        >item</span
-                      >
-                    </div>
-                    <div class="flex-shrink-0">
-                      <div class="avatar-group">
-                        <a
-                          href="javascript: void(0);"
-                          v-for="(item, index) of data.users"
-                          :key="index"
-                          class="avatar-group-item"
-                          data-bs-toggle="tooltip"
-                          data-bs-trigger="hover"
-                          data-bs-placement="top"
-                          title="Alexis"
-                        >
-                          <img
-                            :src="item"
-                            alt=""
-                            class="rounded-circle avatar-xxs"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer border-top-dashed">
-                  <div class="d-flex">
-                    <div class="flex-grow-1">
-                      <h6 class="text-muted mb-0">#VL2436</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <ul class="link-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-eye-line align-bottom"></i> 04</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i
-                              class="ri-question-answer-line align-bottom"
-                            ></i>
-                            19</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-attachment-2 align-bottom"></i> 02</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
                 </div>
                 <!--end card-body-->
               </div>
@@ -932,23 +490,14 @@ export default {
             </draggable>
           </div>
         </div>
-        <div class="my-3">
-          <button
-            class="btn btn-soft-info w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#creatertaskModal"
-          >
-            Add More
-          </button>
-        </div>
       </div>
       <!--end tasks-list-->
-      <div class="tasks-list">
-        <div class="d-flex mb-3">
+      <div class="tasks-list my-0">
+        <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              In Reviews
-              <small class="badge bg-info align-bottom ms-1">3</small>
+              Submitted
+              <small class="badge bg-info align-bottom ms-1">{{reviews.length}}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -973,14 +522,14 @@ export default {
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
           <div id="reviews-task" class="tasks">
-            <draggable :list="reviews" class="dragArea" group="reviews">
+            <draggable :list="reviews" class="dragArea" group="dragData" style="min-height:90px">
               <div
-                class="card tasks-box"
+                class="card tasks-box my-2"
                 v-for="(data, index) of reviews"
                 :key="index"
               >
                 <div class="card-body">
-                  <div class="d-flex mb-2">
+                  <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
                         data.title
@@ -1041,12 +590,11 @@ export default {
                       </ul>
                     </div>
                   </div>
-                  <p class="text-muted">{{ data.description }}</p>
-                  <div class="mb-3">
-                    <div class="d-flex mb-1">
+                  <div class="mb-0">
+                    <div class="d-flex mb-0">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">15%</span> of 100%
+                          <span class="text-secondary">100%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
@@ -1057,70 +605,11 @@ export default {
                       <div
                         class="progress-bar bg-danger"
                         role="progressbar"
-                        style="width: 15%"
-                        aria-valuenow="15"
+                        style="width: 100%"
+                        aria-valuenow="100"
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                      <span
-                        class="badge badge-soft-primary me-1"
-                        v-for="(item, index) of data.features"
-                        :key="index"
-                        >item</span
-                      >
-                    </div>
-                    <div class="flex-shrink-0">
-                      <div class="avatar-group">
-                        <a
-                          href="javascript: void(0);"
-                          v-for="(item, index) of data.users"
-                          :key="index"
-                          class="avatar-group-item"
-                          data-bs-toggle="tooltip"
-                          data-bs-trigger="hover"
-                          data-bs-placement="top"
-                          title="Alexis"
-                        >
-                          <img
-                            :src="item"
-                            alt=""
-                            class="rounded-circle avatar-xxs"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer border-top-dashed">
-                  <div class="d-flex">
-                    <div class="flex-grow-1">
-                      <h6 class="text-muted mb-0">#VL2436</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <ul class="link-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-eye-line align-bottom"></i> 04</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i
-                              class="ri-question-answer-line align-bottom"
-                            ></i>
-                            19</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-attachment-2 align-bottom"></i> 02</a
-                          >
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>
@@ -1130,23 +619,13 @@ export default {
             </draggable>
           </div>
         </div>
-        <div class="my-3">
-          <button
-            class="btn btn-soft-info w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#creatertaskModal"
-          >
-            Add More
-          </button>
-        </div>
       </div>
       <!--end tasks-list-->
       <div class="tasks-list">
-        <div class="d-flex mb-3">
+        <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Completed
-              <small class="badge bg-success align-bottom ms-1">1</small>
+              Unpaid <small class="badge bg-success align-bottom ms-1">1</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -1171,14 +650,14 @@ export default {
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
           <div id="completed-task" class="tasks">
-            <draggable :list="completed" class="dragArea" group="newData">
+            <draggable :list="completed">
               <div
-                class="card tasks-box"
+                class="card tasks-box my-2"
                 v-for="(data, index) of completed"
                 :key="index"
               >
                 <div class="card-body">
-                  <div class="d-flex mb-2">
+                  <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
                         data.title
@@ -1239,12 +718,11 @@ export default {
                       </ul>
                     </div>
                   </div>
-                  <p class="text-muted">{{ data.description }}</p>
-                  <div class="mb-3">
-                    <div class="d-flex mb-1">
+                  <div class="mb-0">
+                    <div class="d-flex mb-0">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">15%</span> of 100%
+                          <span class="text-secondary">100%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
@@ -1255,70 +733,11 @@ export default {
                       <div
                         class="progress-bar bg-danger"
                         role="progressbar"
-                        style="width: 15%"
-                        aria-valuenow="15"
+                        style="width: 100%"
+                        aria-valuenow="100"
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                      <span
-                        class="badge badge-soft-primary me-1"
-                        v-for="(item, index) of data.features"
-                        :key="index"
-                        >item</span
-                      >
-                    </div>
-                    <div class="flex-shrink-0">
-                      <div class="avatar-group">
-                        <a
-                          href="javascript: void(0);"
-                          v-for="(item, index) of data.users"
-                          :key="index"
-                          class="avatar-group-item"
-                          data-bs-toggle="tooltip"
-                          data-bs-trigger="hover"
-                          data-bs-placement="top"
-                          title="Alexis"
-                        >
-                          <img
-                            :src="item"
-                            alt=""
-                            class="rounded-circle avatar-xxs"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer border-top-dashed">
-                  <div class="d-flex">
-                    <div class="flex-grow-1">
-                      <h6 class="text-muted mb-0">#VL2436</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <ul class="link-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-eye-line align-bottom"></i> 04</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i
-                              class="ri-question-answer-line align-bottom"
-                            ></i>
-                            19</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-attachment-2 align-bottom"></i> 02</a
-                          >
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>
@@ -1328,22 +747,13 @@ export default {
             </draggable>
           </div>
         </div>
-        <div class="my-3">
-          <button
-            class="btn btn-soft-info w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#creatertaskModal"
-          >
-            Add More
-          </button>
-        </div>
       </div>
       <!--end tasks-list-->
       <div class="tasks-list">
-        <div class="d-flex mb-3">
+        <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              new <small class="badge bg-success align-bottom ms-1">1</small>
+              Paid <small class="badge bg-success align-bottom ms-1">1</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -1367,15 +777,15 @@ export default {
           </div>
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
-          <div id="new-task" class="tasks">
-            <draggable :list="newData" class="dragArea" group="newData">
+          <div id="completed-task" class="tasks">
+            <draggable :list="paidData">
               <div
-                class="card tasks-box"
-                v-for="(data, index) of newData"
+                class="card tasks-box my-2"
+                v-for="(data, index) of paidData"
                 :key="index"
               >
                 <div class="card-body">
-                  <div class="d-flex mb-2">
+                  <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
                         data.title
@@ -1436,12 +846,11 @@ export default {
                       </ul>
                     </div>
                   </div>
-                  <p class="text-muted">{{ data.description }}</p>
-                  <div class="mb-3">
-                    <div class="d-flex mb-1">
+                  <div class="mb-0">
+                    <div class="d-flex mb-0">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">15%</span> of 100%
+                          <span class="text-secondary">100%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
@@ -1452,70 +861,11 @@ export default {
                       <div
                         class="progress-bar bg-danger"
                         role="progressbar"
-                        style="width: 15%"
-                        aria-valuenow="15"
+                        style="width: 100%"
+                        aria-valuenow="100"
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                      <span
-                        class="badge badge-soft-primary me-1"
-                        v-for="(item, index) of data.features"
-                        :key="index"
-                        >item</span
-                      >
-                    </div>
-                    <div class="flex-shrink-0">
-                      <div class="avatar-group">
-                        <a
-                          href="javascript: void(0);"
-                          v-for="(item, index) of data.users"
-                          :key="index"
-                          class="avatar-group-item"
-                          data-bs-toggle="tooltip"
-                          data-bs-trigger="hover"
-                          data-bs-placement="top"
-                          title="Alexis"
-                        >
-                          <img
-                            :src="item"
-                            alt=""
-                            class="rounded-circle avatar-xxs"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer border-top-dashed">
-                  <div class="d-flex">
-                    <div class="flex-grow-1">
-                      <h6 class="text-muted mb-0">#VL2436</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                      <ul class="link-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-eye-line align-bottom"></i> 04</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i
-                              class="ri-question-answer-line align-bottom"
-                            ></i>
-                            19</a
-                          >
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="javascript:void(0)" class="text-muted"
-                            ><i class="ri-attachment-2 align-bottom"></i> 02</a
-                          >
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>
@@ -1524,15 +874,6 @@ export default {
               <!--end card-->
             </draggable>
           </div>
-        </div>
-        <div class="my-3">
-          <button
-            class="btn btn-soft-info w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#creatertaskModal"
-          >
-            Add More
-          </button>
         </div>
       </div>
       <!--end tasks-list-->
