@@ -62,6 +62,9 @@ export default {
           this.projectKeys = Object.keys(this.projectList);
         }
       });
+      if (this.projectKeys.length === 1) {
+        this.$router.push ({name: 'projects View', query: { id: this.projectKeys[0] }})
+      }
     }
   },
   methods: {

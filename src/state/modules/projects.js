@@ -739,18 +739,15 @@ export const mutations = {
         if(payload.updates.payment !== undefined) selTask.payment = payload.updates.payment;
     },
     deleteProject(state, id) {
-        console.log('deleteProject: ', id)
         delete state.projectList[id]
     },
     createProject(state, payload) {
-        console.log('createProject: ', payload)
         state.projectList[payload.id] = payload;
     }
 };
 
 export const actions = {
     updateProject({ commit }, payload) {
-        console.log('updateProject(a): ', payload.id)
         commit('updateProject', payload)
     },
     updateProjectTask({ commit }, payload) {
