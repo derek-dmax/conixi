@@ -18,6 +18,7 @@
   import animationData from "@/components/widgets/msoeawqm.json";
   import animationData1 from "@/components/widgets/gsqxdxog.json";
   import Lottie from "@/components/widgets/lottie.vue";
+  import moment from 'moment'
 
   export default {
     page: {
@@ -96,13 +97,13 @@
           },
           {
             id: 4,
-            label: "Cancelled Invoices",
+            label: "Queried Invoices",
             percentage: "+7.55 %",
             percentageClass: "success",
             icon: "ri-arrow-right-up-line",
             counter: "84.2",
             badge: "502",
-            caption: "Cancelled",
+            caption: "Queried",
             feaIcon: "x-octagon",
             decimals: 1,
             prefix: "£",
@@ -112,13 +113,13 @@
         invoiceList: [{
             id: 1,
             invoiceId: "#VL25000351",
-            img: require("@/assets/images/users/avatar-2.jpg"),
-            name: "Laura Van Zyl",
-            email: "laura@conixi.co.uk",
+            img: require("@/assets/images/companies/img-2.png"),
+            name: "DMax Design",
+            email: "derek@dmax.design",
             country: "Scotland",
-            date: "06 Apr, 2021",
+            date: moment().subtract(9, "days").format("Do MMM, YYYY"),
             time: "09:58PM",
-            amount: "875",
+            amount: "1000",
             status: "Paid",
             statusClass: "success",
           },
@@ -158,7 +159,7 @@
             date: "22 Nov, 2021",
             time: "10:20PM",
             amount: "742.12",
-            status: "Cancel",
+            status: "Query",
             statusClass: "danger",
           },
           {
@@ -196,7 +197,7 @@
             date: "27 Oct, 2021",
             time: "01:46PM",
             amount: "$327.36",
-            status: "Cancel",
+            status: "Query",
             statusClass: "danger",
           },
           {
@@ -247,7 +248,7 @@
             date: "15 Aug, 2021",
             time: "01:05PM",
             amount: "214.67",
-            status: "Cancel",
+            status: "Query",
             statusClass: "danger",
           },
           {
@@ -526,7 +527,7 @@
                 <div class="col-xxl-5 col-sm-12">
                   <div class="search-box">
                     <input type="text" class="form-control search bg-light border-light"
-                      placeholder="Search for customer, email, country, status or something..." />
+                      placeholder="Search for supplier, email, status ..." />
                     <i class="ri-search-line search-icon"></i>
                   </div>
                 </div>
@@ -543,7 +544,7 @@
                         { value: 'all', label: 'all' },
                         { value: 'Unpaid', label: 'Unpaid' },
                         { value: 'Paid', label: 'Paid' },
-                        { value: 'Cancel', label: 'Cancel' },
+                        { value: 'Query', label: 'Query' },
                         { value: 'Refund', label: 'Refund' },
                       ]" />
                   </div>
@@ -575,13 +576,10 @@
                         ID
                       </th>
                       <th class="sort text-uppercase" data-sort="customer_name">
-                        Customer
+                        Supplier
                       </th>
                       <th class="sort text-uppercase" data-sort="email">
                         Email
-                      </th>
-                      <th class="sort text-uppercase" data-sort="country">
-                        Country
                       </th>
                       <th class="sort text-uppercase" data-sort="date">Date</th>
                       <th class="sort text-uppercase" data-sort="invoice_amount">
@@ -622,13 +620,12 @@
                         </div>
                       </td>
                       <td class="email">{{item.email}}</td>
-                      <td class="country">{{item.country}}</td>
-                      <td class="date">{{item.date}} <small class="text-muted">{{item.time}}</small></td>
+                      <td class="date">{{item.date}}</td>
                       <td class="invoice_amount">£{{item.amount}}</td>
                       <td class="status"><span class="badge text-uppercase" :class="{
                         'badge-soft-success':item.status=='Paid',
                         'badge-soft-warning':item.status=='Unpaid',
-                        'badge-soft-danger':item.status=='Cancel',
+                        'badge-soft-danger':item.status=='Query',
                         'badge-soft-primary':item.status=='Refund',
                       }">{{item.status}}</span></td>
                       <td>

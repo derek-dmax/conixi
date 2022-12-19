@@ -1,3 +1,4 @@
+  import Multiselect from "@vueform/multiselect";
 <script>
 import { VueDraggableNext } from "vue-draggable-next";
 import flatPickr from "vue-flatpickr-component";
@@ -7,9 +8,13 @@ import { mapGetters, mapActions } from "vuex"
 import Layout from "../../../layouts/main.vue";
 import PageHeader from "@/components/page-header";
 import appConfig from "../../../../app.config";
+import moment from "moment";
 
+import Multiselect from "@vueform/multiselect";
+import "@vueform/multiselect/themes/default.css";
 import Lottie from "@/components/widgets/lottie.vue";
 import animationData from "@/components/widgets/gsqxdxog.json";
+import "flatpickr/dist/flatpickr.css";
 
 export default {
   page: {
@@ -29,7 +34,19 @@ export default {
           active: true,
         },
       ],
-
+      pages: [],
+      page: null,
+      filtersearchQuery1: null,
+      filtervalue1: null,
+      filterdate1: new Date(),
+      rangeDateconfig: {
+          wrap: true, // set wrap to true only when using 'input-group'
+          altFormat: "M j, Y",
+          altInput: true,
+          dateFormat: "d M, Y",
+          mode: "range",
+        },
+      showTable: false,
       config: {
         wrap: true, // set wrap to true only when using 'input-group'
         altFormat: "M j, Y",
@@ -39,6 +56,10 @@ export default {
       date: null,
       date1: null,
       defaultOptions: { animationData: animationData },
+      allTask: [],
+      resultQuery: [],
+      allTasks: [],
+      projectKeys: [],
       unassigned: [
         {
           title: "Design New Landing Page",
@@ -206,21 +227,32 @@ export default {
     this.userName = localStorage.getItem("userName");
     this.userOrg = localStorage.getItem("userOrg");
     this.userTitle = localStorage.getItem("userTitle");
+    this.allTask = [...this.unassigned, ...this.todo]
+    this.resultQuery = this.allTask
     if (this.userType === "supplier") {
       this.projectKeys = Object.keys(this.projectList);
       this.projectKeys.forEach((key) => {
         if (this.projectList[key].suppliers[0].name !== this.userOrg) {
           this.deleteProject(key);
           this.projectKeys = Object.keys(this.projectList);
-        }
+        } else {
+          const tasks = JSON.parse(JSON.stringify(this.projectList[key].tasks))
+          tasks.forEach(task => {
+            task.project = this.projectList[key].label
+            task.dueDate = moment(task.start_date).add(task.duration, "days").format('Do MMM')
+          })
+          this.allTasks = [...this.allTasks, ...tasks]
+         }
       });
     }
+    console.log(this.allTasks)
   },
   components: {
     Layout,
     PageHeader,
     draggable: VueDraggableNext,
     lottie: Lottie,
+    Multiselect,
     flatPickr,
   },
   computed: {
@@ -232,8 +264,12 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title" :items="items" />
+    <div class="row" style="position: relative; top:-66px;" @click="showTable = !showTable">
+      <i class="ri-list-check" v-if="!showTable" title="Show tasks as table"></i>
+      <i class="ri-layout-grid-fill" v-else title="Show tasks as board"></i>
+    </div>
 
-    <div class="tasks-board mb-3" id="kanbanboard">
+    <div class="tasks-board mb-3" id="kanbanboard" style="margin-top:-20px;" v-if="!showTable">
       <div class="tasks-list my-0">
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
@@ -496,7 +532,7 @@ export default {
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Submitted
+              Complete
               <small class="badge bg-info align-bottom ms-1">{{reviews.length}}</small>
             </h6>
           </div>
@@ -625,7 +661,7 @@ export default {
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Unpaid <small class="badge bg-success align-bottom ms-1">1</small>
+              Agreed <small class="badge bg-success align-bottom ms-1">1</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -880,6 +916,177 @@ export default {
     </div>
     <!--end task-board-->
 
+    <div class="card" id="tasksList" v-else>
+      <div class="card-body border border-dashed border-end-0 border-start-0">
+        <form>
+          <div class="row g-3">
+            <div class="col-xxl-5 col-sm-12">
+              <div class="search-box">
+                <input type="text" class="form-control search bg-light border-light"
+                  placeholder="Search for tasks..." v-model="filtersearchQuery1"/>
+                <i class="ri-search-line search-icon"></i>
+              </div>
+            </div>
+            <!--end col-->
+
+            <div class="col-xxl-3 col-sm-4">
+              <flat-pickr v-model="filterdate1" placeholder="Select date" :config="rangeDateconfig"
+                      class="form-control"></flat-pickr>
+            </div>
+            <!--end col-->
+
+            <div class="col-xxl-3 col-sm-4">
+              <div class="input-light">
+                <Multiselect v-model="filtervalue1" :close-on-select="true" :searchable="true" :create-option="true"
+                  :options="[
+                    { value: 'All', label: 'All' },
+                    { value: 'New', label: 'New' },
+                    { value: 'Pending', label: 'Pending' },
+                    { value: 'Inprogress', label: 'Inprogress' },
+                    { value: 'Completed', label: 'Completed' },
+                  ]" />
+              </div>
+            </div>
+            <!--end col-->
+            <div class="col-xxl-1 col-sm-4">
+              <button type="button" class="btn btn-primary w-100" @click="SearchData">
+                <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                Filters
+              </button>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </form>
+      </div>
+      <!--end card-body-->
+      <div class="card-body">
+        <div class="table-responsive table-card mb-4">
+          <table class="table align-middle table-nowrap mb-0" id="tasksTable">
+            <thead class="table-light text-muted">
+              <tr>
+                <th scope="col" style="width: 40px">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkAll" value="option" />
+                  </div>
+                </th>
+                <th class="sort" data-sort="id">ID</th>
+                <th class="sort" data-sort="project_name">Project</th>
+                <th class="sort" data-sort="tasks_name">Task</th>
+                <th class="sort" data-sort="client_name">Payment</th>
+                <th class="sort" data-sort="assignedto">Assigned To</th>
+                <th class="sort" data-sort="due_date">Due Date</th>
+                <th class="sort" data-sort="status">Status</th>
+                <th class="sort" data-sort="priority">Priority</th>
+              </tr>
+            </thead>
+            <tbody class="list form-check-all">
+              <tr v-for="(task, index) of allTasks" :key="index">
+                <th scope="row">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="chk_child" value="option1" />
+                  </div>
+                </th>
+                <td class="id">
+                  <router-link to="/apps/tasks-details" class="fw-medium link-primary">{{ task.id }}
+                  </router-link>
+                </td>
+                <td class="project_name">
+                  <router-link to="/apps/projects-overview" class="fw-medium link-primary">{{ projectList["FAB0d41d5b5d22c"].label }}
+                  </router-link>
+                </td>
+                <td>
+                  <div class="d-flex">
+                    <div class="flex-grow-1 tasks_name">
+                      {{ task.text }}
+                    </div>
+                    <div class="flex-shrink-0 ms-4">
+                      <ul class="list-inline tasks-list-menu mb-0">
+                        <li class="list-inline-item">
+                          <router-link to="/apps/tasks-details"><i
+                              class="ri-eye-fill align-bottom me-2 text-muted"></i></router-link>
+                        </li>
+                        <li class="list-inline-item" data-bs-toggle="modal" href="#showmodal"
+                          @click="editdata(task)">
+                          <a href="#"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a class="remove-item-btn" @click="deletedata(task)">
+                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </td>
+                <td class="client_name"><span v-if="task.payment">£{{ task.payment }}</span></td>
+                <td class="assignedto">
+                  <div class="avatar-group">
+                    <a href="javascript: void(0);" v-for="(task, index) of task.subItem" :key="index"
+                      class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                      data-bs-placement="top" title="Frank">
+                      <img :src="task.image_src" alt="" class="rounded-circle avatar-xxs" />
+                    </a>
+                  </div>
+                </td>
+                <td class="due_date">{{ task.dueDate }}</td>
+                <td class="status">
+                  <span class="badge" :class="{
+                      'badge-soft-secondary':task.status=='In Progress',
+                      'badge-soft-info':task.status=='New',
+                      'badge-soft-success':task.status=='Completed',
+                      'badge-soft-success':task.status=='paid',
+                      'badge-soft-warning':task.status=='Pending',
+                    }">{{
+                    task.status
+                  }}</span>
+                </td>
+                <td class="priority">
+                  <span class="badge text-uppercase" :class="{
+                      'bg-danger':task.priority=='High',
+                      'bg-success':task.priority=='Low',
+                      'bg-warning':task.priority=='Medium',
+                    }">{{ task.priority }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--end table-->
+          <div class="noresult" style="display: none">
+            <div class="text-center">
+              <lottie colors="primary:#121331,secondary:#08a88a" :options="defaultOptions" :height="75"
+                :width="75" />
+              <h5 class="mt-2">Sorry! No Result Found</h5>
+              <p class="text-muted mb-0">
+                We've searched more than 200k+ tasks We did not find any
+                tasks for you search.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-3">
+          <div class="pagination-wrap hstack gap-2">
+            <a class="page-item pagination-prev disabled" href="#" v-if="page != 1" @click="page--">
+              Previous
+            </a>
+            <ul class="pagination listjs-pagination mb-0">
+              <li :class="{
+                  active: pageNumber == page,
+                  disabled: pageNumber == '...',
+                }" v-for="(pageNumber, index) in pages.slice(
+                  page - 1,
+                  page + 5
+                )" :key="index" @click="page = pageNumber">
+                <a class="page" href="#">{{ pageNumber }}</a>
+              </li>
+            </ul>
+            <a class="page-item pagination-next" href="#" @click="page++" v-if="page < pages.length">
+              Next
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="modal fade"
       id="addmemberModal"
@@ -1458,3 +1665,8 @@ export default {
     <!--end modal -->
   </Layout>
 </template>
+<style>
+.page-title-box {
+  padding-left: 60px !important;
+}
+</style>

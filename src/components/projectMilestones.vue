@@ -34,7 +34,7 @@
             class="draggable-item row"
             :class="{
               sowPaid: item.status === 'paid',
-              sowDue: item.status === 'due',
+              sowDue: item.status === 'Completed',
             }"
           >
             <span class="col-5">
@@ -116,7 +116,7 @@
             >
             <span
               class="col-1 badge text-bg-warning statusBadge"
-              v-if="item.status === 'due'"
+              v-if="item.status === 'Completed'"
               >DUE</span
             >
           </div>

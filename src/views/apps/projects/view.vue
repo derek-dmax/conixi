@@ -51,7 +51,7 @@ export default {
           progress: 0.5,
           open: true,
           payment: 4000,
-          status: "due",
+          status: "Completed",
           changePayment: false,
           changeStatus: false,
           changeDate: false,
