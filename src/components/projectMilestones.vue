@@ -33,7 +33,7 @@
           <div
             class="draggable-item row"
             :class="{
-              sowPaid: item.status === 'paid',
+              sowPaid: item.status === 'Paid',
               sowDue: item.status === 'Completed',
             }"
           >
@@ -110,7 +110,7 @@
               <i class="mdi mdi-close-box-outline"></i>
             </span>
             <span
-              v-if="item.status === 'paid' && !item.changePayment"
+              v-if="item.status === 'Paid' && !item.changePayment"
               class="col-1 badge text-bg-success statusBadge"
               >PAID</span
             >

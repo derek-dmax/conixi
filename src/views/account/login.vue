@@ -86,7 +86,7 @@ export default {
     ...notificationMethods,
 
     async signinapi() {
-      if (this.email !== "derek@conixi.co.uk" && this.email !== "derek@dmax.design" && this.email !== "consultant@ventura.co.uk") {
+      if (this.email !== "derek@conixi.co.uk" && this.email !== "derek@dmax.design" && this.email !== "developer@ventura.co.uk") {
         this.passedEmail = "";
       }
 
@@ -109,11 +109,11 @@ export default {
         this.userName = "Derek Macrae"
         this.userTitle = "Supply Consultant"
       }
-      if (this.email === "consultant@ventura.co.uk") {
+      if (this.email === "developer@ventura.co.uk") {
         this.userType = "supplier";
         this.userOrg = "Ventura Associates"
         this.userName = "Val Dugan"
-        this.userTitle = "Team Manager"
+        this.userTitle = "Developer"
       }
       localStorage.setItem("userType", this.userType);
       localStorage.setItem("userName", this.userName);

@@ -36,7 +36,7 @@ export default {
           parent: "1",
           open: true,
           payment: 1000,
-          status: "paid",
+          status: "Paid",
           changePayment: false,
           changeStatus: false,
           changeDate: false,

@@ -78,139 +78,11 @@ export default {
           date: " 07 Jan, 2022",
         },
       ],
-      todo: [
-        {
-          title: "Admin Layout Design",
-          description:
-            "Landing page template with clean, minimal and modern design.",
-          features: ["Design", "Wensite"],
-          users: [
-            require("@/assets/images/users/avatar-10.jpg"),
-            require("@/assets/images/users/avatar-3.jpg"),
-          ],
-          id: "#VL2436",
-          watch: "13",
-          message: "52",
-          file: "17",
-          date: " 07 Jan, 2022",
-        },
-        {
-          title: "Marketing & Sales",
-          description:
-            "Sales and marketing are two business functions within an organization.",
-          features: ["Marketing", "Business"],
-          users: [
-            require("@/assets/images/users/avatar-9.jpg"),
-            require("@/assets/images/users/avatar-8.jpg"),
-          ],
-          id: "#VL2436",
-          watch: "24",
-          message: "10",
-          file: "10",
-          date: " 27 Dec, 2021",
-        },
-      ],
-      inprogress: [
-        {
-          title: "Brand Logo Design ",
-          description:
-            "BrandCrowd's brand logo maker allows you to generate and customize stand-out brand logos in minutes.",
-          features: ["Logo", "Design", "UI/UX"],
-          users: [
-            require("@/assets/images/users/avatar-10.jpg"),
-            require("@/assets/images/users/avatar-3.jpg"),
-          ],
-          id: "#VL2436",
-          watch: "24",
-          message: "10",
-          file: "10",
-          date: " 22 Dec, 2022",
-        },
-        {
-          title: "Change Old App Icon",
-          description:
-            "Change app icons on Android: How do you change the look of your apps.",
-          features: ["Marketing", "Business"],
-          users: [
-            require("@/assets/images/users/avatar-9.jpg"),
-            require("@/assets/images/users/avatar-8.jpg"),
-          ],
-          id: "#VL2436",
-          watch: "64",
-          message: "35",
-          file: "23",
-          date: " 24 Oct, 2021",
-        },
-      ],
-      reviews: [
-        {
-          title: "Product Features Analysis",
-          description:
-            "An essential part of strategic planning is running a product feature analysis.",
-          features: ["Project", "Analysis"],
-          users: [
-            require("@/assets/images/users/avatar-5.jpg"),
-            require("@/assets/images/users/avatar-6.jpg"),
-          ],
-          id: "#VL2436",
-          watch: "14",
-          message: "31",
-          file: "07",
-          date: " 05 Jan, 2022",
-        },
-        {
-          title: "Create a Graph of Sketch",
-          description:
-            "To make a pie chart with equal slices create a perfect circle by selecting an Oval Tool.",
-          features: ["Sketch", "Marketing", "Design"],
-          users: [
-            require("@/assets/images/users/avatar-4.jpg"),
-            require("@/assets/images/users/avatar-8.jpg"),
-            require("@/assets/images/users/avatar-2.jpg"),
-            require("@/assets/images/users/avatar-1.jpg"),
-          ],
-          id: "#VL2436",
-          watch: "64",
-          message: "35",
-          file: "23",
-          date: " 24 Oct, 2021",
-        },
-      ],
-      completed: [
-        {
-          title: "Create a Blog Template UI",
-          description:
-            "Landing page template with clean, minimal and modern design.",
-          features: ["Design", "Website"],
-          users: [
-            require("@/assets/images/users/avatar-8.jpg"),
-            require("@/assets/images/users/avatar-7.jpg"),
-            require("@/assets/images/users/avatar-6.jpg"),
-          ],
-          id: "#VL2451",
-          watch: "24",
-          message: "10",
-          file: "10",
-          date: " 05 Jan, 2022",
-        },
-      ],
-      paidData: [
-        {
-          title: "Banner Design for FB & Twitter",
-          image: require("@/assets/images/small/img-4.jpg"),
-          features: ["UI/UX", "Graphic"],
-          users: [
-            require("@/assets/images/users/avatar-8.jpg"),
-            require("@/assets/images/users/avatar-7.jpg"),
-            require("@/assets/images/users/avatar-6.jpg"),
-          ],
-          id: "#VL2451",
-          watch: "24",
-          message: "10",
-          file: "10",
-          date: " 05 Jan, 2022",
-        },
-      ],
+      todo: [],
+      inprogress: [],
+      completed: [],
+      approved: [],
+      paid: [],
       enabled: true,
 
       dragging: false,
@@ -221,31 +93,41 @@ export default {
       console.log(event);
     },
     ...mapActions("projects", ["updateProject", "deleteProject"]),
+    changeProgress(task, increment) {
+      console.log(task, increment)
+      if(task.progress + increment > -1 && task.progress + increment < 101) task.progress += increment
+    }
   },
   created() {
     this.userType = localStorage.getItem("userType");
     this.userName = localStorage.getItem("userName");
     this.userOrg = localStorage.getItem("userOrg");
     this.userTitle = localStorage.getItem("userTitle");
-    this.allTask = [...this.unassigned, ...this.todo]
     this.resultQuery = this.allTask
-    if (this.userType === "supplier") {
-      this.projectKeys = Object.keys(this.projectList);
-      this.projectKeys.forEach((key) => {
+    this.projectKeys = Object.keys(this.projectList);
+    this.projectKeys.forEach((key) => {
+      let tasks = []
+      if (this.userType === "supplier") {
         if (this.projectList[key].suppliers[0].name !== this.userOrg) {
           this.deleteProject(key);
           this.projectKeys = Object.keys(this.projectList);
-        } else {
-          const tasks = JSON.parse(JSON.stringify(this.projectList[key].tasks))
-          tasks.forEach(task => {
-            task.project = this.projectList[key].label
-            task.dueDate = moment(task.start_date).add(task.duration, "days").format('Do MMM')
-          })
-          this.allTasks = [...this.allTasks, ...tasks]
-         }
-      });
-    }
-    console.log(this.allTasks)
+        }
+      }
+      if (this.projectList[key]) {
+        tasks = JSON.parse(JSON.stringify(this.projectList[key].tasks))
+        tasks.forEach(task => {
+          task.project = this.projectList[key].label
+          task.dueDate = moment(task.start_date).add(task.duration, "days").format('Do MMM')
+        })
+        this.allTasks = [...this.allTasks, ...tasks]
+      }
+    })
+    this.todo = this.allTasks.filter(task => task.status == "New" && task.type !== "project")
+    this.inprogress = this.allTasks.filter(task => task.status == "In Progress" && task.type !== "project")
+    this.completed = this.allTasks.filter(task => task.status == "Completed" && task.type !== "project")
+    this.approved = this.allTasks.filter(task => task.status == "Approved" && task.type !== "project")
+    this.paid = this.allTasks.filter(task => task.status == "Paid")
+    console.log(this.todo)
   },
   components: {
     Layout,
@@ -298,19 +180,19 @@ export default {
             </div>
           </div>
         </div>
-        <div data-simplebar class="tasks-wrapper px-3 mx-n3">
+        <div data-simplebar class="tasks-wrapper px-3 mx-n3" style="min-height:500px;">
           <div id="todo-task" class="tasks">
-            <draggable :list="todo" class="dragArea" group="dragData" style="min-height:90px">
+            <draggable :list="todo" class="dragArea" group="dragData" style="min-height:400px">
               <div
                 class="card tasks-box my-2"
                 v-for="(data, index) of todo"
                 :key="index"
               >
-                <div class="card-body">
+                <div class="card-body pb-1">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
-                        data.title
+                        data.text
                       }}</router-link>
                     </h6>
                     <div class="dropdown">
@@ -366,28 +248,6 @@ export default {
                           >
                         </li>
                       </ul>
-                    </div>
-                  </div>
-                  <div class="mb-0">
-                    <div class="d-flex mb-0">
-                      <div class="flex-grow-1">
-                        <h6 class="text-muted mb-0">
-                          <span class="text-secondary">Not Started</span>
-                        </h6>
-                      </div>
-                      <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.date }}</span>
-                      </div>
-                    </div>
-                    <div class="progress rounded-3 progress-sm">
-                      <div
-                        class="progress-bar bg-danger"
-                        role="progressbar"
-                        style="width: 0"
-                        aria-valuenow="0"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
                     </div>
                   </div>
                 </div>
@@ -435,11 +295,11 @@ export default {
                 v-for="(data, index) of inprogress"
                 :key="index"
               >
-                <div class="card-body">
+                <div class="card-body pb-1">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
-                        data.title
+                        data.text
                       }}</router-link>
                     </h6>
                     <div class="dropdown">
@@ -501,22 +361,28 @@ export default {
                     <div class="d-flex mb-0">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">15%</span>
+                          <span class="text-secondary">{{ data.progress }}%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.date }}</span>
+                        <span class="text-muted">{{ data.dueDate }}</span>
                       </div>
                     </div>
-                    <div class="progress rounded-3 progress-sm">
-                      <div
-                        class="progress-bar bg-danger"
-                        role="progressbar"
-                        style="width: 15%"
-                        aria-valuenow="15"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
+                    <div class="row">
+                      <div class="col-1"><i class="ri-indeterminate-circle-line" @click="changeProgress(data, -5)"></i></div>
+                      <div class="col-9">
+                        <div class="progress rounded-3 progress-sm mt-2" style="margin-right:-15px">
+                          <div
+                            class="progress-bar bg-danger"
+                            role="progressbar"
+                            :style="{ width: data.progress + '%' }"
+                            aria-valuenow="15"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                      <div class="col-1"><i class="ri-add-circle-line" @click="changeProgress(data, 5)"></i></div>
                     </div>
                   </div>
                 </div>
@@ -533,135 +399,7 @@ export default {
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               Complete
-              <small class="badge bg-info align-bottom ms-1">{{reviews.length}}</small>
-            </h6>
-          </div>
-          <div class="flex-shrink-0">
-            <div class="dropdown card-header-dropdown">
-              <a
-                class="text-reset dropdown-btn"
-                href="#"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <span class="fw-medium text-muted fs-12"
-                  >Priority<i class="mdi mdi-chevron-down ms-1"></i
-                ></span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-end">
-                <a class="dropdown-item" href="#">Priority</a>
-                <a class="dropdown-item" href="#">Date Added</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-simplebar class="tasks-wrapper px-3 mx-n3">
-          <div id="reviews-task" class="tasks">
-            <draggable :list="reviews" class="dragArea" group="dragData" style="min-height:90px">
-              <div
-                class="card tasks-box my-2"
-                v-for="(data, index) of reviews"
-                :key="index"
-              >
-                <div class="card-body">
-                  <div class="d-flex mb-0">
-                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
-                        data.title
-                      }}</router-link>
-                    </h6>
-                    <div class="dropdown">
-                      <a
-                        href="javascript:void(0);"
-                        class="text-muted"
-                        id="dropdownMenuLink1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        ><i class="ri-more-fill"></i
-                      ></a>
-                      <ul
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuLink1"
-                      >
-                        <li>
-                          <router-link
-                            class="dropdown-item"
-                            to="/apps/tasks-details"
-                            ><i
-                              class="ri-eye-fill align-bottom me-2 text-muted"
-                            ></i>
-                            View</router-link
-                          >
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#"
-                            ><i
-                              class="
-                                ri-edit-2-line
-                                align-bottom
-                                me-2
-                                text-muted
-                              "
-                            ></i>
-                            Edit</a
-                          >
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            data-bs-toggle="modal"
-                            href="#deleteRecordModal"
-                            ><i
-                              class="
-                                ri-delete-bin-5-line
-                                align-bottom
-                                me-2
-                                text-muted
-                              "
-                            ></i>
-                            Delete</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="mb-0">
-                    <div class="d-flex mb-0">
-                      <div class="flex-grow-1">
-                        <h6 class="text-muted mb-0">
-                          <span class="text-secondary">100%</span>
-                        </h6>
-                      </div>
-                      <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.date }}</span>
-                      </div>
-                    </div>
-                    <div class="progress rounded-3 progress-sm">
-                      <div
-                        class="progress-bar bg-danger"
-                        role="progressbar"
-                        style="width: 100%"
-                        aria-valuenow="100"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-                <!--end card-body-->
-              </div>
-              <!--end card-->
-            </draggable>
-          </div>
-        </div>
-      </div>
-      <!--end tasks-list-->
-      <div class="tasks-list">
-        <div class="d-flex mb-0">
-          <div class="flex-grow-1">
-            <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Agreed <small class="badge bg-success align-bottom ms-1">1</small>
+              <small class="badge bg-info align-bottom ms-1">{{completed.length}}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -686,17 +424,17 @@ export default {
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
           <div id="completed-task" class="tasks">
-            <draggable :list="completed">
+            <draggable :list="completed" class="dragArea" group="dragData" style="min-height:90px">
               <div
                 class="card tasks-box my-2"
                 v-for="(data, index) of completed"
                 :key="index"
               >
-                <div class="card-body">
+                <div class="card-body pb-1">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
-                        data.title
+                        data.text
                       }}</router-link>
                     </h6>
                     <div class="dropdown">
@@ -762,18 +500,126 @@ export default {
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.date }}</span>
+                        <span class="text-muted">{{ data.dueDate }}</span>
                       </div>
                     </div>
-                    <div class="progress rounded-3 progress-sm">
-                      <div
-                        class="progress-bar bg-danger"
-                        role="progressbar"
-                        style="width: 100%"
-                        aria-valuenow="100"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
+                  </div>
+                </div>
+                <!--end card-body-->
+              </div>
+              <!--end card-->
+            </draggable>
+          </div>
+        </div>
+      </div>
+      <!--end tasks-list-->
+      <div class="tasks-list">
+        <div class="d-flex mb-0">
+          <div class="flex-grow-1">
+            <h6 class="fs-14 text-uppercase fw-semibold mb-0">
+              Approved <small class="badge bg-success align-bottom ms-1">1</small>
+            </h6>
+          </div>
+          <div class="flex-shrink-0">
+            <div class="dropdown card-header-dropdown">
+              <a
+                class="text-reset dropdown-btn"
+                href="#"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span class="fw-medium text-muted fs-12"
+                  >Priority<i class="mdi mdi-chevron-down ms-1"></i
+                ></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item" href="#">Priority</a>
+                <a class="dropdown-item" href="#">Date Added</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-simplebar class="tasks-wrapper px-3 mx-n3">
+          <div id="completed-task" class="tasks">
+            <draggable :list="approved">
+              <div
+                class="card tasks-box my-2"
+                v-for="(data, index) of approved"
+                :key="index"
+              >
+                <div class="card-body pb-1">
+                  <div class="d-flex mb-0">
+                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
+                      <router-link to="/apps/tasks-details">{{
+                        data.text
+                      }}</router-link>
+                    </h6>
+                    <div class="dropdown">
+                      <a
+                        href="javascript:void(0);"
+                        class="text-muted"
+                        id="dropdownMenuLink1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        ><i class="ri-more-fill"></i
+                      ></a>
+                      <ul
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuLink1"
+                      >
+                        <li>
+                          <router-link
+                            class="dropdown-item"
+                            to="/apps/tasks-details"
+                            ><i
+                              class="ri-eye-fill align-bottom me-2 text-muted"
+                            ></i>
+                            View</router-link
+                          >
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#"
+                            ><i
+                              class="
+                                ri-edit-2-line
+                                align-bottom
+                                me-2
+                                text-muted
+                              "
+                            ></i>
+                            Edit</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            data-bs-toggle="modal"
+                            href="#deleteRecordModal"
+                            ><i
+                              class="
+                                ri-delete-bin-5-line
+                                align-bottom
+                                me-2
+                                text-muted
+                              "
+                            ></i>
+                            Delete</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="mb-0">
+                    <div class="d-flex mb-0">
+                      <div class="flex-grow-1">
+                        <h6 class="text-muted mb-0">
+                          <span class="text-secondary">100%</span>
+                        </h6>
+                      </div>
+                      <div class="flex-shrink-0">
+                        <span class="text-muted">{{ data.dueDate }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -814,17 +660,17 @@ export default {
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
           <div id="completed-task" class="tasks">
-            <draggable :list="paidData">
+            <draggable :list="paid">
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of paidData"
+                v-for="(data, index) of paid"
                 :key="index"
               >
-                <div class="card-body">
+                <div class="card-body pb-1">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
-                        data.title
+                        data.text
                       }}</router-link>
                     </h6>
                     <div class="dropdown">
@@ -890,18 +736,8 @@ export default {
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.date }}</span>
+                        <span class="text-muted">{{ data.dueDate }}</span>
                       </div>
-                    </div>
-                    <div class="progress rounded-3 progress-sm">
-                      <div
-                        class="progress-bar bg-danger"
-                        role="progressbar"
-                        style="width: 100%"
-                        aria-valuenow="100"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
                     </div>
                   </div>
                 </div>
@@ -1035,7 +871,7 @@ export default {
                       'badge-soft-secondary':task.status=='In Progress',
                       'badge-soft-info':task.status=='New',
                       'badge-soft-success':task.status=='Completed',
-                      'badge-soft-success':task.status=='paid',
+                      'badge-soft-success':task.status=='Paid',
                       'badge-soft-warning':task.status=='Pending',
                     }">{{
                     task.status
