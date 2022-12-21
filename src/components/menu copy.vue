@@ -349,11 +349,6 @@
                         {{ $t("t-ico-list") }}
                       </router-link>
                     </li>
-                    <li class="nav-item">
-                      <router-link to="/crypto/kyc" class="nav-link" data-key="t-kyc-application">
-                        {{ $t("t-kyc-application") }}
-                      </router-link>
-                    </li>
                   </ul>
                 </div>
               </li>
