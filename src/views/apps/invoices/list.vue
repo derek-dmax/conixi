@@ -31,6 +31,8 @@
     data() {
       return {
         title: "Invoice List",
+        userType: "consultant",
+        userName: "Derek Macrae",
         items: [{
             text: "Conixi",
             href: "/",
@@ -126,11 +128,11 @@
           {
             id: 2,
             invoiceId: "#VL25000352",
-            img: require("@/assets/images/users/derekm.jpg"),
-            name: "Derek Macrae",
-            email: "derek@conixi.xo.uk",
+            img: require("@/assets/images/companies/img-6.png"),
+            name: "Ventura Associates",
+            email: "developer@ventura.com",
             country: "United Kingdom",
-            date: "17 Dec, 2021",
+            date: moment().subtract(19, "days").format("Do MMM, YYYY"),
             time: "1:24AM",
             amount: "451.00",
             status: "Unpaid",
@@ -165,9 +167,9 @@
           {
             id: 5,
             invoiceId: "#VL25000355",
-            img: require("@/assets/images/users/avatar-6.jpg"),
-            name: "Aisha Nichols",
-            email: "davidnochols@conixi.xo.uk",
+            img: require("@/assets/images/companies/img-6.png"),
+            name: "Ventura Associates",
+            email: "developer@ventura.com",
             country: "United States of America",
             date: "11 Nov, 2021",
             time: "12:37AM",
@@ -288,9 +290,13 @@
         return this.paginate(this.invoiceList);
       },
       resultQuery() {
+        let invoices = this.displayedPosts;
+        if (this.userType === 'supplier') {
+          invoices = this.displayedPosts.filter(inv => inv.name === localStorage.getItem("userOrg"))
+        }
         if (this.searchQuery) {
           const search = this.searchQuery.toLowerCase();
-          return this.displayedPosts.filter((data) => {
+          return invoices.filter((data) => {
             return data.invoiceId.toLowerCase().includes(search) ||
               data.name.toLowerCase().includes(search) ||
               data.email.toLowerCase().includes(search) ||
@@ -313,6 +319,11 @@
     },
     created() {
       this.setPages();
+      this.userType = localStorage.getItem("userType");
+      this.userOrg = localStorage.getItem("userOrg");
+      this.userName = localStorage.getItem("userName");
+      this.invoiceList = this.invoiceList.filter(invoice => invoice.name == localStorage.getItem("userOrg"))
+//      this.userTitle = localStorage.getItem("userTitle");
     },
     filters: {
       trimWords(value) {
@@ -445,7 +456,7 @@
 <template>
   <Layout>
     <PageHeader :title="title" :items="items" />
-    <div class="row">
+    <div class="row" v-if="userType==='consultant'">
       <div class="col-xl-3 col-md-6" v-for="(item, index) of invoiceWidgets" :key="index">
         <!-- card -->
         <div class="card card-animate">
@@ -507,7 +518,7 @@
           <div class="card-header border-0">
             <div class="d-flex align-items-center">
               <h5 class="card-title mb-0 flex-grow-1">Invoices</h5>
-              <div class="flex-shrink-0">
+              <div class="flex-shrink-0" v-if="userType==='consultant'">
                 <button class="btn btn-soft-danger me-1" @click="deleteMultiple">
                   <i class="ri-delete-bin-2-line"></i>
                 </button>
@@ -527,7 +538,7 @@
                 <div class="col-xxl-5 col-sm-12">
                   <div class="search-box">
                     <input type="text" class="form-control search bg-light border-light"
-                      placeholder="Search for supplier, email, status ..." />
+                      placeholder="Search for invoice data ..." />
                     <i class="ri-search-line search-icon"></i>
                   </div>
                 </div>

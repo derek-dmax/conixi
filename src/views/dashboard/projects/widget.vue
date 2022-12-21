@@ -22,7 +22,7 @@ export default {
           feaIcon: "award",
           feaIconClass: "warning",
           label: "New Suppliers",
-          counter: "75",
+          counter: "7",
           separator: ",",
           suffix: "",
           badgeClass: "success",

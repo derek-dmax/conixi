@@ -1,24 +1,41 @@
 <template>
   <div class="row">
     <div class="left col-5">
-      <div class="dz-title">Tasks</div>
+      <div class="dz-title col-2">Tasks</div>
       <draggable v-model="leftItems" transition="100" class="drop-zone">
         <template v-slot:item="{ item }">
           <div class="draggable-item">
-            {{
-              item.id +
-              ". " +
-              item.text +
-              (item.start_date ? " (" + item.start_date.format("Do MMM") + ")" : "")
-            }}
-            <span v-if="item.payment"><i class="ri-star-fill text-warning"></i></span>
-            <div class="progress progress-sm">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="d-flex" id="centredsubmenu">
+              <div class="flex-grow-1 tasks_name">
+                {{
+                  item.id +
+                  ". " +
+                  item.text +
+                  (item.start_date ? " (" + item.start_date.format("Do MMM") + ")" : "")
+                }}
+              </div>
+              <div class="flex-shrink-0 ms-4">
+                <ul class="list-inline tasks-list-menu mb-0">
+                  <li class="list-inline-item" title="View Task">
+                    <router-link to="/apps/tasks-details"><i
+                        class="ri-eye-fill align-bottom me-2 text-muted"></i></router-link>
+                  </li>
+                  <li class="list-inline-item" data-bs-toggle="modal" title="Edit Task" href="#showmodal"
+                    @click="editdata(task)">
+                    <a href="#"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i></a>
+                  </li>
+                  <li class="list-inline-item" title="Delete Task">
+                    <a class="remove-item-btn" @click="deletedata(task)">
+                      <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </template>
       </draggable>
-      <pre>{{ JSON.stringify(leftItems, undefined, 4) }}</pre>
+      <!-- <pre>{{ JSON.stringify(leftItems, undefined, 4) }}</pre> -->
     </div>
 
     <div class="right col-7">
@@ -122,8 +139,7 @@
           </div>
         </template>
       </draggable>
-
-      <pre>{{ JSON.stringify(rightItems, undefined, 4) }}</pre>
+      <!-- <pre>{{ JSON.stringify(rightItems, undefined, 4) }}</pre> -->
     </div>
   </div>
 </template>
@@ -155,6 +171,12 @@ const updProjectTask = (payload) => {
 </script>
 
 <style>
+.tasks-list-menu {
+    opacity: 0;
+}
+.tasks-list-menu:hover {
+    opacity: 1 !important;
+}
 .statusBadge {
   font-size: 0.7rem;
   margin-top: -20px;
@@ -198,4 +220,13 @@ pre {
   width: 400px;
   min-height: 200px;
 }
-</style>
+div#centredsubmenu {
+    clear:both;
+    float:left;
+    margin:0;
+    padding:0;
+    width:100%;
+    z-index:10; /* This makes the dropdown menus appear above the page content below */
+    position:relative;
+ }
+ </style>

@@ -40,7 +40,7 @@
         img: "assets/images/users/lauraheadshot.jpg",
         invoiceId: "#VL25000351",
         name: "Laura Van Zyl",
-        notes: "All accounts will be paid within 14 days from due date of invoice. If account is not paid within 14 days please contact our accounts payable department.",
+        notes: "All accounts will be paid within 14 days from due date of invoice. If not paid within 14 days please contact our accounts payable department.",
         payment_method: "Mastercard",
         postalcode: 91798,
         product_detail: [{
@@ -259,7 +259,7 @@
             </div>
             <div class="mt-4">
               <div class="alert alert-info">
-                <p class="mb-0"><span class="fw-semibold">NOTES:</span>
+                <p class="mb-0"><span class="fw-semibold">NOTE: </span>
                   <span id="note">{{notes}}
                   </span>
                 </p>

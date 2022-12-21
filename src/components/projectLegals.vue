@@ -26,13 +26,13 @@
             </div>
             <div class="col">
                 <h5 class="fs-14">CONTRACTOR</h5>
-                <p class="mb-0">DMax Design</p>
+                <p class="mb-0">{{userOrg}}</p>
                 <p class="mb-0">St Albans</p>
                 <p>(the "Contractor")</p>
             </div>
             </div>
-            <section class="mt-1">
-            <h6 class="fs-16 my-3">BACKGROUND</h6>
+            <section>
+            <h6 class="fs-16 my-3 mt-0">BACKGROUND</h6>
             <p>
                 <ol>
                     <li>The Client is of the opinion that the Contractor has the necessary qualifications,
@@ -52,7 +52,7 @@
             <p>
                 <ol>
                     <li class="mb-2">The Client hereby agrees to engage the Contractor to provide the Client with the following services (the "Services"):
-                        <ul>
+                        <ul class="mt-2">
                             <li class="text-muted mb-1" v-for="(service, index) in selProject.services" :key="index">
                                 {{ service }}
                             </li>
@@ -85,7 +85,7 @@
                     <li>Payment will become due when the following milestones have been delivered and signed off by the client. A self-bill
                         will be made available.
                         <ol class="mt-2">
-                            <li v-for="(item, index) in paymentItems" :key="index" class="mt-2 row">
+                            <li v-for="(item, index) in payItems" :key="index" class="mt-2 row">
                                 <b class="col-6">{{ item.text }}</b>
                                 <span class="col-4">due on {{ item.start_date.format('Do') + ' day of ' + item.start_date.format('MMMM, YYYY') }}</span>
                                 <span class="col-2" style="text-align:right;padding-right:40px">£{{item.payment.toLocaleString("en-US")}}</span>
@@ -159,6 +159,8 @@ import { defineProps } from 'vue'
             default: null
         },
     })
+    const userOrg = localStorage.getItem("userOrg");
+    let payItems = props.selProject.tasks.filter((task) => task.payment);
 </script>
 
 <style>

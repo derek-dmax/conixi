@@ -459,17 +459,19 @@ export const state = {
             ],
             members: [
                 {
+                    name: "Derek Macrae",
+                    img: require("@/assets/images/users/derekm.jpg"),
+                    role: 'Owner',
+                    projects: 2,
+                    tasks: 9
+                },
+                {
                     name: "Laura Van Zyl",
+                    role: 'Approver',
                     img: require("@/assets/images/users/avatar-2.jpg"),
                     projects: 2,
                     tasks: 12
                 },
-                {
-                    name: "Alex Raubitschek",
-                    img: require("@/assets/images/users/avatar-3.jpg"),
-                    projects: 2,
-                    tasks: 9
-                }
             ],
             suppliers: [
                 {

@@ -86,7 +86,10 @@ export default {
     ...notificationMethods,
 
     async signinapi() {
-      if (this.email !== "derek@conixi.co.uk" && this.email !== "derek@dmax.design" && this.email !== "developer@ventura.co.uk") {
+      if (this.email !== "derek@conixi.co.uk"
+        && this.email !== "derek@dmax.design"
+        && this.email !== "developer@ventura.co.uk"
+        && this.email !== "laura@conixi.co.uk") {
         this.passedEmail = "";
       }
 
@@ -103,6 +106,18 @@ export default {
 
       localStorage.setItem("jwt", result.data.token);
       console.log(this.email);
+      if (this.email === "derek@conixi.co.uk") {
+        this.userType = "consultant";
+        this.userOrg = "Conixi"
+        this.userName = "Derek Macrae"
+        this.userTitle = "CTO"
+      }
+      if (this.email === "laura@conixi.co.uk") {
+        this.userType = "manager";
+        this.userOrg = "Conixi"
+        this.userName = "Laura Van Zyl"
+        this.userTitle = "Manager"
+      }
       if (this.email === "derek@dmax.design") {
         this.userType = "supplier";
         this.userOrg = "DMax Design"
