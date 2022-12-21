@@ -281,12 +281,6 @@ export default [
     component: () => import("../views/apps/ecommerce/seller-details"),
   },
   {
-    path: "/crypto/kyc",
-    name: "kyc",
-    meta: { title: "KYC Application", authRequired: true },
-    component: () => import("../views/apps/crypto/kyc"),
-  },
-  {
     path: "/invoices/detail/:id?",
     name: "invoice-detail",
     meta: { title: "Invoice Details", authRequired: true },
