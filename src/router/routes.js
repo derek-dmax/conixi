@@ -64,15 +64,6 @@ export default [
     component: () => import("../views/dashboard/projects/index"),
   },
   {
-    path: "/dashboard/crypto",
-    name: "dashboard-crypto",
-    meta: {
-      title: "Crypto",
-      authRequired: true,
-    },
-    component: () => import("../views/dashboard/crypto/index"),
-  },
-  {
     path: "/dashboard/projects",
     name: "dashboard-projects",
     meta: {
@@ -290,40 +281,10 @@ export default [
     component: () => import("../views/apps/ecommerce/seller-details"),
   },
   {
-    path: "/crypto/buy-sell",
-    name: "buy/sell",
-    meta: { title: "Buy & Sell", authRequired: true },
-    component: () => import("../views/apps/crypto/buy-sell"),
-  },
-  {
     path: "/crypto/kyc",
     name: "kyc",
     meta: { title: "KYC Application", authRequired: true },
     component: () => import("../views/apps/crypto/kyc"),
-  },
-  {
-    path: "/crypto/ico",
-    name: "ico",
-    meta: { title: "ICO List", authRequired: true },
-    component: () => import("../views/apps/crypto/ico"),
-  },
-  {
-    path: "/crypto/orders",
-    name: "crypto-orders",
-    meta: { title: "Orders", authRequired: true },
-    component: () => import("../views/apps/crypto/orders"),
-  },
-  {
-    path: "/crypto/wallet",
-    name: "wallet",
-    meta: { title: "My Wallet", authRequired: true },
-    component: () => import("../views/apps/crypto/wallet"),
-  },
-  {
-    path: "/crypto/transactions",
-    name: "transactions",
-    meta: { title: "Transactions", authRequired: true },
-    component: () => import("../views/apps/crypto/transactions"),
   },
   {
     path: "/invoices/detail/:id?",
@@ -520,12 +481,6 @@ export default [
     name: "remix",
     meta: { title: "Remix", authRequired: true },
     component: () => import("../views/icons/remix"),
-  },
-  {
-    path: "/icons/crypto",
-    name: "crypto",
-    meta: { title: "Crypto", authRequired: true },
-    component: () => import("../views/icons/crypto"),
   },
   {
     path: "/tables/basic",

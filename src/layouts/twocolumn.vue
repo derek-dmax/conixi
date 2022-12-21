@@ -423,15 +423,6 @@ export default {
                       </li>
                       <li class="nav-item">
                         <router-link
-                          to="/dashboard/crypto"
-                          class="nav-link"
-                          data-key="t-crypto"
-                        >
-                          {{ $t("t-crypto") }}
-                        </router-link>
-                      </li>
-                      <li class="nav-item">
-                        <router-link
                           to="/dashboard/projects"
                           class="nav-link"
                           data-key="t-projects"
@@ -769,77 +760,6 @@ export default {
                                 data-key="t-leads"
                               >
                                 {{ $t("t-leads") }}
-                              </router-link>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          href="#sidebarCrypto"
-                          class="nav-link"
-                          data-bs-toggle="collapse"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="sidebarCrypto"
-                          data-key="t-crypto"
-                        >
-                          {{ $t("t-crypto") }}
-                        </a>
-                        <div class="collapse menu-dropdown" id="sidebarCrypto">
-                          <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                              <router-link
-                                to="/crypto/transactions"
-                                class="nav-link"
-                                data-key="t-transactions"
-                              >
-                                {{ $t("t-transactions") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
-                                to="/crypto/buy-sell"
-                                class="nav-link"
-                                data-key="t-buy-sell"
-                              >
-                                {{ $t("t-buy-sell") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
-                                to="/crypto/orders"
-                                class="nav-link"
-                                data-key="t-orders"
-                              >
-                                {{ $t("t-orders") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
-                                to="/crypto/wallet"
-                                class="nav-link"
-                                data-key="t-my-wallet"
-                              >
-                                {{ $t("t-my-wallet") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
-                                to="/crypto/ico"
-                                class="nav-link"
-                                data-key="t-ico-list"
-                              >
-                                {{ $t("t-ico-list") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
-                                to="/crypto/kyc"
-                                class="nav-link"
-                                data-key="t-kyc-application"
-                              >
-                                {{ $t("t-kyc-application") }}
                               </router-link>
                             </li>
                           </ul>
