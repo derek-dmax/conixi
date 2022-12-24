@@ -71,6 +71,14 @@ export default {
           on: 'bottom',
           scrollTo: true
         },
+        beforeShowPromise: function() {
+          return new Promise(function(resolve) {
+            console.log('Testing')
+            let element = document.getElementById("overview-step");
+            element.click();
+            resolve()
+          });
+        },
         buttons: [
           {
             text: 'Next',
@@ -86,6 +94,82 @@ export default {
           element: '#sow-step',
           on: 'bottom',
           scrollTo: true
+        },
+        beforeShowPromise: function() {
+          return new Promise(function(resolve) {
+            let element = document.getElementById("sow-step");
+            element.click();
+            resolve()
+          });
+        },
+        buttons: [
+          {
+            text: 'Next',
+            action: this.tour.next
+          }
+        ]
+      });
+      this.tour.addStep({
+        id: 'doc-tour',
+        title: "Documents",    
+        text: 'The Documents tab shows all documents attached to the project.',
+        attachTo: {
+          element: '#doc-step',
+          on: 'bottom',
+          scrollTo: true
+        },
+        beforeShowPromise: function() {
+          return new Promise(function(resolve) {
+            let element = document.getElementById("doc-step");
+            element.click();
+            resolve()
+          });
+        },
+        buttons: [
+          {
+            text: 'Next',
+            action: this.tour.next
+          }
+        ]
+      });
+      this.tour.addStep({
+        id: 'team-tour',
+        title: "Team",    
+        text: 'The Team tab shows the owner(s) and Approver for the project.',
+        attachTo: {
+          element: '#team-step',
+          on: 'bottom',
+          scrollTo: true
+        },
+        beforeShowPromise: function() {
+          return new Promise(function(resolve) {
+            let element = document.getElementById("team-step");
+            element.click();
+            resolve()
+          });
+        },
+        buttons: [
+          {
+            text: 'Next',
+            action: this.tour.next
+          }
+        ]
+      });
+      this.tour.addStep({
+        id: 'proj-tour',
+        title: "Project Plan",    
+        text: 'The Project Plan tab shows a GANTT chart view of the project.',
+        attachTo: {
+          element: '#proj-step',
+          on: 'bottom',
+          scrollTo: true
+        },
+        beforeShowPromise: function() {
+          return new Promise(function(resolve) {
+            let element = document.getElementById("proj-step");
+            element.click();
+            resolve()
+          });
         },
         buttons: [
           {
@@ -206,8 +290,9 @@ export default {
               </div>
 
               <ul class="nav nav-tabs-custom border-bottom-0" role="tablist">
-                <li class="nav-item" id="overview-step">
+                <li class="nav-item">
                   <a
+                    id="overview-step"
                     class="nav-link active fw-semibold"
                     data-bs-toggle="tab"
                     href="#project-overview"
@@ -216,8 +301,9 @@ export default {
                     Overview
                   </a>
                 </li>
-                <li class="nav-item" id="sow-step">
+                <li class="nav-item">
                   <a
+                    id="sow-step"
                     class="nav-link fw-semibold"
                     data-bs-toggle="tab"
                     href="#project-sow"
@@ -228,6 +314,7 @@ export default {
                 </li>
                 <li class="nav-item">
                   <a
+                    id="doc-step"
                     class="nav-link fw-semibold"
                     data-bs-toggle="tab"
                     href="#project-documents"
@@ -238,6 +325,7 @@ export default {
                 </li>
                 <li class="nav-item">
                   <a
+                    id="team-step"
                     class="nav-link fw-semibold"
                     data-bs-toggle="tab"
                     href="#project-team"
@@ -248,6 +336,7 @@ export default {
                 </li>
                 <li class="nav-item">
                   <a
+                    id="proj-step"
                     class="nav-link fw-semibold"
                     data-bs-toggle="tab"
                     href="#project-gantt"
