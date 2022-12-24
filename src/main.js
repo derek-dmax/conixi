@@ -14,9 +14,11 @@ import Maska from 'maska';
 import VueFeather from 'vue-feather';
 import Particles from "particles.vue3";
 
-import '@/assets/scss/config/modern/app.scss';
-import '@vueform/slider/themes/default.css';
+import '@/assets/scss/config/modern/app.scss'
+import '@vueform/slider/themes/default.css'
 
+import VueShepherdPlugin from 'vue-shepherd'
+import '../node_modules/shepherd.js/dist/css/shepherd.css'
 // FakeBackend authentication
 // import { configureFakeBackend } from './helpers/fake-backend';
 // configureFakeBackend();
@@ -52,4 +54,5 @@ createApp(App)
     .use(Maska)
     .use(Particles)
     .use(i18n)
-    .use(vClickOutside).mount('#app')
+    .use(vClickOutside)
+    .use(VueShepherdPlugin).mount('#app')

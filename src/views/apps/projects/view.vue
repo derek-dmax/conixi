@@ -27,14 +27,17 @@ export default {
       todayDate: moment().format("Do") + " day of " + moment().format("MMMM YYYY"),
       yesterdayDate: moment().subtract(1, "days").format("Do MMM, YYYY"),
       currId: 1,
+      tour: null,
     };
   },
   created() {
-    const queryParams = new URLSearchParams(window.location.search);
-    this.currId = queryParams.get("id");
-    this.yesterday = 
+    const queryParams = new URLSearchParams(window.location.search)
+    this.currId = queryParams.get("id")
 
-    this.selProject = this.projectList[this.currId];
+    this.selProject = this.projectList[this.currId]
+  },
+  mounted() {
+    this.createTour()
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
@@ -49,12 +52,59 @@ export default {
   },
   methods: {
     ...mapActions("projects", ["updateProject"]),
+    createTour(){
+      this.tour = this.$shepherd({
+        defaultStepOptions: {
+          cancelIcon: {
+            enabled: true
+          },
+          scrollTo: { behavior: 'smooth', block: 'center' }
+        },
+        useModalOverlay: true
+      });
+      this.tour.addStep({
+        id: 'overview-tour',
+        title: "Overview",    
+        text: 'The overview tab shows the main information held against the project.',
+        attachTo: {
+          element: '#overview-step',
+          on: 'bottom',
+          scrollTo: true
+        },
+        buttons: [
+          {
+            text: 'Next',
+            action: this.tour.next
+          }
+        ]
+      });
+      this.tour.addStep({
+        id: 'sow-tour',
+        title: "Statement of Work",    
+        text: 'The Statement of Work tab shows the tasks and milestones of the project.',
+        attachTo: {
+          element: '#sow-step',
+          on: 'bottom',
+          scrollTo: true
+        },
+        buttons: [
+          {
+            text: 'Next',
+            action: this.tour.next
+          }
+        ]
+      });
+    },
+    startTour(){
+      this.tour.start()
+    }
   },
 };
 </script>
 
 <template>
   <Layout>
+    
     <div class="row">
       <div class="col-lg-12">
         <div class="card mt-n4 mx-n4">
@@ -121,6 +171,11 @@ export default {
                 </div>
                 <div class="col-md-auto">
                   <div class="hstack gap-1 flex-wrap">
+                    <button class="btn avatar-xs mt-n1 p-0" @click="startTour">
+                      <span class="bg-transparent fs-20">
+                        <i class="ri-question-line"></i>
+                      </span>
+                    </button>
                     <button
                       type="button"
                       class="btn avatar-xs mt-n1 p-0 favourite-btn"
@@ -151,7 +206,7 @@ export default {
               </div>
 
               <ul class="nav nav-tabs-custom border-bottom-0" role="tablist">
-                <li class="nav-item">
+                <li class="nav-item" id="overview-step">
                   <a
                     class="nav-link active fw-semibold"
                     data-bs-toggle="tab"
@@ -161,7 +216,7 @@ export default {
                     Overview
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="sow-step">
                   <a
                     class="nav-link fw-semibold"
                     data-bs-toggle="tab"

@@ -38,6 +38,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: 'Admin',
+                    group: 'Project Scoping & Design',
                 },
                 {
                     id: 2,
@@ -53,6 +55,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: 'Admin',
+                    group: 'Project Scoping & Design',
                 },
                 {
                     id: 3,
@@ -68,6 +72,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: 'Admin',
+                    group: 'Project Scoping & Design',
                 },
                 {
                     id: 4,
@@ -84,6 +90,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: 'Admin',
+                    group: 'Project Scoping & Design',
                 },
                 {
                     id: 5,
@@ -100,6 +108,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 6,
@@ -115,6 +125,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 7,
@@ -130,6 +142,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 8,
@@ -145,6 +159,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 9,
@@ -160,6 +176,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 10,
@@ -175,6 +193,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 11,
@@ -190,6 +210,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 12,
@@ -205,6 +227,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 13,
@@ -220,6 +244,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
                 {
                     id: 14,
@@ -235,6 +261,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Build project dashboard",
+                    group: "Design & Development",
                 },
             ],
             members: [
@@ -303,6 +331,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 2,
@@ -318,6 +348,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 3,
@@ -333,6 +365,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 4,
@@ -349,6 +383,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 5,
@@ -365,6 +401,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 6,
@@ -380,6 +418,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 7,
@@ -395,6 +435,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 9,
@@ -410,6 +452,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 11,
@@ -425,6 +469,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 12,
@@ -440,6 +486,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
                 {
                     id: 13,
@@ -455,6 +503,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Landing Page Re-design",
+                    group: null,
                 },
             ],
             members: [
@@ -534,6 +584,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 2,
@@ -549,6 +601,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 3,
@@ -564,6 +618,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 4,
@@ -580,6 +636,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 5,
@@ -596,6 +654,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 6,
@@ -611,6 +671,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 7,
@@ -626,6 +688,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 9,
@@ -641,6 +705,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 11,
@@ -656,6 +722,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 12,
@@ -671,6 +739,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
                 {
                     id: 13,
@@ -686,6 +756,8 @@ export const state = {
                     changeStatus: false,
                     changeDate: false,
                     changeDescription: false,
+                    service: "Project Management Application",
+                    group: null,
                 },
             ],
             members: [
