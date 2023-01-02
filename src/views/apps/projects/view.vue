@@ -1,12 +1,12 @@
 <script>
-import Layout from "../../../layouts/main.vue";
-import appConfig from "../../../../app.config";
-import { mapGetters, mapActions } from "vuex";
-import Draggable from "vue3-draggable";
-import moment from "moment";
-import projectLegals from "../../../components/projectLegals.vue";
-import projectMilestones from "../../../components/projectMilestones.vue";
-import projectGANTT from "../../../components/projectGANTT.vue";
+import Layout from "../../../layouts/main.vue"
+import appConfig from "../../../../app.config"
+import { mapGetters, mapActions } from "vuex"
+import Draggable from "vue3-draggable"
+import moment from "moment"
+import projectLegals from "../../../components/projectLegals.vue"
+import projectMilestones from "../../../components/projectMilestones.vue"
+import projectGANTT from "../../../components/projectGANTT.vue"
 
 export default {
   page: {
@@ -27,14 +27,35 @@ export default {
       todayDate: moment().format("Do") + " day of " + moment().format("MMMM YYYY"),
       yesterdayDate: moment().subtract(1, "days").format("Do MMM, YYYY"),
       currId: 1,
+      refreshModal: false,
       tour: null,
+      taskDueDate: moment().add(7, "days").format("DD/MM/YYYY"),
+      task: {
+        id: null,
+        text: "",
+        start_date: null,
+        parent: 0,
+        duration: 0,
+        progress: 0,
+        open: true,
+        payment: 0,
+        status: "New",
+        changePayment: false,
+        changeStatus: false,
+        changeDate: false,
+        changeDescription: false,
+        service: null,
+        group: null,
+      },
     };
   },
   created() {
     const queryParams = new URLSearchParams(window.location.search)
     this.currId = queryParams.get("id")
+    console.log(this.projectList)
 
     this.selProject = this.projectList[this.currId]
+    console.log(this.selProject)
   },
   mounted() {
     this.createTour()
@@ -51,7 +72,24 @@ export default {
     projectGANTT,
   },
   methods: {
-    ...mapActions("projects", ["updateProject"]),
+    ...mapActions("projects", ["updateProject", "insertTask"]),
+    buildTaskAndInsert() {
+      let passTask = Object.assign({}, this.task) // avoid "by reference" issues
+      let maxid = 0;
+      this.selProject.tasks.map (function (obj) { if (obj.id > maxid) passTask.id = obj.id })
+      passTask.id += 1
+      passTask.start_date = moment(this.taskDueDate).subtract(passTask.duration, "days")
+      this.insertTask({id: this.selProject.id, task: passTask})
+      this.clearTask()
+      document.getElementById("addTaskBtn-close").click()
+      this.refreshModal = !this.refreshModal
+    },
+    clearTask() {
+      this.taskDueDate = null
+      this.task.text = null
+      this.task.duration = 0
+      this.task.payment = 0
+    },
     createTour(){
       this.tour = this.$shepherd({
         defaultStepOptions: {
@@ -924,7 +962,17 @@ export default {
                 <div class="row">
                   <h5 class="card-title col-4">Statement of Work</h5>
                   <button type="button" class="col-1 btn btn-sm btn-success active btn-nudge-left">
-                      <span class="icon-on"><i class="ri-add-circle-line align-bottom me-1"></i>Add Task</span>
+                      <span class="icon-on">
+                        <i class="ri-add-circle-line align-bottom me-1"></i>
+                        <a
+                          class="edit-folder-list"
+                          style="color: white !important"
+                          href="#insertTaskModal"
+                          data-bs-toggle="modal"
+                          role="button"
+                          >Add Task</a
+                        >
+                      </span>
                   </button>
                   <div class="col-6"></div>
                   <button
@@ -936,7 +984,7 @@ export default {
                     <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Contract</span>
                   </button>
                 </div>
-                <projectMilestones :currId="currId"></projectMilestones>
+                <projectMilestones :currId="currId" :key="refreshModal"></projectMilestones>
               </div>
               <!--end card-body-->
             </div>
@@ -1099,7 +1147,7 @@ export default {
           <!-- end tab pane -->
           <div class="tab-pane fade" id="project-gantt" role="tabpanel">
             <div class="card">
-              <projectGANTT style="height: 900px" :currId="currId"></projectGANTT>
+              <projectGANTT style="height: 900px" :currId="currId" :key="refreshModal"></projectGANTT>
             </div>
             <!-- end team list -->
           </div>
@@ -1109,6 +1157,115 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
+    <!-- START Insert Task MODAL -->
+    <div
+      class="modal fade zoomIn"
+      id="insertTaskModal"
+      tabindex="-1"
+      aria-labelledby="insertTaskModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0">
+          <div class="modal-header p-3 bg-soft-success">
+            <h5 class="modal-title" id="insertTaskModalLabel">
+              Insert Task
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              id="addTaskBtn-close"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              autocomplete="off"
+              class="needs-validation insertTask-form"
+              id="insertTask-form"
+              novalidate
+            >
+              <div class="mb-4">
+                <label for="taskname-input" class="form-label"
+                  >Task Name</label
+                >
+                <input
+                  v-model="task.text"
+                  type="text"
+                  class="form-control"
+                  id="taskname-input"
+                  required
+                />
+                <div class="invalid-feedback">Please enter a task name.</div>
+                <input
+                  type="hidden"
+                  class="form-control"
+                  id="taskid-input"
+                  value=""
+                />
+              </div>
+              <div class="mb-4">
+                <label for="taskdue-input" class="form-label"
+                  >Due Date</label
+                >
+                <input
+                  v-model="taskDueDate"
+                  type="date"
+                  class="form-control"
+                  id="taskdue-input"
+                  required
+                />
+                <div class="invalid-feedback">Please enter a due date.</div>
+              </div>
+              <div class="mb-4">
+                <label for="taskduration-input" class="form-label"
+                  >Duration (days)</label
+                >
+                <input
+                  v-model="task.duration"
+                  type="number"
+                  class="form-control"
+                  id="taskduration-input"
+                  required
+                />
+                <div class="invalid-feedback">Please enter a duration.</div>
+              </div>
+              <div class="mb-4">
+                <label for="taskpayment-input" class="form-label"
+                  >Payment</label
+                >
+                £
+                <input
+                  v-model="task.payment"
+                  type="number"
+                  class="form-control"
+                  id="taskpayment-input"
+                />
+              </div>
+              <div class="hstack gap-2 justify-content-end">
+                <button
+                  type="button"
+                  class="btn btn-ghost-success"
+                  data-bs-dismiss="modal"
+                >
+                  <i class="ri-close-line align-bottom"></i> Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="addNewTask"
+                  @click="buildTaskAndInsert"
+                >
+                  Add Task
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Insert Task MODAL -->
   </Layout>
 </template>
 <style>

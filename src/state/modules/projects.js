@@ -802,38 +802,54 @@ export const state = {
 };
 
 export const mutations = {
-    updateProject(state, payload) {
-        console.log('updateProject: ', payload.id)
+    UPDATE_PROJECT(state, payload) {
+        console.log('UPDATE_PROJECT: ', payload.id)
         Object.assign(state.projectList[payload.id], payload.updates);
     },
-    updateProjectTask(state, payload) {
-        console.log('updateProjectTask: ' + payload.id + ', task: ' + payload.taskId)
+    UPDATE_PROJECT_TASK(state, payload) {
+        console.log('UPDATE_PROJECT_TASK: ' + payload.id + ', task: ' + payload.taskId)
         const selTask = state.projectList[payload.id].tasks.find(task => task.id === payload.taskId)
         if(payload.updates.changePayment !== undefined) selTask.changePayment = payload.updates.changePayment;
         if(payload.updates.payment !== undefined) selTask.payment = payload.updates.payment;
     },
-    deleteProject(state, id) {
+    DELETE_PROJECT(state, id) {
         delete state.projectList[id]
     },
-    createProject(state, payload) {
-        state.projectList[payload.id] = payload;
+    CREATE_PROJECT(state, payload) {
+        console.log("Inserting project", payload)
+        state.projectList[payload.id] = payload
+        console.log(state.projectList)
+    },
+    REMOVE_TASK(state, payload) {
+        console.log("Removing task", payload)
+        state.projectList[payload.id].tasks = state.projectList[payload.id].tasks.filter(task => task.id!== payload.taskId)
+    },
+    INSERT_TASK(state, payload) {
+        state.projectList[payload.id].tasks.push(payload.task)
     }
 };
 
 export const actions = {
     updateProject({ commit }, payload) {
-        commit('updateProject', payload)
+        commit('UPDATE_PROJECT', payload)
     },
     updateProjectTask({ commit }, payload) {
-        commit('updateProjectTask', payload)
+        commit('UPDATE_PROJECT_TASK', payload)
     },
     deleteProject({ commit }, id) {
-        commit('deleteProject', id)
+        commit('DELETE_PROJECT', id)
     },
     createProject({ commit }, payload) {
-        commit('createProject', payload)
+        commit('CREATE_PROJECT', payload)
+    },
+    removeTask({ commit }, payload) {
+        commit('REMOVE_TASK', payload)
+    },
+    insertTask({ commit }, payload) {
+        console.log('insertTask a', payload)
+        commit('INSERT_TASK', payload)
     }
-};
+}
 
 export const getters = {
     projectList: state => state.projectList,

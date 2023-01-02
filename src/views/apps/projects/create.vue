@@ -4,7 +4,7 @@ import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
-import uuid from "uuid";
+import { v4 as uuidv4} from "uuid";
 
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -55,8 +55,9 @@ export default {
           active: true,
         },
       ],
+      start_date: null,
       selProject: {
-        id: uuid(),
+        id: uuidv4(),
         time: "Last update : " + moment().format('Do MMM, YYYY'),
         client: null,
         favourite: false,
@@ -66,9 +67,9 @@ export default {
         subCategory: "",
         skills: [],
         services: [
-                "Application",
-                "Training",
-            ],
+          "Application",
+          "Training",
+        ],
         description: "",
         number: "0/2",
         progressBar: "0%",
@@ -76,39 +77,39 @@ export default {
         priority: "Medium",
         tasks: [
           {
-                    id: 1,
-                    type:gantt.config.types.project, 
-                    text: "Project Scoping & Design",
-                    progress: 0.4,
-                    open: true,
-                    duration: "12",
-                    start_date: moment().add(10, "days"),
-                    payment: 0,
-                    parent: null,
-                    status: "unpaid",
-                    changeStatus: false,
-                    changeDate: false,
-                    changeDescription: false,
-                    service: "Application",
-                    group: null,
-                },
-                {
-                    id: 2,
-                    type:gantt.config.types.project, 
-                    text: "Design Complete",
-                    progress: 0.4,
-                    open: true,
-                    duration: "12",
-                    start_date: moment().add(15, "days"),
-                    payment: 100,
-                    parent: null,
-                    status: "unpaid",
-                    changeStatus: false,
-                    changeDate: false,
-                    changeDescription: false,
-                    service: "Application",
-                    group: null,
-                },
+            id: 1,
+            type:gantt.config.types.project, 
+            text: "Project Execution",
+            progress: 0,
+            open: true,
+            duration: "12",
+            start_date: moment().add(10, "days"),
+            payment: 0,
+            parent: null,
+            status: "unpaid",
+            changeStatus: false,
+            changeDate: false,
+            changeDescription: false,
+            service: "Application",
+            group: null,
+          },
+          {
+            id: 2,
+            type:gantt.config.types.milestone, 
+            text: "Complete",
+            progress: 0,
+            open: true,
+            duration: "12",
+            start_date: moment().add(15, "days"),
+            payment: null,
+            parent: null,
+            status: "unpaid",
+            changeStatus: false,
+            changeDate: false,
+            changeDescription: false,
+            service: "Application",
+            group: null,
+          },
         ],
         members: [
           {
@@ -230,6 +231,10 @@ export default {
   methods: {
     ...mapActions("projects", ["createProject"]),
     projectCreate(payload) {
+      payload.tasks[0].start_date = this.start_date ? moment(this.start_date) : moment();
+      payload.tasks[1].start_date = moment(payload.dueDate);
+      payload.tasks[1].payment = this.cost;
+      console.log(payload)
       this.createProject(payload)
       console.log(payload)
       this.$router.push({
@@ -306,6 +311,42 @@ export default {
             <div class="row">
               <div class="col-lg-4">
                 <div class="mb-3 mb-lg-0">
+                  <label for="cost-input" class="form-label">Project Total Cost</label>
+                  <input
+                    class="form-control"
+                    id="cost-input"
+                    type="number"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="mb-3 mb-lg-0">
+                  <label for="choices-status-input" class="form-label">Start Date</label>
+
+                  <flat-pickr
+                    v-model="start_date"
+                    :config="config"
+                    class="form-control"
+                  ></flat-pickr>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div>
+                  <label for="datepicker-deadline-input" class="form-label"
+                    >Deadline</label
+                  >
+
+                  <flat-pickr
+                    v-model="selProject.dueDate"
+                    :config="config"
+                    class="form-control"
+                  ></flat-pickr>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="mb-3 mb-lg-0">
                   <label for="choices-priority-input" class="form-label">Priority</label>
 
                   <Multiselect
@@ -335,19 +376,6 @@ export default {
                       { value: 'Completed', label: 'Completed' },
                     ]"
                   />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div>
-                  <label for="datepicker-deadline-input" class="form-label"
-                    >Deadline</label
-                  >
-
-                  <flat-pickr
-                    v-model="selProject.dueDate"
-                    :config="config"
-                    class="form-control"
-                  ></flat-pickr>
                 </div>
               </div>
             </div>
@@ -396,7 +424,7 @@ export default {
         <!-- end card -->
         <div class="text-end mb-4">
           <button type="submit" class="btn btn-secondary w-sm me-1">Draft</button>
-          <button type="submit" class="btn btn-success w-sm">Create</button>
+          <button type="submit" class="btn btn-success w-sm" @click="projectCreate(selProject)">Create</button>
         </div>
       </div>
       <!-- end col -->
@@ -582,6 +610,9 @@ export default {
   </Layout>
 </template>
 <style>
+.ck-editor__editable_inline {
+    max-height: 80px;
+}
 .form-control-inline {
   position: relative;
   width: 89%;

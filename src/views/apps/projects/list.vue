@@ -311,6 +311,7 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
+    <pre>{{projectList}}</pre>
 
     <div class="row g-0 text-center text-sm-start align-items-center mb-4">
       <div class="col-sm-6">
