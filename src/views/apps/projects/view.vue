@@ -29,7 +29,7 @@ export default {
       currId: 1,
       refreshModal: false,
       tour: null,
-      taskDueDate: moment().add(7, "days").format("DD/MM/YYYY"),
+      taskDueDate: null,
       task: {
         id: null,
         text: "",
@@ -78,7 +78,7 @@ export default {
       let maxid = 0;
       this.selProject.tasks.data.map (function (obj) { if (obj.id > maxid) passTask.id = obj.id })
       passTask.id += 1
-      passTask.start_date = moment(this.taskDueDate).subtract(passTask.duration, "days")
+      passTask.start_date = moment(this.taskDueDate).subtract(this.task.duration, "days")
       this.insertTask({id: this.selProject.id, task: passTask})
       this.clearTask()
       document.getElementById("addTaskBtn-close").click()

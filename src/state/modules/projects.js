@@ -865,20 +865,35 @@ export const mutations = {
     INSERT_TASK(state, payload) {
         let passTask = Object.assign({}, payload.task) // avoid "by reference" issues
         if(passTask.payment > 0 && passTask.duration > 0) {
-            console.log("Inserting extra milestone task", payload)
             let payment = passTask.payment
             passTask.payment = 0
-            console.log("Inserting original task", passTask)
-            state.projectList[payload.id].tasks.push(passTask)
+            let textStartDate = moment(passTask.start_date.format('DD-MMM-YYYY'))
+            console.log("Start Date Passed", textStartDate)
+            state.projectList[payload.id].tasks.data.push(passTask)
             payload.task.type = gantt.config.types.milestone
             payload.task.payment = payment
-            payload.task.start_date = passTask.start_date.add(passTask.duration, "days")
             payload.task.text = 'Milestone for - ' + passTask.text
-            payload.duration = 0
+            payload.task.start_date = payload.task.start_date.add(payload.task.duration, 'days')
+            passTask.start_date = moment(textStartDate)
+            payload.task.duration = 0
             payload.task.id += 1
+            let maxid = 0
+            let maxedId = 0
+            state.projectList[payload.id].tasks.links.map (function (obj) { if (parseInt(obj.id) > maxid) maxedId = parseInt(obj.id) })
+            // insert link between task and milestone
+            state.projectList[payload.id].tasks.links.push(
+                {
+                    id: (maxedId + 1).toString(),
+                    source: (parseInt(payload.task.id) - 1).toString(),
+                    target: payload.task.id.toString(),
+                    type: "0"
+                })
+            console.log("Inserting extra milestone task", payload.task)
+        } else {
+            console.log("Inserting task", payload.task)
         }
-        state.projectList[payload.id].tasks.push(payload.task)
-        console.log("Inserting extra milestone task", payload.task)
+        state.projectList[payload.id].tasks.data.push(payload.task)
+        console.log("New ta list: ", state.projectList[payload.id].tasks)
     }
 };
 
