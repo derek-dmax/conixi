@@ -6,8 +6,7 @@
 
 <script setup>
 import Gantt from "./gantt-comp.vue"
-import { gantt } from "dhtmlx-gantt"
-import { computed, defineProps, ref } from "vue"
+import { computed, defineProps } from "vue"
 import { useStore } from "vuex"
 
 const store = useStore()
@@ -20,282 +19,26 @@ console.log(props)
 
 let selProject = projectList.value[props.currId]
 console.log(selProject)
-/* const links = [
-  { id: "1", source: "1", target: "2", type: "1" },
-
-  { id: "2", source: "2", target: "3", type: "0" },
-  { id: "3", source: "3", target: "4", type: "0" },
-  { id: "4", source: "2", target: "5", type: "2" },
-  { id: "5", source: "2", target: "6", type: "2" },
-  { id: "6", source: "3", target: "7", type: "2" },
-  { id: "7", source: "4", target: "8", type: "2" },
-  { id: "8", source: "4", target: "9", type: "2" },
-  { id: "9", source: "4", target: "10", type: "2" },
-
-  { id: "10", source: "11", target: "12", type: "1" },
-];
-const currId = ref(null);
-*/
-const taskData = ref({
-    data: [],
-    links: [
-        { id: "1", source: "1", target: "2", type: "1" },
-        { id: "2", source: "2", target: "3", type: "0" },
-        { id: "3", source: "3", target: "4", type: "0" },
-        { id: "4", source: "2", target: "5", type: "2" },
-        { id: "5", source: "2", target: "6", type: "2" },
-        { id: "6", source: "3", target: "7", type: "2" },
-        { id: "7", source: "4", target: "8", type: "2" },
-        { id: "8", source: "4", target: "9", type: "2" },
-        { id: "9", source: "4", target: "10", type: "2" },
-        { id: "10", source: "11", target: "12", type: "1" },
-    ]
-});
-console.log(taskData.value)
-//selProject.value.tasks.forEach(task => console.log(task))
 const tasks = {
-  data: [
-    {
-      id: 1,
-      text: "1 Office installation",
-      type: gantt.config.types.project,
-      progress: 0.4,
-      open: true,
-    },
-    {
-      id: 2,
-      text: "2 Office facing",
-      start_date: "2022-12-02",
-      duration: "8",
-      progress: 0.6,
-      parent: "1",
-      open: true,
-    },
-    {
-      id: 3,
-      text: "3 Furniture installation",
-      start_date: "2022-12-11",
-      duration: "8",
-      parent: "1",
-      progress: 0.6,
-      open: true,
-    },
-    {
-      id: 4,
-      text: "4 Furniture installation",
-      start_date: "2022-12-18",
-      duration: "3",
-      parent: "1",
-      progress: 0.6,
-      open: true,
-    },
-    {
-      id: 5,
-      text: "5 Interior office",
-      type: gantt.config.types.project,
-      progress: 0.6,
-      open: true,
-    },
-    {
-      id: 6,
-      text: "6 Air conditioners check",
-      start_date: "2022-12-03",
-      duration: "7",
-      parent: "5",
-      progress: 0.6,
-      open: true,
-    },
-    {
-      id: 7,
-      text: "7 Workplaces preparation",
-      start_date: "2022-12-11",
-      duration: "8",
-      parent: "5",
-      progress: 0.6,
-      open: true,
-    },
-    {
-      id: 8,
-      text: "Preparing workplaces",
-      start_date: "2022-12-14",
-      duration: "5",
-      parent: "5",
-      progress: 0.5,
-      open: true,
-    },
-    {
-      id: 9,
-      text: "Workplaces importation",
-      start_date: "2022-12-14",
-      duration: "5",
-      progress: 0.5,
-      open: true,
-    },
-    {
-      id: 10,
-      text: "Workplaces exportation",
-      start_date: "2022-12-14",
-      duration: "5",
-      progress: 0.5,
-      open: true,
-    },    {
-      id: 10,
-      text: "Workplaces exportation",
-      start_date: "2022-12-14",
-      duration: "5",
-      progress: 0.5,
-      open: true,
-    },
-    {
-      id: 11,
-      text: "Workplaces exportation",
-      start_date: "2022-12-14",
-      duration: "5",
-      progress: 0.5,
-      open: true,
-    },
-
-    {
-      id: 12,
-      text: "Product launch",
-      type: gantt.config.types.milestone,
-      progress: 0.6,
-      open: true,
-    },
-    {
-      id: 13,
-      text: "Perform Initial testing",
-      type: gantt.config.types.milestone,
-      progress: 1,
-      open: true,
-    },
-    {
-      id: 14,
-      text: "Development",
-      type: gantt.config.types.milestone,
-      progress: 0.5,
-      open: true,
-    },
-    {
-      id: 15,
-      text: "Analysis",
-      start_date: "2022-12-02",
-      duration: "6",
-      parent: "11",
-      progress: 0.8,
-      open: true,
-    },
-    {
-      id: 16,
-      text: "Design",
-      type: gantt.config.types.project,
-      start_date: "2022-12-02",
-      duration: "5",
-      parent: "11",
-      progress: 0.2,
-      open: true,
-    },
-    {
-      id: 17,
-      text: "Documentation creation",
-      start_date: "2022-12-02",
-      duration: "7",
-      parent: "11",
-      progress: 0,
-      open: true,
-    },
-    {
-      id: 18,
-      text: "Develop System",
-      start_date: "2022-12-03",
-      duration: "2",
-      parent: "13",
-      progress: 1,
-      open: true,
-    },
-    {
-      id: 19,
-      text: "Beta Release",
-      start_date: "2022-12-06",
-      type: gantt.config.types.milestone,
-      parent: "13",
-      progress: 0,
-      open: true,
-    },
-    {
-      id: 20,
-      text: "Integrate System",
-      start_date: "2022-12-08",
-      duration: "2",
-      parent: "13",
-      progress: 0.8,
-      open: true,
-    },
-    {
-      id: 21,
-      text: "Test",
-      start_date: "2022-12-10",
-      duration: "4",
-      parent: "13",
-      progress: 0.2,
-      open: true,
-    },
-    {
-      id: 22,
-      text: "Marketing",
-      start_date: "2022-12-10",
-      duration: "4",
-      parent: "13",
-      progress: 0,
-      open: true,
-    },
-    {
-      id: 23,
-      text: "Design database",
-      start_date: "2022-12-03",
-      duration: "4",
-      parent: "15",
-      progress: 0.5,
-      open: true,
-    },
-    {
-      id: 24,
-      text: "Software design",
-      start_date: "2022-12-03",
-      duration: "4",
-      parent: "15",
-      progress: 0.1,
-      open: true,
-    },
-    {
-      id: 25,
-      text: "Interface setup",
-      start_date: "2022-12-03",
-      duration: "5",
-      parent: "15",
-      progress: 0,
-      open: true,
-    },
-    {
-      id: 26,
-      text: "Release v1.0",
-      start_date: "2022-12-15",
-      type: gantt.config.types.milestone,
-      parent: "11",
-      progress: 0,
-      open: true,
-    },
-  ],
-  links: [
-    { id: "1", source: "2", target: "3", type: "0" },
-    { id: "2", source: "3", target: "4", type: "0" },
-    { id: "3", source: "4", target: "5", type: "0" },
-    { id: "4", source: "7", target: "8", type: "0" },
-    { id: "5", source: "8", target: "9", type: "0" },
-    { id: "6", source: "6", target: "7", type: "0" },
-    { id: "7", source: "9", target: "10", type: "0" }
-  ],
-};
+      data: selProject.tasks.data.map(data => {
+        return {
+          id: data.id,
+          text: data.text,
+          type: data.type,
+          start_date: data.start_date.format('YYYY-MM-DD'),
+          duration: data.duration,
+          progress: data.progress / 100,
+          parent: data.parent
+        }}),
+        links: selProject.tasks.links.map(link => {
+          return {
+            id: link.id,
+            source: link.source,
+            target: link.target,
+            type: link.type,
+          }})
+      }
+console.log(tasks)
 </script>
 
 <style>

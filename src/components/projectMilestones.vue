@@ -161,11 +161,11 @@ let currPayment = ref(null);
 let selProject = projectList.value[props.currId];
 const updateProjectTask = (payload) =>
   store.dispatch("projects/updateProjectTask", payload);
-const leftItems = selProject.tasks.filter((task) => !task.payment);
-let rightItems = selProject.tasks.filter((task) => task.payment);
+const leftItems = selProject.tasks.data.filter((task) => !task.payment);
+let rightItems = selProject.tasks.data.filter((task) => task.payment);
 const updProjectTask = (payload) => {
   if (payload.changePayment)
-    currPayment = selProject.tasks.filter((task) => task.id == payload.taskId).payment;
+    currPayment = selProject.tasks.data.filter((task) => task.id == payload.taskId).payment;
   updateProjectTask(payload);
 };
 </script>

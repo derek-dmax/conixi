@@ -13,33 +13,9 @@ export default {
         return { data: [], links: [] };
       },
     },
-    selProject: {
-      type: Object,
-      default() {
-        return { data: [], links: [] };
-      },
-    },
   },
 
   mounted: function () {
-    console.log(this.$props.selProject.tasks.length)
-    this.$props.tasks.data = this.$props.tasks.data.slice(0, this.$props.selProject.tasks.length)
-    this.$props.selProject.tasks.forEach((task, index) => {
-      if(task.type) {
-        this.$props.tasks.data[index].type = task.type
-      } else {
-        this.$props.tasks.data[index].text = null
-      }
-      this.$props.tasks.data[index].text = task.text
-      this.$props.tasks.data[index].duration = parseInt(task.duration)
-      //   this.$props.tasks.data[index].end_date = task.start_date
-      //     .add(parseInt(task.duration), "days")
-      //     .format("YYYY-MM-DD");
-      this.$props.tasks.data[index].start_date = task.start_date.format("YYYY-MM-DD");
-      this.$props.tasks.data[index].parent = task.parent;
-      this.$props.tasks.data[index].progress = parseFloat(task.progress);
-    });
-    console.log(this.$props.tasks);
     gantt.config.columns = [
       { name: "wbs", label: "WBS", width: 40, template: gantt.getWBSCode, resize: true },
       {

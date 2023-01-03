@@ -76,7 +76,7 @@ export default {
     buildTaskAndInsert() {
       let passTask = Object.assign({}, this.task) // avoid "by reference" issues
       let maxid = 0;
-      this.selProject.tasks.map (function (obj) { if (obj.id > maxid) passTask.id = obj.id })
+      this.selProject.tasks.data.map (function (obj) { if (obj.id > maxid) passTask.id = obj.id })
       passTask.id += 1
       passTask.start_date = moment(this.taskDueDate).subtract(passTask.duration, "days")
       this.insertTask({id: this.selProject.id, task: passTask})
