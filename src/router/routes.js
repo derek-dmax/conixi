@@ -287,6 +287,12 @@ export default [
     component: () => import("../views/apps/invoices/details"),
   },
   {
+    path: "/demo-site",
+    name: "booking-view",
+    meta: { title: "Bookings", authRequired: true },
+    component: () => import("../shiftDemo/Booking"),
+  },
+  {
     path: "/invoices/list",
     name: "invoice-list",
     meta: { title: "Invoice List", authRequired: true },
