@@ -6,13 +6,14 @@ export const state = {
     projectList: {
         'FAB0d41d5b5d22c': {
             id: "FAB0d41d5b5d22c",
-            time: "Updated 3hrs ago",
+            time: moment(),
             client: 'Conixi',
             favourite: false,
             img: require("@/assets/images/brands/slack.png"),
             label: "Conixi - Admin & Dashboard",
             category: "Technology",
             subCategory: "Design and Development",
+            projectType: "Software Development",
             skills: ["UI", "HTML", "CSS", "Vue"],
             services: [
                 "Build project dashboard",
@@ -307,18 +308,19 @@ export const state = {
                 imgNumber: "+"
             },
             ],
-            createdDate: "10 Aug, 2022",
-            dueDate: "10 Feb, 2023",
+            createdDate: moment().subtract(18, 'days'),
+            dueDate: moment().add(45, 'days'),
         },
         '6A7EdDEA9FaDC52': {
             id: "6A7EdDEA9FaDC52",
-            time: "Last update : 08 May",
+            time: moment().subtract(3, 'days'),
             client: 'Luton BC',
             favourite: false,
             img: require("@/assets/images/brands/dribbble.png"),
             label: "Redesign - Landing page",
             category: "Technology",
             subCategory: "Website",
+            projectType: "Software Development",
             skills: ["UI", "Graphic Design", "Website Dev"],
             services: [
                 "Landing Page Re-design",
@@ -574,18 +576,19 @@ export const state = {
                 imgNumber: "+"
             },
             ],
-            createdDate: "18 Sep, 2022",
-            dueDate: "10 Mar, 2023",
+            createdDate: moment().subtract(8, 'days'),
+            dueDate: moment().add(65, 'days'),
         },
         '0bFED1ADAE4bcC1': {
             id: "0bFED1ADAE4bcC1",
             client: 'Hampshire CC',
-            time: "Last update : 21 Jun",
+            time: moment().subtract(10, 'days'),
             favourite: false,
             img: require("@/assets/images/brands/dropbox.png"),
             label: "Project App",
             category: "Technology",
             subCategory: "Development",
+            projectType: "Software Development",
             skills: ["System Design", "Database Design", "Vue", "NestJS"],
             services: [
                 "Project Management Application",
@@ -833,8 +836,8 @@ export const state = {
                 imgNumber: "+"
             },
             ],
-            createdDate: "03 Aug, 2022",
-            dueDate: "11 Apr, 2023",
+            createdDate: moment().subtract(22, 'days'),
+            dueDate: moment().add(35, 'days'),
         },
     },
 };

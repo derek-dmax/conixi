@@ -65,6 +65,7 @@ export default {
         label: "",
         category: "",
         subCategory: "",
+        projectType: "Generic",
         skills: [],
         services: [
           "Application",
@@ -75,42 +76,47 @@ export default {
         progressBar: "0%",
         status: "In Progress",
         priority: "Medium",
-        tasks: [
-          {
-            id: 1,
-            type:gantt.config.types.project, 
-            text: "Project Execution",
-            progress: 0,
-            open: true,
-            duration: "12",
-            start_date: moment().add(10, "days"),
-            payment: 0,
-            parent: null,
-            status: "unpaid",
-            changeStatus: false,
-            changeDate: false,
-            changeDescription: false,
-            service: "Application",
-            group: null,
-          },
-          {
-            id: 2,
-            type:gantt.config.types.milestone, 
-            text: "Complete",
-            progress: 0,
-            open: true,
-            duration: "12",
-            start_date: moment().add(15, "days"),
-            payment: null,
-            parent: null,
-            status: "unpaid",
-            changeStatus: false,
-            changeDate: false,
-            changeDescription: false,
-            service: "Application",
-            group: null,
-          },
-        ],
+        tasks: {
+          data: [
+            {
+              id: 1,
+              type:gantt.config.types.project, 
+              text: "Project Execution",
+              progress: 0,
+              open: true,
+              duration: "12",
+              start_date: moment().add(10, "days"),
+              payment: 0,
+              parent: null,
+              status: "unpaid",
+              changeStatus: false,
+              changeDate: false,
+              changeDescription: false,
+              service: "Application",
+              group: null,
+            },
+            {
+              id: 2,
+              type:gantt.config.types.milestone, 
+              text: "Complete",
+              progress: 0,
+              open: true,
+              duration: "12",
+              start_date: moment().add(15, "days"),
+              payment: null,
+              parent: null,
+              status: "unpaid",
+              changeStatus: false,
+              changeDate: false,
+              changeDescription: false,
+              service: "Application",
+              group: null,
+            },
+          ],
+          links: [
+            { id: "1", source: "1", target: "2", type: "0" },
+          ]
+        },
         members: [
           {
             name: "Laura Van Zyl",
@@ -152,24 +158,26 @@ export default {
       category: ["Designing"],
       client: ["CSG"],
       subCategory: ["Designing"],
+      projectType: ["Generic"],
       value5: ["Ellen Smith"],
       value1: ["Inprogress"],
       value2: ["High"],
       clients: ["CSG", "Hampshire CC", "Mid-Lothian", "Luton BC"],
       categories: [
-        { value: "Asset Management", label: "Asset Management" },
-        { value: "Business Strategy", label: "Business Strategy" },
-        { value: "Change Management", label: "Change Management" },
-        { value: "Construction", label: "Construction" },
-        { value: "Engineering", label: "Engineering" },
-        { value: "Finance", label: "Finance" },
-        { value: "Legal", label: "Legal" },
-        { value: "Procurement", label: "Procurement" },
-        { value: "Security", label: "Security" },
-        { value: "Technology", label: "Technology" },
+        { value: "Asset Management", label: "Asset Management", projectType: "Generic" },
+        { value: "Business Strategy", label: "Business Strategy", projectType: "Generic" },
+        { value: "Change Management", label: "Change Management", projectType: "Generic" },
+        { value: "Construction", label: "Construction", projectType: "Generic" },
+        { value: "Engineering", label: "Engineering", projectType: "Generic" },
+        { value: "Finance", label: "Finance", projectType: "Generic" },
+        { value: "Legal", label: "Legal", projectType: "Generic" },
+        { value: "Procurement", label: "Procurement", projectType: "Generic" },
+        { value: "Security", label: "Security", projectType: "Generic" },
+        { value: "Technology", label: "Technology", projectType: "Generic" },
       ],
+      projectTypes: [ "Generic", "Software Development", "Building Construction", "Groundworks" ],
       subCategories: [
-        { category: "Construction", value: "Architecture", label: "Architecture" },
+        { category: "Construction", value: "Architecture", label: "Architecture", projectType: "Generic" },
         {
           category: "Construction",
           value: "Building Control",
@@ -231,12 +239,11 @@ export default {
   methods: {
     ...mapActions("projects", ["createProject"]),
     projectCreate(payload) {
-      payload.tasks[0].start_date = this.start_date ? moment(this.start_date) : moment();
-      payload.tasks[1].start_date = moment(payload.dueDate);
-      payload.tasks[1].payment = this.cost;
-      console.log(payload)
+      payload.tasks.data[0].start_date = this.start_date ? moment(this.start_date) : moment()
+      payload.tasks.data[0].duration = (moment(payload.dueDate).diff(moment(this.start_date), 'days')).toString()
+      payload.tasks.data[1].start_date = moment(payload.dueDate)
+      payload.tasks.data[1].payment = this.cost
       this.createProject(payload)
-      console.log(payload)
       this.$router.push({
         path: '/apps/projects-list'
       })
@@ -466,7 +473,18 @@ export default {
                 :options="subCategories"
               />
             </div>
-
+            <div class="mb-3">
+              <label for="choices-categories-input" class="form-label"
+                >Project Type</label
+              >
+              <Multiselect
+                v-model="selProject.projectType"
+                :close-on-select="true"
+                :searchable="true"
+                :create-option="true"
+                :options="projectTypes"
+              />
+            </div>
             <div>
               <label for="choices-text-input" class="form-label">Skills</label>
               <Multiselect

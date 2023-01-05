@@ -163,7 +163,7 @@ export default {
             <div class="d-flex flex-column h-100">
               <div class="d-flex">
                 <div class="flex-grow-1">
-                  <p class="text-muted mb-4">{{ item.time }}</p>
+                  <p class="text-muted mb-4">Last Update: {{ item.time.format('DD-MMM') }}</p>
                 </div>
                 <div class="flex-shrink-0">
                   <div class="d-flex gap-1 align-items-center">
@@ -299,7 +299,7 @@ export default {
               <div class="flex-shrink-0">
                 <div class="text-muted">
                   <i class="ri-calendar-event-fill me-1 align-bottom"></i>
-                  {{ item.createdDate }}
+                  {{ item.createdDate.format('DD-MMM-YY') }}
                 </div>
               </div>
             </div>
@@ -311,7 +311,6 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-    <pre>{{projectList}}</pre>
 
     <div class="row g-0 text-center text-sm-start align-items-center mb-4">
       <div class="col-sm-6">

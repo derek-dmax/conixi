@@ -252,8 +252,8 @@ export default {
                           </div>
                           <div class="vr"></div>
                           <div>
-                            Create Date :
-                            <span class="fw-medium">{{ selProject.createdDate }}</span>
+                            Created :
+                            <span class="fw-medium">{{ selProject.createdDate.format('DD-MMM-YY') }}</span>
                           </div>
                           <div class="vr"></div>
                           <div>
@@ -262,13 +262,18 @@ export default {
                           </div>
                           <div class="vr"></div>
                           <div>
-                            Sub Category :
+                            Sub Cat :
                             <span class="fw-medium">{{ selProject.subCategory }}</span>
                           </div>
                           <div class="vr"></div>
                           <div>
+                            Type :
+                            <span class="fw-medium">{{ selProject.projectType }}</span>
+                          </div>
+                          <div class="vr"></div>
+                          <div>
                             Due Date :
-                            <span class="fw-medium">{{ selProject.dueDate }}</span>
+                            <span class="fw-medium">{{ selProject.dueDate.format('DD-MMM-YY') }}</span>
                           </div>
                           <div class="vr"></div>
                           <div
@@ -744,8 +749,26 @@ export default {
           <div class="tab-pane fade" id="project-documents" role="tabpanel">
             <div class="card">
               <div class="card-body">
-                <div class="d-flex align-items-center mb-4">
-                  <h5 class="card-title flex-grow-1">Documents</h5>
+                <div class="row pa-2" style="margin-bottom: 30px;margin-top: -7px;">
+                  <h5 class="card-title col-4">Documents</h5>
+                  <div class="col-5"></div>
+                  <button
+                      data-bs-toggle="modal"
+                      data-bs-target=".bs-example-modal-xl"
+                      class="col-1 btn btn-sm btn-info active"
+                      type="button"
+                    >
+                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Project Brief</span>
+                  </button>
+                  <div class="col-1"></div>
+                  <button
+                      data-bs-toggle="modal"
+                      data-bs-target=".bs-example-modal-xl"
+                      class="col-1 btn btn-sm btn-info active btn-nudge-left"
+                      type="button"
+                    >
+                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Contract</span>
+                  </button>
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
@@ -974,7 +997,16 @@ export default {
                         >
                       </span>
                   </button>
-                  <div class="col-6"></div>
+                  <div class="col-4"></div>
+                  <button
+                      data-bs-toggle="modal"
+                      data-bs-target=".bs-example-modal-xl"
+                      class="col-1 btn btn-sm btn-info active"
+                      type="button"
+                    >
+                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Project Brief</span>
+                  </button>
+                  <div class="col-1"></div>
                   <button
                       data-bs-toggle="modal"
                       data-bs-target=".bs-example-modal-xl"
