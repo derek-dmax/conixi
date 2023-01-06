@@ -383,7 +383,7 @@
                     aria-expanded="true"
                     aria-controls="collapseOne"
                   >
-                    How to create a group booking ?
+                    Current Shifts
                   </button>
                 </h2>
                 <div
@@ -393,10 +393,122 @@
                   data-bs-parent="#default-accordion-example"
                 >
                   <div class="accordion-body">
-                    Although you probably won’t get into any legal trouble if you do it
-                    just once, why risk it? If you made your subscribers a promise, you
-                    should honor that. If not, you run the risk of a drastic increase in
-                    opt outs, which will only hurt you in the long run.
+                    <table class="table table-hover mt-2">
+                      <thead>
+                        <tr>
+                          <th>
+                            Worker
+                            <i
+                              class="bx bx-help-circle tourIcon"
+                              @click="startTour"
+                              v-if="currentShifts.length"
+                            ></i>
+                          </th>
+                          <th>Status</th>
+                          <th>Date</th>
+                          <th>Start/Started</th>
+                          <th>End/Ended</th>
+                          <th>Hours</th>
+                          <th>Break</th>
+                          <th>Paid Hours</th>
+                          <th>Show/No Show</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(shift, index) in currentShifts" :key="index">
+                          <td @click="selWorker = shift.worker">
+                            <a
+                              class="worker"
+                              :class="{ NoShow: shift.status === 'No Show' }"
+                              >{{ shift.worker }}</a
+                            >
+                            <a
+                              data-bs-toggle="modal"
+                              data-bs-target="#availabilityModal"
+                              title="Amend worker availability"
+                              ><i class="bx bx-calendar-minus absence"></i
+                            ></a>
+                          </td>
+                          <td class="text-left fs-14">
+                            {{ shift.status }}
+                          </td>
+                          <td class="text-left fs-14">
+                            {{ moment(shift.date).format('ddd Do MMM') }}
+                          </td>
+                          <td
+                            class="text-center fs-14"
+                            :class="{
+                              Clickable: shift.status !== 'No Show',
+                              NoShow: shift.status === 'No Show',
+                              Started: shift.status === 'Started' || shift.status === 'Approved',
+                            }"
+                          >
+                            <span
+                              v-if="!shift.editStart"
+                              @click="shift.editStart = true"
+                              :title = "shift.status !== 'No Show' ? 'Click to enter a different start time' : 'Cannot change start time'">
+                              {{ shift.start }}
+                            </span>
+                            <input style="max-width:60px;margin:auto"
+                            @change ="shift.editStart = false; shift.status='Started'"
+                            @keyup.enter ="shift.editStart = false"
+                            @keyup.tab ="shift.editStart = false"
+                              v-else type="timestamp" name="start" v-model="shift.start"/>
+                            <span
+                              @click="
+                                shift.status =
+                                  shift.status === 'Started' ? 'Planned' : 'Started';
+                                shift.start = (shift.status !== 'Started' ? shift.originalStart : shift.start)
+                              "
+                              ><i class="bx bx-stopwatch fs-20" style="color: #5ea3cb"></i
+                            ></span>
+                          </td>
+                          <td
+                            class="text-center fs-14"
+                            :class="{
+                              NoShow: shift.status === 'No Show',
+                              Started: shift.status === 'Approved',
+                            }"
+                          >
+                            {{ shift.end }}
+                            <span
+                              @click="
+                                shift.status =
+                                  shift.status === 'Approved' ? 'Started' : 'Approved'
+                              "
+                              ><i class="bx bx-stopwatch fs-20" style="color: #5ea3cb"></i
+                            ></span>
+                          </td>
+                          <td
+                            class="text-center fs-14"
+                            :class="{ NoShow: shift.status === 'No Show' }"
+                          >
+                            {{ shift.hours }}
+                          </td>
+                          <td
+                            class="text-center fs-14"
+                            :class="{ NoShow: shift.status === 'No Show' }"
+                          >
+                            {{ shift.break }}
+                          </td>
+                          <td class="text-center fs-14">
+                            {{ shift.status === "No Show" ? "-" : shift.paidhours }}
+                          </td>
+                          <td class="text-center fs-14">
+                            <i
+                              class="bx bxs-hide text-danger fs-18"
+                              @click="shift.status = 'No Show'"
+                              v-if="shift.status !== 'No Show'"
+                            ></i>
+                            <i
+                              class="bx bxs-show text-danger fs-18"
+                              @click="shift.status = 'Planned'"
+                              v-else
+                            ></i>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -410,7 +522,7 @@
                     aria-expanded="false"
                     aria-controls="collapseTwo"
                   >
-                    Why do we use it ?
+                    This Week's Shifts
                   </button>
                 </h2>
                 <div
@@ -419,12 +531,7 @@
                   aria-labelledby="headingTwo"
                   data-bs-parent="#default-accordion-example"
                 >
-                  <div class="accordion-body">
-                    No charges are put in place by SlickText when subscribers join your
-                    text list. This does not mean however that charges 100% will not
-                    occur. Charges that may occur fall under part of the compliance
-                    statement stating "Message and Data rates may apply."
-                  </div>
+                  <div class="accordion-body">xxx</div>
                 </div>
               </div>
               <div class="accordion-item">
@@ -437,7 +544,7 @@
                     aria-expanded="false"
                     aria-controls="collapseThree"
                   >
-                    Where does it come from ?
+                    Last Week's Shifts
                   </button>
                 </h2>
                 <div
@@ -446,12 +553,7 @@
                   aria-labelledby="headingThree"
                   data-bs-parent="#default-accordion-example"
                 >
-                  <div class="accordion-body">
-                    Now that you have a general idea of the amount of texts you will need
-                    per month, simply find a plan size that allows you to have this
-                    allotment, plus some extra for growth. Don't worry, there are no
-                    mistakes to be made here. You can always upgrade and downgrade.
-                  </div>
+                  <div class="accordion-body">xxx</div>
                 </div>
               </div>
             </div>
@@ -470,7 +572,7 @@
                   <button type="button" class="btn btn-soft-secondary btn-sm me-1">
                     6M
                   </button>
-                  <button type="button" class="btn btn-soft-primary btn-sm">1Y</button>
+                  <button type="button" class="btn btn-primary btn-sm">1Y</button>
                 </div>
               </div>
               <!-- end card header -->
@@ -480,7 +582,9 @@
                     <div class="p-3 border border-dashed border-start-0">
                       <h5 class="mb-1">
                         <count-to :startVal="0" :endVal="854" :duration="5000"></count-to>
-                        <span class="text-success ms-1 fs-12">87%<i class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
+                        <span class="text-success ms-1 fs-12"
+                          >87%<i class="ri-arrow-right-up-line ms-1 align-middle"></i
+                        ></span>
                       </h5>
                       <p class="text-muted mb-0">Filled Shifts</p>
                     </div>
@@ -489,8 +593,14 @@
                   <div class="col-6 col-sm-4">
                     <div class="p-3 border border-dashed border-start-0">
                       <h5 class="mb-1">
-                        <count-to :startVal="0" :endVal="1278" :duration="4000"></count-to>
-                        <span class="text-success ms-1 fs-12">12%<i class="ri-arrow-right-down-line ms-1 align-middle"></i></span>
+                        <count-to
+                          :startVal="0"
+                          :endVal="1278"
+                          :duration="4000"
+                        ></count-to>
+                        <span class="text-success ms-1 fs-12"
+                          >12%<i class="ri-arrow-right-down-line ms-1 align-middle"></i
+                        ></span>
                       </h5>
                       <p class="text-muted mb-0">Unfilled</p>
                     </div>
@@ -499,7 +609,9 @@
                   <div class="col-6 col-sm-4">
                     <div class="p-3 border border-dashed border-start-0 border-end-0">
                       <h5 class="mb-1">
-                        <span class="text-success ms-1 fs-12">1%<i class="ri-arrow-right-down-line ms-1 align-middle"></i></span>
+                        <span class="text-success ms-1 fs-12"
+                          >1%<i class="ri-arrow-right-down-line ms-1 align-middle"></i
+                        ></span>
                       </h5>
                       <p class="text-muted mb-0">No Shows</p>
                     </div>
@@ -510,7 +622,13 @@
               <!-- end card header -->
               <div class="card-body p-0 pb-2">
                 <div>
-                  <apexchart class="apex-charts" dir="ltr" :series="series" :options="chartOptions" height="309"></apexchart>
+                  <apexchart
+                    class="apex-charts"
+                    dir="ltr"
+                    :series="series"
+                    :options="chartOptions"
+                    height="309"
+                  ></apexchart>
                 </div>
               </div>
               <!-- end card body -->
@@ -529,120 +647,117 @@ import { useShepherd } from "vue-shepherd";
 import moment from "moment";
 
 function getChartColorsArray(colors) {
-    colors = JSON.parse(colors);
-    return colors.map(function (value) {
-      var newValue = value.replace(" ", "");
-      if (newValue.indexOf(",") === -1) {
-        var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-        if (color) {
-          color = color.replace(" ", "");
-          return color;
-        } else return newValue;
+  colors = JSON.parse(colors);
+  return colors.map(function (value) {
+    var newValue = value.replace(" ", "");
+    if (newValue.indexOf(",") === -1) {
+      var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+      if (color) {
+        color = color.replace(" ", "");
+        return color;
+      } else return newValue;
+    } else {
+      var val = value.split(",");
+      if (val.length == 2) {
+        var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(
+          val[0]
+        );
+        rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+        return rgbaColor;
       } else {
-        var val = value.split(',');
-        if (val.length == 2) {
-          var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-          rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
-          return rgbaColor;
-        } else {
-          return newValue;
-        }
+        return newValue;
       }
-    });
-  }
+    }
+  });
+}
 
-  const series = [{
-            name: "Last Year",
-            data: [
-              25.3, 12.5, 20.2, 18.5, 40.4, 25.4, 15.8, 22.3, 19.2, 25.3, 12.5,
-              20.2,
-            ],
-          },
-          {
-            name: "Current Year",
-            data: [
-              36.2, 22.4, 38.2, 30.5, 26.4, 30.4, 20.2, 29.6, 10.9, 36.2, 22.4,
-              38.2,
-            ],
-          },
-        ]
+const series = [
+  {
+    name: "Last Year",
+    data: [25.3, 12.5, 20.2, 18.5, 40.4, 25.4, 15.8, 22.3, 19.2, 25.3, 12.5, 20.2],
+  },
+  {
+    name: "Current Year",
+    data: [36.2, 22.4, 38.2, 30.5, 26.4, 30.4, 20.2, 29.6, 10.9, 36.2, 22.4, 38.2],
+  },
+];
 
 const chartOptions = {
-          chart: {
-            type: "bar",
-            height: 309,
-            stacked: true,
-            toolbar: {
-              show: false,
-            },
-          },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: "20%",
-              borderRadius: 6,
-            },
-          },
-          dataLabels: {
-            enabled: false,
-          },
-          legend: {
-            show: true,
-            position: "bottom",
-            horizontalAlign: "center",
-            fontWeight: 400,
-            fontSize: "8px",
-            offsetX: 0,
-            offsetY: 0,
-            markers: {
-              width: 9,
-              height: 9,
-              radius: 4,
-            },
-          },
-          stroke: {
-            show: true,
-            width: 2,
-            colors: ["transparent"],
-          },
-          grid: {
-            show: false,
-          },
-          colors: getChartColorsArray('["--vz-primary", "--vz-gray-300"]'),
-          xaxis: {
-            categories: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ],
-            axisTicks: {
-              show: false,
-            },
-            axisBorder: {
-              show: true,
-              strokeDashArray: 1,
-              height: 1,
-              width: "100%",
-              offsetX: 0,
-              offsetY: 0,
-            },
-          },
-          yaxis: {
-            show: false,
-          },
-          fill: {
-            opacity: 1,
-          },
-        }
+  chart: {
+    type: "bar",
+    height: 309,
+    stacked: true,
+    toolbar: {
+      show: false,
+    },
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: "20%",
+      borderRadius: 6,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  legend: {
+    show: true,
+    position: "bottom",
+    horizontalAlign: "center",
+    fontWeight: 400,
+    fontSize: "8px",
+    offsetX: 0,
+    offsetY: 0,
+    markers: {
+      width: 9,
+      height: 9,
+      radius: 4,
+    },
+  },
+  stroke: {
+    show: true,
+    width: 2,
+    colors: ["transparent"],
+  },
+  grid: {
+    show: false,
+  },
+  colors: getChartColorsArray('["--vz-primary", "--vz-gray-300"]'),
+  xaxis: {
+    categories: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: true,
+      strokeDashArray: 1,
+      height: 1,
+      width: "100%",
+      offsetX: 0,
+      offsetY: 0,
+    },
+  },
+  yaxis: {
+    show: false,
+  },
+  fill: {
+    opacity: 1,
+  },
+};
 
 const tour = useShepherd({
   useModalOverlay: true,
@@ -667,9 +782,33 @@ const selTeam = ref("School Passenger Assistants (Portsmouth)");
 const published = ref(false);
 
 let teamShifts = [
-  { team: "School Passenger Assistants (Portsmouth)", shift: "AM (07:00 - 09:30)" },
-  { team: "School Passenger Assistants (Portsmouth)", shift: "PM (14:00 - 16:30)" },
-  { team: "Equipment Cleaner (Portsmouth)", shift: "DAY (09:00 - 17:00)" },
+  {
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    code: "AM",
+    start: "07:00",
+    end: "09:30",
+    hours: 2.5,
+    break: 0,
+  },
+  {
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    code: "PM",
+    start: "14:00",
+    end: "16:30",
+    hours: 2.5,
+    break: 0,
+  },
+  {
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    code: "DAY",
+    start: "09:00",
+    end: "17:00",
+    hours: 7,
+    break: 60,
+  },
 ];
 
 let shifts = computed(() => {
@@ -1451,6 +1590,62 @@ const teamDayShifts = reactive([
     unavailable: ["Laura Van Zyl"],
   },
   {
+    date: "2023-01-09",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: [],
+  },
+  {
+    date: "2023-01-10",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: [],
+  },
+  {
+    date: "2023-01-11",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: [],
+  },
+  {
+    date: "2023-01-12",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: [],
+  },
+  {
+    date: "2023-01-13",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: [],
+  },
+  {
+    date: "2023-01-14",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: [],
+  },
+  {
+    date: "2023-01-15",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: [],
+  },
+  {
     date: "2023-01-10",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "PM (14:00 - 16:30)",
@@ -2053,6 +2248,14 @@ const workers = reactive([
     fromDate: "01-Jan-2022",
     toDate: "31-Dec-2023",
   },
+  {
+    id: "9011",
+    worker: "Nathan Midgley",
+    team: "Equipment Cleaner (Portsmouth)",
+    shift: "DAY (09:00 - 17:00)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
 ]);
 
 const selWorker = ref(workers[0].worker);
@@ -2084,6 +2287,39 @@ let weekShifts = computed(() => {
   );
   return reactive(ws2);
 });
+
+let currentShifts = computed(() => {
+  let ws = teamDayShifts.filter((shift) => shift.date === moment().format("YYYY-MM-DD"));
+  let ws2 = [];
+  ws.forEach((shift) => {
+    shift.assigned.forEach((assigned) => {
+      let teamShift = teamShifts.find(
+        (ts) => ts.team === shift.team && ts.shift == shift.shift
+      );
+      ws2.push({
+        date: shift.date,
+        team: shift.team,
+        shift: shift.shift,
+        start: teamShift.start,
+        end: teamShift.end,
+        originalStart: teamShift.start,
+        originalEnd: teamShift.end,
+        hours: teamShift.hours,
+        break: teamShift.break,
+        originalBreak: teamShift.break,
+        paidhours: teamShift.hours - teamShift.break / 60,
+        worker: assigned,
+        status: "Planned",
+        editStart: false,
+        editEnd: false,
+        eidtBreak: false
+      });
+    });
+  });
+  return reactive(ws2);
+});
+
+console.log(currentShifts);
 
 let shiftsWorkers = computed(() => {
   let ws = workers.filter(
@@ -2375,6 +2611,25 @@ body {
   color: green !important;
   font-size: 20px !important;
   padding: 0;
+}
+
+.NoShow {
+  text-decoration: line-through !important;
+  color: red;
+}
+
+.Started {
+  font-weight: bold;
+  color: rgb(61, 189, 97);
+}
+
+.Clickable {
+  cursor: pointer;
+}
+
+.Ended {
+  font-weight: bold;
+  color: rgb(61, 189, 97);
 }
 
 .tourIcon {
