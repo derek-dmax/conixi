@@ -5,589 +5,226 @@
         <div class="card-body px-0">
           <ul class="m-2 p-1 nav nav-pills nav-fill">
             <li class="nav-item">
-              <a class="nav-link active" href="/employer/bookingControl"
+              <a
+                class="nav-link"
+                :class="{ active: selTab === 'Planning' }"
+                @click="selTab = 'Planning'"
                 >Planning <i class="bx bx-align-left"></i
               ></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/employer/currentControl"
+              <a
+                class="nav-link"
+                :class="{ active: selTab === 'Control' }"
+                @click="selTab = 'Control'"
                 >Control <i class="bx bx-alarm"></i
               ></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#"
+              <a
+                class="nav-link"
+                :class="{ active: selTab === 'Review' }"
+                @click="selTab = 'Review'"
                 >Review <i class="ri-dashboard-2-line"></i
               ></a>
             </li>
           </ul>
-          <div>
+          <div v-if="selTab === 'Planning'">
             <div class="row d-flex mt-1 mb-1">
               <div class="form-group col-auto flex-fill">
                 <label for="location">Team/Location</label>
-                <select name="location" class="form-select" id="location" v-model="team" @change="changeTeam">
-                  <option v-for="(team, index) in teamLocations" :key="index" :value="team">{{ team }}</option>
+                <select
+                  name="location"
+                  class="form-select"
+                  id="location"
+                  v-model="selTeam"
+                  @change="changeTeam"
+                >
+                  <option
+                    v-for="(team, index) in teamLocations"
+                    :key="index"
+                    :value="team"
+                  >
+                    {{ team }}
+                  </option>
                   <option value="Add New Team ...">Add new team/location ...</option>
                 </select>
               </div>
               <div class="form-group col-auto flex-fill">
                 <label for="location">Shift</label>
-                <select name="group" class="form-select" id="group" v-model="selShift" @change="changeShift">
-                  <option :value="shift" v-for="(shift, index) in shifts" :key="index">{{shift}}</option>
+                <select name="group" class="form-select" id="group" v-model="selShift">
+                  <option :value="shift" v-for="(shift, index) in shifts" :key="index">
+                    {{ shift }}
+                  </option>
                   <option value="Add New Shift">Add new shift ...</option>
                 </select>
               </div>
               <div class="form-group col-auto flex-fill">
                 <label for="weekStarting">Week Starting</label>
-                <select class="form-select" name="weekStart" id="weekStart" v-model="startWeek">
-                  <option v-for="(week, index) in weekStarts" :key="index" :value="week.format('YYYY-MM-DD')">
-                    {{ week.format('dddd').substring(0,3) + ' ' + week.format('DD MMM')}}
+                <select
+                  class="form-select"
+                  name="weekStart"
+                  id="weekStart"
+                  v-model="startWeek"
+                >
+                  <option
+                    v-for="(week, index) in weekStarts"
+                    :key="index"
+                    :value="week.format('YYYY-MM-DD')"
+                  >
+                    {{
+                      week.format("dddd").substring(0, 3) + " " + week.format("DD MMM")
+                    }}
                   </option>
                 </select>
               </div>
             </div>
-
             <table class="table table-hover mt-2">
               <thead>
                 <tr>
                   <th>
                     Worker
-                    <i class="bx bx-help-circle tourIcon" @click="startTour"></i>
+                    <i
+                      class="bx bx-help-circle tourIcon"
+                      @click="startTour"
+                      v-if="shiftsWorkers.length"
+                    ></i>
                   </th>
-                  <th class="bg-light text-center" v-for="(shift, index) in weekShifts" :key="index">
-                    {{ moment(startWeek).add(index - 1, 'days').format('dddd').substring(0,3) + ' ' + moment(startWeek).add(index - 1, 'days').format('DD MMM') }}<br />
+                  <th
+                    class="bg-light text-center"
+                    v-for="(shift, index) in weekShifts"
+                    :key="index"
+                  >
+                    {{
+                      moment(startWeek)
+                        .add(index, "days")
+                        .format("dddd")
+                        .substring(0, 3) +
+                      " " +
+                      moment(startWeek).add(index, "days").format("DD MMM")
+                    }}<br />
+                    <i
+                      v-if="shift.shifts !== shift.assigned.length"
+                      @click="changeShift(shift, -1)"
+                      class="bx bx-minus-circle changeShift"
+                      style="margin-right: 5px"
+                    ></i>
+                    <i
+                      v-else
+                      class="bx bx-minus-circle changeShiftDisabled"
+                      style="margin-right: 5px"
+                    ></i>
                     <span
                       class="counter"
                       :class="{
-                                filled: shift.shifts === shift.assigned.length,
-                                unfilled: shift.shifts !== shift.assigned.length,
-                              }">
-                      {{ shift.assigned.length }} 
-                      <span v-if="shift.shifts !== shift.assigned.length">/ {{ shift.shifts }}</span>
-                      </span>
+                        filled: shift.shifts === shift.assigned.length,
+                        unfilled: shift.shifts !== shift.assigned.length,
+                      }"
+                    >
+                      <span>{{ shift.assigned.length }}</span>
+                      <span
+                        v-if="shift.shifts !== shift.assigned.length"
+                        class="unfilledCount"
+                      >
+                        / {{ shift.shifts }}</span
+                      >
+                    </span>
+                    <i
+                      class="bx bx-plus-circle changeShift"
+                      style="margin-left: 5px"
+                      @click="changeShift(shift, 1)"
+                    ></i>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <a href="/employer/showProfile/66106" class="worker">Terry March</a>
+                <tr v-for="(worker, index) in shiftsWorkers" :key="index">
+                  <td @click="selWorker = worker.worker">
+                    <a class="worker">{{ worker.worker }}</a>
                     <a
-                      href="/employer/workerAvailability/66106"
-                      target="_blank"
+                      data-bs-toggle="modal"
+                      data-bs-target="#availabilityModal"
                       title="Amend worker availability"
                       ><i class="bx bx-calendar-minus absence"></i
                     ></a>
                   </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="monStart-66106"
-                      data-date="2023-01-02"
-                      data-id="66106"
-                      name="monStart"
-                    />
+                  <td
+                    class="text-center"
+                    :class="{ 'bg-light': !(index2 % 2) }"
+                    v-for="(shift, index2) in weekShifts"
+                    :key="index2"
+                  >
                     <button
                       type="button"
-                      data-id="monStart-90339"
                       class="btn btn-sm fillBtn"
+                      @click="removeWorker(worker, shift)"
+                      v-if="shift.assigned.indexOf(worker.worker) !== -1"
                     >
                       <i class="bx bx-check-circle"></i>
                     </button>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="tueStart-66106"
-                      data-date="2023-01-03"
-                      data-id="66106"
-                      name="tueStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="wedStart-66106"
-                      data-date="2023-01-04"
-                      data-id="66106"
-                      name="wedStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="thuStart-66106"
-                      data-date="2023-01-05"
-                      data-id="66106"
-                      name="thuStart"
-                    />
                     <button
                       type="button"
-                      data-id="thuStart-66106"
                       class="btn btn-sm addWorker"
+                      @click="assignWorker(worker, shift)"
+                      v-if="
+                        shift.shifts !== shift.assigned.length &&
+                        shift.assigned.indexOf(worker.worker) === -1 &&
+                        shift.unavailable.indexOf(worker.worker) === -1 &&
+                        !published
+                      "
                     >
                       <i class="bx bxs-user-plus"></i>
                     </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="friStart-66106"
-                      data-date="2023-01-06"
-                      data-id="66106"
-                      name="friStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="friStart-66106"
-                      class="btn btn-sm addWorker"
+                    <span
+                      v-if="
+                        shift.shifts === shift.assigned.length &&
+                        shift.assigned.indexOf(worker.worker) === -1 &&
+                        shift.unavailable.indexOf(worker.worker) === -1
+                      "
+                      >-</span
                     >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="satStart-66106"
-                      data-date="2023-01-07"
-                      data-id="66106"
-                      name="satStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="satStart-66106"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="sunStart-66106"
-                      data-date="2023-01-08"
-                      data-id="66106"
-                      name="sunStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <a href="/employer/showProfile/62430" class="worker">Verity Lomas</a>
-                    <a
-                      href="/employer/workerAvailability/62430"
-                      target="_blank"
-                      title="Amend worker availability"
-                      ><i class="bx bx-calendar-minus absence"></i
-                    ></a>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="monStart-62430"
-                      data-date="2023-01-02"
-                      data-id="62430"
-                      name="monStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="tueStart-62430"
-                      data-date="2023-01-03"
-                      data-id="62430"
-                      name="tueStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="wedStart-62430"
-                      data-date="2023-01-04"
-                      data-id="62430"
-                      name="wedStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="thuStart-62430"
-                      data-date="2023-01-05"
-                      data-id="62430"
-                      name="thuStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="friStart-62430"
-                      data-date="2023-01-06"
-                      data-id="62430"
-                      name="friStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="satStart-62430"
-                      data-date="2023-01-07"
-                      data-id="62430"
-                      name="satStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="satStart-62430"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="sunStart-62430"
-                      data-date="2023-01-08"
-                      data-id="62430"
-                      name="sunStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="sunStart-62430"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <a href="/employer/showProfile/56144" class="worker"
-                      >Sandra Robinson</a
-                    >
-                    <a
-                      href="/employer/workerAvailability/56144"
-                      target="_blank"
-                      title="Amend worker availability"
-                      ><i class="bx bx-calendar-minus absence"></i
-                    ></a>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="monStart-56144"
-                      data-date="2023-01-02"
-                      data-id="56144"
-                      name="monStart"
-                    />
-                    -
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="tueStart-56144"
-                      data-date="2023-01-03"
-                      data-id="56144"
-                      name="tueStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="tueStart-56144"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="wedStart-56144"
-                      data-date="2023-01-04"
-                      data-id="56144"
-                      name="wedStart"
-                    />
-                    -
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="thuStart-56144"
-                      data-date="2023-01-05"
-                      data-id="56144"
-                      name="thuStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="thuStart-56144"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="friStart-56144"
-                      data-date="2023-01-06"
-                      data-id="56144"
-                      name="friStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="friStart-56144"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="satStart-56144"
-                      data-date="2023-01-07"
-                      data-id="56144"
-                      name="satStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="sunStart-56144"
-                      data-date="2023-01-08"
-                      data-id="56144"
-                      name="sunStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <a href="/employer/showProfile/90339" class="worker">Jack Day</a>
-                    <a
-                      href="/employer/workerAvailability/90339"
-                      target="_blank"
-                      title="Amend worker availability"
-                      ><i class="bx bx-calendar-minus absence"></i
-                    ></a>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="monStart-90339"
-                      data-date="2023-01-02"
-                      data-id="90339"
-                      name="monStart"
-                    />
-                    -
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="tueStart-90339"
-                      data-date="2023-01-03"
-                      data-id="90339"
-                      name="tueStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="monStart-90339"
-                      class="btn btn-sm fillBtn"
-                    >
-                      <i class="bx bx-check-circle"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="wedStart-90339"
-                      data-date="2023-01-04"
-                      data-id="90339"
-                      name="wedStart"
-                    />
-                    -
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="thuStart-90339"
-                      data-date="2023-01-05"
-                      data-id="90339"
-                      name="thuStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="thuStart-90339"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="friStart-90339"
-                      data-date="2023-01-06"
-                      data-id="90339"
-                      name="friStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="friStart-90339"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="satStart-90339"
-                      data-date="2023-01-07"
-                      data-id="90339"
-                      name="satStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="sunStart-90339"
-                      data-date="2023-01-08"
-                      data-id="90339"
-                      name="sunStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <a href="/employer/showProfile/80969" class="worker">Danny Ton</a>
-                    <a
-                      href="/employer/workerAvailability/80969"
-                      target="_blank"
-                      title="Amend worker availability"
-                      ><i class="bx bx-calendar-minus absence"></i
-                    ></a>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="monStart-80969"
-                      data-date="2023-01-02"
-                      data-id="80969"
-                      name="monStart"
-                    />
-                    -
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="tueStart-80969"
-                      data-date="2023-01-03"
-                      data-id="80969"
-                      name="tueStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="tueStart-80969"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="wedStart-80969"
-                      data-date="2023-01-04"
-                      data-id="80969"
-                      name="wedStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="monStart-90339"
-                      class="btn btn-sm fillBtn"
-                    >
-                      <i class="bx bx-check-circle"></i>
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="thuStart-80969"
-                      data-date="2023-01-05"
-                      data-id="80969"
-                      name="thuStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="thuStart-80969"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="friStart-80969"
-                      data-date="2023-01-06"
-                      data-id="80969"
-                      name="friStart"
-                    />
-                    <button
-                      type="button"
-                      data-id="friStart-80969"
-                      class="btn btn-sm addWorker"
-                    >
-                      <i class="bx bxs-user-plus"></i>
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <input
-                      type="hidden"
-                      id="satStart-80969"
-                      data-date="2023-01-07"
-                      data-id="80969"
-                      name="satStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
-                  </td>
-                  <td class="bg-light text-center">
-                    <input
-                      type="hidden"
-                      id="sunStart-80969"
-                      data-date="2023-01-08"
-                      data-id="80969"
-                      name="sunStart"
-                    />
-                    <i class="bx bxs-x-circle absent text-warning"></i>
+                    <i
+                      class="bx bxs-x-circle absent text-warning"
+                      v-if="
+                        shift.assigned.indexOf(worker.worker) === -1 &&
+                        shift.unavailable.indexOf(worker.worker) !== -1
+                      "
+                    ></i>
+                    <i
+                      class="bx bxs-user-voice waiting text-error"
+                      v-if="
+                        shift.shifts !== shift.assigned.length &&
+                        shift.assigned.indexOf(worker.worker) === -1 &&
+                        shift.unavailable.indexOf(worker.worker) === -1 &&
+                        published
+                      "
+                    ></i>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <button
+              type="button"
+              class="btn"
+              :class="{ 'btn-primary': !published, 'btn-warning': published }"
+              data-bs-dismiss="modal"
+              style="float: right"
+              @click="published = !published"
+            >
+              <span v-if="!published">Publish</span>
+              <span v-else>Retract</span>
+            </button>
             <div
               class="modal fade"
-              id="eventModal"
+              id="shiftTimesModal"
               tabindex="-1"
-              aria-labelledby="eventModalLabel"
+              aria-labelledby="shiftTimesModalLabel"
               aria-hidden="true"
             >
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalTitle">Shift</h5>
+                    <h5 class="modal-title" id="shiftTimesModalTitle">Shift</h5>
                     <button
                       type="button"
                       class="btn-close"
@@ -656,6 +293,229 @@
                 </div>
               </div>
             </div>
+            <div
+              class="modal fade"
+              id="availabilityModal"
+              tabindex="-1"
+              aria-labelledby="availabilityModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog availModal">
+                <div class="modal-content">
+                  <div class="modal-header" style="background: #5ea3cb">
+                    <div class="row">
+                      <h4
+                        class="modal-title col-12 text-white"
+                        id="availabilityModalTitle"
+                      >
+                        {{ selWorker }}
+                      </h4>
+                      <h6 class="col-12 text-white">{{ selTeam }}</h6>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body mt-0">
+                    <div>
+                      <h4>Regular Availability</h4>
+                      <table class="table table-hover text-center">
+                        <thead>
+                          <tr>
+                            <th><i class="bx bx-calendar fs-20"></i></th>
+                            <th
+                              class="bg-light text-center"
+                              v-for="(shift, index) in weekShifts"
+                              :key="index"
+                            >
+                              {{ moment(startWeek).add(index, "days").format("ddd") }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(sh, index) in shiftHeaders" :key="index">
+                            <td>{{ sh.slice(0, 3) }}</td>
+                            <td v-for="(shift, index) in weekShifts" :key="index">
+                              <i
+                                class="bx bx-check-circle text-success fillBtn"
+                                v-if="
+                                  shift.unavailable.indexOf(selWorker) === -1 &&
+                                  sh === selShift
+                                "
+                              >
+                                <!-- will need to change when worker is available for multiple shifts -->
+                              </i>
+                              <span v-else>
+                                <i class="bx bxs-x-circle absent text-warning"></i>
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="selTab === 'Control'">
+            <!-- Base Example -->
+            <div class="accordion" id="default-accordion-example">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    How to create a group booking ?
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  class="accordion-collapse collapse show"
+                  aria-labelledby="headingOne"
+                  data-bs-parent="#default-accordion-example"
+                >
+                  <div class="accordion-body">
+                    Although you probably won’t get into any legal trouble if you do it
+                    just once, why risk it? If you made your subscribers a promise, you
+                    should honor that. If not, you run the risk of a drastic increase in
+                    opt outs, which will only hurt you in the long run.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="collapseTwo"
+                  >
+                    Why do we use it ?
+                  </button>
+                </h2>
+                <div
+                  id="collapseTwo"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingTwo"
+                  data-bs-parent="#default-accordion-example"
+                >
+                  <div class="accordion-body">
+                    No charges are put in place by SlickText when subscribers join your
+                    text list. This does not mean however that charges 100% will not
+                    occur. Charges that may occur fall under part of the compliance
+                    statement stating "Message and Data rates may apply."
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree"
+                    aria-expanded="false"
+                    aria-controls="collapseThree"
+                  >
+                    Where does it come from ?
+                  </button>
+                </h2>
+                <div
+                  id="collapseThree"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingThree"
+                  data-bs-parent="#default-accordion-example"
+                >
+                  <div class="accordion-body">
+                    Now that you have a general idea of the amount of texts you will need
+                    per month, simply find a plan size that allows you to have this
+                    allotment, plus some extra for growth. Don't worry, there are no
+                    mistakes to be made here. You can always upgrade and downgrade.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="selTab === 'Review'">
+            <div class="card">
+              <div class="card-header border-0 align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Shift Fulfilment</h4>
+                <div>
+                  <button type="button" class="btn btn-soft-secondary btn-sm me-1">
+                    ALL
+                  </button>
+                  <button type="button" class="btn btn-soft-secondary btn-sm me-1">
+                    1M
+                  </button>
+                  <button type="button" class="btn btn-soft-secondary btn-sm me-1">
+                    6M
+                  </button>
+                  <button type="button" class="btn btn-soft-primary btn-sm">1Y</button>
+                </div>
+              </div>
+              <!-- end card header -->
+              <div class="card-header p-0 border-0 bg-soft-light">
+                <div class="row g-0 text-center">
+                  <div class="col-6 col-sm-4">
+                    <div class="p-3 border border-dashed border-start-0">
+                      <h5 class="mb-1">
+                        <count-to :startVal="0" :endVal="854" :duration="5000"></count-to>
+                        <span class="text-success ms-1 fs-12">87%<i class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
+                      </h5>
+                      <p class="text-muted mb-0">Filled Shifts</p>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-6 col-sm-4">
+                    <div class="p-3 border border-dashed border-start-0">
+                      <h5 class="mb-1">
+                        <count-to :startVal="0" :endVal="1278" :duration="4000"></count-to>
+                        <span class="text-success ms-1 fs-12">12%<i class="ri-arrow-right-down-line ms-1 align-middle"></i></span>
+                      </h5>
+                      <p class="text-muted mb-0">Unfilled</p>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-6 col-sm-4">
+                    <div class="p-3 border border-dashed border-start-0 border-end-0">
+                      <h5 class="mb-1">
+                        <span class="text-success ms-1 fs-12">1%<i class="ri-arrow-right-down-line ms-1 align-middle"></i></span>
+                      </h5>
+                      <p class="text-muted mb-0">No Shows</p>
+                    </div>
+                  </div>
+                  <!--end col-->
+                </div>
+              </div>
+              <!-- end card header -->
+              <div class="card-body p-0 pb-2">
+                <div>
+                  <apexchart class="apex-charts" dir="ltr" :series="series" :options="chartOptions" height="309"></apexchart>
+                </div>
+              </div>
+              <!-- end card body -->
+            </div>
+            <!-- end card -->
           </div>
         </div>
       </div>
@@ -664,17 +524,133 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from 'vue'
-import { useShepherd } from "vue-shepherd"
-import moment from 'moment'
+import { ref, computed, reactive } from "vue";
+import { useShepherd } from "vue-shepherd";
+import moment from "moment";
+
+function getChartColorsArray(colors) {
+    colors = JSON.parse(colors);
+    return colors.map(function (value) {
+      var newValue = value.replace(" ", "");
+      if (newValue.indexOf(",") === -1) {
+        var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+        if (color) {
+          color = color.replace(" ", "");
+          return color;
+        } else return newValue;
+      } else {
+        var val = value.split(',');
+        if (val.length == 2) {
+          var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+          rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+          return rgbaColor;
+        } else {
+          return newValue;
+        }
+      }
+    });
+  }
+
+  const series = [{
+            name: "Last Year",
+            data: [
+              25.3, 12.5, 20.2, 18.5, 40.4, 25.4, 15.8, 22.3, 19.2, 25.3, 12.5,
+              20.2,
+            ],
+          },
+          {
+            name: "Current Year",
+            data: [
+              36.2, 22.4, 38.2, 30.5, 26.4, 30.4, 20.2, 29.6, 10.9, 36.2, 22.4,
+              38.2,
+            ],
+          },
+        ]
+
+const chartOptions = {
+          chart: {
+            type: "bar",
+            height: 309,
+            stacked: true,
+            toolbar: {
+              show: false,
+            },
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "20%",
+              borderRadius: 6,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          legend: {
+            show: true,
+            position: "bottom",
+            horizontalAlign: "center",
+            fontWeight: 400,
+            fontSize: "8px",
+            offsetX: 0,
+            offsetY: 0,
+            markers: {
+              width: 9,
+              height: 9,
+              radius: 4,
+            },
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ["transparent"],
+          },
+          grid: {
+            show: false,
+          },
+          colors: getChartColorsArray('["--vz-primary", "--vz-gray-300"]'),
+          xaxis: {
+            categories: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+            axisTicks: {
+              show: false,
+            },
+            axisBorder: {
+              show: true,
+              strokeDashArray: 1,
+              height: 1,
+              width: "100%",
+              offsetX: 0,
+              offsetY: 0,
+            },
+          },
+          yaxis: {
+            show: false,
+          },
+          fill: {
+            opacity: 1,
+          },
+        }
 
 const tour = useShepherd({
   useModalOverlay: true,
-})
+});
 
 const startTour = () => {
-  tour.start()
-}
+  tour.start();
+};
 
 const weekStarts = ref([
   moment().isoWeekday(-6),
@@ -682,151 +658,1463 @@ const weekStarts = ref([
   moment().isoWeekday(8),
   moment().isoWeekday(15),
   moment().isoWeekday(22),
-  moment().isoWeekday(29)
-])
+  moment().isoWeekday(29),
+]);
 
-const startWeek = ref(moment().isoWeekday(8).format('YYYY-MM-DD'))
+const selTab = ref("Planning");
+const startWeek = ref(moment().isoWeekday(8).format("YYYY-MM-DD"));
+const selTeam = ref("School Passenger Assistants (Portsmouth)");
+const published = ref(false);
 
-const team = ref("General Drivers")
 let teamShifts = [
-  {team: "General Drivers", shift: "AM (09:00 - 15:00)"},
-  {team: "General Drivers", shift: "PM (12:00 - 17:00)"},
-  {team: "General Drivers", shift: "NTS (20:00 - 02:00)"},
-  {team: "Advanced Drivers", shift: "AM (08:00 - 17:00)"},
-  {team: "Advanced Drivers", shift: "PM (12:00 - 18:00)"},
-]
+  { team: "School Passenger Assistants (Portsmouth)", shift: "AM (07:00 - 09:30)" },
+  { team: "School Passenger Assistants (Portsmouth)", shift: "PM (14:00 - 16:30)" },
+  { team: "Equipment Cleaner (Portsmouth)", shift: "DAY (09:00 - 17:00)" },
+];
 
 let shifts = computed(() => {
-  let shiftsSelected = teamShifts.filter(shift => shift.team === team.value).map(shift => shift.shift)
-  return shiftsSelected
-})
+  let shiftsSelected = teamShifts
+    .filter((shift) => shift.team === selTeam.value)
+    .map((shift) => shift.shift);
+  return shiftsSelected;
+});
 
-const selShift = ref(shifts.value[0])
+const selShift = ref(shifts.value[0]);
 
-const teamDayShifts = reactive(
-[
-  {date: '2022-12-26', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Terry March']},
-  {date: '2022-12-27', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: ['Sandra Robinson', 'Danny Ton']},
-  {date: '2022-12-28', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Jack Day']},
-  {date: '2022-12-29', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Danny Ton']},
-  {date: '2022-12-30', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Sandra Robinson']},
-  {date: '2022-12-31', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-01', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Terry March']},
-  {date: '2023-01-02', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Sandra Robinson']},
-  {date: '2023-01-03', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: ['Danny Ton']},
-  {date: '2023-01-04', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Jack Day']},
-  {date: '2023-01-05', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-06', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Sandra Robinson']},
-  {date: '2023-01-07', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-08', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Terry March']},
-  {date: '2023-01-09', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Jack Day']},
-  {date: '2023-01-10', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: ['Danny Ton']},
-  {date: '2023-01-11', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-12', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-13', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Danny Ton']},
-  {date: '2023-01-14', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Jack Day']},
-  {date: '2023-01-15', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-16', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-17', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-01-18', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Terry March']},
-  {date: '2023-01-19', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: ['Jack Day']},
-  {date: '2023-01-20', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-21', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-22', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-23', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-24', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-01-25', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-26', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-27', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-28', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-29', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-30', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-01-31', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-02-01', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-02', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-03', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-04', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-05', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-06', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-07', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-02-08', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-09', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-10', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-11', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-12', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-13', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-14', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-02-15', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-16', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-17', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-18', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-19', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-20', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-21', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-02-22', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-23', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-24', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-25', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-26', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-27', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-02-28', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-03-01', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-02', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-03', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-04', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-05', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-06', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-07', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-03-08', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-09', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-10', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-11', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-12', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-13', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-14', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 2, assigned: []},
-  {date: '2023-03-15', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-  {date: '2023-03-16', team: 'General Drivers', shift: 'AM (09:00 - 15:00)', shiftCount: 1, assigned: []},
-]
-)
+const teamDayShifts = reactive([
+  {
+    date: "2022-12-26",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Terry Marsh"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2022-12-27",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: ["Sandra Robinson", "Danny Ton"],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2022-12-28",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Jack Day"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2022-12-29",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Danny Ton"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2022-12-30",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Sandra Robinson"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2022-12-31",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-01",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Terry Marsh"],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-02",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Sandra Robinson"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-03",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: ["Danny Ton"],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-01-04",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Jack Day"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-05",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-06",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Sandra Robinson"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-07",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-08",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Terry Marsh"],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-09",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: ["Jack Day", "Sandra Robinson"],
+    unavailable: ["Danny Ton", "Derek Macrae"],
+  },
+  {
+    date: "2023-01-10",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 3,
+    assigned: ["Danny Ton", "Derek Macrae"],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-01-11",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 3,
+    assigned: ["Terry Marsh"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-12",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-13",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-14",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Verity Lomas"],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-15",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-16",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-17",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-01-18",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Terry Marsh"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-19",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: ["Jack Day"],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-20",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-21",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-22",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-23",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-24",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-01-25",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-26",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-27",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-28",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-29",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-01-30",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-01-31",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-02-01",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-02",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-03",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-04",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-05",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-06",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-07",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-02-08",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-09",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-10",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-11",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-12",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-13",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-14",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-02-15",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-16",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-17",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-18",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-19",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-20",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-21",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-02-22",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-23",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-24",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-25",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-26",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-02-27",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-02-28",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-03-01",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-02",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-03",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-04",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-03-05",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-03-06",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-07",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-03-08",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-09",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-10",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-11",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-03-12",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
+  },
+  {
+    date: "2023-03-13",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-14",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Verity Lomas", "Terry Marsh"],
+  },
+  {
+    date: "2023-03-15",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2023-03-16",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Verity Lomas"],
+  },
+  {
+    date: "2022-12-26",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Derek Macrae"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2022-12-27",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: ["Laura Van Zyl", "Alex Raubitschek"],
+    unavailable: ["Derek Macrae"],
+  },
+  {
+    date: "2022-12-28",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2022-12-29",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2022-12-30",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Laura Van Zyl"],
+    unavailable: [],
+  },
+  {
+    date: "2022-12-31",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-01",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Derek Macrae"],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-02",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Laura Van Zyl"],
+    unavailable: [],
+  },
+  {
+    date: "2023-01-03",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-01-04",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-05",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-06",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Laura Van Zyl"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-07",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-08",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Derek Macrae"],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-09",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-10",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-01-11",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-12",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Alex Raubitschek"],
+  },
+  {
+    date: "2023-01-13",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-14",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-15",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-16",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-17",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-01-18",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Derek Macrae"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-19",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: ["Alex Raubitschek"],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-20",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 0,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-21",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-22",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-23",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-24",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-01-25",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-26",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-27",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-28",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-29",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-01-30",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-01-31",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-02-01",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-02",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-03",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-04",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-05",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-06",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-07",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-02-08",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-09",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-10",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-11",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-12",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-13",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-14",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-02-15",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-16",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-17",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-18",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-19",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-20",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-21",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-02-22",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-23",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-24",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-25",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-26",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-02-27",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-02-28",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-03-01",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-02",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-03",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-04",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-03-05",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-03-06",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-07",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-03-08",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-09",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-10",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-11",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-03-12",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Sandra Robinson", "Jack Day", "Tony Dan"],
+  },
+  {
+    date: "2023-03-13",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-14",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 2,
+    assigned: [],
+    unavailable: ["Laura Van Zyl", "Derek Macrae"],
+  },
+  {
+    date: "2023-03-15",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+  {
+    date: "2023-03-16",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    shiftCount: 1,
+    assigned: [],
+    unavailable: ["Laura Van Zyl"],
+  },
+]);
+
+const workers = reactive([
+  {
+    id: "9001",
+    worker: "Terry Marsh",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9002",
+    worker: "Verity Lomas",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9003",
+    worker: "Sandra Robinson",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9004",
+    worker: "Jack Day",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9005",
+    worker: "Danny Ton",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9006",
+    worker: "Derek Macrae",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "AM (07:00 - 09:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9006",
+    worker: "Derek Macrae",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9007",
+    worker: "Laura Van Zyl",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+  {
+    id: "9008",
+    worker: "Alex Raubitschek",
+    team: "School Passenger Assistants (Portsmouth)",
+    shift: "PM (14:00 - 16:30)",
+    fromDate: "01-Jan-2022",
+    toDate: "31-Dec-2023",
+  },
+]);
+
+const selWorker = ref(workers[0].worker);
+
+let shiftHeaders = computed(() => {
+  let sh = new Set();
+  teamShifts
+    .filter((shift) => shift.team === selTeam.value)
+    .forEach((shift) => sh.add(shift.shift));
+  return sh;
+});
 
 let weekShifts = computed(() => {
   let ws = teamDayShifts
-    .filter(shift => shift.team === team.value && shift.shift === selShift.value) // team & shift desc matches
-    .filter(shift => moment(shift.date).diff(moment(startWeek.value), 'days') >= 0 // lies in current week
-      && moment(shift.date).diff(moment(startWeek.value), 'days') <= 6)
-  let ws2 = []
-  ws.forEach(shift => ws2.push({date: shift.date, shifts: shift.shiftCount, assigned: shift.assigned}))
-  return ws2
-})
+    .filter((shift) => shift.team === selTeam.value && shift.shift === selShift.value) // team & shift desc matches
+    .filter(
+      (shift) =>
+        moment(shift.date).diff(moment(startWeek.value), "days") >= 0 && // lies in current week
+        moment(shift.date).diff(moment(startWeek.value), "days") <= 6
+    );
+  let ws2 = [];
+  ws.forEach((shift) =>
+    ws2.push({
+      date: shift.date,
+      shifts: shift.shiftCount,
+      assigned: shift.assigned,
+      unavailable: shift.unavailable,
+    })
+  );
+  return reactive(ws2);
+});
+
+let shiftsWorkers = computed(() => {
+  let ws = workers.filter(
+    (shift) => shift.team === selTeam.value && shift.shift === selShift.value
+  ); // team & shift desc matches
+  //    .filter(shift => moment(shift.date).diff(moment(startWeek.value), 'days') >= 0 // lies in current week
+  //      && moment(shift.date).diff(moment(startWeek.value), 'days') <= 6)
+  return reactive(ws);
+});
 
 const changeTeam = () => {
-  selShift.value = shifts.value[0]
-  console.log(shifts.value[0])
-}
+  selShift.value = shifts.value[0];
+  console.log(shifts.value[0]);
+};
 
-const changeShift = () => {
-  console.log(selShift.value)
-}
+const changeShift = (shift, change) => {
+  shift.shifts = shift.shifts + change;
+};
+
+const assignWorker = (worker, shift) => {
+  shift.assigned.push(worker.worker);
+};
+
+const removeWorker = (worker, shift) => {
+  shift.assigned = shift.assigned.filter((assign) => worker.worker !== assign);
+};
 
 let teamLocations = [
-  "General Drivers",
-  "Advanced Drivers",
-]
-
-tour.addStep({
-  id: "shiftNumberStep",
-  text: "Click on the shift number to change the number of shifts required.",
-  attachTo: {
-    element: ".filled",
-    on: "bottom",
-  },
-  buttons: [
-    {
-      text: "Next",
-      action: tour.next,
-    },
-  ],
-});
+  "School Passenger Assistants (Portsmouth)",
+  "Equipment Cleaner (Portsmouth)",
+];
 
 tour.addStep({
   id: "shiftUnfilledStep",
@@ -838,6 +2126,52 @@ tour.addStep({
     on: "bottom",
   },
   buttons: [
+    {
+      text: "Exit",
+      action: tour.complete,
+    },
+    {
+      text: "Next",
+      action: tour.next,
+    },
+  ],
+});
+
+tour.addStep({
+  id: "shiftNumberStep",
+  text: "Click on the minus or plus icons to change the number of shifts required.",
+  attachTo: {
+    element: ".changeShift",
+    on: "bottom",
+  },
+  buttons: [
+    {
+      text: "Exit",
+      action: tour.complete,
+    },
+    {
+      text: "Prev",
+      action: tour.back,
+    },
+    {
+      text: "Next",
+      action: tour.next,
+    },
+  ],
+});
+
+tour.addStep({
+  id: "changeShiftDisabledStep",
+  text: "You cannot reduce the shift number below the assigned worker count.",
+  attachTo: {
+    element: ".changeShiftDisabled",
+    on: "bottom",
+  },
+  buttons: [
+    {
+      text: "Exit",
+      action: tour.complete,
+    },
     {
       text: "Prev",
       action: tour.back,
@@ -857,6 +2191,10 @@ tour.addStep({
     on: "bottom",
   },
   buttons: [
+    {
+      text: "Exit",
+      action: tour.complete,
+    },
     {
       text: "Prev",
       action: tour.back,
@@ -878,6 +2216,10 @@ tour.addStep({
   },
   buttons: [
     {
+      text: "Exit",
+      action: tour.complete,
+    },
+    {
       text: "Prev",
       action: tour.back,
     },
@@ -896,6 +2238,10 @@ tour.addStep({
     on: "bottom",
   },
   buttons: [
+    {
+      text: "Exit",
+      action: tour.complete,
+    },
     {
       text: "Prev",
       action: tour.back,
@@ -916,6 +2262,10 @@ tour.addStep({
   },
   buttons: [
     {
+      text: "Exit",
+      action: tour.complete,
+    },
+    {
       text: "Prev",
       action: tour.back,
     },
@@ -927,7 +2277,7 @@ tour.addStep({
 });
 
 tour.addStep({
-  id: "shiftNumberStep",
+  id: "shiftAssignStep",
   text:
     "Assign workers to the shift by clicking the person icon with a plus sign on the correct day on the worker line.",
   attachTo: {
@@ -935,6 +2285,10 @@ tour.addStep({
     on: "bottom",
   },
   buttons: [
+    {
+      text: "Exit",
+      action: tour.complete,
+    },
     {
       text: "Prev",
       action: tour.back,
@@ -944,11 +2298,49 @@ tour.addStep({
       action: tour.next,
     },
   ],
-})
+});
 
+tour.addStep({
+  id: "shiftUnassignStep",
+  text: "Remove workers by clicking on the assigned worker icon.",
+  attachTo: {
+    element: ".fillBtn",
+    on: "bottom",
+  },
+  buttons: [
+    {
+      text: "Prev",
+      action: tour.back,
+    },
+    {
+      text: "End",
+      action: tour.next,
+    },
+  ],
+});
 </script>
 
 <style>
+button {
+  padding: 5px 20px !important;
+}
+.shepherd-button {
+  padding: 0.1rem 1.5rem !important;
+}
+
+.changeShift {
+  color: #a0c0d3;
+  cursor: pointer;
+}
+
+.changeShiftDisabled {
+  color: #eee2df;
+  cursor: not-allowed;
+}
+
+.changeShift:hover {
+  color: black !important;
+}
 .green {
   background-color: green !important;
 }
@@ -981,8 +2373,8 @@ body {
 
 .fillBtn {
   color: green !important;
-  font-size: 26px !important;
-  padding:0;
+  font-size: 20px !important;
+  padding: 0;
 }
 
 .tourIcon {
@@ -1001,12 +2393,19 @@ body {
 
 .absent {
   color: rgb(205, 167, 95);
-  font-size: 26px;
+  font-size: 20px;
+  cursor: not-allowed;
+}
+
+.waiting {
+  color: #a0c0d3;
+  font-size: 20px;
   cursor: not-allowed;
 }
 
 .filled {
   color: green !important;
+  padding: 0 !important;
 }
 
 .unfilled {
@@ -1021,8 +2420,8 @@ body {
 }
 
 .addWorker {
-  font-size: 30px !important;
-  padding:0;
+  font-size: 20px !important;
+  padding: 0;
   color: #5ea3cb;
 }
 
@@ -1041,5 +2440,8 @@ div.error {
   border: 1px solid #cd0a0a;
   margin: 10px 0 5px 0;
   padding: 5px 5px 5px 30px;
+}
+.availModal {
+  width: 80%;
 }
 </style>
