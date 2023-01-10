@@ -335,6 +335,13 @@
                   <div class="modal-header bg-light p-3">
                     <h5 class="modal-title" id="workerAddModalTitle">
                       {{ workerScreenTitle }}
+                      <a
+                        data-bs-toggle="modal"
+                        data-bs-target="#workerViewModal"
+                        title="Impersonate Worker"
+                        @click="selWorker = worker.worker"
+                        ><i class="bx bx-street-view text-info"></i
+                      ></a>
                     </h5>
                     <button
                       type="button"
@@ -528,6 +535,450 @@
                 </div>
               </div>
             </div>
+            <div
+              class="modal fade"
+              id="workerViewModal"
+              tabindex="-1"
+              aria-labelledby="workerViewModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog workerViewModal">
+                <div class="modal-content">
+                  <div class="fs-13 pa-2">
+                    <i class="bx bx-street-view text-info fs-14" style="padding: 4px"></i>
+                    <span id="workerViewModalTitle" class="text-info">
+                      impersonating {{ selWorker }}
+                    </span>
+                  </div>
+                  <div class="modal-header">
+                    <div class="row">
+                      <h6 class="col-12">{{ selTeam }}</h6>
+                    </div>
+                  </div>
+                  <div class="modal-body pt-1">
+                    <h5 class="text-center">Available Shifts</h5>
+                    <div class="form-group col-auto flex-fill">
+                      <div class="input-group">
+                        <span
+                          class="input-group-text"
+                          style="width: 100px; padding: 0.05rem 0.2rem; font-size: 15px"
+                          >Shift</span
+                        >
+                        <select
+                          name="shiftGroup"
+                          style="width: 100px; padding: 0.05rem 0.2rem; font-size: 15px"
+                          class="form-select"
+                          id="group"
+                          v-model="selShift"
+                        >
+                          <option
+                            :value="shift"
+                            v-for="(shift, index) in shifts"
+                            :key="index"
+                          >
+                            {{ shift }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group col-auto flex-fill">
+                      <div class="input-group">
+                        <span
+                          class="input-group-text"
+                          style="width: 100px; padding: 0.05rem 0.2rem; font-size: 15px"
+                          >Week Starting</span
+                        >
+                        <select
+                          style="padding: 0.05rem 0.2rem; font-size: 15px"
+                          class="form-select"
+                          name="weekStart"
+                          id="weekStart"
+                          v-model="startNextWeek"
+                        >
+                          <option
+                            v-for="(week, index) in weekStarts"
+                            :key="index"
+                            :value="week.format('YYYY-MM-DD')"
+                          >
+                            {{
+                              week.format("dddd").substring(0, 3) +
+                              " " +
+                              week.format("DD MMM")
+                            }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <table class="table table-hover mt-2 mb-0">
+                      <thead>
+                        <th
+                          class="bg-light text-center"
+                          v-for="(shift, index) in weekShifts"
+                          :key="index"
+                        >
+                          {{ moment(startNextWeek).add(index, "days").format("ddd Do") }}
+                        </th>
+                      </thead>
+                      <tbody>
+                        <td
+                          class="text-center"
+                          v-for="(shift, index2) in weekShifts"
+                          :class="{ 'bg-light': !(index2 % 2) }"
+                          :key="index2"
+                        >
+                          <button
+                            type="button"
+                            class="btn btn-sm fillBtn"
+                            @click="removeWorker(worker, shift)"
+                            v-if="
+                              shift.assigned.indexOf(selWorker) !== -1 &&
+                              shift.noShow.indexOf(selWorker) === -1
+                            "
+                          >
+                            <i class="bx bx-check-circle"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm noShowBtn"
+                            @click="removeWorker({ worker: worker }, shift)"
+                            v-if="shift.noShow.indexOf(selWorker) !== -1"
+                          >
+                            <i class="bx bxs-hide fs-20"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm addWorker"
+                            @click="assignWorker({ worker: worker }, shift)"
+                            v-if="
+                              shift.shifts !== shift.assigned.length &&
+                              shift.assigned.indexOf(selWorker) === -1 &&
+                              shift.unavailable.indexOf(selWorker) === -1
+                            "
+                          >
+                            <i class="ri-question-line"></i>
+                          </button>
+                          <span
+                            v-if="
+                              shift.shifts === shift.assigned.length &&
+                              shift.assigned.indexOf(selWorker) === -1 && // not already assigned
+                              shift.unavailable.indexOf(selWorker) === -1 && // not a No Show worker
+                              shift.noShow.indexOf(selWorker) === -1
+                            "
+                            >-</span
+                          >
+                          <i
+                            class="bx bxs-x-circle absent text-warning"
+                            style="padding-top: 6px"
+                            v-if="
+                              shift.assigned.indexOf(selWorker) === -1 &&
+                              shift.unavailable.indexOf(selWorker) !== -1
+                            "
+                          ></i>
+                        </td>
+                      </tbody>
+                    </table>
+                    <div class="fs-14 text-danger pa-2 text-center mb-2">3 Shifts available - please select which ones you wish
+                      to work by clicking the <i class="ri-question-line text-info fs-16"></i> icons above.</div>
+                    <h5 class="text-center">Booked Shifts</h5>
+                    <div class="accordion" id="default-accordion-example">
+                      <div class="accordion-item">
+                        <h4 class="accordion-header" id="headingOne">
+                          <button
+                            class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="false"
+                            aria-controls="collapseOne"
+                            v-if="lastWeekShifts.filter((sh) => sh.worker === selWorker).length"
+                          >
+                            Last Week's Shifts
+                          </button>
+                        </h4>
+                        <div
+                          id="collapseOne"
+                          class="accordion-collapse collapse collapsed"
+                          aria-labelledby="headingOne"
+                          data-bs-parent="#default-accordion-example"
+                          v-if="
+                            lastWeekShifts.filter((sh) => sh.worker === selWorker).length
+                          "
+                        >
+                          <div class="accordion-body" style="padding: 0 !important">
+                            <table class="table table-hover mt-2">
+                              <thead>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th class="text-center">Start</th>
+                                <th class="text-center">End</th>
+                                <th class="text-center">Hrs</th>
+                                <th class="text-center">Brk</th>
+                                <th class="text-center">Paid Hrs</th>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  v-for="(shift, index) in lastWeekShifts.filter(
+                                    (sh) => sh.worker === selWorker
+                                  )"
+                                  :key="index"
+                                >
+                                  <td class="text-left fs-14">
+                                    {{ shift.status }}
+                                  </td>
+                                  <td class="text-left fs-14">
+                                    {{ moment(shift.date).format("ddd Do") }}
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{
+                                      Clickable: shift.status !== 'No Show',
+                                      NoShow: shift.status === 'No Show',
+                                      Started:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Approved',
+                                    }"
+                                  >
+                                    <span
+                                      v-if="!shift.editStart"
+                                      @click="shift.editStart = true"
+                                      :title="
+                                        shift.status !== 'No Show'
+                                          ? 'Click to enter a different start time'
+                                          : 'Cannot change start time'
+                                      "
+                                    >
+                                      {{ shift.start }}
+                                    </span>
+                                    <input
+                                      style="max-width: 60px; margin: auto"
+                                      @change="
+                                        shift.editStart = false;
+                                        shift.status = 'Started';
+                                      "
+                                      @keyup.enter="shift.editStart = false"
+                                      @keyup.tab="shift.editStart = false"
+                                      v-else
+                                      type="timestamp"
+                                      name="start"
+                                      v-model="shift.start"
+                                    />
+                                    <span
+                                      @click="
+                                        shift.status =
+                                          shift.status === 'Started'
+                                            ? 'Planned'
+                                            : 'Started';
+                                        shift.start =
+                                          shift.status !== 'Started'
+                                            ? shift.originalStart
+                                            : shift.start;
+                                      "
+                                      ><i
+                                        class="bx bx-stopwatch fs-20"
+                                        style="color: #5ea3cb"
+                                      ></i
+                                    ></span>
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{
+                                      NoShow: shift.status === 'No Show',
+                                      Started: shift.status === 'Approved',
+                                    }"
+                                  >
+                                    {{ shift.end }}
+                                    <span
+                                      @click="
+                                        shift.status =
+                                          shift.status === 'Approved'
+                                            ? 'Started'
+                                            : 'Approved'
+                                      "
+                                      ><i
+                                        class="bx bx-stopwatch fs-20"
+                                        style="color: #5ea3cb"
+                                      ></i
+                                    ></span>
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{ NoShow: shift.status === 'No Show' }"
+                                  >
+                                    {{ shift.hours }}
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{ NoShow: shift.status === 'No Show' }"
+                                  >
+                                    {{ shift.break }}
+                                  </td>
+                                  <td class="text-center fs-14">
+                                    {{
+                                      shift.status === "No Show" ? "-" : shift.paidhours
+                                    }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h4 class="accordion-header" id="headingTwo">
+                          <button
+                            class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo"
+                            aria-expanded="true"
+                            aria-controls="collapseTwo"
+                            v-if="currentShifts.length"
+                          >
+                            Today's shifts
+                          </button>
+                        </h4>
+                        <div
+                          id="collapseTwo"
+                          class="accordion-collapse collapse show"
+                          aria-labelledby="headingOne"
+                          data-bs-parent="#default-accordion-example"
+                          v-if="
+                            currentShifts.filter((sh) => sh.worker === selWorker).length
+                          "
+                        >
+                          <div class="accordion-body" style="padding: 0 !important">
+                            <table class="table table-hover mt-2">
+                              <thead>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th class="text-center">Start</th>
+                                <th class="text-center">End</th>
+                                <th class="text-center">Hrs</th>
+                                <th class="text-center">Brk</th>
+                                <th class="text-center">Paid Hrs</th>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  v-for="(shift, index) in currentShifts.filter(
+                                    (sh) => sh.worker === selWorker
+                                  )"
+                                  :key="index"
+                                >
+                                  <td class="text-left fs-14">
+                                    {{ shift.status }}
+                                  </td>
+                                  <td class="text-left fs-14">
+                                    {{ moment(shift.date).format("ddd Do") }}
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{
+                                      Clickable: shift.status !== 'No Show',
+                                      NoShow: shift.status === 'No Show',
+                                      Started:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Approved',
+                                    }"
+                                  >
+                                    <span
+                                      v-if="!shift.editStart"
+                                      @click="shift.editStart = true"
+                                      :title="
+                                        shift.status !== 'No Show'
+                                          ? 'Click to enter a different start time'
+                                          : 'Cannot change start time'
+                                      "
+                                    >
+                                      {{ shift.start }}
+                                    </span>
+                                    <input
+                                      style="max-width: 60px; margin: auto"
+                                      @change="
+                                        shift.editStart = false;
+                                        shift.status = 'Started';
+                                      "
+                                      @keyup.enter="shift.editStart = false"
+                                      @keyup.tab="shift.editStart = false"
+                                      v-else
+                                      type="timestamp"
+                                      name="start"
+                                      v-model="shift.start"
+                                    />
+                                    <span
+                                      @click="
+                                        shift.status =
+                                          shift.status === 'Started'
+                                            ? 'Planned'
+                                            : 'Started';
+                                        shift.start =
+                                          shift.status !== 'Started'
+                                            ? shift.originalStart
+                                            : shift.start;
+                                      "
+                                      ><i
+                                        class="bx bx-stopwatch fs-20"
+                                        style="color: #5ea3cb"
+                                      ></i
+                                    ></span>
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{
+                                      NoShow: shift.status === 'No Show',
+                                      Started: shift.status === 'Approved',
+                                    }"
+                                  >
+                                    {{ shift.end }}
+                                    <span
+                                      @click="
+                                        shift.status =
+                                          shift.status === 'Approved'
+                                            ? 'Started'
+                                            : 'Approved'
+                                      "
+                                      ><i
+                                        class="bx bx-stopwatch fs-20"
+                                        style="color: #5ea3cb"
+                                      ></i
+                                    ></span>
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{ NoShow: shift.status === 'No Show' }"
+                                  >
+                                    {{ shift.hours }}
+                                  </td>
+                                  <td
+                                    class="text-center fs-14"
+                                    :class="{ NoShow: shift.status === 'No Show' }"
+                                  >
+                                    {{ shift.break }}
+                                  </td>
+                                  <td class="text-center fs-14">
+                                    {{
+                                      shift.status === "No Show" ? "-" : shift.paidhours
+                                    }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div v-if="selTab === 'Control'">
             <!-- Base Example -->
@@ -543,7 +994,7 @@
                     aria-controls="collapseOne"
                     v-if="currentShifts.length"
                   >
-                    Current Shifts
+                    Today's shifts
                   </button>
                 </h2>
                 <div
@@ -1152,7 +1603,7 @@ onMounted(() => {
 
   aws.forEach((worker) => {
     agencyWorkers.value.push({
-      id: "ag",
+      id: "ag" + uuidv4().slice(20),
       worker: worker,
       team: "School Passenger Assistants (Portsmouth)",
       shift: "PM (14:00 - 16:30)",
@@ -1166,12 +1617,16 @@ const currPool = ref("Pool");
 
 const series = [
   {
-    name: "Last Year",
-    data: [25.3, 12.5, 20.2, 18.5, 40.4, 25.4, 15.8, 22.3, 19.2, 25.3, 12.5, 20.2],
+    name: "Filled from Pool",
+    data: [3, 12, 20, 28, 40, 38, 43, 42, 56, 78, 122, 123],
   },
   {
-    name: "Current Year",
-    data: [36.2, 22.4, 38.2, 30.5, 26.4, 30.4, 20.2, 29.6, 10.9, 36.2, 22.4, 38.2],
+    name: "Agency Fill",
+    data: [120, 118, 116, 111, 96, 102, 92, 95, 91, 72, 12, 10],
+  },
+  {
+    name: "Unfilled",
+    data: [3, 1, 5, 2, 2, 3, 2, 4, 1, 5, 6, 5],
   },
 ];
 
@@ -1266,12 +1721,12 @@ const startTour = () => {
 };
 
 const addWorkers = (pool, title) => {
-  console.log(pool, title)
+  console.log(pool, title);
   currPool.value = pool;
   workerScreenTitle.value = title;
   if (workerScreenTitle.value.slice(0, 3) === "Add") {
     worker.value = {
-      id: null,
+      id: uuidv4(),
       worker: "",
       team: "",
       shift: "",
@@ -1290,7 +1745,7 @@ const setNoShow = (shift) => {
 const workerScreenTitle = ref("");
 
 const showWorker = (wRec) => {
-  console.log(wRec);
+  selWorker.value = wRec.worker;
   worker.value = {
     id: wRec.id,
     worker: wRec.worker,
@@ -1322,7 +1777,7 @@ const addWorker = () => {
 };
 
 const worker = ref({
-  id: null,
+  id: uuidv4().slice(0, 20),
   worker: "",
   team: "",
   shift: "",
@@ -1518,8 +1973,8 @@ const teamDayShifts = reactive([
     date: "2023-01-06",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
-    shiftCount: 1,
-    assigned: ["Sandra Robinson"],
+    shiftCount: 2,
+    assigned: ["Sandra Robinson", "Terry Marsh"],
     agencyWorkers: [],
     noShow: [],
     unavailable: ["Verity Lomas"],
@@ -1530,7 +1985,7 @@ const teamDayShifts = reactive([
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
     shiftCount: 1,
-    assigned: [],
+    assigned: ["Terry Marsh"],
     agencyWorkers: [],
     noShow: [],
     unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
@@ -1541,7 +1996,7 @@ const teamDayShifts = reactive([
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
     shiftCount: 1,
-    assigned: ["Terry Marsh"],
+    assigned: [],
     agencyWorkers: [],
     noShow: [],
     unavailable: ["Sandra Robinson", "Jack Day", "Danny Ton"],
@@ -1555,7 +2010,7 @@ const teamDayShifts = reactive([
     assigned: ["Jack Day", "Sandra Robinson"],
     agencyWorkers: ["Alfredo Mauritz"],
     noShow: [],
-    unavailable: ["Danny Ton", "Derek Macrae"],
+    unavailable: ["Danny Ton", "Derek Macrae", "Terry Marsh"],
   },
   {
     id: uuidv4(),
@@ -1563,10 +2018,10 @@ const teamDayShifts = reactive([
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
     shiftCount: 3,
-    assigned: ["Danny Ton", "Derek Macrae"],
+    assigned: ["Danny Ton", "Terry Marsh"],
     agencyWorkers: [],
     noShow: [],
-    unavailable: ["Verity Lomas", "Terry Marsh"],
+    unavailable: ["Verity Lomas", "Derek Macrae"],
   },
   {
     id: uuidv4(),
@@ -1629,7 +2084,7 @@ const teamDayShifts = reactive([
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
     shiftCount: 1,
-    assigned: [],
+    assigned: ["Jack Day"],
     agencyWorkers: [],
     noShow: [],
     unavailable: ["Verity Lomas"],
@@ -3343,7 +3798,7 @@ const teamDayShifts = reactive([
 
 const workers = reactive([
   {
-    id: "9001",
+    id: uuidv4(),
     worker: "Terry Marsh",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
@@ -3363,7 +3818,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9003",
+    id: uuidv4(),
     worker: "Sandra Robinson",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
@@ -3373,7 +3828,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9004",
+    id: uuidv4(),
     worker: "Jack Day",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
@@ -3383,7 +3838,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9005",
+    id: uuidv4(),
     worker: "Danny Ton",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
@@ -3393,7 +3848,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9006",
+    id: uuidv4(),
     worker: "Derek Macrae",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
@@ -3403,7 +3858,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9006",
+    id: uuidv4(),
     worker: "Derek Macrae",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "PM (14:00 - 16:30)",
@@ -3413,7 +3868,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9007",
+    id: uuidv4(),
     worker: "Laura Van Zyl",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "PM (14:00 - 16:30)",
@@ -3423,7 +3878,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9008",
+    id: uuidv4(),
     worker: "Alex Raubitschek",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "PM (14:00 - 16:30)",
@@ -3433,7 +3888,7 @@ const workers = reactive([
     toDate: "31-Dec-2023",
   },
   {
-    id: "9011",
+    id: uuidv4(),
     worker: "Nathan Midgley",
     team: "Equipment Cleaner (Portsmouth)",
     shift: "DAY (09:00 - 17:00)",
@@ -3925,7 +4380,7 @@ body {
 .absence {
   color: rgb(205, 167, 95);
   font-size: 16px;
-  float:right;
+  float: right;
 }
 
 .absent {

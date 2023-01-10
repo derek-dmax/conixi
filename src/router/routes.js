@@ -293,6 +293,12 @@ export default [
     component: () => import("../shiftDemo/Booking"),
   },
   {
+    path: "/demo-site/worker/:id",
+    name: "worker-view",
+    meta: { title: "Worker View", authRequired: true },
+    component: () => import("../shiftDemo/Worker"),
+  },
+  {
     path: "/invoices/list",
     name: "invoice-list",
     meta: { title: "Invoice List", authRequired: true },
