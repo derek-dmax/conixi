@@ -773,6 +773,7 @@
                                     :class="{
                                       Clickable: shift.status !== 'No Show',
                                       NoShow: shift.status === 'No Show',
+                                      Submitted: shift.status === 'Submitted',
                                       Started:
                                         shift.status === 'Started' ||
                                         shift.status === 'Approved',
@@ -825,6 +826,7 @@
                                     class="text-center fs-14"
                                     :class="{
                                       NoShow: shift.status === 'No Show',
+                                      Submitted: shift.status === 'Submitted',
                                       Started: shift.status === 'Approved',
                                     }"
                                   >
@@ -906,7 +908,14 @@
                                   )"
                                   :key="index"
                                 >
-                                  <td class="text-left fs-14">
+                                  <td class="text-left fs-14" :class="{
+                                      Clickable: shift.status !== 'No Show',
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted: shift.status === 'Submitted',
+                                      Started:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Approved',
+                                    }">
                                     {{ shift.status }}
                                   </td>
                                   <td class="text-left fs-14">
@@ -917,6 +926,7 @@
                                     :class="{
                                       Clickable: shift.status !== 'No Show',
                                       NoShow: shift.status === 'No Show',
+                                      Submitted: shift.status === 'Submitted',
                                       Started:
                                         shift.status === 'Started' ||
                                         shift.status === 'Approved',
@@ -1088,10 +1098,24 @@
                               ><i class="bx bx-calendar-minus absence"></i
                             ></a>
                           </td>
-                          <td class="text-left fs-14">
+                          <td class="text-left fs-14" :class="{
+                                      Clickable: shift.status !== 'No Show',
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Submitted',
+                                      Started: shift.status === 'Approved',
+                                    }">
                             {{ shift.status }}
                           </td>
-                          <td class="text-left fs-14">
+                          <td class="text-left fs-14" :class="{
+                                      Clickable: shift.status !== 'No Show',
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Submitted',
+                                      Started: shift.status === 'Approved',
+                                    }">
                             {{ moment(shift.date).format("ddd Do MMM") }}
                           </td>
                           <td
@@ -1099,6 +1123,7 @@
                             :class="{
                               Clickable: shift.status !== 'No Show',
                               NoShow: shift.status === 'No Show',
+                              Submitted: shift.status === 'Submitted',
                               Started:
                                 shift.status === 'Started' || shift.status === 'Approved',
                             }"
@@ -1143,6 +1168,7 @@
                             class="text-center fs-14"
                             :class="{
                               NoShow: shift.status === 'No Show',
+                              Submitted: shift.status === 'Submitted',
                               Started: shift.status === 'Approved',
                             }"
                           >
@@ -1156,21 +1182,35 @@
                             ></span>
                           </td>
                           <td
-                            class="text-center fs-14"
-                            :class="{ NoShow: shift.status === 'No Show' }"
-                          >
+                            class="text-center fs-14" :class="{
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Submitted',
+                                      Started: shift.status === 'Approved',
+                                    }">
                             {{ shift.hours }}
                           </td>
                           <td
-                            class="text-center fs-14"
-                            :class="{ NoShow: shift.status === 'No Show' }"
-                          >
+                            class="text-center fs-14" :class="{
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Submitted',
+                                      Started: shift.status === 'Approved',
+                                    }">
                             {{ shift.break }}
                           </td>
-                          <td class="text-center fs-14">
+                          <td class="text-center fs-14" :class="{
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Submitted',
+                                      Started: shift.status === 'Approved',
+                                    }">
                             {{ shift.status === "No Show" ? "-" : shift.paidhours }}
                           </td>
-                          <td class="text-center fs-14">
+                          <td class="text-center fs-14" v-if="!(shift.status === 'Submitted')">
                             <i
                               class="bx bxs-hide text-danger fs-18"
                               @click="setNoShow(shift)"
@@ -1251,10 +1291,22 @@
                               ><i class="bx bx-calendar-minus absence"></i
                             ></a>
                           </td>
-                          <td class="text-left fs-14">
+                          <td class="text-left fs-14" :class="{
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Submitted',
+                                      Started: shift.status === 'Approved',
+                                    }">
                             {{ shift.status }}
                           </td>
-                          <td class="text-left fs-14">
+                          <td class="text-left fs-14" :class="{
+                                      NoShow: shift.status === 'No Show',
+                                      Submitted:
+                                        shift.status === 'Started' ||
+                                        shift.status === 'Submitted',
+                                      Started: shift.status === 'Approved',
+                                    }">
                             {{ moment(shift.date).format("ddd Do MMM") }}
                           </td>
                           <td
@@ -1262,6 +1314,7 @@
                             :class="{
                               Clickable: shift.status !== 'No Show',
                               NoShow: shift.status === 'No Show',
+                              Submitted: shift.status === 'Submitted',
                               Started:
                                 shift.status === 'Started' || shift.status === 'Approved',
                             }"
@@ -1306,6 +1359,7 @@
                             class="text-center fs-14"
                             :class="{
                               NoShow: shift.status === 'No Show',
+                              Submitted: shift.status === 'Submitted',
                               Started: shift.status === 'Approved',
                             }"
                           >
@@ -1425,6 +1479,7 @@
                             :class="{
                               Clickable: shift.status !== 'No Show',
                               NoShow: shift.status === 'No Show',
+                              Submitted: shift.status === 'Submitted',
                               Started:
                                 shift.status === 'Started' || shift.status === 'Approved',
                             }"
@@ -1469,6 +1524,7 @@
                             class="text-center fs-14"
                             :class="{
                               NoShow: shift.status === 'No Show',
+                              Submitted: shift.status === 'Submitted',
                               Started: shift.status === 'Approved',
                             }"
                           >
@@ -2096,7 +2152,7 @@ const teamDayShifts = reactive([
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
     shiftCount: 3,
-    assigned: ["Terry Marsh"],
+    assigned: ["Danny Ton", "Terry Marsh"],
     agencyWorkers: [],
     noShow: [],
     unavailable: ["Verity Lomas"],
@@ -2106,8 +2162,8 @@ const teamDayShifts = reactive([
     date: "2023-01-12",
     team: "School Passenger Assistants (Portsmouth)",
     shift: "AM (07:00 - 09:30)",
-    shiftCount: 2,
-    assigned: ["Danny Ton"],
+    shiftCount: 3,
+    assigned: ["Danny Ton", "Terry Marsh"],
     agencyWorkers: ["Mohamed Bakir"],
     noShow: [],
     unavailable: ["Verity Lomas"],
@@ -3152,7 +3208,7 @@ const teamDayShifts = reactive([
     team: "School Passenger Assistants (Portsmouth)",
     shift: "PM (14:00 - 16:30)",
     shiftCount: 0,
-    assigned: [],
+    assigned: ["Alex Raubitschek"],
     agencyWorkers: [],
     noShow: [],
     unavailable: ["Laura Van Zyl"],
@@ -3163,7 +3219,7 @@ const teamDayShifts = reactive([
     team: "School Passenger Assistants (Portsmouth)",
     shift: "PM (14:00 - 16:30)",
     shiftCount: 1,
-    assigned: [],
+    assigned: ["Alex Raubitschek"],
     agencyWorkers: [],
     noShow: [],
     unavailable: ["Laura Van Zyl", "Alex Raubitschek"],
@@ -4061,7 +4117,7 @@ let thisWeekShifts = computed(() => {
         originalBreak: teamShift.break,
         paidhours: teamShift.hours - teamShift.break / 60,
         worker: assigned,
-        status: "Planned",
+        status: shift.date === '2023-01-10' && assigned === 'Terry Marsh' ? "Submitted" : "Planned",
         editStart: false,
         editEnd: false,
         eidtBreak: false,
@@ -4424,6 +4480,11 @@ body {
 .Started {
   font-weight: bold;
   color: rgb(61, 189, 97);
+}
+
+.Submitted {
+  font-weight: bold;
+  color: rgb(124, 83, 26);
 }
 
 .Clickable {
