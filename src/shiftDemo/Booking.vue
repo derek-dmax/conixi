@@ -113,13 +113,19 @@
                       moment(startNextWeek).add(index, "days").format("DD MMM")
                     }}<br />
                     <i
-                      v-if="shift.shifts !== shift.assigned.length"
+                      v-if="
+                        shift.shifts !== shift.assigned.length &&
+                        startNextWeek !== payrolledWeek
+                      "
                       @click="changeShift(shift, -1)"
                       class="bx bx-minus-circle changeShift"
                       style="margin-right: 5px"
                     ></i>
                     <i
-                      v-else
+                      v-if="
+                        shift.shifts === shift.assigned.length &&
+                        startNextWeek !== payrolledWeek
+                      "
                       class="bx bx-minus-circle changeShiftDisabled"
                       style="margin-right: 5px"
                     ></i>
@@ -141,6 +147,7 @@
                     <i
                       class="bx bx-plus-circle changeShift"
                       style="margin-left: 5px"
+                      v-if="startNextWeek !== payrolledWeek"
                       @click="changeShift(shift, 1)"
                     ></i>
                   </th>
@@ -197,17 +204,19 @@
                         shift.assigned.indexOf(worker.worker) === -1 && // not already assigned
                         shift.noShow.indexOf(worker.worker) === -1 && // not a No Show worker
                         shift.unavailable.indexOf(worker.worker) === -1 && // not unavailable worker
-                        !published
+                        !published &&
+                        startNextWeek !== payrolledWeek
                       "
                     >
                       <i class="bx bxs-user-plus"></i>
                     </button>
                     <span
                       v-if="
-                        shift.shifts === shift.assigned.length &&
-                        shift.assigned.indexOf(worker.worker) === -1 && // not already assigned
+                        (shift.shifts === shift.assigned.length || // not already assigned
+                          startNextWeek === payrolledWeek) &&
                         shift.unavailable.indexOf(worker.worker) === -1 && // not a No Show worker
-                        shift.noShow.indexOf(worker.worker) === -1
+                        shift.noShow.indexOf(worker.worker) === -1 &&
+                        shift.assigned.indexOf(worker.worker) === -1
                       "
                       >-</span
                     >
@@ -318,11 +327,17 @@
               :class="{ 'btn-primary': !published, 'btn-warning': published }"
               data-bs-dismiss="modal"
               style="float: right"
+              v-if="startNextWeek !== payrolledWeek"
               @click="published = !published"
             >
-              <span v-if="!published">Publish</span>
-              <span v-else>Retract</span>
+              <span v-if="!published && startNextWeek !== payrollWeek">Publish</span>
+              <span v-if="startNextWeek === payrollWeek">Payroll Export</span>
+              <span v-if="published && startNextWeek !== payrollWeek">Retract</span>
             </button>
+            <div v-else class="text-info fs-13 text-center">
+              <i class="bx bx-lock"></i>&NonBreakingSpace;Payroll Extracted at 13:16 on
+              Wed 3rd January by Derek Macrae
+            </div>
             <div
               class="modal fade"
               id="workerAddModal"
@@ -446,6 +461,13 @@
                           data-bs-dismiss="modal"
                         >
                           Close
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-info"
+                          v-if="workerScreenTitle.slice(0, 3) === 'Add'"
+                        >
+                          Load Worker File
                         </button>
                         <button type="button" class="btn btn-success" @click="addWorker">
                           <span v-if="workerScreenTitle.slice(0, 3) === 'Add'"
@@ -677,8 +699,23 @@
                         </td>
                       </tbody>
                     </table>
-                    <div class="fs-14 text-danger pa-2 text-center mb-2">3 Shifts available - please select which ones you wish
-                      to work by clicking the <i class="ri-question-line text-info fs-16"></i> icons above.</div>
+                    <div
+                      class="fs-14 text-danger pa-2 text-center mb-2"
+                      v-if="thisWeekShifts.filter((sh) => sh.worker === selWorker).length"
+                    >
+                      {{
+                        thisWeekShifts.filter((sh) => sh.worker === selWorker).length + 1
+                      }}
+                      Shift<span
+                        v-if="
+                          thisWeekShifts.filter((sh) => sh.worker === selWorker).length >
+                          1
+                        "
+                        >s</span
+                      >
+                      available - please select which ones you wish to work by clicking
+                      the <i class="ri-question-line text-info fs-16"></i> icons above.
+                    </div>
                     <h5 class="text-center">Booked Shifts</h5>
                     <div class="accordion" id="default-accordion-example">
                       <div class="accordion-item">
@@ -690,7 +727,10 @@
                             data-bs-target="#collapseOne"
                             aria-expanded="false"
                             aria-controls="collapseOne"
-                            v-if="lastWeekShifts.filter((sh) => sh.worker === selWorker).length"
+                            v-if="
+                              lastWeekShifts.filter((sh) => sh.worker === selWorker)
+                                .length
+                            "
                           >
                             Last Week's Shifts
                           </button>
@@ -773,9 +813,11 @@
                                             ? shift.originalStart
                                             : shift.start;
                                       "
+                                      title="click to set shift as started on time"
                                       ><i
                                         class="bx bx-stopwatch fs-20"
                                         style="color: #5ea3cb"
+                                        title="click to set shift as started on time"
                                       ></i
                                     ></span>
                                   </td>
@@ -892,7 +934,7 @@
                                       {{ shift.start }}
                                     </span>
                                     <input
-                                      style="max-width: 60px; margin: auto"
+                                      class="form-control"
                                       @change="
                                         shift.editStart = false;
                                         shift.status = 'Started';
@@ -900,11 +942,13 @@
                                       @keyup.enter="shift.editStart = false"
                                       @keyup.tab="shift.editStart = false"
                                       v-else
-                                      type="timestamp"
+                                      type="time"
                                       name="start"
                                       v-model="shift.start"
+                                      title="click to set shift as started on time"
                                     />
                                     <span
+                                      v-if="!shift.editStart"
                                       @click="
                                         shift.status =
                                           shift.status === 'Started'
@@ -925,16 +969,19 @@
                                     class="text-center fs-14"
                                     :class="{
                                       NoShow: shift.status === 'No Show',
-                                      Started: shift.status === 'Approved',
+                                      Started:
+                                        shift.status === 'Approved' ||
+                                        shift.status === 'Submitted',
                                     }"
                                   >
                                     {{ shift.end }}
                                     <span
                                       @click="
                                         shift.status =
-                                          shift.status === 'Approved'
+                                          shift.status === 'Approved' ||
+                                          shift.status === 'Submitted'
                                             ? 'Started'
-                                            : 'Approved'
+                                            : 'Submitted'
                                       "
                                       ><i
                                         class="bx bx-stopwatch fs-20"
@@ -1164,6 +1211,9 @@
                     <div class="mb-3">
                       Week: {{ startThisWeek.format("DD-MMM") }} to
                       {{ endThisWeek.format("DD-MMM") }}
+                      <button type="button" class="btn btn-danger" style="float: right">
+                        Approve All Remaining Shifts
+                      </button>
                     </div>
                     <table class="table table-hover mt-2">
                       <thead>
@@ -1324,6 +1374,9 @@
                     <div class="mb-3">
                       Week: {{ startLastWeek.format("DD-MMM") }} to
                       {{ endLastWeek.format("DD-MMM") }}
+                      <button type="button" class="btn btn-danger" style="float: right">
+                        Approve All Remaining Shifts
+                      </button>
                     </div>
                     <table class="table table-hover mt-2">
                       <thead>
@@ -1481,12 +1534,16 @@
                 </div>
               </div>
               <!-- end card header -->
-              <div class="card-header p-0 border-0 bg-soft-light">
+              <div
+                class="card-header p-0 border-0 bg-soft-light"
+                style="position: relative; top: -30px"
+              >
                 <div class="row g-0 text-center">
+                  <span class="fs-18 text-info">December Performance</span>
                   <div class="col-6 col-sm-3">
                     <div class="p-3 border border-dashed border-start-0">
                       <h5 class="mb-1">
-                        <count-to :startVal="0" :endVal="212" :duration="2500"></count-to>
+                        <count-to :startVal="0" :endVal="212" :duration="2800"></count-to>
                         <span class="text-success ms-1 fs-12"
                           >96%<i class="ri-arrow-right-up-line ms-1 align-middle"></i
                         ></span>
@@ -1498,7 +1555,7 @@
                   <div class="col-6 col-sm-3">
                     <div class="p-3 border border-dashed border-start-0">
                       <h5 class="mb-1">
-                        <count-to :startVal="0" :endVal="192" :duration="2500"></count-to>
+                        <count-to :startVal="0" :endVal="192" :duration="2800"></count-to>
                         <span class="text-success ms-1 fs-12"
                           >87%<i class="ri-arrow-right-up-line ms-1 align-middle"></i
                         ></span>
@@ -1510,7 +1567,7 @@
                   <div class="col-6 col-sm-3">
                     <div class="p-3 border border-dashed border-start-0">
                       <h5 class="mb-1">
-                        <count-to :startVal="0" :endVal="13" :duration="2500"></count-to>
+                        <count-to :startVal="0" :endVal="13" :duration="2800"></count-to>
                         <span class="text-success ms-1 fs-12"
                           >5.9%<i class="ri-arrow-right-down-line ms-1 align-middle"></i
                         ></span>
@@ -1522,7 +1579,7 @@
                   <div class="col-6 col-sm-3">
                     <div class="p-3 border border-dashed border-start-0">
                       <h5 class="mb-1">
-                        <count-to :startVal="0" :endVal="5" :duration="2500"></count-to>
+                        <count-to :startVal="0" :endVal="5" :duration="2800"></count-to>
                         <span class="text-danger ms-1 fs-12"
                           >2.3%<i class="ri-arrow-right-up-line ms-1 align-middle"></i
                         ></span>
@@ -1618,15 +1675,19 @@ const currPool = ref("Pool");
 const series = [
   {
     name: "Filled from Pool",
-    data: [3, 12, 20, 28, 40, 38, 43, 42, 56, 78, 122, 123],
+    data: [3, 12, 20, 28, 40, 38, 43, 42, 56, 78, 122, 192],
   },
   {
     name: "Agency Fill",
-    data: [120, 118, 116, 111, 96, 102, 92, 95, 91, 72, 12, 10],
+    data: [120, 118, 116, 111, 96, 102, 92, 95, 91, 72, 25, 20],
   },
   {
     name: "Unfilled",
-    data: [3, 1, 5, 2, 2, 3, 2, 4, 1, 5, 6, 5],
+    data: [3, 1, 5, 2, 2, 9, 8, 4, 1, 5, 12, 13],
+  },
+  {
+    name: "No Show",
+    data: [3, 1, 5, 2, 2, 3, 2, 4, 1, 5, 4, 5],
   },
 ];
 
@@ -1671,7 +1732,9 @@ const chartOptions = {
   grid: {
     show: false,
   },
-  colors: getChartColorsArray('["--vz-primary", "--vz-gray-300"]'),
+  colors: getChartColorsArray(
+    '["--vz-success", "--vz-primary", "--vz-gray-100", "--vz-danger"]'
+  ),
   xaxis: {
     categories: [
       "Jan",
@@ -1757,7 +1820,7 @@ const showWorker = (wRec) => {
     toDate: wRec.toDate,
     payRef: "p" + uuidv4().slice(0, 8),
   };
-  currPool.value = "pool";
+  currPool.value = "Pool";
   workerScreenTitle.value = "Amend " + worker.value.worker;
 };
 
@@ -1768,7 +1831,7 @@ const setShow = (shift) => {
 const addWorker = () => {
   worker.value.team = selTeam.value;
   worker.value.shift = selShift.value;
-  if (currPool.value === "pool") {
+  if (currPool.value === "Pool") {
     shiftsWorkers.value.push(worker.value);
   } else {
     agencyWorkers.value.push(worker.value);
@@ -1788,7 +1851,11 @@ const worker = ref({
   payRef: uuidv4(),
 });
 
+const payrolledWeek = moment().isoWeekday(-13).format("YYYY-MM-DD");
+const payrollWeek = moment().isoWeekday(-6).format("YYYY-MM-DD");
+
 const weekStarts = ref([
+  moment().isoWeekday(-13),
   moment().isoWeekday(-6),
   moment().isoWeekday(1),
   moment().isoWeekday(8),
@@ -3972,7 +4039,7 @@ let thisWeekShifts = computed(() => {
   let ws = teamDayShifts.filter(
     (shift) =>
       startThisWeek.value.diff(moment(shift.date)) <= 0 &&
-      startThisWeek.value.diff(moment(shift.date)) >= -504000000 // one week
+      startThisWeek.value.diff(moment(shift.date)) >= -518400000 // one week
   );
   let ws2 = [];
   ws.forEach((shift) => {
@@ -4008,7 +4075,7 @@ let lastWeekShifts = computed(() => {
   let ws = teamDayShifts.filter(
     (shift) =>
       startLastWeek.value.diff(moment(shift.date)) <= 0 &&
-      startLastWeek.value.diff(moment(shift.date)) >= -504000000 // one week
+      startLastWeek.value.diff(moment(shift.date)) >= -518400000 // one week
   );
   let ws2 = [];
   ws.forEach((shift) => {
