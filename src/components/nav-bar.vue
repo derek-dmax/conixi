@@ -15,8 +15,9 @@
         userName: "Derek Macrae",
         userOrg: "Conixi",
         userTitle: "CTO",
+        userImage: require('@/assets/images/users/derekm.jpg'),
         languages: [{
-            flag: require("@/assets/images/flags/us.svg"),
+            flag: require("@/assets/images/flags/gb.svg"),
             language: "gb-en",
             title: "English",
           },
@@ -29,10 +30,13 @@
       };
     },
     created() {
+      console.log(this.userImage)
       this.userType = localStorage.getItem("userType");
       this.userOrg = localStorage.getItem("userOrg");
       this.userName = localStorage.getItem("userName");
       this.userTitle = localStorage.getItem("userTitle");
+      this.userImage = localStorage.getItem("userImage");
+      console.log(this.userImage)
     },
     components: {
       SimpleBar
@@ -418,7 +422,7 @@
             <div class="dropdown ms-1 topbar-head-dropdown header-item">
               <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img id="header-lang-img" src="@/assets/images/flags/gb.svg" alt="Header Language" height="20"
+                <img id="header-lang-img" src="@/assets/images/flags/gb.svg" alt="Header Language" height="18"
                   class="rounded" />
               </button>
               <div class="dropdown-menu dropdown-menu-end">
@@ -745,20 +749,16 @@
               <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="d-flex align-items-center">
-                  <img class="rounded-circle header-profile-user" v-if="userName === 'Derek Macrae'" src="@/assets/images/users/derekm.jpg"
-                    alt="Header Avatar" />
-                  <img class="rounded-circle header-profile-user" v-else src="@/assets/images/users/avatar-6.jpg"
-                    alt="Header Avatar" />
+                  <img class="rounded-circle header-profile-user" :src="userImage" alt="Header Avatar" />
                   <span class="text-start ms-xl-2">
                     <span class=" d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ userName }}</span>
-                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{  userTitle }}</span>
-                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{  userOrg }}</span>
+                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ userTitle }}</span>
+                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ userOrg }}</span>
                   </span>
                 </span>
               </button>
               <div class="dropdown-menu dropdown-menu-end">
                 <!-- item-->
-                <h6 class="dropdown-header">Welcome Derek!</h6>
                 <router-link class="dropdown-item" to="/pages/profile"><i
                     class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                   <span class="align-middle">Profile</span>

@@ -114,7 +114,7 @@ export default {
         }
       }
       if (this.projectList[key]) {
-        tasks = JSON.parse(JSON.stringify(this.projectList[key].tasks))
+        tasks = JSON.parse(JSON.stringify(this.projectList[key].tasks.data))
         tasks.forEach(task => {
           task.project = this.projectList[key].label
           task.dueDate = moment(task.start_date).add(task.duration, "days").format('Do MMM')

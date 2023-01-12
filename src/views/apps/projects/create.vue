@@ -45,6 +45,8 @@ export default {
   data() {
     return {
       title: "Create Project",
+      cost: 0,
+      dueDate: moment().add(1, 'month').format('DD MMM, YYYY'),
       items: [
         {
           text: "Projects",
@@ -150,8 +152,8 @@ export default {
             imgNumber: "+",
           },
         ],
-        createdDate: moment().format("DD MMM, YYYY"),
-        dueDate: "10 Mar, 2023",
+        createdDate: moment(),
+        dueDate: moment("10 Mar, 2023"),
       },
       value: [],
       value3: ["Private"],
@@ -239,10 +241,15 @@ export default {
   methods: {
     ...mapActions("projects", ["createProject"]),
     projectCreate(payload) {
+      console.log(this.dueDate)
+      payload.time = moment()
+      payload.dueDate = moment(this.dueDate)
       payload.tasks.data[0].start_date = this.start_date ? moment(this.start_date) : moment()
-      payload.tasks.data[0].duration = (moment(payload.dueDate).diff(moment(this.start_date), 'days')).toString()
-      payload.tasks.data[1].start_date = moment(payload.dueDate)
+      payload.tasks.data[0].duration = (moment(this.dueDate).diff(moment(this.start_date), 'days')).toString()
+      payload.tasks.data[1].start_date = moment(this.dueDate)
       payload.tasks.data[1].payment = this.cost
+      payload.tasks.data[1].parent = 0
+      console.log(payload)
       this.createProject(payload)
       this.$router.push({
         path: '/apps/projects-list'
@@ -323,6 +330,7 @@ export default {
                     class="form-control"
                     id="cost-input"
                     type="number"
+                    v-model="cost"
                   />
                 </div>
               </div>
@@ -344,7 +352,7 @@ export default {
                   >
 
                   <flat-pickr
-                    v-model="selProject.dueDate"
+                    v-model="dueDate"
                     :config="config"
                     class="form-control"
                   ></flat-pickr>

@@ -751,14 +751,23 @@ export default {
               <div class="card-body">
                 <div class="row pa-2" style="margin-bottom: 30px;margin-top: -7px;">
                   <h5 class="card-title col-4">Documents</h5>
-                  <div class="col-5"></div>
+                  <div class="col-3"></div>
                   <button
                       data-bs-toggle="modal"
                       data-bs-target=".bs-example-modal-xl"
                       class="col-1 btn btn-sm btn-info active"
                       type="button"
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Project Brief</span>
+                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span>
+                  </button>
+                  <div class="col-1"></div>
+                  <button
+                      data-bs-toggle="modal"
+                      data-bs-target=".bs-example-modal-xl"
+                      class="col-1 btn btn-sm btn-info active"
+                      type="button"
+                    >
+                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Proj Brief</span>
                   </button>
                   <div class="col-1"></div>
                   <button
@@ -997,14 +1006,23 @@ export default {
                         >
                       </span>
                   </button>
-                  <div class="col-4"></div>
+                  <div class="col-2"></div>
                   <button
                       data-bs-toggle="modal"
                       data-bs-target=".bs-example-modal-xl"
                       class="col-1 btn btn-sm btn-info active"
                       type="button"
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Project Brief</span>
+                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span>
+                  </button>
+                  <div class="col-1"></div>
+                  <button
+                      data-bs-toggle="modal"
+                      data-bs-target=".bs-example-modal-xl"
+                      class="col-1 btn btn-sm btn-info active"
+                      type="button"
+                    >
+                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Proj Brief</span>
                   </button>
                   <div class="col-1"></div>
                   <button

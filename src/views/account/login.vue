@@ -77,7 +77,17 @@ export default {
           });
         },
       },
-    },
+      userImage: {
+        get() {
+          return this.$store ? this.$store.state.layout.userImage : "" || "";
+        },
+        set(userImage) {
+          this.changeUserImage({
+            userImage: userImage,
+          });
+        },
+      },
+    }
   },
   methods: {
     ...layoutMethods,
@@ -105,35 +115,40 @@ export default {
       }
 
       localStorage.setItem("jwt", result.data.token);
-      console.log(this.email);
       if (this.email === "derek@conixi.co.uk") {
         this.userType = "consultant";
         this.userOrg = "Conixi"
         this.userName = "Derek Macrae"
         this.userTitle = "CTO"
+        this.userImage = require('@/assets/images/users/derekm.jpg')
       }
       if (this.email === "laura@conixi.co.uk") {
         this.userType = "manager";
         this.userOrg = "Conixi"
         this.userName = "Laura Van Zyl"
         this.userTitle = "Manager"
+        this.userImage = require('@/assets/images/users/avatar-2.jpg')
       }
       if (this.email === "derek@dmax.design") {
         this.userType = "supplier";
         this.userOrg = "DMax Design"
         this.userName = "Derek Macrae"
         this.userTitle = "Supply Consultant"
+        this.userImage = require('@/assets/images/users/derekm.jpg')
       }
       if (this.email === "developer@ventura.co.uk") {
         this.userType = "supplier";
         this.userOrg = "Ventura Associates"
         this.userName = "Val Dugan"
         this.userTitle = "Developer"
+        this.userImage = require('@/assets/images/users/avatar-6.jpg')
       }
       localStorage.setItem("userType", this.userType);
       localStorage.setItem("userName", this.userName);
       localStorage.setItem("userOrg", this.userOrg);
       localStorage.setItem("userTitle", this.userTitle);
+      console.log("UserImage: " + this.userImage)
+      localStorage.setItem("userImage", this.userImage);
       this.$router.push({
         path: "/apps/projects-list",
       });

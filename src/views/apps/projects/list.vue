@@ -62,6 +62,7 @@ export default {
           this.projectKeys = Object.keys(this.projectList);
         }
       });
+      console.log(this.projectList)
       if (this.projectKeys.length === 1) {
         this.$router.push ({name: 'projects View', query: { id: this.projectKeys[0] }})
       }
@@ -240,7 +241,7 @@ export default {
                     >
                   </h5>
                   <p
-                    class="text-muted mb-0"
+                    class="text-muted mb-0 d-sm-block" style="display:none"
                     v-for="(service, index) in item.services"
                     :key="index"
                   >
@@ -248,7 +249,7 @@ export default {
                   </p>
                 </div>
               </div>
-              <div class="mt-auto">
+              <div class="mt-auto d-sm-block" style="display:none">
                 <div class="d-flex mb-2">
                   <div class="flex-grow-1">
                     <div>Tasks</div>
@@ -346,3 +347,10 @@ export default {
     <!-- end row -->
   </Layout>
 </template>
+<style>
+  .x-sm-hidden {
+    @media only screen and (max-width: 1026px) {
+      display: none;
+    }
+  }
+</style>

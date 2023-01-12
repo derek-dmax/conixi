@@ -35,7 +35,7 @@ export default {
           feaIcon: "clock",
           feaIconClass: "info",
           label: "Total Hours",
-          counter: "168h 40m",
+          counter: "168h",
           suffix: "m",
           badgeClass: "danger",
           icon: "ri-arrow-down-s-line",

@@ -13,6 +13,7 @@ export const state = {
   userOrg: 'conixi',
   userName: 'Derek Macrae',
   userTitle: 'CTO',
+  userImage: require('@/assets/images/users/derekm.jpg'),
 }
 
 export const mutations = {
@@ -61,6 +62,10 @@ export const mutations = {
   CHANGE_USERTITLE(state, userTitle) {
     console.log(userTitle)
     state.userTitle = userTitle;
+  },
+  CHANGE_USERIMAGE(state, userImage) {
+    console.log(userImage)
+    state.userTitle = userImage;
   },
 }
 
@@ -124,5 +129,10 @@ export const actions = {
   changeUserTitle({ commit }, { userTitle }) {
     console.log(userTitle)
     commit('CHANGE_USERTITLE', userTitle)
-  }
+  },
+
+  changeUserImage({ commit }, { userImage }) {
+    commit('CHANGE_USERIMAGE', userImage)
+  },
+
 }

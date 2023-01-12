@@ -86,7 +86,7 @@
             company: "Force Medicines",
             score: "147",
             phone: "580-464-4694",
-            location: "Los Angeles, USA",
+            location: "Portsmouth, Hampshire",
             date: "07 Apr, 2021",
           },
           {

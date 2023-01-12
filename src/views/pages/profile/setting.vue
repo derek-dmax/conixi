@@ -380,7 +380,7 @@ Hi I'm Anna Adame,It will be as simple as Occidental; in fact, it will be Occide
                   <div class="flex-grow-1 ms-3">
                     <h6>iPhone 12 Pro</h6>
                     <p class="text-muted mb-0">
-                      Los Angeles, United States - March 16 at 2:47PM
+                      Portsmouth, Hampshire - March 16 at 2:47PM
                     </p>
                   </div>
                   <div>

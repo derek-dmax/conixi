@@ -69,7 +69,7 @@ const chatMessagesData = [
     },
     {
         name: 'Laura Van Zyl',
-        message: 'Yeah everything is fine',
+        message: 'All good!',
         time: '10:06'
     },
     {
@@ -80,7 +80,7 @@ const chatMessagesData = [
     {
         align: 'right',
         name: 'Henry Wells',
-        message: 'Wow that\'s great',
+        message: 'Great! c u then',
         time: '10:07'
     }
 ];

@@ -45,11 +45,11 @@
         searchQuery: null,
         suppliers: [{
             id: "1",
-            name: "Nesta Technologies",
-            owner: "Tonya Noble",
+            name: "DMax Design",
+            owner: "Derek Macrae",
             industry_type: "Computer Industry",
             star_value: "4.5",
-            location: "Los Angeles, USA",
+            location: "Portsmouth, Hampshire",
             employee: "10-30",
             website: "www.abcd.com",
             contact_email: "info@abcd.com",
@@ -62,7 +62,7 @@
             owner: "Thomas Taylor",
             industry_type: "Chemical Industries",
             star_value: "3.8",
-            location: "Berlin, Germany",
+            location: "Edinburgh, Lothian",
             employee: "10-15",
             website: "www.itesttech.com",
             contact_email: "info@itesttech.com",
@@ -75,7 +75,7 @@
             owner: "Glen Matney",
             industry_type: "Health Services",
             star_value: "3.1",
-            location: "Phoenix, USA",
+            location: "Preston, Lancashire",
             employee: "10-15",
             website: "www.forcemedicine.com",
             contact_email: "info@forcemedicine.com",
@@ -127,7 +127,7 @@
             owner: "Michael Morris",
             industry_type: "Chemical Industries",
             star_value: "4.0",
-            location: "Damascus, Syria",
+            location: "St Albans, Herts",
             employee: "01-15",
             website: "www.syntycesolu.com",
             contact_email: "info@syntycesolu.com",
@@ -153,7 +153,7 @@
             owner: "Timothy Smith",
             industry_type: "Textiles: Clothing, Footwear",
             star_value: "4.9",
-            location: "Damascus, Syria",
+            location: "St Albans, Herts",
             employee: "05-50",
             website: "www.moetic.com",
             contact_email: "info@moetic.com",
@@ -389,7 +389,7 @@
       },
     },
     beforeMount() {
-      axios.get('https://api-node.themesbrand.website/apps/company').then((data) => {
+/*       axios.get('https://api-node.themesbrand.website/apps/company').then((data) => {
         this.suppliers = [];
         data.data.data.forEach(row => {
           // row.image_src = `@/assets/images/products/img-8.png`;
@@ -399,7 +399,7 @@
       }).catch((er) => {
         console.log(er)
       });
-
+ */
     },
 
     mounted() {
@@ -625,8 +625,8 @@
                 </div>
               </div>
             </div>
-            <h5 class="mt-3 mb-1" id="cname">Syntyce Solution</h5>
-            <p class="text-muted" id="oname">Michael Morris</p>
+            <h5 class="mt-3 mb-1" id="cname">DMax Design</h5>
+            <p class="text-muted" id="oname">Derek Macrae</p>
 
             <ul class="list-inline mb-0">
               <li class="list-inline-item avatar-xs">
