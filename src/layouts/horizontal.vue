@@ -130,11 +130,6 @@
                         {{ $t("t-ecommerce") }}
                       </router-link>
                     </li>
-                    <li class="nav-item">
-                      <router-link to="/dashboard/projects" class="nav-link" data-key="t-projects">
-                        {{ $t("t-projects") }}
-                      </router-link>
-                    </li>
                   </ul>
                 </div>
               </li>
@@ -1052,43 +1047,6 @@
                           </li>
                           <li class="nav-item">
                             <router-link to="/charts/echart" class="nav-link" data-key="t-echarts">{{ $t("t-echarts") }}
-                            </router-link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-
-                    <li class="nav-item">
-                      <a class="nav-link menu-link" href="#sidebarIcons" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarIcons">
-                        <i class="lab la-fonticons"></i>
-                        <span data-key="t-icons">{{ $t("t-icons") }}</span>
-                      </a>
-                      <div class="collapse menu-dropdown" id="sidebarIcons">
-                        <ul class="nav nav-sm flex-column">
-                          <li class="nav-item">
-                            <router-link to="/icons/remix" class="nav-link" data-key="t-remix">{{ $t("t-remix") }}
-                            </router-link>
-                          </li>
-                          <li class="nav-item">
-                            <router-link to="/icons/boxicons" class="nav-link" data-key="t-boxicons">
-                              {{ $t("t-boxicons") }}</router-link>
-                          </li>
-                          <li class="nav-item">
-                            <router-link to="/icons/materialdesign" class="nav-link" data-key="t-material-design">
-                              {{ $t("t-material-design") }}</router-link>
-                          </li>
-                          <li class="nav-item">
-                            <router-link to="/icons/lineawesome" class="nav-link" data-key="t-line-awesome">
-                              {{ $t("t-line-awesome") }}</router-link>
-                          </li>
-                          <li class="nav-item">
-                            <router-link to="/icons/feather" class="nav-link" data-key="t-feather">{{ $t("t-feather") }}
-                            </router-link>
-                          </li>
-                          <li class="nav-item">
-                            <router-link to="/icons/crypto" class="nav-link" data-key="t-feather">{{ $t("t-crypto-svg")
-                            }}
                             </router-link>
                           </li>
                         </ul>

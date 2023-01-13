@@ -64,12 +64,12 @@ export default [
     component: () => import("../views/dashboard/projects/index"),
   },
   {
-    path: "/dashboard/projects",
-    name: "dashboard-projects",
+    path: "/simpleProj",
+    name: "simple-proj",
     meta: {
-      title: "Projects", authRequired: true,
+      title: "Simple Projects", authRequired: true,
     },
-    component: () => import("../views/dashboard/projects/index"),
+    component: () => import("../views/apps/projects/simpleProj"),
   },
   {
     path: "/dashboard/crm",
@@ -457,36 +457,6 @@ export default [
     name: "widgets",
     meta: { title: "Widgets", authRequired: true },
     component: () => import("../views/widgets/index"),
-  },
-  {
-    path: "/icons/boxicons",
-    name: "boxicons-icon",
-    meta: { title: "Boxicons", authRequired: true },
-    component: () => import("../views/icons/boxicons"),
-  },
-  {
-    path: "/icons/materialdesign",
-    name: "Material Design",
-    meta: { title: "material Design", authRequired: true },
-    component: () => import("../views/icons/materialdesign"),
-  },
-  {
-    path: "/icons/feather",
-    name: "feather",
-    meta: { title: "Feather", authRequired: true },
-    component: () => import("../views/icons/feather"),
-  },
-  {
-    path: "/icons/lineawesome",
-    name: "lineawesome",
-    meta: { title: "Line Awesome", authRequired: true },
-    component: () => import("../views/icons/lineawesome"),
-  },
-  {
-    path: "/icons/remix",
-    name: "remix",
-    meta: { title: "Remix", authRequired: true },
-    component: () => import("../views/icons/remix"),
   },
   {
     path: "/tables/basic",
