@@ -322,7 +322,7 @@
       this.userType = localStorage.getItem("userType");
       this.userOrg = localStorage.getItem("userOrg");
       this.userName = localStorage.getItem("userName");
-      this.invoiceList = this.invoiceList.filter(invoice => invoice.name == localStorage.getItem("userOrg"))
+//      this.invoiceList = this.invoiceList.filter(invoice => invoice.name == localStorage.getItem("userOrg"))
 //      this.userTitle = localStorage.getItem("userTitle");
     },
     filters: {

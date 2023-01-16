@@ -66,7 +66,7 @@
                       >
                         <option value="All">All</option>
                         <option
-                          :value="category"
+                          :value="category.name"
                           v-for="(category, index) in categories"
                           :key="index"
                         >
@@ -87,7 +87,7 @@
                       >
                         <option value="All">All</option>
                         <option
-                          :value="subCategory"
+                          :value="subCategory.name"
                           v-for="(subCategory, index) in subCategories"
                           :key="index"
                         >
@@ -1774,7 +1774,10 @@ const filteredProjectList = computed(() => {
   const pl = [];
   const projectKeys = Object.keys(projectList.value);
   projectKeys.forEach((key) => {
-    if (projectList.value[key].client === selClient.value || selClient.value == "All") {
+    if ((projectList.value[key].client === selClient.value || selClient.value == "All")
+      && (projectList.value[key].category === selectCategory.value || selectCategory.value == "All")
+      && (projectList.value[key].subCategory === selSubCategory.value || selSubCategory.value == "All")
+      && (projectList.value[key].projectType === selProjectType.value || selProjectType.value == "All")) {
       pl.push(projectList.value[key]);
     }
   });

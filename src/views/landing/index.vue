@@ -5,10 +5,6 @@ import SwiperCore, {
     Navigation,
     Pagination
 } from "swiper";
-import {
-    Swiper,
-    SwiperSlide
-} from "swiper/vue";
 import "swiper/swiper-bundle.css";
 import {
     CountTo
@@ -38,8 +34,6 @@ export default {
         };
     },
     components: {
-        Swiper,
-        SwiperSlide,
         CountTo,
     },
     methods: {
@@ -121,13 +115,11 @@ export default {
                         <li class="nav-item">
                             <a class="nav-link" href="#features">Features</a>
                         </li>
+<!--
                         <li class="nav-item">
                             <a class="nav-link" href="#plans">Plans</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#reviews">Reviews</a>
-                        </li>
-                        <li class="nav-item">
+ -->                        <li class="nav-item">
                             <a class="nav-link" href="#team">Team</a>
                         </li>
                         <li class="nav-item">
@@ -154,16 +146,15 @@ export default {
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-sm-10">
                         <div class="text-center mt-lg-5 pt-5">
-                            <h1 class="display-6 fw-semibold mb-3 lh-base">The better way to manage your website with
-                                <span class="text-success">Conixi </span>
+                            <h1 class="display-6 fw-semibold mb-3 lh-base">The better way to manage your projects with
+                                <span class="text-success">Conixi</span>
                             </h1>
-                            <p class="lead text-muted lh-base">Conixi is a fully responsive, multipurpose and premium
-                                Bootstrap 5 Admin & Dashboard Template built in multiple frameworks.</p>
+                            <p class="lead text-muted lh-base">Conixi is a Source to Pay system written to make it simple for all parties to co-operate and control statement of work projects within a strong legal framework.</p>
 
                             <div class="d-flex gap-2 justify-content-center mt-4">
                                 <b-link href="/auth/signin-basic" class="btn btn-primary">Get Started <i
                                         class="ri-arrow-right-line align-middle ms-1"></i></b-link>
-                                <router-link to="/pages/pricing" class="btn btn-danger">View Plans <i
+                                <router-link to="/pages/pricing" class="btn btn-danger">Contact Us <i
                                         class="ri-eye-line align-middle ms-1"></i></router-link>
                             </div>
                         </div>
@@ -178,7 +169,7 @@ export default {
                             <div class="carousel slide carousel-fade" data-bs-ride="carousel">
                                 <div class="carousel-inner shadow-lg p-2 bg-white rounded">
                                     <div class="carousel-item active" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/default.png" class="d-block w-100" alt="...">
+                                        <img src="@/assets/images/demos/dashboard.png" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item" data-bs-interval="2000">
                                         <img src="@/assets/images/demos/saas.png" class="d-block w-100" alt="...">
@@ -220,96 +211,32 @@ export default {
         </section>
         <!-- end hero section -->
 
-        <!-- start client section -->
-        <div class="pt-5 mt-5">
+        <div style="min-height:130px;">&nbsp;</div>
+        <!-- start cta -->
+        <section class="py-5 bg-primary mt-6">
+            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-
-                        <div class="text-center mt-5">
-                            <h5 class="fs-20">Trusted <span class="text-primary text-decoration-underline">by</span> the
-                                world's best</h5>
-                            <div class="trusted-client-slider mt-sm-5 mt-4 mb-sm-5 mb-4">
-                                <swiper class="swiper responsive-swiper rounded gallery-light pb-4" :loop="true"
-                                    :slidesPerView="1" :spaceBetween="10" :pagination="{
-                                        el: '.swiper-pagination',
-                                        clickable: true,
-                                    }" :breakpoints="{
-                                        640: {
-                                        slidesPerView: 2,
-                                        spaceBetween: 20,
-                                        },
-                                        768: {
-                                        slidesPerView: 3,
-                                        spaceBetween: 40,
-                                        },
-                                        1200: {
-                                        slidesPerView: 4,
-                                        spaceBetween: 50,
-                                        },
-                                    }">
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="client-images">
-                                                <img src="@/assets/images/clients/amazon.svg" alt="client-img"
-                                                    class="mx-auto img-fluid d-block">
+                <div class="row align-items-center gy-4">
+                    <div class="col-sm">
+                        <div>
+                            <h4 class="text-white mb-0 fw-semibold">Contact us for a demo or hear more about a pilot.</h4>
                                             </div>
                                         </div>
-                                    </swiper-slide>
-                                    <!-- end slide item -->
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="client-images">
-                                                <img src="@/assets/images/clients/walmart.svg" alt="client-img"
-                                                    class="mx-auto img-fluid d-block">
+                    <!-- end col -->
+                    <div class="col-sm-auto">
+                        <div>
+                            <a href="https://1.envato.market/velzon-admin" target="_blank"
+                                class="btn bg-gradient btn-danger"><i
+                                    class="ri-mail-line align-middle me-1"></i> Contact</a>
                                             </div>
                                         </div>
-                                    </swiper-slide>
-                                    <!-- end slide item -->
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="client-images">
-                                                <img src="@/assets/images/clients/lenovo.svg" alt="client-img"
-                                                    class="mx-auto img-fluid d-block">
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="client-images">
-                                                <img src="@/assets/images/clients/paypal.svg" alt="client-img"
-                                                    class="mx-auto img-fluid d-block">
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="client-images">
-                                                <img src="@/assets/images/clients/shopify.svg" alt="client-img"
-                                                    class="mx-auto img-fluid d-block">
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="client-images">
-                                                <img src="@/assets/images/clients/verizon.svg" alt="client-img"
-                                                    class="mx-auto img-fluid d-block">
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <!-- end slide item -->
-                                </swiper>
-                            </div>
-                        </div>
-
-                    </div>
+                    <!-- end col -->
                 </div>
                 <!-- end row -->
             </div>
             <!-- end container -->
-        </div>
-        <!-- end client section -->
+        </section>
+        <!-- end cta -->
 
         <!-- start services -->
         <section class="section" id="services">
@@ -317,10 +244,8 @@ export default {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">A Digital web design studio creating
-                                modern & engaging online</h1>
-                            <p class="text-muted">To achieve this, it would be necessary to have uniform grammar,
-                                pronunciation and more common words. If several languages coalesce the grammar</p>
+                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">A Modular system that eases users into the functionality</h1>
+                            <p class="text-muted">Gives all actors simple and obvious paths to control their areas</p>
                         </div>
                     </div>
                     <!-- end col -->
@@ -333,14 +258,13 @@ export default {
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar-sm icon-effect">
                                     <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-pencil-ruler-2-line fs-36"></i>
+                                        <i class="ri-community-line fs-36"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <h5 class="fs-18">Creative Design</h5>
-                                <p class="text-muted my-3 ff-secondary">The creative design includes designs that are
-                                    unique, effective and memorable.</p>
+                                <h5 class="fs-18">Supplier Portal</h5>
+                                <p class="text-muted my-3 ff-secondary">Suppliers have a tailored view ...</p>
                                 <div>
                                     <a href="#" class="fs-13 fw-medium">Learn More <i
                                             class="ri-arrow-right-s-line align-bottom"></i></a>
@@ -354,14 +278,13 @@ export default {
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar-sm icon-effect">
                                     <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-palette-line fs-36"></i>
+                                        <i class="ri-folder-chart-line fs-36"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <h5 class="fs-18">Unlimited Colors</h5>
-                                <p class="text-muted my-3 ff-secondary">The collection of rules and guidelines which
-                                    designers use to communicate with users through appealing.</p>
+                                <h5 class="fs-18">Management Dashboard</h5>
+                                <p class="text-muted my-3 ff-secondary">An easy overview of all projects managed in your area.</p>
                                 <div>
                                     <a href="#" class="fs-13 fw-medium">Learn More <i
                                             class="ri-arrow-right-s-line align-bottom"></i></a>
@@ -576,32 +499,6 @@ export default {
         </section>
         <!-- end features -->
 
-        <!-- start cta -->
-        <section class="py-5 bg-primary position-relative">
-            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
-            <div class="container">
-                <div class="row align-items-center gy-4">
-                    <div class="col-sm">
-                        <div>
-                            <h4 class="text-white mb-0 fw-semibold">Build your web App/SaaS with Conixi dashboard</h4>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-sm-auto">
-                        <div>
-                            <a href="https://1.envato.market/velzon-admin" target="_blank"
-                                class="btn bg-gradient btn-danger"><i
-                                    class="ri-shopping-cart-2-line align-middle me-1"></i> Buy Now</a>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </section>
-        <!-- end cta -->
-
         <!-- start features -->
         <section class="section">
             <div class="container">
@@ -705,71 +602,13 @@ export default {
                     </div>
                 </div>
                 <!-- end row -->
-
-                <div class="row align-items-center mt-5 pt-lg-5 gy-4">
-                    <div class="col-lg-6 col-sm-7 col-10 mx-auto">
-                        <div>
-                            <img src="@/assets/images/landing/features/img-3.png" alt="" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="text-muted ps-lg-5">
-                            <h5 class="fs-12 text-uppercase text-success">structure</h5>
-                            <h4 class="mb-3">Well Documented</h4>
-                            <p class="mb-4">used to describe something that is known about or known to be true because
-                                there are many documents that describe it,
-                                prove it, etc.</p>
-
-                            <div class="vstack gap-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 me-2">
-                                        <div class="avatar-xs icon-effect">
-                                            <div class="avatar-title bg-transparent text-success rounded-circle h2">
-                                                <i class="ri-check-fill"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0">Dynamic Conetnt</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 me-2">
-                                        <div class="avatar-xs icon-effect">
-                                            <div class="avatar-title bg-transparent text-success rounded-circle h2">
-                                                <i class="ri-check-fill"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0">Setup plugin's information.</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 me-2">
-                                        <div class="avatar-xs icon-effect">
-                                            <div class="avatar-title bg-transparent text-success rounded-circle h2">
-                                                <i class="ri-check-fill"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0">Themes customization information</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
             </div>
             <!-- end container -->
         </section>
         <!-- end features -->
 
         <!-- start plan -->
-        <section class="section bg-light" id="plans">
+<!--         <section class="section bg-light" id="plans">
             <div class="bg-overlay bg-overlay-pattern"></div>
             <div class="container">
                 <div class="row justify-content-center">
@@ -794,11 +633,11 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <!-- end col -->
-                </div>
+                    end col -->
+                <!-- </div> -->
                 <!-- end row -->
 
-                <div class="row gy-4">
+                <!-- <div class="row gy-4">
                     <div class="col-lg-4">
                         <div class="card plan-box mb-0">
                             <div class="card-body p-4 m-2">
@@ -903,8 +742,8 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <!--end col-->
-                    <div class="col-lg-4">
+                    end col-->
+                    <!-- <div class="col-lg-4">
                         <div class="card plan-box mb-0 ribbon-box right">
                             <div class="card-body p-4 m-2">
                                 <div class="ribbon-two ribbon-two-danger"><span>Popular</span></div>
@@ -1008,9 +847,9 @@ export default {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--end col-->
-                    <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                         <div class="card plan-box mb-0">
                             <div class="card-body p-4 m-2">
                                 <div class="d-flex align-items-center">
@@ -1113,13 +952,13 @@ export default {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--end col-->
-                </div>
+                <!-- </div> -->
                 <!--end row-->
-            </div>
+            <!-- </div> -->
             <!-- end container -->
-        </section>
+        <!-- </section> -->
         <!-- end plan -->
 
         <!-- start faqs -->
@@ -1335,108 +1174,6 @@ export default {
         </section>
         <!-- end faqs -->
 
-        <!-- start review -->
-        <section class="section bg-primary" id="reviews">
-            <div class="bg-overlay bg-overlay-pattern"></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-10">
-                        <div class="text-center">
-                            <div>
-                                <i class="ri-double-quotes-l text-success display-3"></i>
-                            </div>
-                            <h4 class="text-white mb-5"><span class="text-success">19k</span>+ Satisfied clients</h4>
-
-                            <div class="client-review-swiper rounded">
-                                <swiper class="navigation-swiper rounded" :loop="true" :autoplay="{
-                                    delay: 2500,
-                                    disableOnInteraction: false,
-                                }" :navigation="{
-                                    nextEl: '.swiper-button-next',
-                                    prevEl: '.swiper-button-prev',
-                                }" :pagination="{
-                                    clickable: true,
-                                    el: '.swiper-pagination',
-                                }">
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="row justify-content-center">
-                                                <div class="col-10">
-                                                    <div class="text-white-50">
-                                                        <p class="fs-20 ff-secondary mb-4">" I am givng 5 stars. Theme
-                                                            is great and everyone one stuff everything in theme. Future
-                                                            request should not affect current
-                                                            state of theme. "</p>
-
-                                                        <div>
-                                                            <h5 class="text-white">gregoriusus</h5>
-                                                            <p>- Skote User</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <!-- end slide item -->
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="row justify-content-center">
-                                                <div class="col-10">
-                                                    <div class="text-white-50">
-                                                        <p class="fs-20 ff-secondary mb-4">" Awesome support. Had few
-                                                            issues while setting up because of my device, the support
-                                                            team helped me fix them up in a day.
-                                                            Everything looks clean and good. Highly recommended! "</p>
-
-                                                        <div>
-                                                            <h5 class="text-white">GeekyGreenOwl</h5>
-                                                            <p>- Skote User</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <!-- end slide item -->
-                                    <swiper-slide>
-                                        <div class="swiper-slide">
-                                            <div class="row justify-content-center">
-                                                <div class="col-10">
-                                                    <div class="text-white-50">
-                                                        <p class="fs-20 ff-secondary mb-4">" Amazing template, Redux
-                                                            store and components is nicely designed.
-                                                            It's a great start point for an admin based project. Clean
-                                                            Code and good documentation. Template is
-                                                            completely in React and absolutely no usage of jQuery "</p>
-
-                                                        <div>
-                                                            <h5 class="text-white">sreeks456</h5>
-                                                            <p>- Veltrix User</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <div class="swiper-button-next bg-white rounded-circle"></div>
-                                    <div class="swiper-button-prev bg-white rounded-circle"></div>
-                                    <div class="swiper-pagination position-relative mt-2"></div>
-                                    <!-- end slide item -->
-                                </swiper>
-                            </div>
-
-
-
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </section>
-        <!-- end review -->
-
         <!-- start counter -->
         <section class="py-5 position-relative bg-light">
             <div class="container">
@@ -1565,15 +1302,13 @@ export default {
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
                             <h3 class="mb-3 fw-semibold">Our <span class="text-danger">Team</span></h3>
-                            <p class="text-muted mb-4 ff-secondary">To achieve this, it would be necessary to have
-                                uniform grammar,
-                                pronunciation and more common words. If several languages coalesce the grammar.</p>
+                            <p class="text-muted mb-4 ff-secondary">Experience and ability ...</p>
                         </div>
                     </div>
                 </div>
                 <!-- end row -->
                 <div class="row">
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body text-center p-4">
                                 <div class="avatar-xl mx-auto mb-4 position-relative">
@@ -1588,19 +1323,19 @@ export default {
                                 </div>
                                 <!-- end card body -->
                                 <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Nancy Martino</b-link>
+                                    <b-link href="/pages/profile" class="text-body">Laura Van Zyl</b-link>
                                 </h5>
-                                <p class="text-muted mb-0 ff-secondary">Team Leader</p>
+                                <p class="text-muted mb-0 ff-secondary">CEO</p>
                             </div>
                         </div>
                         <!-- end card -->
                     </div>
                     <!-- end col -->
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body text-center p-4">
                                 <div class="avatar-xl mx-auto mb-4 position-relative">
-                                    <img src="@/assets/images/users/avatar-10.jpg" alt=""
+                                    <img src="@/assets/images/users/derekm.jpg" alt=""
                                         class="img-fluid rounded-circle">
                                     <b-link href="/mailbox"
                                         class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1611,15 +1346,15 @@ export default {
                                 </div>
                                 <!-- end card body -->
                                 <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Henry Baird</b-link>
+                                    <b-link href="/pages/profile" class="text-body">Derek Macrae</b-link>
                                 </h5>
-                                <p class="text-muted mb-0 ff-secondary">Full Stack Developer</p>
+                                <p class="text-muted mb-0 ff-secondary">CTO</p>
                             </div>
                         </div>
                         <!-- end card -->
                     </div>
                     <!-- end col -->
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body text-center p-4">
                                 <div class="avatar-xl mx-auto mb-4 position-relative">
@@ -1634,128 +1369,9 @@ export default {
                                 </div>
                                 <!-- end card body -->
                                 <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Frank Hook</b-link>
+                                    <b-link href="/pages/profile" class="text-body">Alex Raubitschek</b-link>
                                 </h5>
-                                <p class="text-muted mb-0 ff-secondary">Project Manager</p>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                    <!-- end col -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body text-center p-4">
-                                <div class="avatar-xl mx-auto mb-4 position-relative">
-                                    <img src="@/assets/images/users/avatar-8.jpg" alt=""
-                                        class="img-fluid rounded-circle">
-                                    <b-link href="/mailbox"
-                                        class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
-                                        <div class="avatar-title bg-transparent">
-                                            <i class="ri-mail-fill align-bottom"></i>
-                                        </div>
-                                    </b-link>
-                                </div>
-                                <!-- end card body -->
-                                <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Donald Palmer</b-link>
-                                </h5>
-                                <p class="text-muted mb-0 ff-secondary">UI/UX Designer</p>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-                <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body text-center p-4">
-                                <div class="avatar-xl mx-auto mb-4 position-relative">
-                                    <img src="@/assets/images/users/avatar-5.jpg" alt=""
-                                        class="img-fluid rounded-circle">
-                                    <b-link href="/mailbox"
-                                        class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
-                                        <div class="avatar-title bg-transparent">
-                                            <i class="ri-mail-fill align-bottom"></i>
-                                        </div>
-                                    </b-link>
-                                </div>
-                                <!-- end card body -->
-                                <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Erica Kernan</b-link>
-                                </h5>
-                                <p class="text-muted mb-0 ff-secondary">Web Designer</p>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                    <!-- end col -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body text-center p-4">
-                                <div class="avatar-xl mx-auto mb-4 position-relative">
-                                    <img src="@/assets/images/users/avatar-4.jpg" alt=""
-                                        class="img-fluid rounded-circle">
-                                    <b-link href="/mailbox"
-                                        class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
-                                        <div class="avatar-title bg-transparent">
-                                            <i class="ri-mail-fill align-bottom"></i>
-                                        </div>
-                                    </b-link>
-                                </div>
-                                <!-- end card body -->
-                                <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Alexis Clarke</b-link>
-                                </h5>
-                                <p class="text-muted mb-0 ff-secondary">Backend Developer</p>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                    <!-- end col -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body text-center p-4">
-                                <div class="avatar-xl mx-auto mb-4 position-relative">
-                                    <img src="@/assets/images/users/avatar-6.jpg" alt=""
-                                        class="img-fluid rounded-circle">
-                                    <b-link href="/mailbox"
-                                        class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
-                                        <div class="avatar-title bg-transparent">
-                                            <i class="ri-mail-fill align-bottom"></i>
-                                        </div>
-                                    </b-link>
-                                </div>
-                                <!-- end card body -->
-                                <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Marie Ward</b-link>
-                                </h5>
-                                <p class="text-muted mb-0 ff-secondary">Full Stack Developer</p>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                    <!-- end col -->
-
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body text-center p-4">
-                                <div class="avatar-xl mx-auto mb-4 position-relative">
-                                    <img src="@/assets/images/users/avatar-7.jpg" alt=""
-                                        class="img-fluid rounded-circle">
-                                    <b-link href="/mailbox"
-                                        class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
-                                        <div class="avatar-title bg-transparent">
-                                            <i class="ri-mail-fill align-bottom"></i>
-                                        </div>
-                                    </b-link>
-                                </div>
-                                <!-- end card body -->
-                                <h5 class="mb-1">
-                                    <b-link href="/pages/profile" class="text-body">Jack Gough</b-link>
-                                </h5>
-                                <p class="text-muted mb-0 ff-secondary">React Js Developer</p>
+                                <p class="text-muted mb-0 ff-secondary">COO</p>
                             </div>
                         </div>
                         <!-- end card -->
@@ -1865,32 +1481,6 @@ export default {
         </section>
         <!-- end contact -->
 
-        <!-- start cta -->
-        <section class="py-5 bg-primary position-relative">
-            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
-            <div class="container">
-                <div class="row align-items-center gy-4">
-                    <div class="col-sm">
-                        <div>
-                            <h4 class="text-white mb-0 fw-semibold">Build your web App/SaaS with Conixi dashboard</h4>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-sm-auto">
-                        <div>
-                            <a href="https://1.envato.market/velzon-admin" target="_blank"
-                                class="btn bg-gradient btn-danger"><i
-                                    class="ri-shopping-cart-2-line align-middle me-1"></i> Buy Now</a>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </section>
-        <!-- end cta -->
-
         <!-- Start footer -->
         <footer class="custom-footer bg-dark py-5 position-relative">
             <div class="container">
@@ -1901,10 +1491,9 @@ export default {
                                 <img src="@/assets/images/c-logo-light.jpg" alt="logo light" height="17">
                             </div>
                             <div class="mt-4 fs-13">
-                                <p>Premium Multipurpose Admin & Dashboard Template</p>
-                                <p class="ff-secondary">You can build any type of web application like eCommerce, CRM,
-                                    CMS, Project
-                                    management apps, Admin Panels, etc using Conixi.</p>
+                                <p>Source to Pay System</p>
+                                <p class="ff-secondary">Written to make it simple for all parties to co-operate and control
+                                    statement of work projects within a strong legal framework.</p>
                             </div>
                         </div>
                     </div>
@@ -1916,13 +1505,7 @@ export default {
                                 <div class="text-muted mt-3">
                                     <ul class="list-unstyled ff-secondary footer-list">
                                         <li>
-                                            <router-link to="/pages/profile">About US</router-link>
-                                        </li>
-                                        <li>
-                                            <router-link to="">Gallery</router-link>
-                                        </li>
-                                        <li>
-                                            <router-link to="/apps/projects-list">Projects</router-link>
+                                            <router-link to="/pages/profile">About Us</router-link>
                                         </li>
                                         <li>
                                             <router-link to="">Timeline</router-link>

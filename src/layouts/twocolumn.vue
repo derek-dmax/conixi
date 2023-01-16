@@ -430,7 +430,7 @@ export default {
                     <ul class="nav nav-sm flex-column">
                       <li class="nav-item">
                         <router-link
-                          to="/calendar"
+                          to="/milestones"
                           class="nav-link"
                           data-key="t-calendar"
                         >
