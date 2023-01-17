@@ -9483,7 +9483,7 @@ simple-swizzle@^0.2.2:
 
 simplebar-vue3@^0.2.0:
   version "0.2.0"
-  resolved "https://registry.npmjs.org/simplebar-vue3/-/simplebar-vue3-0.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/simplebar-vue3/-/simplebar-vue3-0.2.0.tgz#8c9bed1ecc4fdfa19501797a9f3f5a159af1acca"
   integrity sha512-07v1y9g4G9Z88uJXsGAM9G4UDhAMVJABthRrnmMNjJstA1KjfmCzYhmUMyYQfEo+6lyhNfhU0d3La9rUB3lShQ==
 
 simplebar@^5.3.9:
@@ -10690,9 +10690,9 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
-vue-i18n@^9.2.0-beta.15:
+vue-i18n@^9.2.2:
   version "9.2.2"
-  resolved "https://registry.npmjs.org/vue-i18n/-/vue-i18n-9.2.2.tgz"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-9.2.2.tgz#aeb49d9424923c77e0d6441e3f21dafcecd0e666"
   integrity sha512-yswpwtj89rTBhegUAv9Mu37LNznyu3NpyLQmozF3i1hYOhwpG8RjcjIFIIfnu+2MDZJGSZPXaKWvnQA71Yv9TQ==
   dependencies:
     "@intlify/core-base" "9.2.2"
@@ -10798,6 +10798,11 @@ vue3-google-map@^0.8.3:
   integrity sha512-o4ZauDcyBgrPqmXVCAn8rNxWeDa6baPaj59l9/FyU1VIfh/ZWA1XUGJaHeqaxSsw/D26Q1fs4jec7Qex/YTXFw==
   dependencies:
     "@googlemaps/js-api-loader" "^1.12.11"
+
+vue3-i18n@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/vue3-i18n/-/vue3-i18n-1.1.5.tgz#e00839e05b176bb2527f00fcd1bcdd82e1416fa9"
+  integrity sha512-DN5XfE0z6BnFxjbP/qW8AKI5QCex97L2l8z7G76ccTkfTsJ18n4mXGCy4K9H2rm4FlzDx/USPlPqQK64yXQqDg==
 
 vue3-nestable@^3.0.3:
   version "3.0.3"

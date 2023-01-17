@@ -64,13 +64,6 @@ export default {
     },
     mounted() {
         this.monthly();
-        document.getElementById("plan-switch").addEventListener('change', () => {
-            if (document.getElementById("plan-switch").checked == true) {
-                this.anually();
-            } else if (document.getElementById("plan-switch").checked == false) {
-                this.monthly();
-            }
-        });
         window.addEventListener('scroll', function (ev) {
             ev.preventDefault();
             var navbar = document.getElementById("navbar");
