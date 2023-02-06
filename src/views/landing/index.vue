@@ -151,38 +151,17 @@ export default {
                                         class="ri-eye-line align-middle ms-1"></i></router-link>
                             </div>
                         </div>
-
-                        <div class="mt-4 mt-sm-5 pt-sm-5 mb-sm-n5 demo-carousel">
-                            <div class="demo-img-patten-top d-none d-sm-block">
-                                <img src="@/assets/images/landing/img-pattern.png" class="d-block img-fluid" alt="...">
-                            </div>
-                            <div class="demo-img-patten-bottom d-none d-sm-block">
-                                <img src="@/assets/images/landing/img-pattern.png" class="d-block img-fluid" alt="...">
-                            </div>
-                            <div class="carousel slide carousel-fade" data-bs-ride="carousel">
-                                <div class="carousel-inner shadow-lg p-2 bg-white rounded">
-                                    <div class="carousel-item active" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/dashboard.png" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/saas.png" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/material.png" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/minimal.png" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/creative.png" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/modern.png" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2000">
-                                        <img src="@/assets/images/demos/interactive.png" class="d-block w-100"
-                                            alt="...">
-                                    </div>
+                    <!-- With Controls -->
+                        <div id="carouselExampleControls" class="mt-3 mt-sm-4 pt-sm-4 mb-sm-n4 carousel slide">
+                            <div class="carousel-inner" role="listbox">
+                                <div class="carousel-item active">
+                                    <img class="d-block img-fluid mx-auto" src="../../assets/images/demos/creative.png" alt="First slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block img-fluid mx-auto" src="../../assets/images/demos/saas.png" alt="Second slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block img-fluid mx-auto" src="../../assets/images/demos/creative.png" alt="Third slide">
                                 </div>
                             </div>
                         </div>
