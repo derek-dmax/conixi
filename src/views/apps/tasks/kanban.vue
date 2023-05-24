@@ -117,7 +117,7 @@ export default {
         tasks = JSON.parse(JSON.stringify(this.projectList[key].tasks.data))
         tasks.forEach(task => {
           task.project = this.projectList[key].label
-          task.dueDate = moment(task.start_date).add(task.duration, "days").format('Do MMM')
+          task.dueDate = moment(task.start_date).add(task.duration, "days").format('Do MMM YY')
         })
         this.allTasks = [...this.allTasks, ...tasks]
       }
@@ -188,7 +188,7 @@ export default {
                 v-for="(data, index) of todo"
                 :key="index"
               >
-                <div class="card-body pb-1">
+                <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
@@ -295,7 +295,7 @@ export default {
                 v-for="(data, index) of inprogress"
                 :key="index"
               >
-                <div class="card-body pb-1">
+                <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
@@ -358,14 +358,14 @@ export default {
                     </div>
                   </div>
                   <div class="mb-0">
-                    <div class="d-flex mb-0">
+                    <div class="d-flex mb-0 taskData">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">{{ data.progress }}%</span>
+                          <span class="text-secondary taskText">{{ data.progress }}%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.dueDate }}</span>
+                        <span class="text-muted taskText">{{ data.dueDate }}</span>
                       </div>
                     </div>
                     <div class="row">
@@ -430,7 +430,7 @@ export default {
                 v-for="(data, index) of completed"
                 :key="index"
               >
-                <div class="card-body pb-1">
+                <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
@@ -493,14 +493,14 @@ export default {
                     </div>
                   </div>
                   <div class="mb-0">
-                    <div class="d-flex mb-0">
+                    <div class="d-flex mb-0 taskData">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">100%</span>
+                          <span class="text-secondary taskText">100%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.dueDate }}</span>
+                        <span class="text-muted taskText">{{ data.dueDate }}</span>
                       </div>
                     </div>
                   </div>
@@ -548,7 +548,7 @@ export default {
                 v-for="(data, index) of approved"
                 :key="index"
               >
-                <div class="card-body pb-1">
+                <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
@@ -611,14 +611,14 @@ export default {
                     </div>
                   </div>
                   <div class="mb-0">
-                    <div class="d-flex mb-0">
+                    <div class="d-flex mb-0 taskData">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">100%</span>
+                          <span class="text-secondary taskText">100%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.dueDate }}</span>
+                        <span class="text-muted taskText">{{ data.dueDate }}</span>
                       </div>
                     </div>
                   </div>
@@ -666,7 +666,7 @@ export default {
                 v-for="(data, index) of paid"
                 :key="index"
               >
-                <div class="card-body pb-1">
+                <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{
@@ -729,14 +729,14 @@ export default {
                     </div>
                   </div>
                   <div class="mb-0">
-                    <div class="d-flex mb-0">
+                    <div class="d-flex mb-0 taskData">
                       <div class="flex-grow-1">
                         <h6 class="text-muted mb-0">
-                          <span class="text-secondary">100%</span>
+                          <span class="text-secondary taskText">100%</span>
                         </h6>
                       </div>
                       <div class="flex-shrink-0">
-                        <span class="text-muted">{{ data.dueDate }}</span>
+                        <span class="text-muted taskText">{{ data.dueDate }}</span>
                       </div>
                     </div>
                   </div>
@@ -1502,6 +1502,15 @@ export default {
   </Layout>
 </template>
 <style>
+.page-title-box {
+  margin-bottom: 0.5rem;
+}
+.taskData {
+  margin-top: -7px;
+}
+.taskText {
+  font-size: 0.7rem;
+}
 .page-title-box {
   padding-left: 60px !important;
 }

@@ -56,7 +56,7 @@ export default {
 <template>
   <div class="col-xl-4" v-for="(item, index) of projectsWidgets" :key="index">
     <div class="card card-animate">
-      <div class="card-body">
+      <div class="card-body py-1">
         <div class="d-flex align-items-center">
           <div class="avatar-sm flex-shrink-0">
             <span
@@ -81,10 +81,10 @@ export default {
             </span>
           </div>
           <div class="flex-grow-1 overflow-hidden ms-3">
-            <p class="text-uppercase fw-medium text-muted text-truncate mb-3">
+            <p class="text-uppercase fw-medium text-muted text-truncate mb-1">
               {{ item.label }}
             </p>
-            <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center mb-1">
               <h4 class="fs-4 flex-grow-1 mb-0">
                 <span class="counter-value">{{
                   item.counter

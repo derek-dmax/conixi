@@ -48,7 +48,7 @@
       >
         <template v-slot:item="{ item }">
           <div
-            class="draggable-item row"
+            class="draggable-item row tasks_name"
             :class="{
               sowPaid: item.status === 'Paid',
               sowDue: item.status === 'Completed',
@@ -171,6 +171,9 @@ const updProjectTask = (payload) => {
 </script>
 
 <style>
+.tasks_name {
+  font-size: 0.7rem;
+}
 .tasks-list-menu {
     opacity: 0;
 }
@@ -179,7 +182,7 @@ const updProjectTask = (payload) => {
 }
 .statusBadge {
   font-size: 0.7rem;
-  margin-top: -20px;
+  margin-top: -17px;
   max-height: 24px;
   max-width: 51px;
 }

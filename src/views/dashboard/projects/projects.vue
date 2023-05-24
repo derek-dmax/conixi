@@ -52,7 +52,7 @@
         ],
         chartOptions: {
           chart: {
-            height: 374,
+            height: 320,
             type: "line",
             toolbar: {
               show: false,
@@ -172,8 +172,8 @@
 
 <template>
   <div class="card">
-    <div class="card-header border-0 align-items-center d-flex">
-      <h4 class="card-title mb-0 flex-grow-1">Projects Overview</h4>
+    <div class="card-header border-0 align-items-center d-flex py-1">
+      <h4 class="card-title py-0 flex-grow-1">Projects Overview</h4>
       <div>
         <button type="button" class="btn btn-soft-secondary btn-sm me-1">
           ALL
@@ -192,7 +192,7 @@
     <div class="card-header p-0 border-0 bg-soft-light">
       <div class="row g-0 text-center">
         <div class="col-6 col-sm-3">
-          <div class="p-3 border border-dashed border-start-0">
+          <div class="p-3 border border-dashed border-start-0 py-1">
             <h5 class="mb-1">
               <count-to :duration="500" :startVal="0" :endVal="120"></count-to>
             </h5>
@@ -201,8 +201,8 @@
         </div>
         <!--end col-->
         <div class="col-6 col-sm-3">
-          <div class="p-3 border border-dashed border-start-0">
-            <h5 class="mb-1">
+          <div class="p-3 border border-dashed border-start-0 py-1">
+            <h5 class="mb-0">
               <count-to :duration="400" :startVal="0" :endVal="67"></count-to>
             </h5>
             <p class="text-muted mb-0">Active Projects</p>
@@ -210,7 +210,7 @@
         </div>
         <!--end col-->
         <div class="col-6 col-sm-3">
-          <div class="p-3 border border-dashed border-start-0">
+          <div class="p-3 border border-dashed border-start-0 py-1">
             <h5 class="mb-1">
               £<count-to :duration="1000" :startVal="0" :endVal="228"></count-to>k
             </h5>
@@ -219,7 +219,7 @@
         </div>
         <!--end col-->
         <div class="col-6 col-sm-3">
-          <div class="p-3 border border-dashed border-start-0 border-end-0">
+          <div class="p-3 border border-dashed border-start-0 border-end-0 py-1">
             <h5 class="mb-1 text-success">
               <count-to :duration="1000" :startVal="0" :endVal="10589"></count-to>h
             </h5>

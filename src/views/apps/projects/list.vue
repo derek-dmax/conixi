@@ -159,9 +159,9 @@ export default {
         v-for="(item, index) of projectList"
         :key="index"
       >
-        <div class="card card-height-100">
+        <div class="card card-height-70">
           <div class="card-body">
-            <div class="d-flex flex-column h-100">
+            <div class="d-flex flex-column h-70">
               <div class="d-flex">
                 <div class="flex-grow-1">
                   <p class="text-muted mb-4">Last Update: {{ item.time.format('DD-MMM') }}</p>
@@ -234,14 +234,14 @@ export default {
                   </div>
                 </div>
                 <div class="flex-grow-1">
-                  <h5 class="mb-2 fs-16">
+                  <h5 class="mb-2 fs-14">
                     <router-link
                       :to="{ name: 'projects View', query: { id: item.id } }"
                       >{{ item.label }}</router-link
                     >
                   </h5>
                   <p
-                    class="text-muted mb-0 d-sm-block" style="display:none"
+                    class="text-muted mb-0 d-sm-block services" style="display:none"
                     v-for="(service, index) in item.services"
                     :key="index"
                   >
@@ -318,10 +318,7 @@ export default {
         <div>
           <p class="mb-sm-0 text-muted">
             Showing <span class="fw-semibold">1</span> to
-            <span class="fw-semibold">{{ projectKeys.length }}</span> of
-            <span class="fw-semibold text-decoration-underline">{{
-              projectList.length
-            }}</span>
+            <span class="fw-semibold">{{ projectList.length }}</span> of
             entries
           </p>
         </div>
@@ -348,6 +345,9 @@ export default {
   </Layout>
 </template>
 <style>
+.services {
+  font-size: 0.6rem;
+}
   .x-sm-hidden {
     @media only screen and (max-width: 1026px) {
       display: none;
