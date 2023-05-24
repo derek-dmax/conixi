@@ -776,8 +776,7 @@
                   <span class="align-middle">Help</span>
                 </router-link>
                 <div class="dropdown-divider"></div>
-                <router-link class="dropdown-item" to="/pages/profile-setting"><span
-                    class="badge bg-soft-success text-success mt-1 float-end">New</span><i
+                <router-link class="dropdown-item" to="/pages/profile-setting"><i
                     class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
                   <span class="align-middle">Settings</span>
                 </router-link>

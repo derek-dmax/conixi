@@ -80,7 +80,7 @@ export default {
     <div class="row g-4 mb-3">
       <div class="col-sm-auto">
         <div v-if="userType !== 'supplier'">
-          <router-link to="/apps/projects-create" class="btn btn-success"
+          <router-link to="/apps/projects-create" class="btn btn-success btn-sm"
             ><i class="ri-add-line align-bottom me-1"></i> Add New</router-link
           >
         </div>
@@ -88,12 +88,12 @@ export default {
       <div class="col-sm">
         <div class="d-flex justify-content-sm-end gap-2">
           <div class="search-box ms-2">
-            <input type="text" class="form-control" placeholder="Search..." />
+            <input type="text" class="form-control form-control-sm" placeholder="Search..." />
             <i class="ri-search-line search-icon"></i>
           </div>
 
           <Multiselect
-            class="multiselect form-control w-lg w-auto m-0"
+            class="multiselect form-control multiselect-sm w-lg w-auto m-0"
             v-model="value"
             :close-on-select="true"
             :searchable="true"
@@ -345,6 +345,12 @@ export default {
   </Layout>
 </template>
 <style>
+.multiselect-sm {
+    min-height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.76563rem;
+    border-radius: 0.2rem;
+}
 .services {
   font-size: 0.6rem;
 }

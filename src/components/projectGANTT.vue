@@ -46,6 +46,10 @@ console.log(tasks)
   height: 100%;
   width: 100%;
 }
+.gantt_cal_light {
+  border-radius: 4px;
+  height: 320px !important;
+}
 
 .left-container {
   overflow: hidden;
@@ -356,6 +360,7 @@ div.gantt_cal_light .gantt_btn_set {
   text-transform: uppercase;
   height: 32px;
   padding: 7px 15px;
+  border-radius: 4px;
 }
 div.gantt_cal_light .gantt_section_time select,
 div.gantt_cal_light select {
