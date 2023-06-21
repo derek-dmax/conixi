@@ -88,11 +88,11 @@
             owner: "Alexis Clarke",
             industry_type: "Telecommunications Services",
             star_value: "3.2",
-            location: "Bogota, Colombia",
-            employee: "10-25",
+            location: "Bangor, Wales",
+            employee: "1",
             website: "www.digitech.com",
             contact_email: "info@digitech.com",
-            since: "1992",
+            since: "3rd April 2023",
             image_src: require("@/assets/images/companies/img-1.png")
           },
           {
@@ -229,7 +229,7 @@
         document.getElementById('location').value = this.suppliers[result].location;
         document.getElementById('employee').value = this.suppliers[result].employee;
         document.getElementById('website').value = this.suppliers[result].website;
-        document.getElementById('contactemail').value = this.suppliers[result].contact_email;
+        document.getElementById('contact_email').value = this.suppliers[result].contact_email;
         document.getElementById('since').value = this.suppliers[result].since;
 
         document.getElementById('edit-btn').style.display = 'block';
@@ -244,7 +244,7 @@
         this.suppliers[result].location = document.getElementById('location').value;
         this.suppliers[result].employee = document.getElementById('employee').value;
         this.suppliers[result].website = document.getElementById('website').value;
-        this.suppliers[result].contact_email = document.getElementById('contactemail').value;
+        this.suppliers[result].contact_email = document.getElementById('contact_email').value;
         this.suppliers[result].since = document.getElementById('since').value;
         document.getElementById('closemodal').click();
         axios.patch(`https://api-node.themesbrand.website/apps/company/${document.getElementById('id').value}`, this
@@ -326,7 +326,7 @@
         var location = document.getElementById('location').value
         var employee = document.getElementById('employee').value
         var website = document.getElementById('website').value
-        var contact_email = document.getElementById('contactemail').value
+        var contact_email = document.getElementById('contact_email').value
         var since = document.getElementById('since').value
 
         if (name != null && owner != null && industry_type != null && star_value != null && location != null &&
@@ -370,7 +370,7 @@
         document.getElementById('loc').innerHTML = data.location;
         document.getElementById('emp').innerHTML = data.employee;
         document.getElementById('webs').innerHTML = data.website;
-        document.getElementById('eml').innerHTML = data.employee;
+        document.getElementById('eml').innerHTML = data.contact_email;
         document.getElementById('sic').innerHTML = data.since
       },
       setPages() {
@@ -717,20 +717,20 @@
                 <div class="col-lg-12">
                   <div>
                     <label for="name-field" class="form-label">Name</label>
-                    <input type="text" id="suppliername" class="form-control" placeholder="Enter supplier name"
+                    <input type="text" id="suppliername" class="form-control form-control-sm" placeholder="Enter supplier name"
                       required />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div>
                     <label for="owner-field" class="form-label">Owner Name</label>
-                    <input type="text" id="ownername" class="form-control" placeholder="Enter owner name" required />
+                    <input type="text" id="ownername" class="form-control form-control-sm" placeholder="Enter owner name" required />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div>
                     <label for="industry_type-field" class="form-label">Industry Type</label>
-                    <select class="form-control" id="industrytype">
+                    <select class="form-control form-control-sm" id="industrytype">
                       <option value="">Select industry type</option>
                       <option value="Computer Industry">Computer Industry</option>
                       <option value="Chemical Industries">Chemical Industries</option>
@@ -743,38 +743,38 @@
                 <div class="col-lg-12">
                   <div>
                     <label for="star_value-field" class="form-label">Rating</label>
-                    <input type="text" id="starvalue" class="form-control" placeholder="Enter rating" required />
+                    <input type="text" id="starvalue" class="form-control form-control-sm" placeholder="Enter rating" required />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div>
                     <label for="location-field" class="form-label">location</label>
-                    <input type="text" id="location" class="form-control" placeholder="Enter location" required />
+                    <input type="text" id="location" class="form-control form-control-sm" placeholder="Enter location" required />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div>
                     <label for="employee-field" class="form-label">Employee</label>
-                    <input type="text" id="employee" class="form-control" placeholder="Enter employee" required />
+                    <input type="text" id="employee" class="form-control form-control-sm" placeholder="Enter employee" required />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div>
                     <label for="website-field" class="form-label">Website</label>
-                    <input type="text" id="website" class="form-control" placeholder="Enter website" required />
+                    <input type="text" id="website" class="form-control form-control-sm" placeholder="Enter website" required />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div>
                     <label for="contact_email-field" class="form-label">Contact Email</label>
-                    <input type="text" id="contactemail" class="form-control" placeholder="Enter contact email"
+                    <input type="text" id="contact_email" class="form-control form-control-sm" placeholder="Enter contact email"
                       required />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div>
                     <label for="since-field" class="form-label">Since</label>
-                    <input type="text" id="since" class="form-control" placeholder="Enter since" required />
+                    <input type="text" id="since" class="form-control form-control-sm" placeholder="Enter since" required />
                   </div>
                 </div>
               </div>

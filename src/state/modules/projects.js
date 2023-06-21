@@ -297,6 +297,7 @@ export const state = {
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
+                    status: 'Approved'
                 }
             ],
             subItem: [{
@@ -556,6 +557,7 @@ export const state = {
                 {
                     name: "Ventura Associates",
                     img: require("@/assets/images/companies/img-6.png"),
+                    status: 'Approved'
                 }
             ],
             subItem: [{
@@ -819,6 +821,7 @@ export const state = {
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
+                    status: 'Approved'
                 }
             ],
             subItem: [{
@@ -1079,6 +1082,7 @@ export const state = {
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
+                    status: 'Approved'
                 }
             ],
             subItem: [{
@@ -1339,6 +1343,7 @@ export const state = {
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
+                    status: 'Approved'
                 }
             ],
             subItem: [{
@@ -1599,6 +1604,7 @@ export const state = {
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
+                    status: 'Approved'
                 }
             ],
             subItem: [{
@@ -1766,6 +1772,10 @@ export const mutations = {
         if(payload.updates.changePayment !== undefined) selTask.changePayment = payload.updates.changePayment;
         if(payload.updates.payment !== undefined) selTask.payment = payload.updates.payment;
     },
+    UPDATE_PROJECT_SUPPLIERS(state, payload) {
+        console.log('UPDATE_PROJECT_SUPPLIERS: ' + payload.id + ', suppliers: ' + payload)
+        state.projectList[payload.id].suppliers = payload.updates.suppliers
+    },
     DELETE_PROJECT(state, id) {
         delete state.projectList[id]
     },
@@ -1852,6 +1862,9 @@ export const actions = {
     },
     updateProjectTask({ commit }, payload) {
         commit('UPDATE_PROJECT_TASK', payload)
+    },
+    updateProjectSuppliers({ commit }, payload) {
+        commit('UPDATE_PROJECT_SUPPLIERS', payload)
     },
     deleteProject({ commit }, id) {
         commit('DELETE_PROJECT', id)

@@ -15,10 +15,9 @@ let projectList = computed(() => store.getters["projects/projectList"])
     props
 */
 const props = defineProps(["currId"])
-console.log(props)
 
 let selProject = projectList.value[props.currId]
-console.log(selProject)
+
 const tasks = {
       data: selProject.tasks.data.map(data => {
         return {
@@ -38,7 +37,6 @@ const tasks = {
             type: link.type,
           }})
       }
-console.log(tasks)
 </script>
 
 <style>

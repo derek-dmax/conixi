@@ -1,12 +1,12 @@
 <script>
-import Layout from "../../../layouts/main.vue"
-import appConfig from "../../../../app.config"
-import { mapGetters, mapActions } from "vuex"
-import Draggable from "vue3-draggable"
-import moment from "moment"
-import projectLegals from "../../../components/projectLegals.vue"
-import projectMilestones from "../../../components/projectMilestones.vue"
-import projectGANTT from "../../../components/projectGANTT.vue"
+import Layout from "../../../layouts/main.vue";
+import appConfig from "../../../../app.config";
+import { mapGetters, mapActions } from "vuex";
+import Draggable from "vue3-draggable";
+import moment from "moment";
+import projectLegals from "../../../components/projectLegals.vue";
+import projectMilestones from "../../../components/projectMilestones.vue";
+import projectGANTT from "../../../components/projectGANTT.vue";
 
 export default {
   page: {
@@ -22,6 +22,7 @@ export default {
     return {
       title: "Project List",
       selProject: {},
+      supplierArray: [],
       exampleList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
       recChanges: false,
       todayDate: moment().format("Do") + " day of " + moment().format("MMMM YYYY"),
@@ -50,18 +51,23 @@ export default {
     };
   },
   created() {
-    const queryParams = new URLSearchParams(window.location.search)
-    this.currId = queryParams.get("id")
-    console.log(this.projectList)
+    const queryParams = new URLSearchParams(window.location.search);
+    this.currId = queryParams.get("id");
 
-    this.selProject = this.projectList[this.currId]
-    console.log(this.selProject)
+    this.selProject = this.projectList[this.currId];
+    const suppKeys = Object.keys(this.supplierList)
+    suppKeys.forEach(key => {
+      let rec = this.supplierList[key]
+      this.supplierArray.push( { id: key, name: rec.name, image_src: rec.image_src, star_value: rec.star_value, selected: false })
+    })
+    this.supplierArray.sort((a,b) => { return Number(b.star_value) - Number(a.star_value) })
   },
   mounted() {
-    this.createTour()
+    this.createTour();
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
+    ...mapGetters("suppliers", ["supplierList"]),
   },
   components: {
     Layout,
@@ -72,161 +78,182 @@ export default {
     projectGANTT,
   },
   methods: {
-    ...mapActions("projects", ["updateProject", "insertTask"]),
+    ...mapActions("projects", ["updateProject", "insertTask", "updateProjectSuppliers"]),
+    insertSelectedSuppliers() {
+      let suppliers = []
+      this.supplierArray.forEach(supplier => {
+        if(supplier.selected) {
+          suppliers.push(
+            {
+              name: supplier.name,
+              img: supplier.image_src,
+              status: 'Invited'
+            }
+          )
+        }
+      })
+      console.log(this.selProject)
+      this.updateProjectSuppliers({
+                          id: this.selProject.id,
+                          updates: { suppliers: suppliers }
+                        })
+      console.log(this.selProject)
+    },
     buildTaskAndInsert() {
-      let passTask = Object.assign({}, this.task) // avoid "by reference" issues
+      let passTask = Object.assign({}, this.task); // avoid "by reference" issues
       let maxid = 0;
-      this.selProject.tasks.data.map (function (obj) { if (obj.id > maxid) passTask.id = obj.id })
-      passTask.id += 1
-      passTask.start_date = moment(this.taskDueDate).subtract(this.task.duration, "days")
-      this.insertTask({id: this.selProject.id, task: passTask})
-      this.clearTask()
-      document.getElementById("addTaskBtn-close").click()
-      this.refreshModal = !this.refreshModal
+      this.selProject.tasks.data.map(function (obj) {
+        if (obj.id > maxid) passTask.id = obj.id;
+      });
+      passTask.id += 1;
+      passTask.start_date = moment(this.taskDueDate).subtract(this.task.duration, "days");
+      this.insertTask({ id: this.selProject.id, task: passTask });
+      this.clearTask();
+      document.getElementById("addTaskBtn-close").click();
+      this.refreshModal = !this.refreshModal;
     },
     clearTask() {
-      this.taskDueDate = null
-      this.task.text = null
-      this.task.duration = 0
-      this.task.payment = 0
+      this.taskDueDate = null;
+      this.task.text = null;
+      this.task.duration = 0;
+      this.task.payment = 0;
     },
-    createTour(){
+    createTour() {
       this.tour = this.$shepherd({
         defaultStepOptions: {
           cancelIcon: {
-            enabled: true
+            enabled: true,
           },
-          scrollTo: { behavior: 'smooth', block: 'center' }
+          scrollTo: { behavior: "smooth", block: "center" },
         },
-        useModalOverlay: true
+        useModalOverlay: true,
       });
       this.tour.addStep({
-        id: 'overview-tour',
-        title: "Overview",    
-        text: 'The overview tab shows the main information held against the project.',
+        id: "overview-tour",
+        title: "Overview",
+        text: "The overview tab shows the main information held against the project.",
         attachTo: {
-          element: '#overview-step',
-          on: 'bottom',
-          scrollTo: true
+          element: "#overview-step",
+          on: "bottom",
+          scrollTo: true,
         },
-        beforeShowPromise: function() {
-          return new Promise(function(resolve) {
-            console.log('Testing')
+        beforeShowPromise: function () {
+          return new Promise(function (resolve) {
+            console.log("Testing");
             let element = document.getElementById("overview-step");
             element.click();
-            resolve()
+            resolve();
           });
         },
         buttons: [
           {
-            text: 'Next',
-            action: this.tour.next
-          }
-        ]
+            text: "Next",
+            action: this.tour.next,
+          },
+        ],
       });
       this.tour.addStep({
-        id: 'sow-tour',
-        title: "Statement of Work",    
-        text: 'The Statement of Work tab shows the tasks and milestones of the project.',
+        id: "sow-tour",
+        title: "Statement of Work",
+        text: "The Statement of Work tab shows the tasks and milestones of the project.",
         attachTo: {
-          element: '#sow-step',
-          on: 'bottom',
-          scrollTo: true
+          element: "#sow-step",
+          on: "bottom",
+          scrollTo: true,
         },
-        beforeShowPromise: function() {
-          return new Promise(function(resolve) {
+        beforeShowPromise: function () {
+          return new Promise(function (resolve) {
             let element = document.getElementById("sow-step");
             element.click();
-            resolve()
+            resolve();
           });
         },
         buttons: [
           {
-            text: 'Next',
-            action: this.tour.next
-          }
-        ]
+            text: "Next",
+            action: this.tour.next,
+          },
+        ],
       });
       this.tour.addStep({
-        id: 'doc-tour',
-        title: "Documents",    
-        text: 'The Documents tab shows all documents attached to the project.',
+        id: "doc-tour",
+        title: "Documents",
+        text: "The Documents tab shows all documents attached to the project.",
         attachTo: {
-          element: '#doc-step',
-          on: 'bottom',
-          scrollTo: true
+          element: "#doc-step",
+          on: "bottom",
+          scrollTo: true,
         },
-        beforeShowPromise: function() {
-          return new Promise(function(resolve) {
+        beforeShowPromise: function () {
+          return new Promise(function (resolve) {
             let element = document.getElementById("doc-step");
             element.click();
-            resolve()
+            resolve();
           });
         },
         buttons: [
           {
-            text: 'Next',
-            action: this.tour.next
-          }
-        ]
+            text: "Next",
+            action: this.tour.next,
+          },
+        ],
       });
       this.tour.addStep({
-        id: 'team-tour',
-        title: "Team",    
-        text: 'The Team tab shows the owner(s) and Approver for the project.',
+        id: "team-tour",
+        title: "Team",
+        text: "The Team tab shows the owner(s) and Approver for the project.",
         attachTo: {
-          element: '#team-step',
-          on: 'bottom',
-          scrollTo: true
+          element: "#team-step",
+          on: "bottom",
+          scrollTo: true,
         },
-        beforeShowPromise: function() {
-          return new Promise(function(resolve) {
+        beforeShowPromise: function () {
+          return new Promise(function (resolve) {
             let element = document.getElementById("team-step");
             element.click();
-            resolve()
+            resolve();
           });
         },
         buttons: [
           {
-            text: 'Next',
-            action: this.tour.next
-          }
-        ]
+            text: "Next",
+            action: this.tour.next,
+          },
+        ],
       });
       this.tour.addStep({
-        id: 'proj-tour',
-        title: "Project Plan",    
-        text: 'The Project Plan tab shows a GANTT chart view of the project.',
+        id: "proj-tour",
+        title: "Project Plan",
+        text: "The Project Plan tab shows a GANTT chart view of the project.",
         attachTo: {
-          element: '#proj-step',
-          on: 'bottom',
-          scrollTo: true
+          element: "#proj-step",
+          on: "bottom",
+          scrollTo: true,
         },
-        beforeShowPromise: function() {
-          return new Promise(function(resolve) {
+        beforeShowPromise: function () {
+          return new Promise(function (resolve) {
             let element = document.getElementById("proj-step");
             element.click();
-            resolve()
+            resolve();
           });
         },
         buttons: [
           {
-            text: 'Next',
-            action: this.tour.next
-          }
-        ]
+            text: "Next",
+            action: this.tour.next,
+          },
+        ],
       });
     },
-    startTour(){
-      this.tour.start()
-    }
+    startTour() {
+      this.tour.start();
+    },
   },
 };
 </script>
 
 <template>
   <Layout>
-    
     <div class="row">
       <div class="col-lg-12">
         <div class="card mt-n4 mx-n4">
@@ -253,7 +280,9 @@ export default {
                           <div class="vr"></div>
                           <div>
                             Created :
-                            <span class="fw-medium">{{ selProject.createdDate.format('DD-MMM-YY') }}</span>
+                            <span class="fw-medium">{{
+                              selProject.createdDate.format("DD-MMM-YY")
+                            }}</span>
                           </div>
                           <div class="vr"></div>
                           <div>
@@ -273,7 +302,9 @@ export default {
                           <div class="vr"></div>
                           <div>
                             Due Date :
-                            <span class="fw-medium">{{ selProject.dueDate.format('DD-MMM-YY') }}</span>
+                            <span class="fw-medium">{{
+                              selProject.dueDate.format("DD-MMM-YY")
+                            }}</span>
                           </div>
                           <div class="vr"></div>
                           <div
@@ -410,7 +441,11 @@ export default {
                       <h6 class="mb-3 fw-semibold text-uppercase">Summary</h6>
                       <p class="mb-3">The following services are involved:</p>
                       <ul>
-                        <li class="text-muted mb-0" v-for="(service, index) in selProject.services" :key="index">
+                        <li
+                          class="text-muted mb-0"
+                          v-for="(service, index) in selProject.services"
+                          :key="index"
+                        >
                           {{ service }}
                         </li>
                       </ul>
@@ -481,11 +516,11 @@ export default {
                         <div class="flex-grow-1 ms-3">
                           <h5 class="fs-13">
                             Val Dugan
-                            <small class="text-muted ms-2">{{yesterdayDate + " - 05:47PM"}}</small>
+                            <small class="text-muted ms-2">{{
+                              yesterdayDate + " - 05:47PM"
+                            }}</small>
                           </h5>
-                          <p class="text-muted">
-                            The new design is now ready to test.
-                          </p>
+                          <p class="text-muted">The new design is now ready to test.</p>
                           <a href="javascript: void(0);" class="badge text-muted bg-light"
                             ><i class="mdi mdi-reply"></i> Reply</a
                           >
@@ -502,11 +537,11 @@ export default {
                         <div class="flex-grow-1 ms-3">
                           <h5 class="fs-13">
                             Donald Palmer
-                            <small class="text-muted ms-2">{{ yesterdayDate + "- 06:20PM"}}</small>
+                            <small class="text-muted ms-2">{{
+                              yesterdayDate + "- 06:20PM"
+                            }}</small>
                           </h5>
-                          <p class="text-muted">
-                            OK, I will take a look tomorrow.
-                          </p>
+                          <p class="text-muted">OK, I will take a look tomorrow.</p>
                           <a href="javascript: void(0);" class="badge text-muted bg-light"
                             ><i class="mdi mdi-reply"></i> Reply</a
                           >
@@ -546,25 +581,8 @@ export default {
                 </div>
                 <!-- end card -->
               </div>
-              <!-- ene col -->
+              <!-- end col -->
               <div class="col-xl-3 col-lg-4">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title mb-4">Skills</h5>
-                    <div class="d-flex flex-wrap gap-2 fs-16">
-                      <div
-                        class="badge fw-medium badge-soft-secondary"
-                        v-for="(item, index) in selProject.skills"
-                        :key="index"
-                      >
-                        {{ item }}
-                      </div>
-                    </div>
-                  </div>
-                  <!-- end card body -->
-                </div>
-                <!-- end card -->
-
                 <div class="card">
                   <div class="card-header align-items-center d-flex border-bottom-dashed">
                     <h4 class="card-title mb-0 flex-grow-1">Approver(s)</h4>
@@ -575,7 +593,7 @@ export default {
                         data-bs-toggle="modal"
                         data-bs-target="#inviteMembersModal"
                       >
-                        <i class="ri-share-line me-1 align-bottom"></i> Invite Member
+                        <i class="ri-share-line me-1 align-bottom"></i> Invite Approver
                       </button>
                     </div>
                   </div>
@@ -602,9 +620,6 @@ export default {
                           </div>
                           <div class="flex-shrink-0">
                             <div class="d-flex align-items-center gap-1">
-                              <button type="button" class="btn btn-light btn-sm">
-                                Message
-                              </button>
                               <div class="dropdown">
                                 <button
                                   class="btn btn-icon btn-sm fs-16 text-muted dropdown"
@@ -628,7 +643,7 @@ export default {
                                       ><i
                                         class="ri-star-fill text-muted me-2 align-bottom"
                                       ></i
-                                      >Favourite</a
+                                      >Message</a
                                     >
                                   </li>
                                   <li>
@@ -657,42 +672,47 @@ export default {
                   <div class="card-header align-items-center d-flex border-bottom-dashed">
                     <h4 class="card-title mb-0 flex-grow-1">Supplier(s)</h4>
                     <div class="flex-shrink-0">
-                      <button
-                        type="button"
-                        class="btn btn-soft-danger btn-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target="#inviteMembersModal"
-                      >
-                        <i class="ri-share-line me-1 align-bottom"></i> Invite Supplier
+                      <button type="button" class="btn btn-sm btn-warning">
+                        <span class="icon-on">
+                          <i class="ri-share-line me-1 align-bottom"></i>
+                          <a
+                            class="edit-folder-list"
+                            style="color: white !important"
+                            href="#inviteSupplierModal"
+                            data-bs-toggle="modal"
+                            role="button"
+                            >Invite Supplier(s)</a
+                          >
+                        </span>
                       </button>
                     </div>
                   </div>
 
                   <div class="card-body">
-                    <div data-simplebar style="height: 130px" class="mx-n3 px-3">
+                    <div data-simplebar style="height: 250px" class="mx-n3 px-3">
                       <div class="vstack gap-3">
                         <div
                           class="d-flex align-items-center"
-                          v-for="(member, index) in selProject.suppliers"
+                          v-for="(supplier, index) in selProject.suppliers"
                           :key="index"
                         >
                           <div class="avatar-xs flex-shrink-0 me-3">
                             <img
-                              :src="member.img"
+                              :src="supplier.img"
                               alt=""
                               class="img-fluid rounded-circle"
                             />
                           </div>
                           <div class="flex-grow-1">
                             <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">{{ member.name }}</a>
+                              <a href="#" class="text-body d-block">{{ supplier.name }}</a>
                             </h5>
                           </div>
                           <div class="flex-shrink-0">
                             <div class="d-flex align-items-center gap-1">
-                              <button type="button" class="btn btn-light btn-sm">
-                                Message
-                              </button>
+                              <h5 class="fs-13 mb-0">
+                                <a href="#" class="text-body d-block">{{ supplier.status }}</a>
+                              </h5>
                               <div class="dropdown">
                                 <button
                                   class="btn btn-icon btn-sm fs-16 text-muted dropdown"
@@ -706,25 +726,25 @@ export default {
                                   <li>
                                     <a class="dropdown-item" href="javascript:void(0);"
                                       ><i
+                                        class="ri-chat-3-line text-muted me-2 align-bottom"
+                                      ></i
+                                      >Message</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="javascript:void(0);"
+                                      ><i
                                         class="ri-eye-fill text-muted me-2 align-bottom"
                                       ></i
                                       >View</a
                                     >
                                   </li>
-                                  <li>
+                                  <li v-if="supplier.status != 'Approved'">
                                     <a class="dropdown-item" href="javascript:void(0);"
                                       ><i
-                                        class="ri-star-fill text-muted me-2 align-bottom"
+                                        class="ri-award-line text-muted me-2 align-bottom"
                                       ></i
-                                      >Favourite</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-delete-bin-5-fill text-muted me-2 align-bottom"
-                                      ></i
-                                      >Delete</a
+                                      >Respond</a
                                     >
                                   </li>
                                 </ul>
@@ -749,34 +769,41 @@ export default {
           <div class="tab-pane fade" id="project-documents" role="tabpanel">
             <div class="card">
               <div class="card-body">
-                <div class="row pa-2" style="margin-bottom: 30px;margin-top: -7px;">
+                <div class="row pa-2" style="margin-bottom: 30px; margin-top: -7px">
                   <h5 class="card-title col-4">Documents</h5>
                   <div class="col-3"></div>
                   <button
-                      data-bs-toggle="modal"
-                      data-bs-target=".bs-example-modal-xl"
-                      class="col-1 btn btn-sm btn-info active"
-                      type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target=".bs-example-modal-xl"
+                    class="col-1 btn btn-sm btn-info active"
+                    type="button"
+                  >
+                    <span class="icon-on"
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span>
                   </button>
                   <div class="col-1"></div>
                   <button
-                      data-bs-toggle="modal"
-                      data-bs-target=".bs-example-modal-xl"
-                      class="col-1 btn btn-sm btn-info active"
-                      type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target=".bs-example-modal-xl"
+                    class="col-1 btn btn-sm btn-info active"
+                    type="button"
+                  >
+                    <span class="icon-on"
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>Proj
+                      Brief</span
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Proj Brief</span>
                   </button>
                   <div class="col-1"></div>
                   <button
-                      data-bs-toggle="modal"
-                      data-bs-target=".bs-example-modal-xl"
-                      class="col-1 btn btn-sm btn-info active btn-nudge-left"
-                      type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target=".bs-example-modal-xl"
+                    class="col-1 btn btn-sm btn-info active btn-nudge-left"
+                    type="button"
+                  >
+                    <span class="icon-on"
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>Contract</span
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Contract</span>
                   </button>
                 </div>
                 <div class="row">
@@ -993,48 +1020,61 @@ export default {
               <div class="card-body">
                 <div class="row">
                   <h5 class="card-title col-4">Statement of Work</h5>
-                  <button type="button" class="col-1 btn btn-sm btn-success active btn-nudge-left">
-                      <span class="icon-on">
-                        <i class="ri-add-circle-line align-bottom me-1"></i>
-                        <a
-                          class="edit-folder-list"
-                          style="color: white !important"
-                          href="#insertTaskModal"
-                          data-bs-toggle="modal"
-                          role="button"
-                          >Add Task</a
-                        >
-                      </span>
+                  <button
+                    type="button"
+                    class="col-1 btn btn-sm btn-success active btn-nudge-left"
+                  >
+                    <span class="icon-on">
+                      <i class="ri-add-circle-line align-bottom me-1"></i>
+                      <a
+                        class="edit-folder-list"
+                        style="color: white !important"
+                        href="#insertTaskModal"
+                        data-bs-toggle="modal"
+                        role="button"
+                        >Add Task</a
+                      >
+                    </span>
                   </button>
                   <div class="col-2"></div>
                   <button
-                      data-bs-toggle="modal"
-                      data-bs-target=".bs-example-modal-xl"
-                      class="col-1 btn btn-sm btn-info active"
-                      type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target=".bs-example-modal-xl"
+                    class="col-1 btn btn-sm btn-info active"
+                    type="button"
+                  >
+                    <span class="icon-on"
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span>
                   </button>
                   <div class="col-1"></div>
                   <button
-                      data-bs-toggle="modal"
-                      data-bs-target=".bs-example-modal-xl"
-                      class="col-1 btn btn-sm btn-info active"
-                      type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target=".bs-example-modal-xl"
+                    class="col-1 btn btn-sm btn-info active"
+                    type="button"
+                  >
+                    <span class="icon-on"
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>Proj
+                      Brief</span
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Proj Brief</span>
                   </button>
                   <div class="col-1"></div>
                   <button
-                      data-bs-toggle="modal"
-                      data-bs-target=".bs-example-modal-xl"
-                      class="col-1 btn btn-sm btn-info active btn-nudge-left"
-                      type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target=".bs-example-modal-xl"
+                    class="col-1 btn btn-sm btn-info active btn-nudge-left"
+                    type="button"
+                  >
+                    <span class="icon-on"
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>Contract</span
                     >
-                    <span class="icon-on"><i class="ri-file-paper-line align-bottom me-1"></i>Contract</span>
                   </button>
                 </div>
-                <projectMilestones :currId="currId" :key="refreshModal"></projectMilestones>
+                <projectMilestones
+                  :currId="currId"
+                  :key="refreshModal"
+                ></projectMilestones>
               </div>
               <!--end card-body-->
             </div>
@@ -1048,7 +1088,7 @@ export default {
             aria-hidden="true"
             style="display: none"
           >
-            <projectLegals :todayDate="todayDate" :selProject= "selProject"/>
+            <projectLegals :todayDate="todayDate" :selProject="selProject" />
           </div>
           <div class="tab-pane fade" id="project-team" role="tabpanel">
             <div class="row g-4 mb-3">
@@ -1080,7 +1120,11 @@ export default {
             <!-- end row -->
 
             <div class="team-list list-view-filter">
-              <div class="card team-box" v-for="(member, index) in selProject.members" :key="index">
+              <div
+                class="card team-box"
+                v-for="(member, index) in selProject.members"
+                :key="index"
+              >
                 <div class="card-body px-4">
                   <div class="row align-items-center team-row">
                     <div class="col team-settings">
@@ -1125,7 +1169,7 @@ export default {
                         </div>
                       </div>
                     </div>
-                    <div  class="col-lg-4 col">
+                    <div class="col-lg-4 col">
                       <div class="team-profile-img">
                         <div class="avatar-lg img-thumbnail rounded-circle">
                           <img
@@ -1136,20 +1180,20 @@ export default {
                         </div>
                         <div class="team-content">
                           <a href="#" class="d-block"
-                            ><h5 class="fs-16 mb-1">{{member.name}}</h5></a
+                            ><h5 class="fs-16 mb-1">{{ member.name }}</h5></a
                           >
-                          <p class="text-muted mb-0">{{member.role}}</p>
+                          <p class="text-muted mb-0">{{ member.role }}</p>
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-4 col">
                       <div class="row text-muted text-center">
                         <div class="col-6 border-end border-end-dashed">
-                          <h5 class="mb-1">{{member.projects}}</h5>
+                          <h5 class="mb-1">{{ member.projects }}</h5>
                           <p class="text-muted mb-0">Projects</p>
                         </div>
                         <div class="col-6">
-                          <h5 class="mb-1">{{member.tasks}}</h5>
+                          <h5 class="mb-1">{{ member.tasks }}</h5>
                           <p class="text-muted mb-0">Tasks</p>
                         </div>
                       </div>
@@ -1171,7 +1215,10 @@ export default {
             <div class="row g-0 text-center text-sm-start align-items-center mb-3">
               <div class="col-sm-6">
                 <div>
-                  <p class="mb-sm-0">Showing 1 to {{selProject.members.length}} of {{selProject.members.length}} entries</p>
+                  <p class="mb-sm-0">
+                    Showing 1 to {{ selProject.members.length }} of
+                    {{ selProject.members.length }} entries
+                  </p>
                 </div>
               </div>
               <!-- end col -->
@@ -1197,7 +1244,11 @@ export default {
           <!-- end tab pane -->
           <div class="tab-pane fade" id="project-gantt" role="tabpanel">
             <div class="card">
-              <projectGANTT style="height: 900px" :currId="currId" :key="refreshModal"></projectGANTT>
+              <projectGANTT
+                style="height: 900px"
+                :currId="currId"
+                :key="refreshModal"
+              ></projectGANTT>
             </div>
             <!-- end team list -->
           </div>
@@ -1218,9 +1269,7 @@ export default {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0">
           <div class="modal-header p-3 bg-soft-success">
-            <h5 class="modal-title" id="insertTaskModalLabel">
-              Insert Task
-            </h5>
+            <h5 class="modal-title" id="insertTaskModalLabel">Insert Task</h5>
             <button
               type="button"
               class="btn-close"
@@ -1237,9 +1286,7 @@ export default {
               novalidate
             >
               <div class="mb-4">
-                <label for="taskname-input" class="form-label"
-                  >Task Name</label
-                >
+                <label for="taskname-input" class="form-label">Task Name</label>
                 <input
                   v-model="task.text"
                   type="text"
@@ -1248,17 +1295,10 @@ export default {
                   required
                 />
                 <div class="invalid-feedback">Please enter a task name.</div>
-                <input
-                  type="hidden"
-                  class="form-control"
-                  id="taskid-input"
-                  value=""
-                />
+                <input type="hidden" class="form-control" id="taskid-input" value="" />
               </div>
               <div class="mb-4">
-                <label for="taskdue-input" class="form-label"
-                  >Due Date</label
-                >
+                <label for="taskdue-input" class="form-label">Due Date</label>
                 <input
                   v-model="taskDueDate"
                   type="date"
@@ -1269,9 +1309,7 @@ export default {
                 <div class="invalid-feedback">Please enter a due date.</div>
               </div>
               <div class="mb-4">
-                <label for="taskduration-input" class="form-label"
-                  >Duration (days)</label
-                >
+                <label for="taskduration-input" class="form-label">Duration (days)</label>
                 <input
                   v-model="task.duration"
                   type="number"
@@ -1282,9 +1320,7 @@ export default {
                 <div class="invalid-feedback">Please enter a duration.</div>
               </div>
               <div class="mb-4">
-                <label for="taskpayment-input" class="form-label"
-                  >Payment</label
-                >
+                <label for="taskpayment-input" class="form-label">Payment</label>
                 £
                 <input
                   v-model="task.payment"
@@ -1316,6 +1352,94 @@ export default {
       </div>
     </div>
     <!-- END Insert Task MODAL -->
+    <!-- START Invite Supplier MODAL -->
+    <div
+      class="modal fade zoomIn"
+      id="inviteSupplierModal"
+      tabindex="-1"
+      aria-labelledby="inviteSupplierModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0">
+          <div class="modal-header p-3 bg-soft-warning">
+            <h5 class="modal-title" id="inviteSupplierModalLabel">Invite Suppliers</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              id="inviteSupplierBtn-close"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              autocomplete="off"
+              class="needs-validation inviteSupplier-form"
+              id="inviteSupplier-form"
+              novalidate
+            >
+              <div
+                class="mb-1 row"
+                v-for="(supplier, index) in supplierArray"
+                :key="'su-' + index"
+              >
+                <div class="col-3 avatar-xs px-1 mx-0">
+                  <img
+                    :src="supplier.image_src"
+                    alt=""
+                    class="img-fluid rounded-circle"
+                  />
+                </div>
+                <p class="col-5">
+                  {{ supplier.name }}
+                </p>
+                <p class="col-2">
+                  <span class="star_value">{{ supplier.star_value }}</span>
+                  <i class="ri-star-fill text-warning align-bottom"></i>
+                </p>
+                <div class="form-check fs-14 col-2">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheck20"
+                    v-model="supplier.selected"
+                  />
+                  <label class="form-check-label" for="flexCheck20">Invite?</label>
+                </div>
+              </div>
+              <div class="hstack gap-2 justify-content-end">
+                <button
+                  type="button"
+                  class="btn btn-ghost-success"
+                  data-bs-dismiss="modal"
+                >
+                  <i class="ri-close-line align-bottom"></i> Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="addNewTask"
+                  @click="buildTaskAndInsert"
+                >
+                  Invite All
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="inviteSelectedSuppliers"
+                  @click="insertSelectedSuppliers"
+                >
+                  Invite Selected
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Invite Supplier MODAL -->
   </Layout>
 </template>
 <style>

@@ -197,7 +197,7 @@ export default {
                     <!-- end col -->
                     <div class="col-sm-auto">
                         <div>
-                            <a href="https://1.envato.market/velzon-admin" target="_blank"
+                            <a href="https://1.envato.market/Conixi-admin" target="_blank"
                                 class="btn bg-gradient btn-danger"><i
                                     class="ri-mail-line align-middle me-1"></i> Contact</a>
                                             </div>

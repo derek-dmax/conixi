@@ -30,6 +30,7 @@ export default {
       dropzoneFile.value = e.dataTransfer.files[0];
       files.value.push(dropzoneFile.value);
     };
+    console.log('Test')
     const selectedFile = () => {
       dropzoneFile.value = document.querySelector(".dropzoneFile").files[0];
       files.value.push(dropzoneFile.value);
@@ -240,6 +241,13 @@ export default {
   },
   methods: {
     ...mapActions("projects", ["createProject"]),
+    changedText() {
+      if(this.selProject.label.length < 15) return;
+      if(this.selProject.label.toLowerCase() === ('implement helpdesk system').slice(0,this.selProject.label.length)) {
+        this.selProject.label = 'Implement Helpdesk System';
+        this.editorData = 'The project to implement a helpdesk system involves creating a centralized platform that enables efficient communication and issue resolution between customers and support agents.'
+      }
+    },
     projectCreate(payload) {
       console.log(this.dueDate)
       payload.time = moment()
@@ -298,6 +306,8 @@ export default {
                     class="form-control"
                     v-model="selProject.label"
                     id="project-title-input"
+                    @change="changedText"
+                    @keyup="changedText"
                     placeholder="Enter project title"
                   />
                 </div>
@@ -340,7 +350,6 @@ export default {
 
                   <flat-pickr
                     v-model="start_date"
-                    :config="config"
                     class="form-control"
                   ></flat-pickr>
                 </div>
@@ -353,7 +362,6 @@ export default {
 
                   <flat-pickr
                     v-model="dueDate"
-                    :config="config"
                     class="form-control"
                   ></flat-pickr>
                 </div>

@@ -30,13 +30,11 @@
       };
     },
     created() {
-      console.log(this.userImage)
       this.userType = localStorage.getItem("userType");
       this.userOrg = localStorage.getItem("userOrg");
       this.userName = localStorage.getItem("userName");
       this.userTitle = localStorage.getItem("userTitle");
       this.userImage = localStorage.getItem("userImage");
-      console.log(this.userImage)
     },
     components: {
       SimpleBar

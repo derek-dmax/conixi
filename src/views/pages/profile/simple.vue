@@ -203,7 +203,7 @@ export default {
                             </tr>
                             <tr>
                               <th class="ps-0" scope="row">E-mail :</th>
-                              <td class="text-muted">daveadame@velzon.com</td>
+                              <td class="text-muted">daveadame@Conixi.com</td>
                             </tr>
                             <tr>
                               <th class="ps-0" scope="row">Location :</th>
