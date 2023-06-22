@@ -852,7 +852,7 @@
     <template v-else>
       <ul class="navbar-nav h-100" id="navbar-nav">
         <li class="nav-item" v-if="userType !== 'supplier'">
-          <router-link class="nav-link menu-link" to="/dashboard/projects">
+          <router-link class="nav-link menu-link" to="/">
             <i class="ri-dashboard-2-line"></i>
             <span data-key="t-projects">{{ $t("t-projects") }}</span>
           </router-link>
