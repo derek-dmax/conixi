@@ -227,7 +227,7 @@
                       <div class="mb-3">
                         <label for="emailInput" class="form-label">Email Address</label>
                         <input type="email" class="form-control" id="emailInput" placeholder="Enter your email"
-                          value="daveadame@velzon.com" />
+                          value="derek@conixi.co.uk" />
                       </div>
                     </div>
                     <!--end col-->
