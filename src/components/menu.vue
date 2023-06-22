@@ -857,28 +857,28 @@
             <span data-key="t-projects">{{ $t("t-projects") }}</span>
           </router-link>
         </li>
+        <li class="nav-item" v-if="userType !== 'supplier'">
+          <router-link class="nav-link menu-link" to="/apps/crm-suppliers">
+            <i class="ri-building-line"></i>
+            <span data-key="t-companies">{{ $t("t-companies") }}</span>
+          </router-link>
+        </li>
         <li class="nav-item">
           <router-link class="nav-link menu-link" to="/apps/projects-list">
             <i class="ri-stack-overflow-line"></i>
             <span data-key="t-list">{{ $t("t-list") }}</span>
           </router-link>
         </li>
+        <li class="nav-item" v-if="userType !== 'supplier'">
+          <router-link class="nav-link menu-link" to="/apps/bids-kanban">
+            <i class="ri-medal-2-line"></i>
+            <span data-key="t-calendar">Supplier Bids</span>
+          </router-link>
+        </li>
         <li class="nav-item">
           <router-link class="nav-link menu-link" to="/apps/tasks-kanban">
             <i class="ri-todo-line"></i>
             <span data-key="t-tasks">{{ $t("t-tasks") }}</span>
-          </router-link>
-        </li>
-        <li class="nav-item" v-if="userType !== 'supplier'">
-          <router-link class="nav-link menu-link" to="/milestones">
-            <i class="ri-medal-2-line"></i>
-            <span data-key="t-calendar">{{ $t("t-calendar") }}</span>
-          </router-link>
-        </li>
-        <li class="nav-item" v-if="userType !== 'supplier'">
-          <router-link class="nav-link menu-link" to="/apps/crm-suppliers">
-            <i class="ri-building-line"></i>
-            <span data-key="t-companies">{{ $t("t-companies") }}</span>
           </router-link>
         </li>
         <li class="nav-item">

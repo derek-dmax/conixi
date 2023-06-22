@@ -4,7 +4,7 @@ import PageHeader from "@/components/page-header";
 import appConfig from "../../../../app.config";
 
 import Widgets from "./widget.vue";
-import Schedules from "./schedule.vue";
+//import Schedules from "./schedule.vue";
 import Project from "./projects.vue";
 import Task from "./tasks.vue";
 import Member from "./members.vue";
@@ -36,7 +36,6 @@ export default {
     Layout,
     PageHeader,
     Widgets,
-    Schedules,
     Project,
     Task,
     Member,
@@ -69,10 +68,6 @@ export default {
 <Project/>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-xxl-4">
-                <Schedules />
             </div>
         </div>
 

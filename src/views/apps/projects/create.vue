@@ -4,10 +4,8 @@ import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
-import { v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
-import CKEditor from "@ckeditor/ckeditor5-vue";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import DropZone from "@/components/widgets/dropZone";
 import useVuelidate from "@vuelidate/core";
 
@@ -15,7 +13,7 @@ import Layout from "../../../layouts/main.vue";
 import PageHeader from "@/components/page-header";
 import appConfig from "../../../../app.config";
 import { mapActions } from "vuex";
-import moment from 'moment';
+import moment from "moment";
 import { gantt } from "dhtmlx-gantt";
 
 export default {
@@ -30,7 +28,6 @@ export default {
       dropzoneFile.value = e.dataTransfer.files[0];
       files.value.push(dropzoneFile.value);
     };
-    console.log('Test')
     const selectedFile = () => {
       dropzoneFile.value = document.querySelector(".dropzoneFile").files[0];
       files.value.push(dropzoneFile.value);
@@ -47,7 +44,7 @@ export default {
     return {
       title: "Create Project",
       cost: 0,
-      dueDate: moment().add(1, 'month').format('DD MMM, YYYY'),
+      dueDate: moment().add(2, "month").format("YYYY-MM-DD"),
       items: [
         {
           text: "Projects",
@@ -58,10 +55,10 @@ export default {
           active: true,
         },
       ],
-      start_date: null,
+      start_date: moment().add(1, "week").format("YYYY-MM-DD"),
       selProject: {
         id: uuidv4(),
-        time: "Last update : " + moment().format('Do MMM, YYYY'),
+        time: "Last update : " + moment().format("Do MMM, YYYY"),
         client: null,
         favourite: false,
         img: require("@/assets/images/brands/dribbble.png"),
@@ -70,10 +67,7 @@ export default {
         subCategory: "",
         projectType: "Generic",
         skills: [],
-        services: [
-          "Application",
-          "Training",
-        ],
+        services: ["Application", "Training"],
         description: "",
         number: "0/2",
         progressBar: "0%",
@@ -83,7 +77,7 @@ export default {
           data: [
             {
               id: 1,
-              type:gantt.config.types.project, 
+              type: gantt.config.types.project,
               text: "Project Execution",
               progress: 0,
               open: true,
@@ -100,7 +94,7 @@ export default {
             },
             {
               id: 2,
-              type:gantt.config.types.milestone, 
+              type: gantt.config.types.milestone,
               text: "Complete",
               progress: 0,
               open: true,
@@ -116,9 +110,7 @@ export default {
               group: null,
             },
           ],
-          links: [
-            { id: "1", source: "1", target: "2", type: "0" },
-          ]
+          links: [{ id: "1", source: "1", target: "2", type: "0" }],
         },
         members: [
           {
@@ -162,14 +154,22 @@ export default {
       client: ["CSG"],
       subCategory: ["Designing"],
       projectType: ["Generic"],
-      value5: ["Ellen Smith"],
-      value1: ["Inprogress"],
+      owners: ["Derek Macrae"],
+      value1: ["In Progress"],
       value2: ["High"],
       clients: ["CSG", "Hampshire CC", "Mid-Lothian", "Luton BC"],
       categories: [
         { value: "Asset Management", label: "Asset Management", projectType: "Generic" },
-        { value: "Business Strategy", label: "Business Strategy", projectType: "Generic" },
-        { value: "Change Management", label: "Change Management", projectType: "Generic" },
+        {
+          value: "Business Strategy",
+          label: "Business Strategy",
+          projectType: "Generic",
+        },
+        {
+          value: "Change Management",
+          label: "Change Management",
+          projectType: "Generic",
+        },
         { value: "Construction", label: "Construction", projectType: "Generic" },
         { value: "Engineering", label: "Engineering", projectType: "Generic" },
         { value: "Finance", label: "Finance", projectType: "Generic" },
@@ -178,9 +178,25 @@ export default {
         { value: "Security", label: "Security", projectType: "Generic" },
         { value: "Technology", label: "Technology", projectType: "Generic" },
       ],
-      projectTypes: [ "Generic", "Software Development", "Building Construction", "Groundworks" ],
+      projectTypes: [
+        "Generic",
+        "Software Development",
+        "Building Construction",
+        "Groundworks",
+      ],
       subCategories: [
-        { category: "Construction", value: "Architecture", label: "Architecture", projectType: "Generic" },
+        {
+          category: "Technology",
+          value: "Software Implementation",
+          label: "Software Implementation",
+          projectType: "Generic",
+        },
+        {
+          category: "Construction",
+          value: "Architecture",
+          label: "Architecture",
+          projectType: "Generic",
+        },
         {
           category: "Construction",
           value: "Building Control",
@@ -210,6 +226,12 @@ export default {
           label: "Architect",
         },
         {
+          category: "Technology",
+          subCategory: "Software Implementation",
+          value: "Project Management",
+          label: "Project Management",
+        },
+        {
           category: "Construction",
           subCategory: "Ground Engineering",
           value: "Ground Preparation",
@@ -234,44 +256,60 @@ export default {
           label: "Site Control",
         },
       ],
-      editor: ClassicEditor,
-      editorData: "<p>Add description</p>",
+      editorData: "Add description ...",
       content: "<h1>Some initial content</h1>",
     };
   },
   methods: {
     ...mapActions("projects", ["createProject"]),
     changedText() {
-      if(this.selProject.label.length < 15) return;
-      if(this.selProject.label.toLowerCase() === ('implement helpdesk system').slice(0,this.selProject.label.length)) {
-        this.selProject.label = 'Implement Helpdesk System';
-        this.editorData = 'The project to implement a helpdesk system involves creating a centralized platform that enables efficient communication and issue resolution between customers and support agents.'
+      if (this.selProject.label.length < 15) return;
+      if (
+        this.selProject.label.toLowerCase() ===
+        "implement helpdesk system".slice(0, this.selProject.label.length)
+      ) {
+        this.selProject.label = "Implement Helpdesk System";
+        this.cost = 18000,
+        this.selProject.start_date = moment().add(15, "days").format("DD MMM, YYYY"),
+        this.selProject.category = "Technology";
+        this.selProject.subCategory = "Software Implementation";
+        this.selProject.skills = ["Project Management"];
+        this.selProject.owners = ["Laura Van Zyl", "Alex Raubitschek"];
+        this.editorData =
+          "The project to implement a helpdesk system involves creating a centralized platform that enables efficient communication and issue resolution between customers and support agents.";
       }
     },
     projectCreate(payload) {
-      console.log(this.dueDate)
-      payload.time = moment()
+      payload.time = moment();
       payload.dueDate = moment(this.dueDate)
-      payload.tasks.data[0].start_date = this.start_date ? moment(this.start_date) : moment()
-      payload.tasks.data[0].duration = (moment(this.dueDate).diff(moment(this.start_date), 'days')).toString()
-      payload.tasks.data[1].start_date = moment(this.dueDate)
-      payload.tasks.data[1].payment = this.cost
-      payload.tasks.data[1].parent = 0
-      console.log(payload)
-      this.createProject(payload)
+      payload.members = this.owners
+      payload.description = this.editorData
+      payload.tasks.data[0].start_date = this.start_date
+        ? moment(this.start_date)
+        : moment();
+      payload.tasks.data[0].duration = moment(this.dueDate)
+        .diff(moment(this.start_date), "days")
+        .toString();
+      payload.tasks.data[1].start_date = moment(this.dueDate);
+      payload.tasks.data[1].payment = this.cost;
+      payload.tasks.data[1].parent = 0;
+      console.log(payload);
+      this.createProject(payload);
       this.$router.push({
-        path: '/apps/projects-list'
-      })
+        path: "/apps/projects-list",
+      });
     },
     deleteRecord(ele) {
       ele.target.parentElement.parentElement.remove();
     },
   },
+  mounted() {
+    console.log(this.start_date);
+  },
   components: {
     DropZone,
     Layout,
     PageHeader,
-    ckeditor: CKEditor.component,
     Multiselect,
     flatPickr,
   },
@@ -289,7 +327,9 @@ export default {
       >
         Draft
       </button>
-      <button @click="projectCreate(selProject)" class="btn btn-success w-sm col-sm-auto">Create</button>
+      <button @click="projectCreate(selProject)" class="btn btn-success w-sm col-sm-auto">
+        Create
+      </button>
     </div>
     <div class="row">
       <div class="col-lg-8">
@@ -327,9 +367,11 @@ export default {
               </div>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">Project Description</label>
-              <ckeditor v-model="editorData" :editor="editor"></ckeditor>
+            <div class="mb-3 mt-2">
+              <label for="projDesc" class="form-label">Project Description</label>
+
+              <textarea id="projDesc" name="projDesc" rows="6" class="form-control" v-model="editorData">
+              </textarea>
             </div>
 
             <div class="row">
@@ -347,11 +389,7 @@ export default {
               <div class="col-lg-4">
                 <div class="mb-3 mb-lg-0">
                   <label for="choices-status-input" class="form-label">Start Date</label>
-
-                  <flat-pickr
-                    v-model="start_date"
-                    class="form-control"
-                  ></flat-pickr>
+                  <flat-pickr v-model="start_date" class="form-control"></flat-pickr>
                 </div>
               </div>
               <div class="col-lg-4">
@@ -360,10 +398,7 @@ export default {
                     >Deadline</label
                   >
 
-                  <flat-pickr
-                    v-model="dueDate"
-                    class="form-control"
-                  ></flat-pickr>
+                  <flat-pickr v-model="dueDate" class="form-control"></flat-pickr>
                 </div>
               </div>
             </div>
@@ -395,7 +430,7 @@ export default {
                     :searchable="true"
                     :create-option="true"
                     :options="[
-                      { value: 'Inprogress', label: 'Inprogress' },
+                      { value: 'In Progress', label: 'In Progress' },
                       { value: 'Completed', label: 'Completed' },
                     ]"
                   />
@@ -447,7 +482,13 @@ export default {
         <!-- end card -->
         <div class="text-end mb-4">
           <button type="submit" class="btn btn-secondary w-sm me-1">Draft</button>
-          <button type="submit" class="btn btn-success w-sm" @click="projectCreate(selProject)">Create</button>
+          <button
+            type="submit"
+            class="btn btn-success w-sm"
+            @click="projectCreate(selProject)"
+          >
+            Create
+          </button>
         </div>
       </div>
       <!-- end col -->
@@ -526,14 +567,14 @@ export default {
             <div class="mb-3">
               <label for="choices-lead-input" class="form-label">Owner</label>
               <Multiselect
-                v-model="value5"
+                v-model="owners"
                 :close-on-select="true"
                 :searchable="true"
                 :create-option="true"
                 :options="[
-                  { value: 'Brent Gonzalez', label: 'Brent Gonzalez' },
-                  { value: 'Darline Williams', label: 'Darline Williams' },
-                  { value: 'Sylvia Wright', label: 'Sylvia Wright' },
+                  { value: 'Derek Macrae', label: 'Derek Macrae' },
+                  { value: 'Laura Van Zyl', label: 'Laura Van Zyl' },
+                  { value: 'Alex Raubitschek', label: 'Alex Raubitschek' },
                   { value: 'Ellen Smith', label: 'Ellen Smith' },
                   { value: 'Jeffrey Salazar', label: 'Jeffrey Salazar' },
                   { value: 'Mark Williams', label: 'Mark Williams' },
@@ -543,69 +584,21 @@ export default {
 
             <div>
               <label class="form-label">Team Members</label>
-              <div class="avatar-group">
+              <div class="avatar-group" v-if="owners.length === 1">
                 <a
                   href="javascript: void(0);"
                   class="avatar-group-item"
                   data-bs-toggle="tooltip"
                   data-bs-trigger="hover"
                   data-bs-placement="top"
-                  title="Brent Gonzalez"
+                  title="Derek Macrae"
                 >
                   <div class="avatar-xs">
                     <img
-                      src="@/assets/images/users/avatar-3.jpg"
+                      src="@/assets/images/users/derekm.jpg"
                       alt=""
                       class="rounded-circle img-fluid"
                     />
-                  </div>
-                </a>
-                <a
-                  href="javascript: void(0);"
-                  class="avatar-group-item"
-                  data-bs-toggle="tooltip"
-                  data-bs-trigger="hover"
-                  data-bs-placement="top"
-                  title="Sylvia Wright"
-                >
-                  <div class="avatar-xs">
-                    <div class="avatar-title rounded-circle bg-secondary">S</div>
-                  </div>
-                </a>
-                <a
-                  href="javascript: void(0);"
-                  class="avatar-group-item"
-                  data-bs-toggle="tooltip"
-                  data-bs-trigger="hover"
-                  data-bs-placement="top"
-                  title="Ellen Smith"
-                >
-                  <div class="avatar-xs">
-                    <img
-                      src="@/assets/images/users/avatar-4.jpg"
-                      alt=""
-                      class="rounded-circle img-fluid"
-                    />
-                  </div>
-                </a>
-                <a
-                  href="javascript: void(0);"
-                  class="avatar-group-item"
-                  data-bs-toggle="tooltip"
-                  data-bs-trigger="hover"
-                  data-bs-placement="top"
-                  title="Add Members"
-                >
-                  <div
-                    class="avatar-xs"
-                    data-bs-toggle="modal"
-                    data-bs-target="#inviteMembersModal"
-                  >
-                    <div
-                      class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary"
-                    >
-                      +
-                    </div>
                   </div>
                 </a>
               </div>
@@ -644,9 +637,6 @@ export default {
   </Layout>
 </template>
 <style>
-.ck-editor__editable_inline {
-    max-height: 80px;
-}
 .form-control-inline {
   position: relative;
   width: 89%;

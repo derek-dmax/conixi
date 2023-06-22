@@ -184,7 +184,9 @@
         <button type="button" class="btn btn-soft-secondary btn-sm me-1">
           6M
         </button>
-        <button type="button" class="btn btn-soft-primary btn-sm">1Y</button>
+        <button type="button" class="btn btn-soft-primary btn-sm me-1">1Y</button>
+        <a style="float: right" href="javascript:void(0);" class="btn btn-soft-info btn-sm"
+                  >Export Data</a>
       </div>
     </div>
     <!-- end card header -->

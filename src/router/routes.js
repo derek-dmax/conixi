@@ -179,6 +179,12 @@ export default [
     component: () => import("../views/apps/tasks/kanban"),
   },
   {
+    path: "/apps/bids-kanban",
+    name: "bids-kanban",
+    meta: { title: "Bids Kanban", authRequired: true },
+    component: () => import("../views/apps/projects/kanban"),
+  },
+  {
     path: "/apps/tasks-list-view",
     name: "tasks-list-view",
     meta: { title: "Taks List", authRequired: true },

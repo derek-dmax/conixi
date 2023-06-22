@@ -55,6 +55,7 @@ export default {
     this.currId = queryParams.get("id");
 
     this.selProject = this.projectList[this.currId];
+    console.log(this.selProject)
     const suppKeys = Object.keys(this.supplierList)
     suppKeys.forEach(key => {
       let rec = this.supplierList[key]
@@ -450,13 +451,7 @@ export default {
                         </li>
                       </ul>
                       <p class="mt-3">
-                        Projects are one of the cornerstones of a successful business.
-                        Sector or industry aside, strategic initiatives focused on
-                        specific areas of the business help drive an organization forward,
-                        growing, progressing, and evolving year after year. Also,
-                        implementing effective management reports will create a
-                        data-driven approach to making business decisions and obtaining
-                        sustainable business success.
+                        {{ selProject.description }}
                       </p>
                       <ul class="ps-4 vstack gap-2">
                         <li>Product Design, Figma (Software), Prototype</li>
