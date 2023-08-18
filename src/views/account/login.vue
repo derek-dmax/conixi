@@ -189,6 +189,22 @@ export default {
               })
           );
         } else if (process.env.VUE_APP_DEFAULT_AUTH === "fakebackend") {
+          console.log(this.email, this.password)
+          axios
+            .post("http://127.0.0.1:3000/auth/login", {
+              username: this.email,
+              password: this.password,
+            })
+            .then((res) => {
+              console.log(res.data);
+              localStorage.setItem("jwtn", res.data.accessToken);
+              this.tryingToLogIn = false;
+              this.isAuthError = false;
+              // Redirect to the originally requested page, or to the home page
+              this.$router.push({
+                path: "/",
+              });
+            });
           const { email, password } = this;
           if (email && password) {
             this.login({
@@ -197,13 +213,24 @@ export default {
             });
           }
         } else if (process.env.VUE_APP_DEFAULT_AUTH === "authapi") {
+          this.tryingToLogIn = true;
+          // Reset the authError if it existed.
+          this.authError = null;
+          console.log(this.email, this.password)
           axios
-            .post("http://127.0.0.1:8000/api/login", {
-              email: this.email,
+            .post("http://127.0.0.1:3000/auth/login", {
+              username: this.email,
               password: this.password,
             })
             .then((res) => {
-              return res;
+              console.log(res.data);
+              localStorage.setItem("jwtn", res.data.accessToken);
+              this.tryingToLogIn = false;
+              this.isAuthError = false;
+              // Redirect to the originally requested page, or to the home page
+              this.$router.push({
+                path: "/",
+              });
             });
         }
       }
@@ -391,7 +418,7 @@ export default {
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>
                       <input
-                        type="email"
+                        type="text"
                         class="form-control"
                         id="email"
                         placeholder="Enter email"
