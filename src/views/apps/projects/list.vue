@@ -50,6 +50,7 @@ export default {
     MoreHorizontalIcon,
   },
   created() {
+    console.log(localStorage.getItem("jwtn"));
     this.userType = localStorage.getItem("userType");
     this.userName = localStorage.getItem("userName");
     this.userOrg = localStorage.getItem("userOrg");
