@@ -24,8 +24,8 @@ export const state = {
     },
     "2": {
       id: "2",
-      name: "iTest Deals",
-      description: "iTest Deals is a web design and development agency based in Glasgow, Scotland. We provide web design, web development, e-commerce, digital marketing and branding services to businesses around the world.",
+      name: "Ventura Associates",
+      description: "Ventura Associates is a web design and development agency based in Glasgow, Scotland. We provide web design, web development, e-commerce, digital marketing and branding services to businesses around the world.",
       owner: "Thomas Taylor",
       category: "Project Management",
       star_value: "3.8",

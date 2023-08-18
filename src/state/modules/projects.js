@@ -314,22 +314,22 @@ export const state = {
         },
         '6A7EdDEA9FaDC52': {
             id: "6A7EdDEA9FaDC52",
-            time: moment().subtract(3, 'days'),
-            client: 'Surrey County Council',
+            time: moment().subtract(4, 'minutes'),
+            client: 'Hampshire CC',
             favourite: false,
             img: require("@/assets/images/brands/dribbble.png"),
-            label: "Redesign - Landing page",
+            label: "Implement Helpdesk System",
             category: "Technology",
             subCategory: "Software Development",
             projectType: "Product Delivery",
-            skills: ["UI", "Graphic Design", "Website Dev"],
+            skills: [],
             services: [
-                "Landing Page Re-design",
-                "Materials to support Development"
+                "Application",
+                "Training"
             ],
-            description: "Re-design a landing page as per abc minimal design.",
-            number: "2/12",
-            progressBar: "9%",
+            description: "The project to implement a helpdesk system involves creating a centralized platform that enables efficient communication and issue resolution between customers and support agents. Some more here ...",
+            number: "0/12",
+            progressBar: "0%",
             status: "In Progress",
             priority: "Medium",
             tasks: {
@@ -578,7 +578,7 @@ export const state = {
                 imgNumber: "+"
             },
             ],
-            createdDate: moment().subtract(8, 'days'),
+            createdDate: moment().subtract(4, 'minutes'),
             dueDate: moment().add(65, 'days'),
         },
         '0bFED1ADAE4bcC1': {

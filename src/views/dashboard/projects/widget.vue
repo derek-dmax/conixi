@@ -28,7 +28,7 @@ export default {
           badgeClass: "success",
           icon: "ri-arrow-up-s-line",
           percentage: "3.58 %",
-          caption: "New Suppliers this month",
+          caption: "Suppliers this month",
         },
         {
           id: 3,

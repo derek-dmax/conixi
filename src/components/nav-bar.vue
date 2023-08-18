@@ -15,6 +15,7 @@
         userName: "Derek Macrae",
         userOrg: "Conixi",
         userTitle: "CTO",
+        message: "Answered your comment on the cash flow forecast's graph 🔔.",
         userImage: require('@/assets/images/users/derekm.jpg'),
         languages: [{
             flag: require("@/assets/images/flags/gb.svg"),
@@ -35,6 +36,9 @@
       this.userName = localStorage.getItem("userName");
       this.userTitle = localStorage.getItem("userTitle");
       this.userImage = localStorage.getItem("userImage");
+      if(this.userName == 'Val Dugan'){
+        this.message = 'New invite to respond - <a href="#">Implement Helpdesk System</a>.'
+      }
     },
     components: {
       SimpleBar
@@ -661,18 +665,23 @@
                           <img src="@/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs"
                             alt="user-pic" />
                           <div class="flex-1">
-                            <a href="#!" class="stretched-link">
+                            <a href="#!" class="stretched-link" v-if="userName === 'Laura Van Zyl'">
+                              <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                Derek Macrae
+                              </h6>
+                            </a>
+                            <a href="#!" class="stretched-link" v-else>
                               <h6 class="mt-0 mb-1 fs-13 fw-semibold">
                                 Laura Van Zyl
                               </h6>
                             </a>
                             <div class="fs-13 text-muted">
-                              <p class="mb-1">
-                                Answered your comment on the cash flow forecast's graph 🔔.
+                              <p class="mb-1" v-html="message">
                               </p>
                             </div>
                             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                              <span><i class="mdi mdi-clock-outline"></i> 48 min ago</span>
+                              <span v-if="userName != 'Val Dugan'"><i class="mdi mdi-clock-outline"></i> 2 hours ago</span>
+                              <span v-else><i class="mdi mdi-clock-outline"></i> 4 min ago</span>
                             </p>
                           </div>
                           <div class="px-2 fs-15">
@@ -697,20 +706,23 @@
                           <img src="@/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs"
                             alt="user-pic" />
                           <div class="flex-1">
-                            <a href="#!" class="stretched-link">
+                            <a href="#!" class="stretched-link" v-if="userName === 'Laura Van Zyl'">
+                              <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                Derek Macrae
+                              </h6>
+                            </a>
+                            <a href="#!" class="stretched-link" v-else>
                               <h6 class="mt-0 mb-1 fs-13 fw-semibold">
                                 Laura Van Zyl
                               </h6>
                             </a>
                             <div class="fs-13 text-muted">
-                              <p class="mb-1">
-                                Answered your comment on the cash flow
-                                forecast's graph 🔔.
+                              <p class="mb-1" v-html="message">
                               </p>
                             </div>
                             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                              <span><i class="mdi mdi-clock-outline"></i> 2 hrs
-                                ago</span>
+                              <span v-if="userName != 'Val Dugan'"><i class="mdi mdi-clock-outline"></i> 2 hours ago</span>
+                              <span v-else><i class="mdi mdi-clock-outline"></i> 4 min ago</span>
                             </p>
                           </div>
                           <div class="px-2 fs-15">

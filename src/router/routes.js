@@ -215,6 +215,12 @@ export default [
     component: () => import("../views/apps/crm/companies"),
   },
   {
+    path: "/regSupplier",
+    name: "reSupplier",
+    meta: { title: "Register Supplier", authRequired: true },
+    component: () => import("../views/apps/crm/regSupplier"),
+  },
+  {
     path: "/apps/crm-deals",
     name: "crm-deals",
     meta: { title: "CRM Deals", authRequired: true },

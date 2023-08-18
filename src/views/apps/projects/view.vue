@@ -28,6 +28,7 @@ export default {
       todayDate: moment().format("Do") + " day of " + moment().format("MMMM YYYY"),
       yesterdayDate: moment().subtract(1, "days").format("Do MMM, YYYY"),
       currId: 1,
+      userName: localStorage.getItem("userName"),
       refreshModal: false,
       tour: null,
       taskDueDate: null,
@@ -453,7 +454,7 @@ export default {
                       <p class="mt-3">
                         {{ selProject.description }}
                       </p>
-                      <ul class="ps-4 vstack gap-2">
+                      <ul class="ps-4 vstack gap-2" v-if="selProject.label != 'Implement Helpdesk System'">
                         <li>Product Design, Figma (Software), Prototype</li>
                         <li>Four Dashboards : Ecommerce, Analytics, Project,etc.</li>
                         <li>Create calendar, chat and email app pages.</li>
@@ -462,7 +463,7 @@ export default {
                       </ul>
 
                       <div>
-                        <button type="button" class="btn btn-link link-success p-0">
+                        <button type="button" class="btn btn-link link-success p-0" v-if="selProject.label != 'Implement Helpdesk System'">
                           Read more
                         </button>
                       </div>
@@ -500,7 +501,7 @@ export default {
 
                   <div class="card-body">
                     <div data-simplebar style="height: 300px" class="px-3 mx-n3">
-                      <div class="d-flex mb-4">
+                      <div class="d-flex mb-4" v-if="userName != 'Val Dugan'">
                         <div class="flex-shrink-0">
                           <img
                             src="@/assets/images/users/avatar-6.jpg"
@@ -521,7 +522,7 @@ export default {
                           >
                         </div>
                       </div>
-                      <div class="d-flex mb-1">
+                      <div class="d-flex mb-1" v-if="userName != 'Val Dugan'">
                         <div class="flex-shrink-0">
                           <img
                             src="@/assets/images/users/avatar-8.jpg"
@@ -566,8 +567,7 @@ export default {
                             <i class="ri-attachment-line fs-16"></i>
                           </button>
                           <a href="javascript:void(0);" class="btn btn-success"
-                            >Post Comments</a
-                          >
+                            >Post Comments</a>
                         </div>
                       </div>
                     </form>
@@ -587,6 +587,7 @@ export default {
                         class="btn btn-soft-danger btn-sm"
                         data-bs-toggle="modal"
                         data-bs-target="#inviteMembersModal"
+                        v-if="userName != 'Val Dugan'"
                       >
                         <i class="ri-share-line me-1 align-bottom"></i> Invite Approver
                       </button>
@@ -663,7 +664,7 @@ export default {
                 </div>
                 <!-- end card -->
 
-                <div class="card">
+                <div class="card" v-if="userName != 'Val Dugan'">
                   <div class="card-header align-items-center d-flex border-bottom-dashed">
                     <h4 class="card-title mb-0 flex-grow-1">Supplier(s)</h4>
                     <div class="flex-shrink-0">

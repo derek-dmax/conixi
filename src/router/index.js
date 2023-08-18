@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import axios from 'axios';
 import routes from './routes';
-import appConfig from "../../app.config";
+//import appConfig from "../../app.config";
 import store from '@/state/store';
 
 const router = createRouter({
@@ -120,7 +120,7 @@ router.beforeResolve(async (routeTo, routeFrom, next) => {
   } catch (error) {
     return;
   }
-  document.title = appConfig.title;
+  document.title = 'Conixi';
   // If we reach this point, continue resolving the route.
   next();
 });
