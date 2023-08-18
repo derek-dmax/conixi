@@ -51,7 +51,7 @@ export default {
         <PageHeader :title="title" :items="items" />
 
         <div class="row project-wrapper">
-            <div class="col-xxl-8">
+            <div class="col-xxl-9">
                 <div class="row">
                     
                         <Widgets />

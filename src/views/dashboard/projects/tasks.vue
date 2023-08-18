@@ -43,7 +43,7 @@ export default {
           <thead class="table-light text-muted">
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Dedline</th>
+              <th scope="col">Deadline</th>
               <th scope="col">Status</th>
               <th scope="col">Assignee</th>
             </tr>
