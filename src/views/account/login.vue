@@ -189,7 +189,6 @@ export default {
               })
           );
         } else if (process.env.VUE_APP_DEFAULT_AUTH === "fakebackend") {
-          console.log(this.email, this.password)
           axios
             .post("http://127.0.0.1:3000/auth/login", {
               username: this.email,
