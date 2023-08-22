@@ -146,7 +146,7 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title" :items="items" />
-    <div class="row" style="position: relative; top:-66px;" @click="showTable = !showTable">
+    <div class="row" style="position: relative; top:-47px;" @click="showTable = !showTable">
       <i class="ri-list-check" v-if="!showTable" title="Show tasks as table"></i>
       <i class="ri-layout-grid-fill" v-else title="Show tasks as board"></i>
     </div>

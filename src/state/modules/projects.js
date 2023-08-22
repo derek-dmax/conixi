@@ -315,7 +315,7 @@ export const state = {
         '6A7EdDEA9FaDC52': {
             id: "6A7EdDEA9FaDC52",
             time: moment().subtract(4, 'minutes'),
-            client: 'Hampshire CC',
+            client: 'Havering',
             favourite: false,
             img: require("@/assets/images/brands/dribbble.png"),
             label: "Implement Helpdesk System",

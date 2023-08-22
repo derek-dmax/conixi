@@ -23,7 +23,55 @@ export default {
       title: "Project List",
       selProject: {},
       supplierArray: [],
-      exampleList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+      tenderAreas: [
+        {
+          area: "Experience and Mobilisation",
+          weighting: 5,
+          questions: [
+            {
+              id: "1",
+              question:
+                "What is the experience of the person responsible for mobilising the contract, and what other comparable contracts have they successfully mobilised?",
+              assigned: ["Derek Macrae"],
+              created: moment().subtract(1, "days"),
+              status: "Inprogress",
+              weighting: 4,
+            },
+          ],
+        },
+        {
+          area: "Management - Service Development",
+          weighting: 5,
+          questions: [
+            {
+              id: "2",
+              area: "Management - Service Development",
+              question:
+                "What management structure will support this contract? How will this management structure ensure high levels of service delivery constantly, across the organisation?",
+              assigned: ["Derek Macrae"],
+              created: moment().subtract(1, "days"),
+              status: "Inprogress",
+              weighting: 4,
+            },
+          ],
+        },
+        {
+          area: "Service Development - Sustainability",
+          weighting: 5,
+          questions: [
+            {
+              id: "3",
+              area: "Service Development - Sustainability",
+              question:
+                "Sustainability is of high importance to the organisation. Please provide your ideas for complementing this, e.g. minimising single plastic use / recyclig etc.",
+              assigned: ["Derek Macrae"],
+              created: moment().subtract(1, "days"),
+              status: "Inprogress",
+              weighting: 4,
+            },
+          ],
+        },
+      ],
       recChanges: false,
       todayDate: moment().format("Do") + " day of " + moment().format("MMMM YYYY"),
       yesterdayDate: moment().subtract(1, "days").format("Do MMM, YYYY"),
@@ -32,6 +80,19 @@ export default {
       refreshModal: false,
       tour: null,
       taskDueDate: null,
+      area: {
+        area: "",
+        weighting: 5,
+        questions: [],
+      },
+      question: {
+        id: null,
+        question: "",
+        assigned: [],
+        created: moment(),
+        status: "Inprogress",
+        weighting: 5,
+      },
       task: {
         id: null,
         text: "",
@@ -56,13 +117,20 @@ export default {
     this.currId = queryParams.get("id");
 
     this.selProject = this.projectList[this.currId];
-    console.log(this.selProject)
-    const suppKeys = Object.keys(this.supplierList)
-    suppKeys.forEach(key => {
-      let rec = this.supplierList[key]
-      this.supplierArray.push( { id: key, name: rec.name, image_src: rec.image_src, star_value: rec.star_value, selected: false })
-    })
-    this.supplierArray.sort((a,b) => { return Number(b.star_value) - Number(a.star_value) })
+    const suppKeys = Object.keys(this.supplierList);
+    suppKeys.forEach((key) => {
+      let rec = this.supplierList[key];
+      this.supplierArray.push({
+        id: key,
+        name: rec.name,
+        image_src: rec.image_src,
+        star_value: rec.star_value,
+        selected: false,
+      });
+    });
+    this.supplierArray.sort((a, b) => {
+      return Number(b.star_value) - Number(a.star_value);
+    });
   },
   mounted() {
     this.createTour();
@@ -82,24 +150,38 @@ export default {
   methods: {
     ...mapActions("projects", ["updateProject", "insertTask", "updateProjectSuppliers"]),
     insertSelectedSuppliers() {
-      let suppliers = []
-      this.supplierArray.forEach(supplier => {
-        if(supplier.selected) {
-          suppliers.push(
-            {
-              name: supplier.name,
-              img: supplier.image_src,
-              status: 'Invited'
-            }
-          )
+      let suppliers = [];
+      this.supplierArray.forEach((supplier) => {
+        if (supplier.selected) {
+          suppliers.push({
+            name: supplier.name,
+            img: supplier.image_src,
+            status: "Invited",
+          });
         }
-      })
-      console.log(this.selProject)
+      });
       this.updateProjectSuppliers({
-                          id: this.selProject.id,
-                          updates: { suppliers: suppliers }
-                        })
-      console.log(this.selProject)
+        id: this.selProject.id,
+        updates: { suppliers: suppliers },
+      });
+    },
+    insertArea() {
+      let passArea = Object.assign({}, this.area); // avoid "by reference" issues
+      this.tenderAreas.push(passArea);
+      document.getElementById("addAreaBtn-close").click();
+      this.refreshModal = !this.refreshModal;
+      this.area = {
+        area: "",
+        weighting: 5,
+        questions: [],
+      };
+    },
+    insertQuestion() {
+      let passQuestion = Object.assign({}, this.question); // avoid "by reference" issues
+      let passArea = this.tenderAreas.find((area) => area.area === passQuestion.area);
+      passArea.questions.push(passQuestion);
+      document.getElementById("addQuestionBtn-close").click();
+      this.refreshModal = !this.refreshModal;
     },
     buildTaskAndInsert() {
       let passTask = Object.assign({}, this.task); // avoid "by reference" issues
@@ -377,7 +459,18 @@ export default {
                     Overview
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="selProject.status === 'Tendering'">
+                  <a
+                    id="tender-step"
+                    class="nav-link fw-semibold"
+                    data-bs-toggle="tab"
+                    href="#project-tender"
+                    role="tab"
+                  >
+                    Tender
+                  </a>
+                </li>
+                <li class="nav-item" v-else>
                   <a
                     id="sow-step"
                     class="nav-link fw-semibold"
@@ -454,7 +547,10 @@ export default {
                       <p class="mt-3">
                         {{ selProject.description }}
                       </p>
-                      <ul class="ps-4 vstack gap-2" v-if="selProject.label != 'Implement Helpdesk System'">
+                      <ul
+                        class="ps-4 vstack gap-2"
+                        v-if="selProject.label != 'Implement Helpdesk System'"
+                      >
                         <li>Product Design, Figma (Software), Prototype</li>
                         <li>Four Dashboards : Ecommerce, Analytics, Project,etc.</li>
                         <li>Create calendar, chat and email app pages.</li>
@@ -463,7 +559,11 @@ export default {
                       </ul>
 
                       <div>
-                        <button type="button" class="btn btn-link link-success p-0" v-if="selProject.label != 'Implement Helpdesk System'">
+                        <button
+                          type="button"
+                          class="btn btn-link link-success p-0"
+                          v-if="selProject.label != 'Implement Helpdesk System'"
+                        >
                           Read more
                         </button>
                       </div>
@@ -499,7 +599,7 @@ export default {
                   </div>
                   <!-- end card header -->
 
-                  <div class="card-body">
+                  <div class="card-body" v-if="selProject.status !== 'Tendering'">
                     <div data-simplebar style="height: 300px" class="px-3 mx-n3">
                       <div class="d-flex mb-4" v-if="userName != 'Val Dugan'">
                         <div class="flex-shrink-0">
@@ -567,7 +667,8 @@ export default {
                             <i class="ri-attachment-line fs-16"></i>
                           </button>
                           <a href="javascript:void(0);" class="btn btn-success"
-                            >Post Comments</a>
+                            >Post Comments</a
+                          >
                         </div>
                       </div>
                     </form>
@@ -701,13 +802,17 @@ export default {
                           </div>
                           <div class="flex-grow-1">
                             <h5 class="fs-13 mb-0">
-                              <a href="#" class="text-body d-block">{{ supplier.name }}</a>
+                              <a href="#" class="text-body d-block">{{
+                                supplier.name
+                              }}</a>
                             </h5>
                           </div>
                           <div class="flex-shrink-0">
                             <div class="d-flex align-items-center gap-1">
                               <h5 class="fs-13 mb-0">
-                                <a href="#" class="text-body d-block">{{ supplier.status }}</a>
+                                <a href="#" class="text-body d-block">{{
+                                  supplier.status
+                                }}</a>
                               </h5>
                               <div class="dropdown">
                                 <button
@@ -775,7 +880,8 @@ export default {
                     type="button"
                   >
                     <span class="icon-on"
-                      ><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>Proj
+                      Brief</span
                     >
                   </button>
                   <div class="col-1"></div>
@@ -786,8 +892,7 @@ export default {
                     type="button"
                   >
                     <span class="icon-on"
-                      ><i class="ri-file-paper-line align-bottom me-1"></i>Proj
-                      Brief</span
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span
                     >
                   </button>
                   <div class="col-1"></div>
@@ -837,69 +942,7 @@ export default {
                             </td>
                             <td>PDF File</td>
                             <td>8.89 MB</td>
-                            <td>24 Nov 2022</td>
-                            <td>
-                              <div class="dropdown">
-                                <a
-                                  href="javascript:void(0);"
-                                  class="btn btn-soft-secondary btn-sm btn-icon"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="true"
-                                >
-                                  <i class="ri-more-fill"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-eye-fill me-2 align-bottom text-muted"
-                                      ></i
-                                      >View</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-download-2-fill me-2 align-bottom text-muted"
-                                      ></i
-                                      >Download</a
-                                    >
-                                  </li>
-                                  <li class="dropdown-divider"></li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                      ><i
-                                        class="ri-delete-bin-5-fill me-2 align-bottom text-muted"
-                                      ></i
-                                      >Delete</a
-                                    >
-                                  </li>
-                                </ul>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar-sm">
-                                  <div
-                                    class="avatar-title bg-light text-warning rounded fs-24"
-                                  >
-                                    <i class="ri-folder-fill"></i>
-                                  </div>
-                                </div>
-                                <div class="ms-3 flex-grow-1">
-                                  <h5 class="fs-14 mb-0">
-                                    <a href="javascript:void(0);" class="text-dark"
-                                      >Project Screenshots Collection</a
-                                    >
-                                  </h5>
-                                </div>
-                              </div>
-                            </td>
-                            <td>Floder File</td>
-                            <td>87.24 MB</td>
-                            <td>08 Nov 2022</td>
+                            <td>{{ selProject.createdDate.format("DD-MMM-YY") }}</td>
                             <td>
                               <div class="dropdown">
                                 <a
@@ -961,7 +1004,7 @@ export default {
                             </td>
                             <td>PNG File</td>
                             <td>879 KB</td>
-                            <td>02 Nov 2022</td>
+                            <td>{{ selProject.createdDate.format("DD-MMM-YY") }}</td>
                             <td>
                               <div class="dropdown">
                                 <a
@@ -1040,7 +1083,8 @@ export default {
                     type="button"
                   >
                     <span class="icon-on"
-                      ><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>Proj
+                      Brief</span
                     >
                   </button>
                   <div class="col-1"></div>
@@ -1051,8 +1095,7 @@ export default {
                     type="button"
                   >
                     <span class="icon-on"
-                      ><i class="ri-file-paper-line align-bottom me-1"></i>Proj
-                      Brief</span
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>SOW</span
                     >
                   </button>
                   <div class="col-1"></div>
@@ -1071,6 +1114,60 @@ export default {
                   :currId="currId"
                   :key="refreshModal"
                 ></projectMilestones>
+              </div>
+              <!--end card-body-->
+            </div>
+            <!--end card-->
+          </div>
+          <!-- end tab pane -->
+          <div class="tab-pane fade" id="project-tender" role="tabpanel">
+            <div class="card">
+              <div class="card-body">
+                <div class="row mb-3">
+                  <h5 class="card-title col-4 fs-20">Tender</h5>
+                  <button
+                    type="button"
+                    class="col-1 btn btn-sm btn-success active btn-nudge-left"
+                  >
+                    <span class="icon-on">
+                      <i class="ri-add-circle-line align-bottom me-1"></i>
+                      <a
+                        class="edit-folder-list"
+                        style="color: white !important"
+                        href="#addAreaModal"
+                        data-bs-toggle="modal"
+                        role="button"
+                        >New Area</a
+                      >
+                    </span>
+                  </button>
+                  <div class="col-1"></div>
+                  <button
+                    href="#addQuestionModal"
+                    data-bs-toggle="modal"
+                    class="col-1 btn btn-sm btn-info active"
+                    type="button"
+                  >
+                    <span class="icon-on"
+                      ><i class="ri-file-paper-line align-bottom me-1"></i>New
+                      Question</span
+                    >
+                  </button>
+                </div>
+                <div
+                  v-for="(area, ind1) in tenderAreas"
+                  :key="ind1"
+                  style="font-size: 18px"
+                >
+                  {{ ind1 + 1 }} - {{ area.area }}
+                  <table class="table">
+                    <tbody>
+                      <tr v-for="(tq, index) in area.questions" :key="index">
+                        <td>{{ ind1 + 1 }}.{{ index + 1 }} {{ tq.question }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <!--end card-body-->
             </div>
@@ -1348,6 +1445,186 @@ export default {
       </div>
     </div>
     <!-- END Insert Task MODAL -->
+    <!-- START Add New Area MODAL -->
+    <div
+      class="modal fade zoomIn"
+      id="addAreaModal"
+      tabindex="-1"
+      aria-labelledby="addAreaModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0">
+          <div class="modal-header p-3 bg-soft-success">
+            <h5 class="modal-title" id="addAreaModalLabel">Add Tender Area</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              id="addAreaBtn-close"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              autocomplete="off"
+              class="needs-validation addArea-form"
+              id="addArea-form"
+              novalidate
+            >
+              <div class="mb-4">
+                <label for="taskname-input" class="form-label">Area Name</label>
+                <input
+                  v-model="area.area"
+                  type="text"
+                  class="form-control"
+                  id="areaname-input"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a name for this area of questioning.
+                </div>
+                <input type="hidden" class="form-control" id="areaid-input" value="" />
+              </div>
+              <div class="mb-4">
+                <label for="areaWeight-input" class="form-label">Area Weighting</label>
+                <input
+                  v-model="area.weighting"
+                  type="number"
+                  class="form-control"
+                  id="areaWeight-input"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a weighting from 1-10 for this area.
+                </div>
+              </div>
+              <div class="hstack gap-2 justify-content-end">
+                <button
+                  type="button"
+                  class="btn btn-ghost-success"
+                  data-bs-dismiss="modal"
+                >
+                  <i class="ri-close-line align-bottom"></i> Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="insertArea"
+                  @click="insertArea"
+                >
+                  Add Area
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Add New Area MODAL -->
+    <!-- START Add New Question MODAL -->
+    <div
+      class="modal fade zoomIn"
+      id="addQuestionModal"
+      tabindex="-1"
+      aria-labelledby="addQuestionModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0">
+          <div class="modal-header p-3 bg-soft-success">
+            <h5 class="modal-title" id="addQuestionModalLabel">Add Question to Area</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              id="addQuestionBtn-close"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              autocomplete="off"
+              class="needs-validation addQuestion-form"
+              id="addQuestion-form"
+              novalidate
+            >
+              <div class="mb-4">
+                <label for="taskname-input" class="form-label">Area Name</label>
+                <select
+                  v-model="question.area"
+                  class="form-select"
+                  id="questionArea-input"
+                  required
+                >
+                  <option
+                    v-for="(area, index) in tenderAreas"
+                    :key="index"
+                    :value="area.area"
+                  >
+                    {{ area.area }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">
+                  Please enter an area to add the question to.
+                </div>
+                <input
+                  type="hidden"
+                  class="form-control"
+                  id="questionid-input"
+                  value=""
+                />
+              </div>
+              <div class="mb-4">
+                <label for="taskname-input" class="form-label">Question</label>
+                <input
+                  v-model="question.question"
+                  type="text"
+                  class="form-control"
+                  id="question-input"
+                  required
+                />
+                <div class="invalid-feedback">Please enter a question.</div>
+              </div>
+              <div class="mb-4">
+                <label for="questionWeight-input" class="form-label"
+                  >Question Weighting</label
+                >
+                <input
+                  v-model="question.weighting"
+                  type="number"
+                  class="form-control"
+                  id="questionWeight-input"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a weighting from 1-10 for this area.
+                </div>
+              </div>
+              <div class="hstack gap-2 justify-content-end">
+                <button
+                  id="addQuestionBtn-close"
+                  type="button"
+                  class="btn btn-ghost-success"
+                  data-bs-dismiss="modal"
+                >
+                  <i class="ri-close-line align-bottom"></i> Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="insertQuestion"
+                  @click="insertQuestion"
+                >
+                  Add Question
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Add New Question MODAL -->
     <!-- START Invite Supplier MODAL -->
     <div
       class="modal fade zoomIn"

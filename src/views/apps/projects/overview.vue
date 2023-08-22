@@ -1520,7 +1520,7 @@ export default {
                                 </div>
                               </div>
                             </td>
-                            <td>Floder File</td>
+                            <td>Foder File</td>
                             <td>87.24 MB</td>
                             <td>08 Nov 2022</td>
                             <td>

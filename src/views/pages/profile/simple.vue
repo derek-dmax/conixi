@@ -7,6 +7,7 @@ SwiperCore.use([Thumbs, Navigation, Pagination]);
 
 import Layout from "../../../layouts/main.vue";
 import appConfig from "../../../../app.config";
+import moment from "moment";
 
 export default {
   page: {
@@ -16,6 +17,7 @@ export default {
   data() {
     return {
       title: "Profile",
+      today: moment(),
       items: [
         {
           text: "Conixi",
@@ -3511,77 +3513,6 @@ export default {
                                 <div class="d-flex align-items-center">
                                   <div class="avatar-sm">
                                     <div
-                                      class="avatar-title bg-soft-info text-info rounded fs-20"
-                                    >
-                                      <i class="ri-folder-line"></i>
-                                    </div>
-                                  </div>
-                                  <div class="ms-3 flex-grow-1">
-                                    <h6 class="fs-15 mb-0">
-                                      <a href="javascript:void(0);"
-                                        >Project Screenshots Collection</a
-                                      >
-                                    </h6>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>Floder File</td>
-                              <td>87.24 MB</td>
-                              <td>08 Nov 2021</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a
-                                    href="javascript:void(0);"
-                                    class="btn btn-light btn-icon"
-                                    id="dropdownMenuLink6"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="true"
-                                  >
-                                    <i class="ri-equalizer-fill"></i>
-                                  </a>
-                                  <ul
-                                    class="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="dropdownMenuLink6"
-                                  >
-                                    <li>
-                                      <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i
-                                          class="ri-eye-fill me-2 align-middle"
-                                        ></i
-                                        >View</a
-                                      >
-                                    </li>
-                                    <li>
-                                      <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i
-                                          class="ri-download-2-fill me-2 align-middle"
-                                        ></i
-                                        >Download</a
-                                      >
-                                    </li>
-                                    <li>
-                                      <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i
-                                          class="ri-delete-bin-5-line me-2 align-middle"
-                                        ></i
-                                        >Delete</a
-                                      >
-                                    </li>
-                                  </ul>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="d-flex align-items-center">
-                                  <div class="avatar-sm">
-                                    <div
                                       class="avatar-title bg-soft-danger text-danger rounded fs-20"
                                     >
                                       <i class="ri-image-2-fill"></i>
@@ -3598,7 +3529,7 @@ export default {
                               </td>
                               <td>PNG File</td>
                               <td>879 KB</td>
-                              <td>02 Nov 2021</td>
+                              <td>{{ today.format('DD MMM yyyy') }}</td>
                               <td>
                                 <div class="dropdown">
                                   <a

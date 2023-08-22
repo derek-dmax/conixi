@@ -73,6 +73,38 @@ export default {
         progressBar: "0%",
         status: "In Progress",
         priority: "Medium",
+        tenderQuestions: [
+          {
+            id: "1",
+            area: "Experience and Mobilisation",
+            title:
+              "What is the experience of the person responsible for mobilising the contract, and what other comparable contracts have they successfully mobilised?",
+            assigned: ["Derek Macrae"],
+            created: moment().subtract(1, "days"),
+            status: "Inprogress",
+            weighting: 4,
+          },
+          {
+            id: "2",
+            area: "Management - Service Development",
+            title:
+              "What management structure will support this contract? How will this management structure ensure high levels of service delivry constantly, across the Trust?",
+            assigned: ["Derek Macrae"],
+            created: moment().subtract(1, "days"),
+            status: "Inprogress",
+            weighting: 4,
+          },
+          {
+            id: "3",
+            area: "Service Development - Sustainability",
+            title:
+              "Sustainability is of high importance to the Trust. Pleas provide your ideas for complementing this, e.g. minimising single plastic use / recyclig etc.",
+            assigned: ["Derek Macrae"],
+            created: moment().subtract(1, "days"),
+            status: "Inprogress",
+            weighting: 4,
+          },
+        ],
         tasks: {
           data: [
             {
@@ -151,13 +183,13 @@ export default {
       value: [],
       value3: ["Private"],
       category: ["Designing"],
-      client: ["CSG"],
+      client: ["Department of Education"],
       subCategory: ["Designing"],
       projectType: ["Generic"],
       owners: ["Derek Macrae"],
       value1: ["In Progress"],
       value2: ["High"],
-      clients: ["CSG", "Hampshire CC", "Mid-Lothian", "Luton BC"],
+      clients: ["Department of Education", "Havering", "Mid-Lothian", "St Albans"],
       categories: [
         { value: "Asset Management", label: "Asset Management", projectType: "Generic" },
         {
@@ -189,6 +221,12 @@ export default {
           category: "Technology",
           value: "Software Implementation",
           label: "Software Implementation",
+          projectType: "Generic",
+        },
+        {
+          category: "Procurement",
+          value: "Catering - Schools",
+          label: "Catering - Schools",
           projectType: "Generic",
         },
         {
@@ -224,6 +262,12 @@ export default {
           subCategory: "Ground Engineering",
           value: "Architect",
           label: "Architect",
+        },
+        {
+          category: "Catering",
+          subCategory: "Catering - Schools",
+          value: "Catering",
+          label: "Catering",
         },
         {
           category: "Technology",
@@ -269,21 +313,34 @@ export default {
         "implement helpdesk system".slice(0, this.selProject.label.length)
       ) {
         this.selProject.label = "Implement Helpdesk System";
-        this.cost = 18000,
-        this.selProject.start_date = moment().add(15, "days").format("DD MMM, YYYY"),
-        this.selProject.category = "Technology";
+        (this.cost = 18000),
+          (this.selProject.start_date = moment().add(15, "days").format("DD MMM, YYYY")),
+          (this.selProject.category = "Technology");
         this.selProject.subCategory = "Software Implementation";
         this.selProject.skills = ["Project Management"];
         this.selProject.owners = ["Laura Van Zyl", "Alex Raubitschek"];
         this.editorData =
           "The project to implement a helpdesk system involves creating a centralized platform that enables efficient communication and issue resolution between customers and support agents.";
+      } else if (
+        this.selProject.label.toLowerCase() ===
+        "education catering".slice(0, this.selProject.label.length)
+      ) {
+        this.selProject.label = "Department of Education Catering Contract";
+        (this.cost = 21000),
+          (this.selProject.start_date = moment().add(45, "days").format("DD MMM, YYYY")),
+          (this.selProject.category = "Procurement");
+        this.selProject.subCategory = "Catering - Schools";
+        this.selProject.skills = ["Project Management", "Catering"];
+        this.selProject.owners = ["Laura Van Zyl", "Alex Raubitschek"];
+        this.editorData =
+          "The project is to provide a catering service to a school within the client area.";
       }
     },
     projectCreate(payload) {
       payload.time = moment();
-      payload.dueDate = moment(this.dueDate)
-      payload.members = this.owners
-      payload.description = this.editorData
+      payload.dueDate = moment(this.dueDate);
+      payload.members = this.owners;
+      payload.description = this.editorData;
       payload.tasks.data[0].start_date = this.start_date
         ? moment(this.start_date)
         : moment();
@@ -370,7 +427,13 @@ export default {
             <div class="mb-3 mt-2">
               <label for="projDesc" class="form-label">Project Description</label>
 
-              <textarea id="projDesc" name="projDesc" rows="6" class="form-control" v-model="editorData">
+              <textarea
+                id="projDesc"
+                name="projDesc"
+                rows="6"
+                class="form-control"
+                v-model="editorData"
+              >
               </textarea>
             </div>
 
@@ -430,6 +493,7 @@ export default {
                     :searchable="true"
                     :create-option="true"
                     :options="[
+                      { value: 'Tendering', label: 'Tendering' },
                       { value: 'In Progress', label: 'In Progress' },
                       { value: 'Completed', label: 'Completed' },
                     ]"

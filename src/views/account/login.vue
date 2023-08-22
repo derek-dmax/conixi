@@ -149,9 +149,13 @@ export default {
       localStorage.setItem("userTitle", this.userTitle);
       console.log("UserImage: " + this.userImage)
       localStorage.setItem("userImage", this.userImage);
-      this.$router.push({
-        path: "/apps/projects-list",
-      });
+      if(this.userType !== "supplier") {
+        this.$router.push({
+          path: "/",
+        })
+      } else {
+        this.$router.push ({name: 'projects-list'})
+      }
     },
 
     // Try to log the user in with the username
@@ -188,49 +192,6 @@ export default {
                 this.isAuthError = true;
               })
           );
-        } else if (process.env.VUE_APP_DEFAULT_AUTH === "fakebackend") {
-          axios
-            .post("http://127.0.0.1:3000/auth/login", {
-              username: this.email,
-              password: this.password,
-            })
-            .then((res) => {
-              console.log(res.data);
-              localStorage.setItem("jwtn", res.data.accessToken);
-              this.tryingToLogIn = false;
-              this.isAuthError = false;
-              // Redirect to the originally requested page, or to the home page
-              this.$router.push({
-                path: "/",
-              });
-            });
-          const { email, password } = this;
-          if (email && password) {
-            this.login({
-              email,
-              password,
-            });
-          }
-        } else if (process.env.VUE_APP_DEFAULT_AUTH === "authapi") {
-          this.tryingToLogIn = true;
-          // Reset the authError if it existed.
-          this.authError = null;
-          console.log(this.email, this.password)
-          axios
-            .post("http://127.0.0.1:3000/auth/login", {
-              username: this.email,
-              password: this.password,
-            })
-            .then((res) => {
-              console.log(res.data);
-              localStorage.setItem("jwtn", res.data.accessToken);
-              this.tryingToLogIn = false;
-              this.isAuthError = false;
-              // Redirect to the originally requested page, or to the home page
-              this.$router.push({
-                path: "/",
-              });
-            });
         }
       }
     },

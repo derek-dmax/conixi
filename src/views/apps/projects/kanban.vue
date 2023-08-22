@@ -148,7 +148,7 @@ export default {
     <PageHeader :title="title" :items="items" />
     <div
       class="row"
-      style="position: relative; top: -66px"
+      style="position: relative; top: -47px"
       @click="showTable = !showTable"
     >
       <i class="ri-list-check" v-if="!showTable" title="Show bids as table"></i>
@@ -248,7 +248,7 @@ export default {
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              In Progress
+              Responded
               <small class="badge bg-warning align-bottom ms-1">{{
                 inprogress.length
               }}</small>
@@ -333,49 +333,6 @@ export default {
                           >
                         </li>
                       </ul>
-                    </div>
-                  </div>
-                  <div class="mb-0">
-                    <div class="d-flex mb-0 taskData">
-                      <div class="flex-grow-1">
-                        <h6 class="text-muted mb-0">
-                          <span class="text-secondary taskText"
-                            >{{ data.progress }}%</span
-                          >
-                        </h6>
-                      </div>
-                      <div class="flex-shrink-0">
-                        <span class="text-muted taskText">{{ data.dueDate }}</span>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-1">
-                        <i
-                          class="ri-indeterminate-circle-line"
-                          @click="changeProgress(data, -5)"
-                        ></i>
-                      </div>
-                      <div class="col-9">
-                        <div
-                          class="progress rounded-3 progress-sm mt-2"
-                          style="margin-right: -15px"
-                        >
-                          <div
-                            class="progress-bar bg-danger"
-                            role="progressbar"
-                            :style="{ width: data.progress + '%' }"
-                            aria-valuenow="15"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                      </div>
-                      <div class="col-1">
-                        <i
-                          class="ri-add-circle-line"
-                          @click="changeProgress(data, 5)"
-                        ></i>
-                      </div>
                     </div>
                   </div>
                 </div>
