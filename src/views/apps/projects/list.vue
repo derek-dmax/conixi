@@ -55,15 +55,14 @@ export default {
     this.userName = localStorage.getItem("userName");
     this.userOrg = localStorage.getItem("userOrg");
     this.userTitle = localStorage.getItem("userTitle");
+    this.projectKeys = Object.keys(this.projectList);
     if (this.userType === "supplier") {
-      this.projectKeys = Object.keys(this.projectList);
       this.projectKeys.forEach((key) => {
         if (this.projectList[key].suppliers[0].name !== this.userOrg) {
           this.deleteProject(key);
           this.projectKeys = Object.keys(this.projectList);
         }
       });
-      console.log(this.projectList)
       if (this.projectKeys.length === 1) {
         this.$router.push ({name: 'projects View', query: { id: this.projectKeys[0] }})
       }
@@ -319,7 +318,8 @@ export default {
         <div>
           <p class="mb-sm-0 text-muted">
             Showing <span class="fw-semibold">1</span> to
-            <span class="fw-semibold">{{ projectList.length }}</span> of
+            <span class="fw-semibold">{{ projectKeys.length }}</span> of
+            <span class="fw-semibold">{{ projectKeys.length }}</span>
             entries
           </p>
         </div>

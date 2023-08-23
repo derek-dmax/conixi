@@ -119,12 +119,6 @@ export default [
     component: () => import("../views/apps/filemanager"),
   },
   {
-    path: "/apps-todo",
-    name: "To Do List",
-    meta: { title: "To Do List", authRequired: true },
-    component: () => import("../views/apps/todo"),
-  },
-  {
     path: "/mailbox",
     name: "mailbox",
     meta: { title: "Mailbox", authRequired: true },
@@ -561,12 +555,6 @@ export default [
     component: () => import("../views/landing/index"),
   },
   {
-    path: "/pages/starter",
-    name: "starter",
-    meta: { title: "Starter", authRequired: true },
-    component: () => import("../views/pages/starter"),
-  },
-  {
     path: "/pages/profile",
     name: "profile",
     meta: { title: "Profile", authRequired: true },
@@ -583,12 +571,6 @@ export default [
     name: "maintenance",
     meta: { title: "Maintanance", authRequired: true },
     component: () => import("../views/pages/maintenance"),
-  },
-  {
-    path: "/pages/coming-soon",
-    name: "coming-soon",
-    meta: { title: "Comming Soon", authRequired: true },
-    component: () => import("../views/pages/coming-soon"),
   },
   {
     path: "/pages/timeline",

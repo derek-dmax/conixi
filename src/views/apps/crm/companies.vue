@@ -414,19 +414,6 @@ export default {
       return suppliers.slice(from, to);
     },
   },
-  beforeMount() {
-    /*       axios.get('https://api-node.themesbrand.website/apps/company').then((data) => {
-        this.suppliers = [];
-        data.data.data.forEach(row => {
-          // row.image_src = `@/assets/images/products/img-8.png`;
-          row.image_src = 'https://api-node.themesbrand.website/images/' + row.image_src;
-          this.suppliers.push(row);
-        })
-      }).catch((er) => {
-        console.log(er)
-      });
- */
-  },
 
   mounted() {
     this.currSupplier = this.supplierList[1];

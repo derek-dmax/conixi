@@ -32,7 +32,8 @@ router.beforeEach(async (routeTo, routeFrom, next) => {
   if (!authRequired) return next();
 
   axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('jwt'); // for all requests
-  await axios.get('https://api-node.themesbrand.website/profile').then((data) => {
+  await axios.get('https://api-node.themesbrand.website/profile')
+  .then((data) => {
     localStorage.setItem('userdata', JSON.stringify(data.data.user));
     localStorage.setItem('userid', data.data.user._id);
     localStorage.setItem('user', JSON.stringify(data.data.user));

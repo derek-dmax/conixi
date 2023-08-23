@@ -1514,9 +1514,6 @@ export default {
                                         <li>
                                             <router-link to="/pages/faqs">FAQ's</router-link>
                                         </li>
-                                        <li>
-                                            <router-link to="/pages/faqs">Contacts</router-link>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>

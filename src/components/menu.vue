@@ -356,10 +356,6 @@
           <div class="collapse menu-dropdown" id="sidebarPages">
             <ul class="nav nav-sm flex-column">
               <li class="nav-item">
-                <router-link to="/pages/starter" class="nav-link" data-key="t-starter">{{ $t("t-starter") }}
-                </router-link>
-              </li>
-              <li class="nav-item">
                 <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false"
                   aria-controls="sidebarProfile" data-key="t-profile">{{ $t("t-profile") }}
                 </a>
@@ -402,11 +398,6 @@
               <li class="nav-item">
                 <router-link to="/pages/maintenance" class="nav-link" data-key="t-maintenance">
                   {{ $t("t-maintenance") }}
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/pages/coming-soon" class="nav-link" data-key="t-coming-soon">
-                  {{ $t("t-coming-soon") }}
                 </router-link>
               </li>
               <li class="nav-item">

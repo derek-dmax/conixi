@@ -113,6 +113,7 @@ export default {
     };
   },
   created() {
+    this.userType = localStorage.getItem("userType");
     const queryParams = new URLSearchParams(window.location.search);
     this.currId = queryParams.get("id");
 
@@ -1124,10 +1125,11 @@ export default {
             <div class="card">
               <div class="card-body">
                 <div class="row mb-3">
-                  <h5 class="card-title col-4 fs-20">Tender</h5>
+                  <h5 class="card-title col-6 fs-20">Tender</h5>
                   <button
                     type="button"
                     class="col-1 btn btn-sm btn-success active btn-nudge-left"
+                    v-if="userType !== 'supplier'"
                   >
                     <span class="icon-on">
                       <i class="ri-add-circle-line align-bottom me-1"></i>
@@ -1141,16 +1143,46 @@ export default {
                       >
                     </span>
                   </button>
+                  <button
+                    type="button"
+                    class="col-2 btn btn-sm btn-success active btn-nudge-left"
+                    v-else
+                  >
+                    <span class="icon-on fs-20">
+                      <i class="ri-save-line align-bottom me-1"></i>
+                      <a
+                        class="edit-folder-list"
+                        style="color: white !important"
+                        href="#addAreaModal"
+                        data-bs-toggle="modal"
+                        role="button"
+                        >Save Responses</a
+                      >
+                    </span>
+                  </button>
                   <div class="col-1"></div>
                   <button
                     href="#addQuestionModal"
                     data-bs-toggle="modal"
                     class="col-1 btn btn-sm btn-info active"
                     type="button"
+                    v-if="userType !== 'supplier'"
                   >
                     <span class="icon-on"
                       ><i class="ri-file-paper-line align-bottom me-1"></i>New
                       Question</span
+                    >
+                  </button>
+                  <button
+                    href="#addQuestionModal"
+                    data-bs-toggle="modal"
+                    class="col-2 btn btn-sm btn-danger active"
+                    type="button"
+                    v-else
+                  >
+                    <span class="icon-on fs-20"
+                      ><i class="ri-mail-lock-line align-bottom me-1"></i>Submit &
+                      Lock</span
                     >
                   </button>
                 </div>
@@ -1164,6 +1196,19 @@ export default {
                     <tbody>
                       <tr v-for="(tq, index) in area.questions" :key="index">
                         <td>{{ ind1 + 1 }}.{{ index + 1 }} {{ tq.question }}</td>
+                        <td style="width: 60%">
+                          <textarea
+                            rows="4"
+                            style="width: 100%"
+                            :placeholder="
+                              'Enter response to ' +
+                              (ind1 + 1) +
+                              '.' +
+                              (index + 1) +
+                              ' here.'
+                            "
+                          ></textarea>
+                        </td>
                       </tr>
                     </tbody>
                   </table>

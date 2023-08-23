@@ -37,7 +37,7 @@
       this.userTitle = localStorage.getItem("userTitle");
       this.userImage = localStorage.getItem("userImage");
       if(this.userName == 'Val Dugan'){
-        this.message = 'New invite to respond - <a href="#">Implement Helpdesk System</a>.'
+        this.message = 'New invite to respond - <a href="#">Department of Education Catering Contract</a>.'
       }
     },
     components: {
@@ -681,7 +681,7 @@
                             </div>
                             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                               <span v-if="userName != 'Val Dugan'"><i class="mdi mdi-clock-outline"></i> 2 hours ago</span>
-                              <span v-else><i class="mdi mdi-clock-outline"></i> 4 min ago</span>
+                              <span v-else><i class="mdi mdi-clock-outline"></i> 2 mins ago</span>
                             </p>
                           </div>
                           <div class="px-2 fs-15">
