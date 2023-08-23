@@ -251,12 +251,6 @@ export default [
     component: () => import("../views/apps/ecommerce/add-product"),
   },
   {
-    path: "/ecommerce/shopping-cart",
-    name: "shopping cart",
-    meta: { title: "Shopping Cart", authRequired: true },
-    component: () => import("../views/apps/ecommerce/shopping-cart"),
-  },
-  {
     path: "/ecommerce/checkout",
     name: "checkout",
     meta: { title: "Check Out", authRequired: true },

@@ -228,11 +228,6 @@
                             </router-link>
                           </li>
                           <li class="nav-item">
-                            <router-link to="/ecommerce/shopping-cart" class="nav-link" data-key="t-shopping-cart">
-                              {{ $t("t-shopping-cart") }}
-                            </router-link>
-                          </li>
-                          <li class="nav-item">
                             <router-link to="/ecommerce/checkout" class="nav-link" data-key="t-checkout">
                               {{ $t("t-checkout") }}
                             </router-link>
@@ -308,11 +303,6 @@
                       <div class="collapse menu-dropdown" id="sidebarCRM">
                         <ul class="nav nav-sm flex-column">
                           <li class="nav-item">
-                            <router-link to="/apps/crm-contacts" class="nav-link" data-key="t-contacts">
-                              {{ $t("t-contacts") }}
-                            </router-link>
-                          </li>
-                          <li class="nav-item">
                             <router-link to="/apps/crm-companies" class="nav-link" data-key="t-companies">
                               {{ $t("t-companies") }}
                             </router-link>
@@ -320,11 +310,6 @@
                           <li class="nav-item">
                             <router-link to="/apps/crm-deals" class="nav-link" data-key="t-deals">
                               {{ $t("t-deals") }}
-                            </router-link>
-                          </li>
-                          <li class="nav-item">
-                            <router-link to="/apps/crm-leads" class="nav-link" data-key="t-leads">
-                              {{ $t("t-leads") }}
                             </router-link>
                           </li>
                         </ul>

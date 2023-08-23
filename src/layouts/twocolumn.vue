@@ -578,15 +578,6 @@ export default {
                             </li>
                             <li class="nav-item">
                               <router-link
-                                to="/ecommerce/shopping-cart"
-                                class="nav-link"
-                                data-key="t-shopping-cart"
-                              >
-                                {{ $t("t-shopping-cart") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
                                 to="/ecommerce/checkout"
                                 class="nav-link"
                                 data-key="t-checkout"

@@ -631,15 +631,6 @@
 //  const dbsCheck = ref(false);
   const dbsType = ref("");
   
-  const config = {
-    method: 'get',
-    maxBodyLength: Infinity,
-    url: '',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem("lwtk")
-    }
-  }
   
 //  const manager = ref({});
   const organisation = ref({});
@@ -651,21 +642,6 @@
   })
   
   const createWorker = async () => {
-    //create worker
-    let data = '{'
-      + '"name": "' + workerName.value
-      + '", "username": "' + "derek@macrae.com"
-      + '", "password": "pass1234'
-      + '", "createdBy": "' + localStorage.getItem('userId')
-      + '", "createdAt": "' + moment().format()
-      + '", "lastModifiedBy": "' + localStorage.getItem('userId')
-      + '", "lastModified": "' + moment().format()
-      + '", "organisation": { "name": "' + organisation.value.name + '", "id": "' + organisation.value.id + '" }'
-    data += ' }'
-    try {
-      config.method = 'post'
-      console.log(data)
-      //    const response = await axios.post("/workers/save.json", data, config);
       worker.value = {
         name: workerName.value,
         password: "pass1234",
@@ -681,9 +657,6 @@
       baseComplete.value = !baseComplete.value
       //createWorkerLocations(selectedLocations.value, worker.value)
       document.getElementById("closeBaseModal").click()
-    } catch (error) {
-      console.error(error);
-    }
     //add worker to store
     //  shiftsStore.changeWorkerName(selWorker.value, workerName.value + " (" + location.name + ")")
   };
