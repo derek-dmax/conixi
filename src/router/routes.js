@@ -197,12 +197,6 @@ export default [
     component: () => import("../views/tickets/list"),
   },
   {
-    path: "/apps/crm-contacts",
-    name: "crm-contacts",
-    meta: { title: "CRM Contacts", authRequired: true },
-    component: () => import("../views/apps/crm/contacts"),
-  },
-  {
     path: "/apps/crm-suppliers",
     name: "crm-suppliers",
     meta: { title: "Suppliers", authRequired: true },
@@ -219,12 +213,6 @@ export default [
     name: "crm-deals",
     meta: { title: "CRM Deals", authRequired: true },
     component: () => import("../views/apps/crm/deals"),
-  },
-  {
-    path: "/apps/crm-leads",
-    name: "crm-leads",
-    meta: { title: "CRM Leads", authRequired: true },
-    component: () => import("../views/apps/crm/leads"),
   },
   {
     path: "/ecommerce/customers",
