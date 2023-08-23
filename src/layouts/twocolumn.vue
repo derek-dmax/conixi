@@ -719,15 +719,6 @@ export default {
                           <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                               <router-link
-                                to="/apps/crm-contacts"
-                                class="nav-link"
-                                data-key="t-contacts"
-                              >
-                                {{ $t("t-contacts") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
                                 to="/apps/crm-suppliers"
                                 class="nav-link"
                                 data-key="t-companies"
@@ -742,15 +733,6 @@ export default {
                                 data-key="t-deals"
                               >
                                 {{ $t("t-deals") }}
-                              </router-link>
-                            </li>
-                            <li class="nav-item">
-                              <router-link
-                                to="/apps/crm-leads"
-                                class="nav-link"
-                                data-key="t-leads"
-                              >
-                                {{ $t("t-leads") }}
                               </router-link>
                             </li>
                           </ul>
