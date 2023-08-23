@@ -213,11 +213,6 @@
                             </router-link>
                           </li>
                           <li class="nav-item">
-                            <router-link to="/ecommerce/orders" class="nav-link" data-key="t-orders">
-                              {{ $t("t-orders") }}
-                            </router-link>
-                          </li>
-                          <li class="nav-item">
                             <router-link to="/ecommerce/order-details" class="nav-link" data-key="t-order-details">
                               {{ $t("t-order-details") }}
                             </router-link>

@@ -233,12 +233,6 @@ export default [
     component: () => import("../views/apps/ecommerce/product-details"),
   },
   {
-    path: "/ecommerce/orders",
-    name: "orders",
-    meta: { title: "Orders", authRequired: true },
-    component: () => import("../views/apps/ecommerce/orders"),
-  },
-  {
     path: "/ecommerce/order-details",
     name: "order-details",
     meta: { title: "Order Details", authRequired: true },
