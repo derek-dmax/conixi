@@ -1,7 +1,5 @@
 <script>
 import { MoreHorizontalIcon } from "@zhuowenli/vue-feather-icons";
-import Multiselect from "@vueform/multiselect";
-import "@vueform/multiselect/themes/default.css";
 
 import Layout from "../../../layouts/main.vue";
 import PageHeader from "@/components/page-header";
@@ -31,22 +29,34 @@ export default {
           active: true,
         },
       ],
-      filteredProjects: {},
       userType: "consultant",
       userName: "Derek Macrae",
       userOrg: "Conixi",
       userTitle: "CTO",
       currItem: null,
-      projectKeys: 0
+      projectKeys: 0,
+      statusFilter: "All"
     };
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
+    filteredProjects() {
+      let projects = []
+      if (this.statusFilter === "All") {
+        return this.projectList;
+      } else {
+        this.projectKeys.forEach((key) => {
+        if (this.projectList[key].status === this.statusFilter) {
+          projects.push(this.projectList[key])
+        }
+      });
+        return projects
+      }
+    }
   },
   components: {
     Layout,
     PageHeader,
-    Multiselect,
     MoreHorizontalIcon,
   },
   created() {
@@ -92,18 +102,14 @@ export default {
             <i class="ri-search-line search-icon"></i>
           </div>
 
-          <Multiselect
-            class="multiselect form-control multiselect-sm w-lg w-auto m-0"
-            v-model="value"
-            :close-on-select="true"
-            :searchable="true"
-            :create-option="true"
-            :options="[
-              { value: 'Status', label: 'Status' },
-              { value: 'Active', label: 'Active' },
-              { value: 'Block', label: 'Block' },
-            ]"
-          />
+          <select
+            class="form-select form-select-sm w-lg w-auto m-0"
+            v-model="statusFilter"
+          >
+            <option value="All">All</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Tendering">Tendering</option>
+          </select>
         </div>
       </div>
     </div>
@@ -156,10 +162,10 @@ export default {
     <div class="row">
       <div
         class="col-xxl-3 col-sm-6 project-card"
-        v-for="(item, index) of projectList"
+        v-for="(item, index) of filteredProjects"
         :key="index"
       >
-        <div class="card card-height-70">
+        <div class="card card-height-70" :class="{ tendering: item.status === 'Tendering'}">
           <div class="card-body">
             <div class="d-flex flex-column h-70">
               <div class="d-flex">
@@ -346,11 +352,8 @@ export default {
   </Layout>
 </template>
 <style>
-.multiselect-sm {
-    min-height: calc(1.5em + 0.5rem + 2px);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.76563rem;
-    border-radius: 0.2rem;
+.tendering {
+  border: 3px solid #ffc107 !important;
 }
 .services {
   font-size: 0.6rem;
