@@ -1196,7 +1196,7 @@ export default {
                     <tbody>
                       <tr v-for="(tq, index) in area.questions" :key="index">
                         <td>{{ ind1 + 1 }}.{{ index + 1 }} {{ tq.question }}</td>
-                        <td style="width: 60%" v-if="userType !== 'supplier'">
+                        <td style="width: 60%" v-if="userType === 'supplier'">
                           <textarea
                             rows="4"
                             style="width: 100%"

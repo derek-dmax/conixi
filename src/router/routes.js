@@ -204,7 +204,7 @@ export default [
   },
   {
     path: "/regSupplier",
-    name: "reSupplier",
+    name: "regSupplier",
     meta: { title: "Register Supplier", authRequired: true },
     component: () => import("../views/apps/crm/regSupplier"),
   },
