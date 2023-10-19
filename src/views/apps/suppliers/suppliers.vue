@@ -11,7 +11,7 @@ import Lottie from "@/components/widgets/lottie.vue";
 import animationData from "@/components/widgets/msoeawqm.json";
 import axios from "axios";
 import animationData1 from "@/components/widgets/gsqxdxog.json";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   page: {
@@ -32,6 +32,14 @@ export default {
   data() {
     return {
       title: "Suppliers",
+      funcType: "Add Supplier",
+      selSupplier: {
+        id: null,
+        name: null,
+        owner: null,
+        description: null,
+        category: null,
+      },
       currSupplier: {},
       items: [
         {
@@ -46,6 +54,7 @@ export default {
       value: null,
       page: 1,
       perPage: 8,
+      renderComponent: true,
       pages: [],
       searchQuery: null,
       suppliers: [
@@ -225,13 +234,29 @@ export default {
     },
   },
   methods: {
+    descriptionChanged() {
+      console.log(this.selSupplier.description);
+    },
+    async forceRender() {
+      // Remove MyComponent from the DOM
+      this.renderComponent = false;
+
+      // Then, wait for the change to get flushed to the DOM
+      await this.$nextTick();
+
+      // Add MyComponent back in
+      this.renderComponent = true;
+    },
+    ...mapActions("suppliers", ["createSupplier"]),
     editdata(data) {
-      document.getElementById("exampleModalLabel").innerHTML = "Edit Supplier";
+      this.funcType = "Edit Supplier";
+      document.getElementById("exampleModalLabel").innerHTML = this.funcType;
       let result = this.suppliers.findIndex((o) => o._id == data._id);
       document.getElementById("id").value = data._id;
       document.getElementById("suppliername").value = this.suppliers[result].name;
+      document.getElementById("description").value = this.suppliers[result].description;
       document.getElementById("ownername").value = this.suppliers[result].owner;
-      document.getElementById("category").value = this.suppliers[result].category;
+      document.getElementById("category-field").value = this.suppliers[result].category;
       document.getElementById("starvalue").value = this.suppliers[result].star_value;
       document.getElementById("location").value = this.suppliers[result].location;
       document.getElementById("employee").value = this.suppliers[result].employee;
@@ -239,38 +264,25 @@ export default {
       document.getElementById("contact_email").value = this.suppliers[
         result
       ].contact_email;
-      document.getElementById("since").value = this.suppliers[result].since;
 
       document.getElementById("edit-btn").style.display = "block";
       document.getElementById("add-btn").style.display = "none";
     },
-    updateorder() {
+    updateSupplier() {
       let result = this.suppliers.findIndex(
         (o) => o._id == document.getElementById("id").value
       );
       this.suppliers[result].name = document.getElementById("suppliername").value;
+      this.suppliers[result].description = document.getElementById("description")?.value;
       this.suppliers[result].owner = document.getElementById("ownername").value;
-      this.suppliers[result].category = document.getElementById("category").value;
-      this.suppliers[result].star_value = document.getElementById("starvalue").value;
+      this.suppliers[result].category = document.getElementById("category-field").value;
+      this.suppliers[result].star_value = document.getElementById("starvalue")?.value;
       this.suppliers[result].location = document.getElementById("location").value;
-      this.suppliers[result].employee = document.getElementById("employee").value;
-      this.suppliers[result].website = document.getElementById("website").value;
-      this.suppliers[result].contact_email = document.getElementById(
-        "contact_email"
-      ).value;
+      this.suppliers[result].employee = document.getElementById("employee")?.value;
+      this.suppliers[result].website = document.getElementById("website")?.value;
+      this.suppliers[result].contact_email = document.getElementById("contact_email")?.value;
       this.suppliers[result].since = document.getElementById("since").value;
       document.getElementById("closemodal").click();
-      axios
-        .patch(
-          `https://api-node.themesbrand.website/apps/company/${
-            document.getElementById("id").value
-          }`,
-          this.suppliers[result]
-        )
-        .then(() => {})
-        .catch((er) => {
-          console.log(er);
-        });
     },
     deletedata(event) {
       Swal.fire({
@@ -333,58 +345,40 @@ export default {
         });
       }
     },
-    addorder() {
-      var id = this.suppliers.length + 1;
-      var name = document.getElementById("suppliername").value;
-      var owner = document.getElementById("ownername").value;
-      var category = document.getElementById("category").value;
-      var star_value = document.getElementById("starvalue").value;
-      var location = document.getElementById("location").value;
-      var employee = document.getElementById("employee").value;
-      var website = document.getElementById("website").value;
-      var contact_email = document.getElementById("contact_email").value;
-      var since = document.getElementById("since").value;
+    addSupplier() {
+      console.log("Add Supplier")
+      this.selSupplier.id = (Object.keys(this.supplierList).length + 1).toString();
+      this.selSupplier.owner = document.getElementById("ownername").value;
+      this.selSupplier.category = document.getElementById("category-field").value;
+      this.selSupplier.star_value = document.getElementById("starvalue")?.value;
+      this.selSupplier.location = document.getElementById("location").value;
+      this.selSupplier.employee = document.getElementById("employee")?.value;
+      this.selSupplier.website = document.getElementById("website")?.value;
+      this.selSupplier.contact_email = document.getElementById("contact_email").value;
+//      var since = document.getElementById("since").value;
 
       if (
-        name != null &&
-        owner != null &&
-        category != null &&
-        star_value != null &&
-        location != null &&
-        employee != null &&
-        website != null &&
-        contact_email != null &&
-        since != null
+        this.selSupplier.name != null &&
+        this.selSupplier.owner != null &&
+        this.selSupplier.category != null &&
+        this.selSupplier.location != null &&
+        this.selSupplier.contact_email != null
       ) {
-        var data = {
-          id: id,
-          name: name,
-          owner: owner,
-          category: category,
-          star_value: star_value,
-          location: location,
-          employee: employee,
-          website: website,
-          contact_email: contact_email,
-          since: since,
-          image_src: require("@/assets/images/brands/dribbble.png"),
-        };
-        this.suppliers.push(data);
-        axios
-          .post(`https://api-node.themesbrand.website/apps/company`, data)
-          .then(() => {})
-          .catch((er) => {
-            console.log(er);
-          });
+        console.log(this.selSupplier);
+        this.createSupplier(this.selSupplier);
+        
+        console.log(this.supplierList);
       }
       document.getElementById("closemodal").click();
       document.getElementById("addform").reset();
     },
     addnew() {
+      console.log("Add new")
       document.getElementById("addform").reset();
-      document.getElementById("exampleModalLabel").innerHTML = "Add Supplier";
-      document.getElementById("add-btn").style.display = "block";
-      document.getElementById("edit-btn").style.display = "none";
+      this.funcType = "Add Supplier";
+      document.getElementById("exampleModalLabel").innerHTML = this.funcType;
+//      document.getElementById("add-btn").style.display = "block";
+//      document.getElementById("edit-btn").style.display = "none";
     },
     showdetail(data) {
       this.currSupplier = data;
@@ -457,6 +451,14 @@ export default {
                   @click="addnew"
                 >
                   <i class="ri-add-fill me-1 align-bottom"></i> Add Supplier
+                </button>
+                <button
+                  class="btn btn-secondary add-btn me-1"
+                  data-bs-toggle="modal"
+                  href="#showInviteModal"
+                  @click="addnew"
+                >
+                  <i class="ri-mail-fill me-1 align-bottom"></i> Invite Supplier
                 </button>
                 <button class="btn btn-soft-danger" @click="deleteMultiple">
                   <i class="ri-delete-bin-2-line"></i>
@@ -549,11 +551,11 @@ export default {
                       <th class="sort" data-sort="owner" scope="col">Owner</th>
                       <th class="sort" data-sort="category" scope="col">Category</th>
                       <th class="sort" data-sort="star_value" scope="col">Rating</th>
-                      <th class="sort" data-sort="location" scope="col">Location(s)</th>
+                      <th class="sort" data-sort="location" scope="col">Primary Location</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tbody class="list form-check-all">
+                  <tbody class="list form-check-all" v-if="renderComponent">
                     <tr v-for="(data, index) of supplierList" :key="index">
                       <th scope="row">
                         <div class="form-check">
@@ -783,7 +785,7 @@ export default {
                     <td class="pb-0" id="iname">Project Management</td>
                   </tr>
                   <tr>
-                    <td class="fw-medium py-0" scope="row">Location(s)</td>
+                    <td class="fw-medium py-0" scope="row">Primary Location</td>
                     <td class="py-0" id="loc">Basingstoke, Hampshire</td>
                   </tr>
                   <tr>
@@ -829,7 +831,7 @@ export default {
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered" style="min-width:800px !important">
         <div class="modal-content border-0">
           <div class="modal-header bg-soft-info p-3">
             <h5 class="modal-title" id="exampleModalLabel"></h5>
@@ -845,21 +847,22 @@ export default {
             <div class="modal-body">
               <input type="hidden" id="id" />
               <div class="row g-3">
-                <div class="col-lg-12">
+                <div class="col-lg-7 mt-2">
                   <div>
-                    <label for="name-field" class="form-label">Name</label>
+                    <label for="name-field" class="form-label">Supplier Name *</label>
                     <input
                       type="text"
                       id="suppliername"
+                      v-model="selSupplier.name"
                       class="form-control form-control-sm"
                       placeholder="Enter supplier name"
                       required
                     />
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-5 mt-2">
                   <div>
-                    <label for="owner-field" class="form-label">Owner Name</label>
+                    <label for="owner-field" class="form-label">Owner Name *</label>
                     <input
                       type="text"
                       id="ownername"
@@ -869,10 +872,23 @@ export default {
                     />
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-12 mt-2">
                   <div>
-                    <label for="category-field" class="form-label">Category</label>
-                    <select class="form-control form-control-sm" id="category">
+                    <label for="owner-field" class="form-label">Description *</label>
+                    <textarea
+                      id="description"
+                      v-model="selSupplier.description"
+                      class="form-control form-control-sm"
+                      placeholder="Enter description"
+                      @input="descriptionChanged"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-7 mt-2">
+                  <div>
+                    <label for="category-field" class="form-label">Main Category *</label>
+                    <select class="form-control form-control-sm" id="category-field">
                       <option value="">Select category</option>
                       <option value="Implementation">Implementation</option>
                       <option value="Project Management">Project Management</option>
@@ -886,43 +902,41 @@ export default {
                     </select>
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-5 mt-2">
                   <div>
                     <label for="star_value-field" class="form-label">Rating</label>
                     <input
-                      type="text"
+                      type="number"
                       id="starvalue"
                       class="form-control form-control-sm"
                       placeholder="Enter rating"
-                      required
                     />
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-7 mt-2">
                   <div>
-                    <label for="location-field" class="form-label">location</label>
+                    <label for="location-field" class="form-label">Primary Location *</label>
                     <input
                       type="text"
                       id="location"
                       class="form-control form-control-sm"
-                      placeholder="Enter location"
+                      placeholder="Enter primary location"
                       required
                     />
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-5 mt-2">
                   <div>
-                    <label for="employee-field" class="form-label">Employee</label>
+                    <label for="employee-field" class="form-label">Employees</label>
                     <input
                       type="text"
                       id="employee"
                       class="form-control form-control-sm"
-                      placeholder="Enter employee"
-                      required
+                      placeholder="Enter number of employees"
                     />
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-12 mt-2">
                   <div>
                     <label for="website-field" class="form-label">Website</label>
                     <input
@@ -930,6 +944,139 @@ export default {
                       id="website"
                       class="form-control form-control-sm"
                       placeholder="Enter website"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-12 mt-2">
+                  <div>
+                    <label for="contact_email-field" class="form-label"
+                      >Primary Contact Email *</label
+                    >
+                    <input
+                      type="text"
+                      id="contact_email"
+                      class="form-control form-control-sm"
+                      placeholder="Enter primary contact email"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row g3 mt-1">
+                  <div class="form-label col-lg-2 pt-2"><strong>Contract</strong></div>
+                  <input type="file" id="dropzoneFile" class="dropzoneFile btn btn-light col-lg-7" />
+                  <div class="lg-3"></div>
+                  <div class="form-label col-lg-2 mt-1 pt-3"><strong>Insurance</strong></div>
+                  <input type="file" id="dropzoneFile" class="dropzoneFile btn btn-light col-lg-7 mt-2"/>
+                  <div class="col-lg-3">
+                    <div>
+                      <label for="valid_until" class="form-label"
+                        >Valid Until</label
+                      >
+                      <input
+                        type="date"
+                        style="margin-top: -10px;"
+                        id="valid_until"
+                        class="form-control form-control-sm"
+                        placeholder="Insurance valid until"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-2 mb-1 mt-1 pt-3"><strong>Audit</strong></div>
+                  <input type="file" id="dropzoneFile" class="dropzoneFile btn btn-light col-lg-7 mb-1 mt-2"/>
+                  <div class="col-lg-3">
+                    <div>
+                      <label for="valid_until" class="form-label"
+                        >Completed</label
+                      >
+                      <input
+                        type="date"
+                        style="margin-top: -10px;"
+                        id="valid_until"
+                        class="form-control form-control-sm"
+                        placeholder="Insurance valid until"
+                      />
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="hstack gap-2 justify-content-end">
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  id="closemodal"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                v-if="funcType === 'Add Supplier'"
+                  type="submit"
+                  class="btn btn-success"
+                  id="add-btn"
+                  @click="addSupplier"
+                >
+                  Add Supplier
+                </button>
+                <button
+                  v-else
+                  type="button"
+                  class="btn btn-success"
+                  id="edit-btn"
+                  @click="updateSupplier"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="showInviteModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" style="min-width:800px !important">
+        <div class="modal-content border-0">
+          <div class="modal-header bg-soft-info p-3">
+            <h5 class="modal-title">Invite Supplier</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              id="close-modal"
+            ></button>
+          </div>
+          <form action="" id="addform">
+            <div class="modal-body">
+              <input type="hidden" id="id" />
+              <div class="row g-3">
+                <div class="col-lg-7">
+                  <div>
+                    <label for="name-field" class="form-label">Supplier Name *</label>
+                    <input
+                      type="text"
+                      id="suppliername"
+                      class="form-control form-control-sm"
+                      placeholder="Enter supplier name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <div>
+                    <label for="owner-field" class="form-label">Owner Name *</label>
+                    <input
+                      type="text"
+                      id="ownername"
+                      class="form-control form-control-sm"
+                      placeholder="Enter owner name"
                       required
                     />
                   </div>
@@ -937,13 +1084,13 @@ export default {
                 <div class="col-lg-12">
                   <div>
                     <label for="contact_email-field" class="form-label"
-                      >Contact Email</label
+                      >Primary Contact Email *</label
                     >
                     <input
                       type="text"
                       id="contact_email"
                       class="form-control form-control-sm"
-                      placeholder="Enter contact email"
+                      placeholder="Enter primary contact email"
                       required
                     />
                   </div>
@@ -964,17 +1111,9 @@ export default {
                   type="submit"
                   class="btn btn-success"
                   id="add-btn"
-                  @click="addorder"
+                  @click="addSupplier"
                 >
-                  Add Supplier
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  id="edit-btn"
-                  @click="updateorder"
-                >
-                  Update
+                  Invite Supplier
                 </button>
               </div>
             </div>

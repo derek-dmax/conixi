@@ -55,21 +55,35 @@ export default {
                 <div class="row">
                     
                         <Widgets />
-                    
-                    <div class="col-xl-4">
-                        
-                    </div>
-                    <div class="col-xl-4">
-                        
-                    </div>
                 </div>
-                <div class="row">
+        </div>
+        <div class="col-xxl-3">
+              <div class="card">
+                <div class="card-body p-0">
+                  <div class="row align-items-end">
+                    <div class="col-sm-12">
+                      <div class="mt-1 p-3">
+                        <p class="fs-18 lh-base mb-1">
+                          Add new reports to the dashboard <i class="mdi mdi-arrow-right"></i>
+                        </p>
+                        <div style="float:right" class="mr-2 mb-3">
+                          <router-link to="/pages/profile" class="btn btn-primary btn-sm"
+                            >Add Reports</router-link
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- end card-body-->
+              </div>
+            </div>
+        <div class="row">
                     <div class="col-xl-12">
 <Project/>
                     </div>
                 </div>
             </div>
-        </div>
 
         <div class="row">
             <div class="col-xl-7">

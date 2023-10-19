@@ -186,6 +186,13 @@ export const mutations = {
   DELETE_SUPPLIER(state, id) {
     delete state.supplierList[id]
   },
+  CREATE_SUPPLIER(state, payload) {
+    console.log("Inserting supplier 2", payload)
+    const id = Object.keys(state.supplierList).length + 1;
+    console.log(id, payload);
+    state.supplierList[id] = payload;
+    console.log(state.supplierList)
+},
 };
 
 export const actions = {
@@ -196,6 +203,7 @@ export const actions = {
     commit('DELETE_SUPPLIER', id)
   },
   createSupplier({ commit }, payload) {
+    console.log("Inserting supplier 1", payload)
     commit('CREATE_SUPPLIER', payload)
   },
 }

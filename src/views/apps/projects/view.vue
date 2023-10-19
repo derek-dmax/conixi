@@ -158,6 +158,7 @@ export default {
             name: supplier.name,
             img: supplier.image_src,
             status: "Invited",
+            score: 0
           });
         }
       });

@@ -76,8 +76,9 @@ export default {
           date: " 07 Jan, 2022",
         },
       ],
-      todo: [],
-      inprogress: [],
+      invited: [],
+      responded: [],
+      underreview: [],
       completed: [],
       approved: [],
       paid: [],
@@ -91,6 +92,18 @@ export default {
       console.log(event);
     },
     ...mapActions("projects", ["updateProject", "deleteProject"]),
+    invitedChanged(event) {
+      console.log("invited")
+      console.log(event);
+    },
+    respondedChanged(event) {
+      console.log("responded")
+      console.log(event)
+    },
+    reviewedChanged(event) {
+      console.log("reviewed")
+      console.log(event)
+    },
     changeProgress(bid, increment) {
       console.log(bid, increment);
       if (bid.progress + increment > -1 && bid.progress + increment < 101)
@@ -117,17 +130,20 @@ export default {
         bids.forEach((bid) => {
           bid.project = this.projectList[key].label
           bid.progress = 0
+          bid.projId = this.projectList[key].id
+          bid.createdDate = this.projectList[key].createdDate
         });
         this.allBids = [...this.allBids, ...bids]
+        console.log("All Bids")
         console.log(this.allBids)
       }
     });
-    this.todo = this.allBids.filter((bid) => bid.status == "Invited");
-    this.inprogress = this.allBids.filter((bid) => bid.status == "In Progress");
+    this.invited = this.allBids.filter((bid) => bid.status == "Invited");
+    this.responded = this.allBids.filter((bid) => bid.status == "In Progress");
     this.completed = this.allBids.filter((bid) => bid.status == "Completed");
     this.approved = this.allBids.filter((bid) => bid.status == "Approved");
     this.paid = this.allBids.filter((bid) => bid.status == "Paid");
-    console.log(this.todo);
+    console.log(this.invited);
   },
   components: {
     Layout,
@@ -139,6 +155,18 @@ export default {
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
+    filterApproved() {
+      return !this.filtersearchQuery1 ?
+        this.approved : this.approved.filter((bid) => bid.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
+    filterInvited() {
+      return !this.filtersearchQuery1 ?
+        this.invited : this.invited.filter((bid) => bid.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
+    filterReviewed() {
+      return !this.filtersearchQuery1 ?
+        this.reviewed : this.reviewed.filter((bid) => bid.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
   },
 };
 </script>
@@ -155,10 +183,66 @@ export default {
       <i class="ri-layout-grid-fill" v-else title="Show bids as board"></i>
     </div>
 
+    <div class="card-body border border-dashed border-end-0 border-start-0 mb-2"
+    style="margin-top: -20px"
+    >
+        <form>
+          <div class="row g-3">
+            <div class="col-xxl-5 col-sm-12">
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="form-control search bg-light border-light"
+                  placeholder="Search for bids..."
+                  v-model="filtersearchQuery1"
+                />
+                <i class="ri-search-line search-icon"></i>
+              </div>
+            </div>
+            <!--end col-->
+
+            <div class="col-xxl-3 col-sm-4">
+              <flat-pickr
+                v-model="filterdate1"
+                placeholder="Select date"
+                :config="rangeDateconfig"
+                class="form-control"
+              ></flat-pickr>
+            </div>
+            <!--end col-->
+
+            <div class="col-xxl-3 col-sm-4">
+              <div class="input-light">
+                <Multiselect
+                  v-model="filtervalue1"
+                  :close-on-select="true"
+                  :searchable="true"
+                  :create-option="true"
+                  :options="[
+                    { value: 'All', label: 'All' },
+                    { value: 'New', label: 'New' },
+                    { value: 'Pending', label: 'Pending' },
+                    { value: 'Responded', label: 'Responded' },
+                    { value: 'Completed', label: 'Completed' },
+                  ]"
+                />
+              </div>
+            </div>
+            <!--end col-->
+            <div class="col-xxl-1 col-sm-4">
+              <button type="button" class="btn btn-primary w-100" @click="SearchData">
+                <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                Filters
+              </button>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </form>
+      </div>
     <div
       class="tasks-board mb-3"
       id="kanbanboard"
-      style="margin-top: -20px"
       v-if="!showTable"
     >
       <div class="tasks-list my-0">
@@ -166,7 +250,7 @@ export default {
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               Invited
-              <small class="badge bg-primary align-bottom ms-1">{{ todo.length }}</small>
+              <small class="badge bg-primary align-bottom ms-1">{{ invited.length }}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -190,14 +274,16 @@ export default {
           </div>
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3" style="min-height: 500px">
-          <div id="todo-bid" class="tasks">
+          <div id="invited-bid" class="tasks">
             <draggable
-              :list="todo"
+              :list="invited"
               class="dragArea"
               group="dragData"
               style="min-height: 400px"
+              @change="invitedChanged()"
+              @start="invitedChanged()"
             >
-              <div class="card tasks-box my-2" v-for="(data, index) of todo" :key="index">
+              <div class="card tasks-box my-2" v-for="(data, index) of filterInvited" :key="index">
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
@@ -206,6 +292,7 @@ export default {
                       }}</router-link>
                     </h6>
                   </div>
+                  <div class="fs-14 d-flex mb-0"> Invited: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
@@ -250,7 +337,7 @@ export default {
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               Responded
               <small class="badge bg-warning align-bottom ms-1">{{
-                inprogress.length
+                responded.length
               }}</small>
             </h6>
           </div>
@@ -275,16 +362,17 @@ export default {
           </div>
         </div>
         <div data-simplebar class="tasks-wrapper px-3 mx-n3">
-          <div id="inprogress-bid" class="tasks">
+          <div id="responded-bid" class="tasks">
             <draggable
-              :list="inprogress"
+              :list="responded"
               class="dragArea"
               group="dragData"
               style="min-height: 90px"
+              @change="respondedChanged($event)"
             >
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of inprogress"
+                v-for="(data, index) of responded"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
@@ -295,6 +383,7 @@ export default {
                       }}</router-link>
                     </h6>
                   </div>
+                  <div class="fs-14 d-flex mb-0"> Responded: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
@@ -348,6 +437,141 @@ export default {
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
+              Under Review
+              <small class="badge bg-warning align-bottom ms-1">{{underreview.length}}</small>
+            </h6>
+          </div>
+          <div class="flex-shrink-0">
+            <div class="dropdown card-header-dropdown">
+              <a
+                class="text-reset dropdown-btn"
+                href="#"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span class="fw-medium text-muted fs-12"
+                  >Priority<i class="mdi mdi-chevron-down ms-1"></i
+                ></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item" href="#">Priority</a>
+                <a class="dropdown-item" href="#">Date Added</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-simplebar class="tasks-wrapper px-3 mx-n3">
+          <div id="underreview-task" class="tasks">
+            <draggable :list="underreview" class="dragArea" group="dragData" style="min-height:90px">
+              <div
+                class="card tasks-box my-2"
+                v-for="(data, index) of underreview"
+                :key="index"
+              >
+                <div class="card-body pb-0 pt-2">
+                  <div class="d-flex mb-0">
+                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
+                      <router-link to="/apps/tasks-details">{{
+                        data.project
+                      }}</router-link>
+                    </h6>
+                    <div class="dropdown">
+                      <a
+                        href="javascript:void(0);"
+                        class="text-muted"
+                        id="dropdownMenuLink1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        ><i class="ri-more-fill"></i
+                      ></a>
+                      <ul
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuLink1"
+                      >
+                        <li>
+                          <router-link
+                            class="dropdown-item"
+                            to="/apps/tasks-details"
+                            ><i
+                              class="ri-eye-fill align-bottom me-2 text-muted"
+                            ></i>
+                            View</router-link
+                          >
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#"
+                            ><i
+                              class="
+                                ri-edit-2-line
+                                align-bottom
+                                me-2
+                                text-muted
+                              "
+                            ></i>
+                            Edit</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            data-bs-toggle="modal"
+                            href="#deleteRecordModal"
+                            ><i
+                              class="
+                                ri-delete-bin-5-line
+                                align-bottom
+                                me-2
+                                text-muted
+                              "
+                            ></i>
+                            Delete</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="mb-0">
+                    <div class="d-flex mb-0 taskData">
+                      <div class="flex-grow-1">
+                        <h6 class="text-muted mb-0">
+                          <span class="text-secondary taskText">{{ data.progress }}%</span>
+                        </h6>
+                      </div>
+                      <div class="flex-shrink-0">
+                        <span class="text-muted taskText">{{ data.dueDate }}</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-1"><i class="ri-indeterminate-circle-line" @click="changeProgress(data, -5)"></i></div>
+                      <div class="col-9">
+                        <div class="progress rounded-3 progress-sm mt-2" style="margin-right:-15px">
+                          <div
+                            class="progress-bar bg-danger"
+                            role="progressbar"
+                            :style="{ width: data.progress + '%' }"
+                            aria-valuenow="15"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                      <div class="col-1"><i class="ri-add-circle-line" @click="changeProgress(data, 5)"></i></div>
+                    </div>
+                  </div>
+                </div>
+                <!--end card-body-->
+              </div>
+              <!--end card-->
+            </draggable>
+          </div>
+        </div>
+      </div>
+      <!--end tasks-list-->
+      <div class="tasks-list my-0">
+        <div class="d-flex mb-0">
+          <div class="flex-grow-1">
+            <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               REVIEWED
               <small class="badge bg-info align-bottom ms-1">{{
                 completed.length
@@ -381,6 +605,7 @@ export default {
               class="dragArea"
               group="dragData"
               style="min-height: 90px"
+              @change="reviewedChanged($event)"
             >
               <div
                 class="card tasks-box my-2"
@@ -395,6 +620,7 @@ export default {
                       }}</router-link>
                     </h6>
                   </div>
+                  <div class="fs-14 d-flex mb-0"> Reviewed: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
@@ -465,7 +691,7 @@ export default {
             <draggable :list="approved">
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of approved"
+                v-for="(data, index) of filterApproved"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
@@ -476,6 +702,7 @@ export default {
                       }}</router-link>
                     </h6>
                   </div>
+                  <div class="fs-14 d-flex mb-0"> Approved: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
                       <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
@@ -554,8 +781,8 @@ export default {
                     { value: 'All', label: 'All' },
                     { value: 'New', label: 'New' },
                     { value: 'Pending', label: 'Pending' },
-                    { value: 'Inprogress', label: 'Inprogress' },
-                    { value: 'Completed', label: 'Completed' },
+                    { value: 'Responded', label: 'Responded' },
+                    { value: 'Reviewed', label: 'Reviewed' },
                   ]"
                 />
               </div>

@@ -284,20 +284,23 @@ export const state = {
                     name: "Laura Van Zyl",
                     img: require("@/assets/images/users/avatar-2.jpg"),
                     projects: 2,
-                    tasks: 12
+                    tasks: 12,
+                    score: 0
                 },
                 {
                     name: "Alex Raubitschek",
                     img: require("@/assets/images/users/avatar-3.jpg"),
                     projects: 2,
-                    tasks: 9
+                    tasks: 9,
+                    score: 0
                 }
             ],
             suppliers: [
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
-                    status: 'Approved'
+                    status: 'Approved',
+                    score: 0
                 }
             ],
             subItem: [{
@@ -543,21 +546,24 @@ export const state = {
                     img: require("@/assets/images/users/derekm.jpg"),
                     role: 'Owner',
                     projects: 2,
-                    tasks: 9
+                    tasks: 9,
+                    score: 0
                 },
                 {
                     name: "Laura Van Zyl",
                     role: 'Approver',
                     img: require("@/assets/images/users/avatar-2.jpg"),
                     projects: 2,
-                    tasks: 12
+                    tasks: 12,
+                    score: 0
                 },
             ],
             suppliers: [
                 {
                     name: "Ventura Associates",
                     img: require("@/assets/images/companies/img-6.png"),
-                    status: 'Approved'
+                    status: 'Approved',
+                    score: 0
                 }
             ],
             subItem: [{
@@ -647,20 +653,23 @@ export const state = {
                     name: "Laura Van Zyl",
                     img: require("@/assets/images/users/avatar-2.jpg"),
                     projects: 2,
-                    tasks: 12
+                    tasks: 12,
+                    score: 0
                 },
                 {
                     name: "Derek Macrae",
                     img: require("@/assets/images/users/derekm.jpg"),
                     projects: 2,
-                    tasks: 11
+                    tasks: 11,
+                    score: 0
                 }
             ],
             suppliers: [
                 {
                     name: "Ventura Associates",
                     img: require("@/assets/images/companies/img-6.png"),
-                    status: 'Invited'
+                    status: 'Invited',
+                    score: 0
                 }
             ],
             subItem: [{
@@ -943,7 +952,8 @@ export const state = {
                     name: "Laura Van Zyl",
                     img: require("@/assets/images/users/avatar-6.jpg"),
                     projects: 2,
-                    tasks: 12
+                    tasks: 12,
+                    score: 0
                 },
                 {
                     name: "Derek Macrae",
@@ -956,7 +966,8 @@ export const state = {
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
-                    status: 'Approved'
+                    status: 'Approved',
+                    score: 0
                 }
             ],
             subItem: [{
@@ -1204,20 +1215,23 @@ export const state = {
                     name: "Laura Van Zyl",
                     img: require("@/assets/images/users/avatar-6.jpg"),
                     projects: 2,
-                    tasks: 12
+                    tasks: 12,
+                    score: 0
                 },
                 {
                     name: "Derek Macrae",
                     img: require("@/assets/images/users/avatar-5.jpg"),
                     projects: 2,
-                    tasks: 11
+                    tasks: 11,
+                    score: 0
                 }
             ],
             suppliers: [
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
-                    status: 'Approved'
+                    status: 'Approved',
+                    score: 0
                 }
             ],
             subItem: [{
@@ -1465,20 +1479,23 @@ export const state = {
                     name: "Laura Van Zyl",
                     img: require("@/assets/images/users/avatar-6.jpg"),
                     projects: 2,
-                    tasks: 12
+                    tasks: 12,
+                    score: 0
                 },
                 {
                     name: "Derek Macrae",
                     img: require("@/assets/images/users/avatar-5.jpg"),
                     projects: 2,
-                    tasks: 11
+                    tasks: 11,
+                    score: 0
                 }
             ],
             suppliers: [
                 {
                     name: "DMax Design",
                     img: require("@/assets/images/companies/img-2.png"),
-                    status: 'Approved'
+                    status: 'Approved',
+                    score: 0
                 }
             ],
             subItem: [{

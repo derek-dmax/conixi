@@ -200,19 +200,19 @@ export default [
     path: "/apps/crm-suppliers",
     name: "crm-suppliers",
     meta: { title: "Suppliers", authRequired: true },
-    component: () => import("../views/apps/crm/companies"),
+    component: () => import("../views/apps/suppliers/suppliers"),
   },
   {
     path: "/regSupplier",
     name: "regSupplier",
     meta: { title: "Register Supplier", authRequired: true },
-    component: () => import("../views/apps/crm/regSupplier"),
+    component: () => import("../views/apps/suppliers/regSupplier"),
   },
   {
     path: "/apps/crm-deals",
     name: "crm-deals",
     meta: { title: "CRM Deals", authRequired: true },
-    component: () => import("../views/apps/crm/deals"),
+    component: () => import("../views/apps/suppliers/deals"),
   },
   {
     path: "/ecommerce/customers",

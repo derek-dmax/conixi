@@ -306,6 +306,11 @@ export default {
   },
   methods: {
     ...mapActions("projects", ["createProject"]),
+    descriptionChanged() {
+
+      console.log(this.editorData)
+      console.log(this.selProject.skills)
+    },
     changedText() {
       if (this.selProject.label.length < 15) return;
       if (
@@ -433,6 +438,7 @@ export default {
                 rows="6"
                 class="form-control"
                 v-model="editorData"
+                @input="descriptionChanged"
               >
               </textarea>
             </div>
