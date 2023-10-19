@@ -83,7 +83,7 @@ export default {
       approved: [],
       paid: [],
       enabled: true,
-
+      addScoreProj: null,
       dragging: false,
     };
   },
@@ -96,6 +96,26 @@ export default {
       console.log("invited")
       console.log(event);
     },
+    showScoreModal(event) {
+      var scoreModal = document.getElementById("addScoreModal");
+      if(event.added) {
+        this.selProject = this.projectList[event.added.element.projId]
+        this.addScorProj = event.added.element.projId;
+      //show the modal
+        scoreModal.style.display = "block";
+        scoreModal.style.paddingRight = "17px";
+        scoreModal.className="modal fade show"; 
+      } else {
+        scoreModal.style.display = "none";
+        scoreModal.className="modal fade";
+      }
+    },
+    hideScoreModal() {
+      var scoreModal = document.getElementById("addScoreModal");
+    //hide the modal
+      scoreModal.style.display = "none";
+      scoreModal.className="modal fade";
+    },
     respondedChanged(event) {
       console.log("responded")
       console.log(event)
@@ -103,6 +123,7 @@ export default {
     reviewedChanged(event) {
       console.log("reviewed")
       console.log(event)
+      this.showScoreModal(event);
     },
     changeProgress(bid, increment) {
       console.log(bid, increment);
@@ -126,6 +147,7 @@ export default {
         }
       }
       if (this.projectList[key]) {
+        this.selProject = this.projectList[key];
         bids = JSON.parse(JSON.stringify(this.projectList[key].suppliers))
         bids.forEach((bid) => {
           bid.project = this.projectList[key].label
@@ -134,16 +156,14 @@ export default {
           bid.createdDate = this.projectList[key].createdDate
         });
         this.allBids = [...this.allBids, ...bids]
-        console.log("All Bids")
-        console.log(this.allBids)
       }
     });
+    console.log(this.allBids);
     this.invited = this.allBids.filter((bid) => bid.status == "Invited");
     this.responded = this.allBids.filter((bid) => bid.status == "In Progress");
     this.completed = this.allBids.filter((bid) => bid.status == "Completed");
     this.approved = this.allBids.filter((bid) => bid.status == "Approved");
     this.paid = this.allBids.filter((bid) => bid.status == "Paid");
-    console.log(this.invited);
   },
   components: {
     Layout,
@@ -744,62 +764,6 @@ export default {
     <!--end bid-board-->
 
     <div class="card" id="bidsList" v-else>
-      <div class="card-body border border-dashed border-end-0 border-start-0">
-        <form>
-          <div class="row g-3">
-            <div class="col-xxl-5 col-sm-12">
-              <div class="search-box">
-                <input
-                  type="text"
-                  class="form-control search bg-light border-light"
-                  placeholder="Search for bids..."
-                  v-model="filtersearchQuery1"
-                />
-                <i class="ri-search-line search-icon"></i>
-              </div>
-            </div>
-            <!--end col-->
-
-            <div class="col-xxl-3 col-sm-4">
-              <flat-pickr
-                v-model="filterdate1"
-                placeholder="Select date"
-                :config="rangeDateconfig"
-                class="form-control"
-              ></flat-pickr>
-            </div>
-            <!--end col-->
-
-            <div class="col-xxl-3 col-sm-4">
-              <div class="input-light">
-                <Multiselect
-                  v-model="filtervalue1"
-                  :close-on-select="true"
-                  :searchable="true"
-                  :create-option="true"
-                  :options="[
-                    { value: 'All', label: 'All' },
-                    { value: 'New', label: 'New' },
-                    { value: 'Pending', label: 'Pending' },
-                    { value: 'Responded', label: 'Responded' },
-                    { value: 'Reviewed', label: 'Reviewed' },
-                  ]"
-                />
-              </div>
-            </div>
-            <!--end col-->
-            <div class="col-xxl-1 col-sm-4">
-              <button type="button" class="btn btn-primary w-100" @click="SearchData">
-                <i class="ri-equalizer-fill me-1 align-bottom"></i>
-                Filters
-              </button>
-            </div>
-            <!--end col-->
-          </div>
-          <!--end row-->
-        </form>
-      </div>
-      <!--end card-body-->
       <div class="card-body">
         <div class="table-responsive table-card mb-4">
           <table class="table align-middle table-nowrap mb-0" id="bidsTable">
@@ -844,40 +808,41 @@ export default {
                 </td>
                 <td class="project_name">
                   <router-link to="/apps/projects-overview" class="fw-medium link-primary"
-                    >{{ projectList["FAB0d41d5b5d22c"].label }}
+                    >{{ projectList[bid.projId].label }}
                   </router-link>
                 </td>
+                <td class="d-flex">
+                  <div class="flex-grow-1 tasks_name">
+                    {{ bid.name }}
+                  </div>
+                </td>
+                <td class="due_date">{{ bid.createdDate.format('Do MMM') }}</td>
                 <td>
-                  <div class="d-flex">
-                    <div class="flex-grow-1 tasks_name">
-                      {{ bid.text }}
-                    </div>
-                    <div class="flex-shrink-0 ms-4">
-                      <ul class="list-inline tasks-list-menu mb-0">
-                        <li class="list-inline-item">
-                          <router-link to="/apps/tasks-details"
-                            ><i class="ri-eye-fill align-bottom me-2 text-muted"></i
-                          ></router-link>
-                        </li>
-                        <li
-                          class="list-inline-item"
-                          data-bs-toggle="modal"
-                          href="#showmodal"
-                          @click="editdata(bid)"
-                        >
-                          <a href="#"
-                            ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i
-                          ></a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a class="remove-item-btn" @click="deletedata(bid)">
-                            <i
-                              class="ri-delete-bin-fill align-bottom me-2 text-muted"
-                            ></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                  <div class="flex-shrink-0 ms-4">
+                    <ul class="list-inline tasks-list-menu mb-0">
+                      <li class="list-inline-item">
+                        <router-link to="/apps/tasks-details"
+                          ><i class="ri-eye-fill align-bottom me-2 text-muted"></i
+                        ></router-link>
+                      </li>
+                      <li
+                        class="list-inline-item"
+                        data-bs-toggle="modal"
+                        href="#showmodal"
+                        @click="editdata(bid)"
+                      >
+                        <a href="#"
+                          ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i
+                        ></a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="remove-item-btn" @click="deletedata(bid)">
+                          <i
+                            class="ri-delete-bin-fill align-bottom me-2 text-muted"
+                          ></i>
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </td>
                 <td class="client_name">
@@ -903,7 +868,6 @@ export default {
                     </a>
                   </div>
                 </td>
-                <td class="due_date">{{ bid.dueDate }}</td>
                 <td class="status">
                   <span
                     class="badge"
@@ -1107,6 +1071,57 @@ export default {
       </div>
     </div>
     <!--end add member modal-->
+
+    <div
+      class="modal fade"
+      id="addScoreModal"
+      tabindex="-1"
+      aria-labelledby="addScoreModalLabel"
+      aria-hidden="true"
+      :key="addScoreProj"
+      width="320"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content border-1" style="box-shadow:
+          0 3.9px 4.6px rgba(0, 0, 0, 0.08),
+          0 12.3px 8.4px rgba(0, 0, 0, 0.056),
+          0 18.8px 19.2px rgba(0, 0, 0, 0.037),
+          0 22px 40px rgba(0, 0, 0, 0.019);">
+          <div class="modal-header p-3 bg-soft-primary">
+            <h5 class="modal-title" id="addScoreModalLabel">Add Scores</h5>
+            <button
+              type="button"
+              class="btn-close"
+              id="btn-close-score"
+              @click="hideScoreModal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" v-if="selProject">
+            <div class="row" v-for="member in selProject.members" :key="member.name">
+            <div class="col-lg-3"></div>
+              <div class="col-lg-4" style="text-align:right">{{ member.name }}</div>
+              <input
+                type="number"
+                class="col-lg-2"
+                v-model="member.score"
+                id="member-score"
+              />
+              <div class="col-lg-3"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal" @click="hideScoreModal">
+              <i class="ri-close-line align-bottom me-1"></i> Close
+            </button>
+            <button type="button" class="btn btn-success" id="addScore" @click="hideScoreModal">
+              Add Scores
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end add score modal-->
 
     <div
       class="modal fade"

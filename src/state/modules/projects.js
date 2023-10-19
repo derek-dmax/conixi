@@ -593,7 +593,7 @@ export const state = {
             time: moment().subtract(2, 'minutes'),
             favourite: false,
             img: require("@/assets/images/brands/dropbox.png"),
-            label: "Department of Education Catering Contract",
+            label: "DoE Catering Contract",
             category: "Procurement",
             subCategory: "Catering - Schools",
             projectType: "Product Delivery",
@@ -669,6 +669,12 @@ export const state = {
                     name: "Ventura Associates",
                     img: require("@/assets/images/companies/img-6.png"),
                     status: 'Invited',
+                    score: 0
+                },
+                {
+                    name: "DMax Design",
+                    img: require("@/assets/images/companies/img-2.png"),
+                    status: 'In Progress',
                     score: 0
                 }
             ],
