@@ -51,11 +51,10 @@ export default {
         <PageHeader :title="title" :items="items" />
 
         <div class="row project-wrapper">
-            <div class="col-xxl-9">
-                <div class="row">
-                    
-                        <Widgets />
-                </div>
+          <div class="col-xxl-9">
+            <div class="row">
+              <Widgets />
+            </div>
         </div>
         <div class="col-xxl-3">
               <div class="card">

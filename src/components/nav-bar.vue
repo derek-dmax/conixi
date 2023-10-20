@@ -777,9 +777,9 @@
                   <i class=" mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i>
                   <span class="align-middle">Messages</span>
                 </router-link>
-                <router-link class="dropdown-item" to="/apps/tasks-kanban">
+                <router-link class="dropdown-item" to="/dashboard/admin" v-if="userType !== 'supplier'">
                   <i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
-                  <span class="align-middle">Taskboard</span>
+                  <span class="align-middle">System Admin</span>
                 </router-link>
                 <router-link class="dropdown-item" to="/pages/faqs"><i
                     class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>

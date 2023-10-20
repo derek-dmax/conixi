@@ -88,6 +88,14 @@ export default [
     component: () => import("../views/dashboard/analytics/index"),
   },
   {
+    path: "/dashboard/admin",
+    name: "dashboard-admin",
+    meta: {
+      title: "System Administration", authRequired: true,
+    },
+    component: () => import("../views/dashboard/admin/index"),
+  },
+  {
     path: "/logout",
     name: "logout",
     meta: {
