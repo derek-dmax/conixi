@@ -312,6 +312,8 @@ export const state = {
                 imgNumber: "+"
             },
             ],
+            tenderQuestions: [
+            ],
             createdDate: moment().subtract(18, 'days'),
             dueDate: moment().add(45, 'days'),
         },
@@ -584,6 +586,8 @@ export const state = {
                 imgNumber: "+"
             },
             ],
+            tenderQuestions: [
+            ],
             createdDate: moment().subtract(4, 'minutes'),
             dueDate: moment().add(65, 'days'),
         },
@@ -679,19 +683,19 @@ export const state = {
                 }
             ],
             subItem: [{
-                id: 1,
-                imgNumber: "K",
-                bgColor: "info"
-            },
-            {
-                id: 2,
-                imgNumber: "M",
-                bgColor: "danger"
-            },
-            {
-                id: 3,
-                imgNumber: "+"
-            },
+                    id: 1,
+                    imgNumber: "K",
+                    bgColor: "info"
+                },
+                {
+                    id: 2,
+                    imgNumber: "M",
+                    bgColor: "danger"
+                },
+                {
+                    id: 3,
+                    imgNumber: "+"
+                },
             ],
             tenderQuestions: [
                 {
@@ -703,18 +707,40 @@ export const state = {
                     ],
                     "created": "2023-08-21T11:11:46.253Z",
                     "status": "Inprogress",
-                    "weighting": 4
+                    "weighting": 40,
+                    "suppliers": [{
+                            name: "Ventura Associates",
+                            response: "The experience of the person responsible for mobilizing a contract can greatly impact the success of the contract's execution. This individual plays a critical role in ensuring that the contract is implemented effectively and meets its objectives. To evaluate their experience, it's important to consider factors such as their qualifications, previous work history, and relevant accomplishments.",
+                            score: 25
+                        },
+                        {
+                            name: "DMax Design",
+                            response: "The person responsible for mobilizing the contract should have a background and qualifications that align with the specific requirements of the contract. For instance, if the contract involves IT services, they should have a strong foundation in IT management. A relevant educational background, certifications, and professional memberships can be indicators of their qualifications.",
+                            score: 29
+                        },
+                    ]
                 },
                 {
                     "id": "2",
                     "area": "Management - Service Development",
-                    "title": "What management structure will support this contract? How will this management structure ensure high levels of service delivry constantly, across the Trust?",
+                    "title": "What management structure will support this contract? How will this management structure ensure high levels of service delivery constantly, across the Trust?",
                     "assigned": [
                         "Derek Macrae"
                     ],
                     "created": "2023-08-21T11:11:46.253Z",
                     "status": "Inprogress",
-                    "weighting": 4
+                    "weighting": 50,
+                    "suppliers": [{
+                            name: "Ventura Associates",
+                            response: "The experience of the person responsible for mobilizing a contract can greatly impact the success of the contract's execution. This individual plays a critical role in ensuring that the contract is implemented effectively and meets its objectives. To evaluate their experience, it's important to consider factors such as their qualifications, previous work history, and relevant accomplishments.",
+                            score: 0
+                        },
+                        {
+                            name: "DMax Design",
+                            response: "The person responsible for mobilizing the contract should have a background and qualifications that align with the specific requirements of the contract. For instance, if the contract involves IT services, they should have a strong foundation in IT management. A relevant educational background, certifications, and professional memberships can be indicators of their qualifications.",
+                            score: 0
+                        },
+                    ]
                 },
                 {
                     "id": "3",
@@ -725,7 +751,18 @@ export const state = {
                     ],
                     "created": "2023-08-21T11:11:46.253Z",
                     "status": "Inprogress",
-                    "weighting": 4
+                    "weighting": 40,
+                    "suppliers": [{
+                            name: "Ventura Associates",
+                            response: "",
+                            score: 0
+                        },
+                        {
+                            name: "DMax Design",
+                            response: "",
+                            score: 0
+                        },
+                    ]
                 }
             ],
             createdDate: moment().subtract(2, 'minutes'),
@@ -991,6 +1028,8 @@ export const state = {
                 imgNumber: "+"
             },
             ],
+            tenderQuestions: [
+            ],
             createdDate: moment().subtract(22, 'days'),
             dueDate: moment().add(35, 'days'),
         },
@@ -1254,6 +1293,8 @@ export const state = {
                 id: 3,
                 imgNumber: "+"
             },
+            ],
+            tenderQuestions: [
             ],
             createdDate: moment().subtract(22, 'days'),
             dueDate: moment().add(35, 'days'),
@@ -1519,6 +1560,8 @@ export const state = {
                 imgNumber: "+"
             },
             ],
+            tenderQuestions: [
+            ],
             createdDate: moment().subtract(22, 'days'),
             dueDate: moment().add(35, 'days'),
         },
@@ -1711,6 +1754,7 @@ export const mutations = {
     },
     INSERT_TASK(state, payload) {
         let passTask = Object.assign({}, payload.task) // avoid "by reference" issues
+        if(!passTask.type) passTask.type = passTask.duration ? gantt.config.types.project : gantt.config.types.milestone
         if(passTask.payment > 0 && passTask.duration > 0) {
             let payment = passTask.payment
             passTask.payment = 0
@@ -1735,12 +1779,12 @@ export const mutations = {
                     target: payload.task.id.toString(),
                     type: "0"
                 })
-            console.log("Inserting extra milestone task", payload.task)
+            console.log("Inserting extra milestone task", passTask)
         } else {
-            console.log("Inserting task", payload.task)
+            console.log("Inserting task", passTask)
         }
-        state.projectList[payload.id].tasks.data.push(payload.task)
-        console.log("New ta list: ", state.projectList[payload.id].tasks)
+        state.projectList[payload.id].tasks.data.push(passTask)
+        console.log("New task list: ", state.projectList[payload.id].tasks)
     }
 };
 

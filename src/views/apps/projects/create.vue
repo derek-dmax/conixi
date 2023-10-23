@@ -88,7 +88,7 @@ export default {
             id: "2",
             area: "Management - Service Development",
             title:
-              "What management structure will support this contract? How will this management structure ensure high levels of service delivry constantly, across the Trust?",
+              "What management structure will support this contract? How will this management structure ensure high levels of service delivery constantly, across the Trust?",
             assigned: ["Derek Macrae"],
             created: moment().subtract(1, "days"),
             status: "Inprogress",

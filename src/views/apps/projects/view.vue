@@ -26,7 +26,7 @@ export default {
       tenderAreas: [
         {
           area: "Experience and Mobilisation",
-          weighting: 5,
+          weighting: 50,
           questions: [
             {
               id: "1",
@@ -35,13 +35,13 @@ export default {
               assigned: ["Derek Macrae"],
               created: moment().subtract(1, "days"),
               status: "Inprogress",
-              weighting: 4,
+              weighting: 50,
             },
           ],
         },
         {
           area: "Management - Service Development",
-          weighting: 5,
+          weighting: 45,
           questions: [
             {
               id: "2",
@@ -51,13 +51,13 @@ export default {
               assigned: ["Derek Macrae"],
               created: moment().subtract(1, "days"),
               status: "Inprogress",
-              weighting: 4,
+              weighting: 45,
             },
           ],
         },
         {
           area: "Service Development - Sustainability",
-          weighting: 5,
+          weighting: 35,
           questions: [
             {
               id: "3",
@@ -67,7 +67,7 @@ export default {
               assigned: ["Derek Macrae"],
               created: moment().subtract(1, "days"),
               status: "Inprogress",
-              weighting: 4,
+              weighting: 35,
             },
           ],
         },
@@ -193,6 +193,7 @@ export default {
       });
       passTask.id += 1;
       passTask.start_date = moment(this.taskDueDate).subtract(this.task.duration, "days");
+      console.log(passTask);
       this.insertTask({ id: this.selProject.id, task: passTask });
       this.clearTask();
       document.getElementById("addTaskBtn-close").click();
@@ -472,7 +473,7 @@ export default {
                     Tender
                   </a>
                 </li>
-                <li class="nav-item" v-else>
+                <li class="nav-item">
                   <a
                     id="sow-step"
                     class="nav-link fw-semibold"
@@ -1193,11 +1194,31 @@ export default {
                   style="font-size: 18px"
                 >
                   {{ ind1 + 1 }} - {{ area.area }}
-                  <table class="table">
+                  <table class="table" v-if="userType !== 'supplier'">
+                    <tbody>
+                      <tr v-for="(tq, index) in selProject.tenderQuestions.filter(tqu => tqu.area === area.area)" :key="index">
+                        <td style="width:30%">{{ ind1 + 1 }}.{{ index + 1 }} {{ tq.title }}</td>
+                        <td style="width:70%">
+                          <div v-for="supplier in tq.suppliers" :key="supplier.name" class="row mb-2">
+                            <div class="col-2"><strong>Supplier</strong></div>
+                            <div class="col-9"><strong>Response</strong></div>
+                            <div class="col-1"><strong>Score</strong></div>
+                            <div class="col-2">{{supplier.name}}</div>
+                            <div class="col-9">{{ supplier.response}}</div>
+                            <div class="col-1">
+                              {{ supplier.score }}/{{ area.weighting}}
+                              <i class="ri-pencil-fill fs-16" style="cursor:pointer" title="Enter Score"></i>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table" v-else>
                     <tbody>
                       <tr v-for="(tq, index) in area.questions" :key="index">
                         <td>{{ ind1 + 1 }}.{{ index + 1 }} {{ tq.question }}</td>
-                        <td style="width: 60%" v-if="userType === 'supplier'">
+                        <td style="width: 60%">
                           <textarea
                             rows="4"
                             style="width: 100%"

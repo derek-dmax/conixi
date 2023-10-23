@@ -253,8 +253,8 @@ export default {
       document.getElementById("exampleModalLabel").innerHTML = this.funcType;
       let result = this.suppliers.findIndex((o) => o._id == data._id);
       document.getElementById("id").value = data._id;
-      document.getElementById("suppliername").value = this.suppliers[result].name;
-      document.getElementById("description").value = this.suppliers[result].description;
+      this.selSupplier.name = this.suppliers[result].name;
+      this.selSupplier.description = "DMax Design is a system implementation agency based in Glasgow, Scotland. We provide project management, web development, e-commerce, digital marketing and branding services to businesses around the world.";
       document.getElementById("ownername").value = this.suppliers[result].owner;
       document.getElementById("category-field").value = this.suppliers[result].category;
       document.getElementById("starvalue").value = this.suppliers[result].star_value;
