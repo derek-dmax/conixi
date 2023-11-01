@@ -121,7 +121,7 @@
             country: "Scotland",
             date: moment().subtract(9, "days").format("Do MMM, YYYY"),
             time: "09:58PM",
-            amount: "1000",
+            amount: "1000.00",
             status: "Paid",
             statusClass: "success",
           },
@@ -145,7 +145,7 @@
             name: "Alex Raubitschek",
             email: "alex@conixi.xo.uk",
             country: "United Kingdom",
-            date: "29 Nov, 2021",
+            date: moment().subtract(20, "days").format("Do MMM, YYYY"),
             time: "7:20PM",
             amount: "984.98",
             status: "Paid",
@@ -158,7 +158,7 @@
             name: "Tonya Noble",
             email: "tonynoble@conixi.xo.uk",
             country: "Spain",
-            date: "22 Nov, 2021",
+            date: moment().subtract(21, "days").format("Do MMM, YYYY"),
             time: "10:20PM",
             amount: "742.12",
             status: "Query",
@@ -171,7 +171,7 @@
             name: "Ventura Associates",
             email: "developer@ventura.com",
             country: "United States of America",
-            date: "11 Nov, 2021",
+            date: moment().subtract(23, "days").format("Do MMM, YYYY"),
             time: "12:37AM",
             amount: "2415.00",
             status: "Unpaid",
@@ -184,7 +184,7 @@
             name: "Joseph Payten",
             email: "josephpayten@conixi.xo.uk",
             country: "France",
-            date: "03 Nov, 2021",
+            date: moment().subtract(24, "days").format("Do MMM, YYYY"),
             time: "12:29AM",
             amount: "7451.02",
             status: "Paid",
@@ -196,9 +196,9 @@
             name: "Mary Rucker",
             email: "maryrucker@conixi.xo.uk",
             country: "United Kingdom",
-            date: "27 Oct, 2021",
+            date: moment().subtract(27, "days").format("Do MMM, YYYY"),
             time: "01:46PM",
-            amount: "$327.36",
+            amount: "327.36",
             status: "Query",
             statusClass: "danger",
           },
@@ -208,8 +208,8 @@
             name: "Alexis Clarke",
             email: "alexisclarke@conixi.xo.uk",
             country: "Spain",
-            date: "18 Oct, 2021",
-            time: "04:55PM",
+            date: moment().subtract(27, "days").format("Do MMM, YYYY"),
+            time: "04:55AM",
             amount: "879.78",
             status: "Unpaid",
             statusClass: "warning",
@@ -221,7 +221,7 @@
             name: "Ryan Cowie",
             email: "rayancowie@conixi.xo.uk",
             country: "France",
-            date: "07 Oct, 2021",
+            date: moment().subtract(28, "days").format("Do MMM, YYYY"),
             time: "06:33AM",
             amount: "879.00",
             status: "Refund",
@@ -234,7 +234,7 @@
             name: "Christina Maier",
             email: "christinamaier@conixi.xo.uk",
             country: "United States of America",
-            date: "13 Sep, 2021",
+            date: "13 Sep, 2022",
             time: "11:59AM",
             amount: "1624.18",
             status: "Unpaid",
@@ -247,7 +247,7 @@
             name: "Laura Van Zyl",
             email: "jenniferwinkal@conixi.xo.uk",
             country: "Brazil",
-            date: "15 Aug, 2021",
+            date: "15 Aug, 2022",
             time: "01:05PM",
             amount: "214.67",
             status: "Query",
@@ -259,7 +259,7 @@
             name: "Erik Peters",
             email: "erikpeters@conixi.xo.uk",
             country: "Mexico",
-            date: "07 Aug, 2021",
+            date: "07 Aug, 2022",
             time: "07:46PM",
             amount: "1798.71",
             status: "Active",
@@ -632,7 +632,7 @@
                       </td>
                       <td class="email">{{item.email}}</td>
                       <td class="date">{{item.date}}</td>
-                      <td class="invoice_amount">£{{item.amount}}</td>
+                      <td class="invoice_amount" style="text-align:right">£{{item.amount}}</td>
                       <td class="status"><span class="badge text-uppercase" :class="{
                         'badge-soft-success':item.status=='Paid',
                         'badge-soft-warning':item.status=='Unpaid',
@@ -650,6 +650,10 @@
 
                               <router-link class="dropdown-item" :to="'/invoices/detail/'+item._id">
                                 <i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</router-link>
+                            </li>
+                            <li>
+                              <router-link class="dropdown-item" :to="'/invoices/detail/'+item._id">
+                                <i class="ri-questionnaire-fill align-bottom me-2 text-muted"></i> Query</router-link>
                             </li>
                             <li><a class="dropdown-item"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                 Edit</a></li>

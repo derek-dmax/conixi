@@ -675,7 +675,7 @@ export default {
                             </li>
                             <li class="nav-item">
                               <router-link
-                                to="/apps/tasks-details"
+                                to="/apps/task-details"
                                 class="nav-link"
                                 data-key="t-task-details"
                               >

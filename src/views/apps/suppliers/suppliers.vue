@@ -255,6 +255,8 @@ export default {
       document.getElementById("id").value = data._id;
       this.selSupplier.name = this.suppliers[result].name;
       this.selSupplier.description = "DMax Design is a system implementation agency based in Glasgow, Scotland. We provide project management, web development, e-commerce, digital marketing and branding services to businesses around the world.";
+      this.selSupplier.audited = this.suppliers[result].audited;
+      console.log(this.selSupplier.audited);
       document.getElementById("ownername").value = this.suppliers[result].owner;
       document.getElementById("category-field").value = this.suppliers[result].category;
       document.getElementById("starvalue").value = this.suppliers[result].star_value;
@@ -411,6 +413,7 @@ export default {
 
   mounted() {
     this.currSupplier = this.supplierList[1];
+    console.log(this.currSupplier);
     this.showdetail(this.currSupplier);
     var checkAll = document.getElementById("checkAll");
     if (checkAll) {
@@ -548,7 +551,7 @@ export default {
                         </div>
                       </th>
                       <th class="sort" data-sort="name" scope="col">Supplier Name</th>
-                      <th class="sort" data-sort="owner" scope="col">Owner</th>
+                      <th class="sort" data-sort="owner" scope="col">Main Contact</th>
                       <th class="sort" data-sort="category" scope="col">Category</th>
                       <th class="sort" data-sort="star_value" scope="col">Rating</th>
                       <th class="sort" data-sort="location" scope="col">Primary Location</th>
@@ -862,12 +865,12 @@ export default {
                 </div>
                 <div class="col-lg-5 mt-2">
                   <div>
-                    <label for="owner-field" class="form-label">Owner Name *</label>
+                    <label for="owner-field" class="form-label">Main Contact *</label>
                     <input
                       type="text"
                       id="ownername"
                       class="form-control form-control-sm"
-                      placeholder="Enter owner name"
+                      placeholder="Main contact name"
                       required
                     />
                   </div>
@@ -991,6 +994,7 @@ export default {
                       >
                       <input
                         type="date"
+                        v-model="selSupplier.audited"
                         style="margin-top: -10px;"
                         id="valid_until"
                         class="form-control form-control-sm"
@@ -1071,12 +1075,12 @@ export default {
                 </div>
                 <div class="col-lg-5">
                   <div>
-                    <label for="owner-field" class="form-label">Owner Name *</label>
+                    <label for="owner-field" class="form-label">Main Contact *</label>
                     <input
                       type="text"
                       id="ownername"
                       class="form-control form-control-sm"
-                      placeholder="Enter owner name"
+                      placeholder="Enter maoin contact name"
                       required
                     />
                   </div>

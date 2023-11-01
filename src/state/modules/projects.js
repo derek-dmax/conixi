@@ -42,6 +42,32 @@ export const state = {
                         changeDescription: false,
                         service: 'Admin',
                         group: 'Project Scoping & Design',
+                        documents: [
+							{
+								name: 'Initial Scoping Requirements',
+								date: moment().subtract(15, "days").format('DD-MMM-yyyy HH:mm'),
+								size: '2.4Mb',
+								type: 'PDF'
+							},
+							{
+								name: 'Scoping Document',
+								date: moment().subtract(1, "days").add(36, "minutes").format('DD-MMM-yyyy HH:mm'),
+								size: '2.6Mb',
+								type: 'PDF',
+							},							],
+                        comments: [
+							{
+								user: 'Joseph Parker',
+								date: moment().subtract(15, "days").format('DD-MMM-yyyy HH:mm'),
+								image: 'http://localhost:8080/img/avatar-7.b940ea8a.jpg',
+								comment: 'Hi, did you get the scoping requirement doc from the client?',
+							},
+							{
+								user: 'Tanya Noble',
+								date: moment().subtract(14, "days").subtract(78, "minutes").format('DD-MMM-yyyy HH:mm'),
+								image: 'http://localhost:8080/img/avatar-10.84f3fa03.jpg',
+								comment: 'Yes, sorry forgot to attach, attached now.',
+							},							],
                     },
                     {
                         id: 2,
@@ -59,6 +85,20 @@ export const state = {
                         changeDescription: false,
                         service: 'Admin',
                         group: 'Project Scoping & Design',
+                        documents: [
+							{
+								name: 'Scope Document',
+								date: '01-Jan-2023',
+								size: '2.6Mb',
+								type: 'PDF',
+							},							],
+                        comments: [
+							{
+								user: 'Tanya Roberts',
+								date: moment().subtract(15, "days").add(13, "minutes").format('DD-MMM-yyyy HH:mm'),
+								image: 'http://localhost:8080/img/avatar-10.84f3fa03.jpg',
+								comment: 'Initial workshop ready.',
+							},							],
                     },
                     {
                         id: 3,
@@ -68,7 +108,7 @@ export const state = {
                         parent: "1",
                         progress: 100,
                         open: true,
-                        payment: 0,
+                        payment: 3000,
                         status: "Approved",
                         changePayment: false,
                         changeStatus: false,
@@ -76,6 +116,14 @@ export const state = {
                         changeDescription: false,
                         service: 'Admin',
                         group: 'Project Scoping & Design',
+                        documents: [],
+                        comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 4,
@@ -94,6 +142,20 @@ export const state = {
                         changeDescription: false,
                         service: 'Admin',
                         group: 'Project Scoping & Design',
+                        documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+                        comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 5,
@@ -112,6 +174,20 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+                        documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+                        comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 6,
@@ -129,11 +205,25 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+                        documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+                        comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 7,
                         text: "API Development",
-                        start_date: moment(),
+                        start_date: moment().subtract(9, "days"),
                         duration: "7",
                         parent: "5",
                         progress: 10,
@@ -146,6 +236,20 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+                        documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+                        comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 8,
@@ -163,6 +267,20 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+                        documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+                        comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 9,
@@ -180,6 +298,20 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 10,
@@ -197,6 +329,20 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 11,
@@ -214,6 +360,20 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 12,
@@ -231,6 +391,20 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 13,
@@ -239,6 +413,7 @@ export const state = {
                         start_date: moment().add(21, "days"),
                         parent: 0,
                         progress: 0,
+                        duration: 0,
                         open: true,
                         payment: 4000,
                         status: "New",
@@ -248,6 +423,14 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+						documents: [],
+						comments: [
+							{
+								user: 'Laura Van Zyl',
+								date: moment().subtract(5, "days").format("DD-MMM-YYYY HH:mm"),
+								image: 'http://localhost:8080/img/avatar-2.b816c3ab.jpg',
+								comment: 'Ready for initial test',
+							},							],
                     },
                     {
                         id: 14,
@@ -265,6 +448,14 @@ export const state = {
                         changeDescription: false,
                         service: "Build project dashboard",
                         group: "Design & Development",
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                 ],
                 links: [
@@ -355,6 +546,20 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 2,
@@ -372,6 +577,20 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 3,
@@ -389,6 +608,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 4,
@@ -407,6 +634,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 5,
@@ -425,6 +660,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 6,
@@ -442,6 +685,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 7,
@@ -459,6 +710,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 9,
@@ -476,6 +735,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 11,
@@ -493,6 +760,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 12,
@@ -510,6 +785,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 13,
@@ -527,6 +810,14 @@ export const state = {
                         changeDescription: false,
                         service: "Landing Page Re-design",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                 ],
                 links: [
@@ -629,6 +920,20 @@ export const state = {
                         changeDescription: false,
                         service: "Catering Service",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 2,
@@ -646,6 +951,20 @@ export const state = {
                         changeDescription: false,
                         service: "Catering Service",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                 ],
                 links: [
@@ -806,6 +1125,20 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 2,
@@ -823,6 +1156,20 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 3,
@@ -840,6 +1187,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 4,
@@ -858,6 +1213,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 5,
@@ -876,6 +1239,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 6,
@@ -893,6 +1264,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 7,
@@ -910,6 +1289,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 9,
@@ -927,6 +1314,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 11,
@@ -944,6 +1339,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 12,
@@ -961,6 +1364,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 13,
@@ -978,6 +1389,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                 ],
                 links: [
@@ -1071,6 +1490,20 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 2,
@@ -1088,6 +1521,20 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 3,
@@ -1105,6 +1552,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 4,
@@ -1123,6 +1578,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 5,
@@ -1141,6 +1604,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 6,
@@ -1158,6 +1629,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 7,
@@ -1175,6 +1654,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 9,
@@ -1192,6 +1679,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 11,
@@ -1209,6 +1704,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 12,
@@ -1226,6 +1729,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 13,
@@ -1243,6 +1754,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                 ],
                 links: [
@@ -1354,6 +1873,20 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 3,
@@ -1371,6 +1904,20 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [
+							{
+								name: '',
+								date: '01-Jan-2023',
+								size: '2.1Mb',
+								type: 'PDF',
+							},							],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 4,
@@ -1389,6 +1936,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 5,
@@ -1407,6 +1962,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 6,
@@ -1424,6 +1987,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 7,
@@ -1441,6 +2012,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 9,
@@ -1458,6 +2037,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 11,
@@ -1475,6 +2062,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 12,
@@ -1492,6 +2087,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                     {
                         id: 13,
@@ -1509,6 +2112,14 @@ export const state = {
                         changeDescription: false,
                         service: "Building Plan",
                         group: null,
+						documents: [],
+						comments: [
+							{
+								user: '',
+								date: '01-Jan-2023',
+								image: '',
+								comment: '',
+							},							],
                     },
                 ],
                 links: [
@@ -1833,6 +2444,11 @@ export const actions = {
 
 export const getters = {
     projectList: state => state.projectList,
+    selectedProject: (state) => (id) => {
+        return state.projectList.find(
+            item => item.id == id
+        );
+    },
     categories: state => state.categories,
     subCategories: state => state.subCategories,
     projectTypes: state => state.projectTypes,

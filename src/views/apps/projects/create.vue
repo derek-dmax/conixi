@@ -73,6 +73,7 @@ export default {
         progressBar: "0%",
         status: "In Progress",
         priority: "Medium",
+        suppliers: [],
         tenderQuestions: [
           {
             id: "1",
@@ -83,6 +84,7 @@ export default {
             created: moment().subtract(1, "days"),
             status: "Inprogress",
             weighting: 4,
+            suppliers: []
           },
           {
             id: "2",
@@ -93,6 +95,7 @@ export default {
             created: moment().subtract(1, "days"),
             status: "Inprogress",
             weighting: 4,
+            suppliers: [],
           },
           {
             id: "3",
@@ -103,6 +106,7 @@ export default {
             created: moment().subtract(1, "days"),
             status: "Inprogress",
             weighting: 4,
+            suppliers: [],
           },
         ],
         tasks: {
@@ -130,7 +134,7 @@ export default {
               text: "Complete",
               progress: 0,
               open: true,
-              duration: "12",
+              duration: "0",
               start_date: moment().add(15, "days"),
               payment: null,
               parent: null,

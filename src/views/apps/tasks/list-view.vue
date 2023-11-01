@@ -832,7 +832,7 @@
                       </div>
                     </th>
                     <td class="id">
-                      <router-link to="/apps/tasks-details" class="fw-medium link-primary">{{ task.taskId }}
+                      <router-link to="/apps/task-details" class="fw-medium link-primary">{{ task.taskId }}
                       </router-link>
                     </td>
                     <td class="project_name">
@@ -847,7 +847,7 @@
                         <div class="flex-shrink-0 ms-4">
                           <ul class="list-inline tasks-list-menu mb-0">
                             <li class="list-inline-item">
-                              <router-link to="/apps/tasks-details"><i
+                              <router-link to="/apps/task-details"><i
                                   class="ri-eye-fill align-bottom me-2 text-muted"></i></router-link>
                             </li>
                             <li class="list-inline-item" data-bs-toggle="modal" href="#showmodal"

@@ -87,11 +87,13 @@ export default {
       },
       question: {
         id: null,
-        question: "",
+        area: "",
+        title: "",
         assigned: [],
         created: moment(),
         status: "Inprogress",
         weighting: 5,
+        suppliers: [],
       },
       task: {
         id: null,
@@ -135,6 +137,8 @@ export default {
   },
   mounted() {
     this.createTour();
+    console.log(this.projectList);
+    console.log(this.selProject.tenderQuestions);
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
@@ -180,10 +184,16 @@ export default {
     },
     insertQuestion() {
       let passQuestion = Object.assign({}, this.question); // avoid "by reference" issues
-      let passArea = this.tenderAreas.find((area) => area.area === passQuestion.area);
-      passArea.questions.push(passQuestion);
+      let tenderQuestions = Object.assign([], this.selProject.tenderQuestions);
+      passQuestion.id = tenderQuestions ? Object.keys(tenderQuestions).length : 0;
+      tenderQuestions[passQuestion.id.toString()] = passQuestion;
+      this.updateProject({
+        id: this.selProject.id,
+        updates: { tenderQuestions },
+      });
       document.getElementById("addQuestionBtn-close").click();
       this.refreshModal = !this.refreshModal;
+      this.question.title = "";
     },
     buildTaskAndInsert() {
       let passTask = Object.assign({}, this.task); // avoid "by reference" issues
@@ -1197,8 +1207,8 @@ export default {
                   <table class="table" v-if="userType !== 'supplier'">
                     <tbody>
                       <tr v-for="(tq, index) in selProject.tenderQuestions.filter(tqu => tqu.area === area.area)" :key="index">
-                        <td style="width:30%">{{ ind1 + 1 }}.{{ index + 1 }} {{ tq.title }}</td>
-                        <td style="width:70%">
+                        <td :style="{ width: tq.suppliers.length ? '30%' : '100%' }">{{ ind1 + 1 }}.{{ index + 1 }} {{ tq.title }}</td>
+                        <td style="width:70%" v-if="tq.suppliers.length">
                           <div v-for="supplier in tq.suppliers" :key="supplier.name" class="row mb-2">
                             <div class="col-2"><strong>Supplier</strong></div>
                             <div class="col-9"><strong>Response</strong></div>
@@ -1645,7 +1655,7 @@ export default {
               <div class="mb-4">
                 <label for="taskname-input" class="form-label">Question</label>
                 <input
-                  v-model="question.question"
+                  v-model="question.title"
                   type="text"
                   class="form-control"
                   id="question-input"

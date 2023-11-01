@@ -17,7 +17,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/brands/dribbble.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [
         { name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' },
         { name: "DBS Valid", start: '2023-01-01', end: null, path: 'abc' },]
@@ -36,7 +36,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/brands/bitbucket.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "3": {
@@ -53,7 +53,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/companies/img-8.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "4": {
@@ -70,7 +70,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/companies/img-1.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "5": {
@@ -87,7 +87,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/companies/img-6.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "6": {
@@ -104,7 +104,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/brands/dropbox.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "7": {
@@ -121,7 +121,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/companies/img-4.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "8": {
@@ -138,7 +138,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/companies/img-3.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "9": {
@@ -155,7 +155,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/companies/img-4.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     },
     "10": {
@@ -172,7 +172,7 @@ export const state = {
       since: moment().add(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
       image_src: require("@/assets/images/brands/slack.png"),
       selected: false,
-      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("YYYY-MM-DD"),
+      audited: moment().subtract(15 + Math.floor(Math.random() * 240), 'days').format("DD/MM/yyyy"),
       documents: [{ name: "Insurance", start: '2023-01-01', end: '31-12-2023', path: 'abc' }]
     }
   }

@@ -57,6 +57,8 @@ export default {
       date1: null,
       defaultOptions: { animationData: animationData },
       allTask: [],
+      filteredTasks: [],
+      milestoneOnly: false,
       resultQuery: [],
       allTasks: [],
       projectKeys: [],
@@ -94,7 +96,6 @@ export default {
     },
     ...mapActions("projects", ["updateProject", "deleteProject"]),
     changeProgress(task, increment) {
-      console.log(task, increment)
       if(task.progress + increment > -1 && task.progress + increment < 101) task.progress += increment
     }
   },
@@ -122,12 +123,13 @@ export default {
         this.allTasks = [...this.allTasks, ...tasks]
       }
     })
-    this.todo = this.allTasks.filter(task => task.status == "New" && task.type !== "project")
-    this.inprogress = this.allTasks.filter(task => task.status == "In Progress" && task.type !== "project")
-    this.completed = this.allTasks.filter(task => task.status == "Completed" && task.type !== "project")
-    this.approved = this.allTasks.filter(task => task.status == "Approved" && task.type !== "project")
-    this.paid = this.allTasks.filter(task => task.status == "Paid")
-    console.log(this.todo)
+    this.filteredTasks = this.allTasks.filter(task => (task.type !== "project" || !this.milestoneOnly));
+    this.filteredTasks.forEach(task => task.overdue = moment(task.start_date).add(task.duration, "days") < moment());
+    this.todo = this.filteredTasks.filter(task => task.status == "New")
+    this.inprogress = this.filteredTasks.filter(task => task.status == "In Progress")
+    this.completed = this.filteredTasks.filter(task => task.status == "Completed" && task.type !== "project")
+    this.approved = this.filteredTasks.filter(task => task.status == "Approved" && task.type !== "project")
+    this.paid = this.filteredTasks.filter(task => task.status == "Paid")
   },
   components: {
     Layout,
@@ -139,6 +141,26 @@ export default {
   },
   computed: {
     ...mapGetters("projects", ["projectList"]),
+    filterInprogress() {
+      return !this.filtersearchQuery1 ?
+        this.inprogress : this.inprogress.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
+    filterTodo() {
+      return !this.filtersearchQuery1 ?
+        this.todo : this.todo.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
+    filterCompleted() {
+      return !this.filtersearchQuery1 ?
+        this.completed : this.completed.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
+    filterApproved() {
+      return !this.filtersearchQuery1 ?
+        this.approved : this.approved.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
+    filterPaid() {
+      return !this.filtersearchQuery1 ?
+        this.paid : this.paid.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+    },
   },
 };
 </script>
@@ -151,13 +173,70 @@ export default {
       <i class="ri-layout-grid-fill" v-else title="Show tasks as board"></i>
     </div>
 
-    <div class="tasks-board mb-3" id="kanbanboard" style="margin-top:-20px;" v-if="!showTable">
+    <div class="card-body border border-dashed border-end-0 border-start-0 mb-2"
+    style="margin-top: -20px"
+    >
+        <form>
+          <div class="row g-3">
+            <div class="col-xxl-5 col-sm-12">
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="form-control search bg-light border-light"
+                  placeholder="Search for projects..."
+                  v-model="filtersearchQuery1"
+                />
+                <i class="ri-search-line search-icon"></i>
+              </div>
+            </div>
+            <!--end col-->
+
+            <div class="col-xxl-3 col-sm-4">
+              <flat-pickr
+                v-model="filterdate1"
+                placeholder="Select date"
+                :config="rangeDateconfig"
+                class="form-control"
+              ></flat-pickr>
+            </div>
+            <!--end col-->
+
+            <div class="col-xxl-3 col-sm-4">
+              <div class="input-light">
+                <Multiselect
+                  v-model="filtervalue1"
+                  :close-on-select="true"
+                  :searchable="true"
+                  :create-option="true"
+                  :options="[
+                    { value: 'All', label: 'All' },
+                    { value: 'New', label: 'New' },
+                    { value: 'Pending', label: 'Pending' },
+                    { value: 'Responded', label: 'Responded' },
+                    { value: 'Completed', label: 'Completed' },
+                  ]"
+                />
+              </div>
+            </div>
+            <!--end col-->
+            <div class="col-xxl-1 col-sm-4">
+              <button type="button" class="btn btn-primary w-100" @click="SearchData">
+                <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                Filters
+              </button>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </form>
+      </div>
+    <div class="tasks-board mb-3" id="kanbanboard" v-if="!showTable">
       <div class="tasks-list my-0">
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               To Do
-              <small class="badge bg-primary align-bottom ms-1">{{todo.length}}</small>
+              <small class="badge bg-primary align-bottom ms-1">{{filterTodo.length}}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -185,13 +264,14 @@ export default {
             <draggable :list="todo" class="dragArea" group="dragData" style="min-height:400px">
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of todo"
+                v-for="(data, index) of filterTodo"
+                :class="{ milestone : data.type === 'milestone', overdue : data.overdue }"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -211,7 +291,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/tasks-details"
+                            to="/apps/task-details"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -264,7 +344,7 @@ export default {
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               In Progress
-              <small class="badge bg-warning align-bottom ms-1">{{inprogress.length}}</small>
+              <small class="badge bg-warning align-bottom ms-1">{{ filterInprogress.length }}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -292,13 +372,14 @@ export default {
             <draggable :list="inprogress" class="dragArea" group="dragData" style="min-height:90px">
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of inprogress"
+                v-for="(data, index) of filterInprogress"
                 :key="index"
+                :class="{ milestone : data.type === 'milestone' || data.value, overdue : data.overdue }"
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -318,7 +399,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/tasks-details"
+                            to="/apps/task-details"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -368,7 +449,7 @@ export default {
                         <span class="text-muted taskText">{{ data.dueDate }}</span>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="margin-top:-5px">
                       <div class="col-1"><i class="ri-indeterminate-circle-line" @click="changeProgress(data, -5)"></i></div>
                       <div class="col-9">
                         <div class="progress rounded-3 progress-sm mt-2" style="margin-right:-15px">
@@ -399,7 +480,7 @@ export default {
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
               Complete
-              <small class="badge bg-info align-bottom ms-1">{{completed.length}}</small>
+              <small class="badge bg-info align-bottom ms-1">{{filterCompleted.length}}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -427,13 +508,14 @@ export default {
             <draggable :list="completed" class="dragArea" group="dragData" style="min-height:90px">
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of completed"
+                v-for="(data, index) of filterCompleted"
+                :class="{ milestone : data.type === 'milestone' }"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -453,7 +535,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/tasks-details"
+                            to="/apps/task-details"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -517,7 +599,7 @@ export default {
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Approved <small class="badge bg-success align-bottom ms-1">1</small>
+              Approved <small class="badge bg-success align-bottom ms-1">{{ filterApproved.length }}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -545,13 +627,14 @@ export default {
             <draggable :list="approved">
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of approved"
+                v-for="(data, index) of filterApproved"
+                :class="{ milestone : data.type === 'milestone' }"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -571,7 +654,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/tasks-details"
+                            to="/apps/task-details"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -635,7 +718,7 @@ export default {
         <div class="d-flex mb-0">
           <div class="flex-grow-1">
             <h6 class="fs-14 text-uppercase fw-semibold mb-0">
-              Paid <small class="badge bg-success align-bottom ms-1">1</small>
+              Paid <small class="badge bg-success align-bottom ms-1">{{ filterPaid.length }}</small>
             </h6>
           </div>
           <div class="flex-shrink-0">
@@ -663,13 +746,14 @@ export default {
             <draggable :list="paid">
               <div
                 class="card tasks-box my-2"
-                v-for="(data, index) of paid"
+                v-for="(data, index) of filterPaid"
+                :class="{ milestone : data.type === 'milestone' }"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -689,7 +773,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/tasks-details"
+                            to="/apps/task-details"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -824,7 +908,7 @@ export default {
                   </div>
                 </th>
                 <td class="id">
-                  <router-link to="/apps/tasks-details" class="fw-medium link-primary">{{ task.id }}
+                  <router-link to="/apps/task-details" class="fw-medium link-primary">{{ task.id }}
                   </router-link>
                 </td>
                 <td class="project_name">
@@ -839,7 +923,7 @@ export default {
                     <div class="flex-shrink-0 ms-4">
                       <ul class="list-inline tasks-list-menu mb-0">
                         <li class="list-inline-item">
-                          <router-link to="/apps/tasks-details"><i
+                          <router-link to="/apps/task-details"><i
                               class="ri-eye-fill align-bottom me-2 text-muted"></i></router-link>
                         </li>
                         <li class="list-inline-item" data-bs-toggle="modal" href="#showmodal"
@@ -1502,6 +1586,13 @@ export default {
   </Layout>
 </template>
 <style>
+.milestone {
+  border: solid 2px #ffc107 !important;
+}
+.overdue {
+  border: dotted 1px rgba(255, 0, 0, 0.564);
+  background-color: #f8d7da50;
+}
 .page-title-box {
   margin-bottom: 0.5rem;
 }

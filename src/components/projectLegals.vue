@@ -161,6 +161,7 @@ import { defineProps } from 'vue'
     })
     const userOrg = localStorage.getItem("userOrg");
     let payItems = props.selProject.tasks.data.filter((task) => task.payment);
+    console.log(props.selProject)
 </script>
 
 <style>

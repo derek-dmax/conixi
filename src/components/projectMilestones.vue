@@ -17,7 +17,7 @@
               <div class="flex-shrink-0 ms-4">
                 <ul class="list-inline tasks-list-menu mb-0">
                   <li class="list-inline-item" title="View Task">
-                    <router-link to="/apps/tasks-details"><i
+                    <router-link :to="'/apps/task-details/' + selProject.id + '_' + item.id"><i
                         class="ri-eye-fill align-bottom me-2 text-muted"></i></router-link>
                   </li>
                   <li class="list-inline-item" data-bs-toggle="modal" title="Edit Task" href="#showmodal"
@@ -102,15 +102,17 @@
             <span
               class="col-1"
               v-if="!item.changePayment"
-              @click="
+              style="cursor: pointer"
+              >
+              <router-link :to="'/apps/task-details/' + selProject.id + '_' + item.id"><i
+                        class="ri-eye-fill align-bottom me-2 text-muted"></i></router-link>
+              <i class="mdi mdi-square-edit-outline" @click="
                 updProjectTask({
                   id: currId,
                   taskId: item.id,
                   updates: { changePayment: true },
                 })
-              "
-              style="cursor: pointer"
-              ><i class="mdi mdi-square-edit-outline"></i
+              "></i
             ></span>
             <span
               class="col-1"
@@ -153,7 +155,7 @@ const store = useStore();
 let projectList = computed(() => store.getters["projects/projectList"]);
 
 /*/
-    props
+    propsleftItems
 */
 const props = defineProps(["currId"]);
 let currPayment = ref(null);

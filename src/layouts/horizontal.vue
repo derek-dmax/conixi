@@ -283,7 +283,7 @@
                             </router-link>
                           </li>
                           <li class="nav-item">
-                            <router-link to="/apps/tasks-details" class="nav-link" data-key="t-task-details">
+                            <router-link to="/apps/task-details" class="nav-link" data-key="t-task-details">
                               {{ $t("t-task-details") }}
                             </router-link>
                           </li>

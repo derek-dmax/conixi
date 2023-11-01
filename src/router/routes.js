@@ -169,9 +169,9 @@ export default [
     component: () => import("../views/apps/projects/create"),
   },
   {
-    path: "/apps/tasks-details",
-    name: "tasks-details",
-    meta: { title: "Tasks Details", authRequired: true },
+    path: "/apps/task-details/:id?",
+    name: "task-details",
+    meta: { title: "Task Details", authRequired: true },
     component: () => import("../views/apps/tasks/details"),
   },
   {

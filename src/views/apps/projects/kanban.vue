@@ -307,7 +307,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -315,7 +315,7 @@ export default {
                   <div class="fs-14 d-flex mb-0"> Invited: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
+                      <router-link to="/apps/task-details">{{ data.name }}</router-link>
                     </div>
                     <div class="dropdown">
                       <a
@@ -328,7 +328,7 @@ export default {
                       ></a>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                         <li>
-                          <router-link class="dropdown-item" to="/apps/tasks-details"
+                          <router-link class="dropdown-item" to="/apps/task-details"
                             ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                             View</router-link
                           >
@@ -398,7 +398,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -406,7 +406,7 @@ export default {
                   <div class="fs-14 d-flex mb-0"> Responded: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
+                      <router-link to="/apps/task-details">{{ data.name }}</router-link>
                     </div>
                     <div class="dropdown">
                       <a
@@ -419,7 +419,7 @@ export default {
                       ></a>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                         <li>
-                          <router-link class="dropdown-item" to="/apps/tasks-details"
+                          <router-link class="dropdown-item" to="/apps/task-details"
                             ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                             View</router-link
                           >
@@ -492,7 +492,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -512,7 +512,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/tasks-details"
+                            to="/apps/task-details"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -635,7 +635,7 @@ export default {
               <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -643,7 +643,7 @@ export default {
                   <div class="fs-14 d-flex mb-0"> Reviewed: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
+                      <router-link to="/apps/task-details">{{ data.name }}</router-link>
                     </div>
                     <div class="dropdown">
                       <a
@@ -656,7 +656,7 @@ export default {
                       ></a>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                         <li>
-                          <router-link class="dropdown-item" to="/apps/tasks-details"
+                          <router-link class="dropdown-item" to="/apps/task-details"
                             ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                             View</router-link
                           >
@@ -717,7 +717,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{
+                      <router-link to="/apps/task-details">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -725,7 +725,7 @@ export default {
                   <div class="fs-14 d-flex mb-0"> Approved: {{ data.createdDate.format('DD-MMM-YY') }}</div>
                   <div class="d-flex mb-0">
                     <div class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/tasks-details">{{ data.name }}</router-link>
+                      <router-link to="/apps/task-details">{{ data.name }}</router-link>
                     </div>
                     <div class="dropdown">
                       <a
@@ -738,7 +738,7 @@ export default {
                       ></a>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                         <li>
-                          <router-link class="dropdown-item" to="/apps/tasks-details"
+                          <router-link class="dropdown-item" to="/apps/task-details"
                             ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                             View</router-link
                           >
@@ -802,7 +802,7 @@ export default {
                   </div>
                 </th>
                 <td class="id">
-                  <router-link to="/apps/tasks-details" class="fw-medium link-primary"
+                  <router-link to="/apps/task-details" class="fw-medium link-primary"
                     >{{ bid.id }}
                   </router-link>
                 </td>
@@ -821,7 +821,7 @@ export default {
                   <div class="flex-shrink-0 ms-4">
                     <ul class="list-inline tasks-list-menu mb-0">
                       <li class="list-inline-item">
-                        <router-link to="/apps/tasks-details"
+                        <router-link to="/apps/task-details"
                           ><i class="ri-eye-fill align-bottom me-2 text-muted"></i
                         ></router-link>
                       </li>
