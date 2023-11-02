@@ -203,20 +203,16 @@ export default {
     style="margin-top: -20px"
     >
         <form>
-          <div class="row g-3">
-            <div class="col-xxl-2 col-sm-2">
-              <div class="form-check form-switch form-switch-right form-switch-md pt-2">
-                  <label for="stacksvertical-showcode" class="form-label text-muted">Milestones Only?</label>
-                  <input class="form-check-input code-switcher" type="checkbox"
-                    v-model="milestoneOnly"
-                    id="milestoneOnly">
-              </div>
+          <div class="row g-2">
+            <div class="col-xxl-2 row" style="padding-top:12px;font-size:13px;">
+              <span class="card overdue col" style="max-width:25px; height:25px"></span><span class="col pt-1">Overdue</span>
+              <span class="card milestone col" style="max-width:25px; height:25px"></span><span class="col pt-1">Milestone</span>
             </div>
             <div class="col-xxl-5 col-sm-9">
               <div class="search-box">
                 <input
                   type="text"
-                  class="form-control search bg-light border-light"
+                  class="form-control search bg-white border-light"
                   placeholder="Search for projects..."
                   v-model="filtersearchQuery1"
                 />
@@ -224,6 +220,14 @@ export default {
               </div>
             </div>
             <!--end col-->
+            <div class="col-xxl-2 col-sm-2">
+              <div class="form-check form-switch form-switch-right form-switch-md" style="padding-top: 14px;padding-left: 15px !important;">
+                  <label for="stacksvertical-showcode" class="form-label text-muted">Milestones Only?</label>
+                  <input class="form-check-input code-switcher" type="checkbox"
+                    v-model="milestoneOnly"
+                    id="milestoneOnly">
+              </div>
+            </div>
 
             <div class="col-xxl-2 col-sm-4" v-if="false">
               <flat-pickr
@@ -253,7 +257,7 @@ export default {
               </div>
             </div>
             <!--end col-->
-            <div class="col-xxl-1 col-sm-4">
+            <div class="col-xxl-1 col-sm-4" v-if="false">
               <button type="button" class="btn btn-primary w-100" @click="SearchData">
                 <i class="ri-equalizer-fill me-1 align-bottom"></i>
                 Filters

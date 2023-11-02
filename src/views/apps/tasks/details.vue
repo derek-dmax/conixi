@@ -54,12 +54,13 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.tasks = Object.assign({}, this.projectList[this.$route.params.id.split("_")[0]].tasks.data)
+      this.tasks = Object.assign({}, this.projectList[this.$route.params.id.split("_")[0]].tasks.data);
 
       for (var i = 0; i < Object.keys(this.tasks).length; i++) {
         if (this.tasks[i].id == this.$route.params.id.split("_")[1]) {
           this.task = Object.assign({}, this.tasks[i]);
           this.task.payment = this.task.payment.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+          this.task.project = this.projectList[this.$route.params.id.split("_")[0]].description;
           this.startDate = moment(this.task.startDate).subtract(this.task.duration, 'days').format('DD-MMM-yyyy')
           this.dueDate = moment(this.task.dueDate).format('DD-MMM-yyyy')
           break;
@@ -105,6 +106,10 @@ export default {
           </div>
         </div>
             <div class="text-muted">
+              <div class="mb-1 mt-2">
+                Project: {{ task.project }}
+              </div>
+
               <div class="mb-1" v-if="task.duration != 0">
                 Start Date: {{ startDate }}
               </div>

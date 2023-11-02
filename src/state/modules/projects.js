@@ -71,7 +71,7 @@ export const state = {
                     },
                     {
                         id: 2,
-                        text: "Client Workshops",
+                        text: "Admin Client Workshops",
                         start_date: moment().subtract(15, "days"),
                         duration: "7",
                         progress: 100,
@@ -102,7 +102,7 @@ export const state = {
                     },
                     {
                         id: 3,
-                        text: "Specifications",
+                        text: "Admin Specifications",
                         start_date: moment().subtract(13, "days"),
                         duration: "6",
                         parent: "1",
@@ -128,7 +128,7 @@ export const state = {
                     {
                         id: 4,
                         type: gantt.config.types.milestone,
-                        text: "Specification Signoff",
+                        text: "Admin Specification Signoff",
                         start_date: moment().subtract(7, "days"),
                         duration: "0",
                         parent: "1",
@@ -1199,7 +1199,7 @@ export const state = {
                     {
                         id: 4,
                         type: gantt.config.types.milestone,
-                        text: "Design Signoff",
+                        text: "X-County Design Signoff",
                         start_date: moment(),
                         duration: "0",
                         parent: "1",
@@ -1922,7 +1922,7 @@ export const state = {
                     {
                         id: 4,
                         type: gantt.config.types.milestone,
-                        text: "Design Signoff",
+                        text: "Pitch Design Signoff",
                         start_date: moment(),
                         duration: "0",
                         parent: "1",
@@ -2099,7 +2099,7 @@ export const state = {
                     {
                         id: 13,
                         type: gantt.config.types.milestone,
-                        text: "Go-Live",
+                        text: "Pitch Go-Live",
                         start_date: moment().add(9, "days"),
                         parent: 0,
                         progress: 0,
