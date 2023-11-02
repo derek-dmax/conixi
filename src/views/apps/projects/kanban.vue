@@ -307,7 +307,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                      <router-link :to="'/apps/projects-view?id=' + data.projId">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -398,7 +398,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                      <router-link :to="'/apps/projects-view?id=' + data.projId + '&tenderView=true'">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -492,7 +492,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                      <router-link :to="'/apps/projects-view?id=' + data.projId + '&tenderView=true'">{{
                         data.project
                       }}</router-link>
                     </h6>
@@ -635,7 +635,7 @@ export default {
               <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                      <router-link :to="'/apps/projects-view?id=' + data.projId + '&tenderView=true'">{{
                         data.project
                       }}</router-link>
                     </h6>

@@ -620,11 +620,11 @@ export const state = {
                     {
                         id: 4,
                         type: gantt.config.types.milestone,
-                        text: "Design Signoff",
+                        text: "HD Design Signoff",
                         start_date: moment(),
                         duration: "0",
                         parent: "1",
-                        progress: 0,
+                        progress: 30,
                         open: true,
                         payment: 1000,
                         status: "In Progress",
@@ -797,7 +797,7 @@ export const state = {
                     {
                         id: 13,
                         type: gantt.config.types.milestone,
-                        text: "Go-Live",
+                        text: "Helpdesk Go-Live",
                         start_date: moment().add(9, "days"),
                         parent: 0,
                         progress: 0,
@@ -1376,7 +1376,7 @@ export const state = {
                     {
                         id: 13,
                         type: gantt.config.types.milestone,
-                        text: "Go-Live",
+                        text: "Changing Room Go-Live",
                         start_date: moment().add(9, "days"),
                         parent: 0,
                         progress: 0,
@@ -1564,7 +1564,7 @@ export const state = {
                     {
                         id: 4,
                         type: gantt.config.types.milestone,
-                        text: "Design Signoff",
+                        text: "Heating Design Signoff",
                         start_date: moment(),
                         duration: "0",
                         parent: "1",
@@ -1741,7 +1741,7 @@ export const state = {
                     {
                         id: 13,
                         type: gantt.config.types.milestone,
-                        text: "Go-Live",
+                        text: "Heating Go-Live",
                         start_date: moment().add(9, "days"),
                         parent: 0,
                         progress: 0,

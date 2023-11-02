@@ -1,4 +1,3 @@
-  import Multiselect from "@vueform/multiselect";
 <script>
 import { VueDraggableNext } from "vue-draggable-next";
 import flatPickr from "vue-flatpickr-component";
@@ -15,6 +14,7 @@ import "@vueform/multiselect/themes/default.css";
 import Lottie from "@/components/widgets/lottie.vue";
 import animationData from "@/components/widgets/gsqxdxog.json";
 import "flatpickr/dist/flatpickr.css";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   page: {
@@ -39,6 +39,7 @@ export default {
       filtersearchQuery1: null,
       filtervalue1: null,
       filterdate1: new Date(),
+      currTask: {},
       rangeDateconfig: {
           wrap: true, // set wrap to true only when using 'input-group'
           altFormat: "M j, Y",
@@ -62,6 +63,8 @@ export default {
       resultQuery: [],
       allTasks: [],
       projectKeys: [],
+      partPaymentTask: {},
+      showPartPayment: false,
       unassigned: [
         {
           title: "Design New Landing Page",
@@ -97,6 +100,25 @@ export default {
     ...mapActions("projects", ["updateProject", "deleteProject"]),
     changeProgress(task, increment) {
       if(task.progress + increment > -1 && task.progress + increment < 101) task.progress += increment
+    },
+    partPay() {
+      this.currTask.text = this.currTask.text + " / 2";
+      this.currTask.progress = 0;
+      this.currTask.payment = this.currTask.payment - this.partPaymentTask.payment;
+      this.partPaymentTask.text = this.partPaymentTask.text + " / 1";
+      this.partPaymentTask.progress = 100;
+      console.log(this.partPaymentTask);
+      console.log(this.currTask);
+      this.completed.push(this.partPaymentTask);
+      document.getElementById("closePartpay").click();
+    },
+    partPayment(task){
+      this.partPaymentTask = Object.assign({}, task);
+      this.currTask = task;
+      this.partPaymentTask.id = uuidv4();
+      this.partPaymentTask.payment = 10 * parseInt(task.progress * task.payment / 1000);
+      this.partPaymentTask.reason = "";
+      this.showPartPayment = true;
     }
   },
   created() {
@@ -118,6 +140,7 @@ export default {
         tasks = JSON.parse(JSON.stringify(this.projectList[key].tasks.data))
         tasks.forEach(task => {
           task.project = this.projectList[key].label
+          task.projId = this.projectList[key].id
           task.dueDate = moment(task.start_date).add(task.duration, "days").format('Do MMM YY')
         })
         this.allTasks = [...this.allTasks, ...tasks]
@@ -142,16 +165,19 @@ export default {
   computed: {
     ...mapGetters("projects", ["projectList"]),
     filterInprogress() {
-      return !this.filtersearchQuery1 ?
-        this.inprogress : this.inprogress.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+      let filtInprogress = !this.filtersearchQuery1 ? this.inprogress : this.inprogress.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+      filtInprogress = !this.milestoneOnly ? filtInprogress : filtInprogress.filter((task) => task.value || task.type === "milestone");
+      return filtInprogress;
     },
     filterTodo() {
-      return !this.filtersearchQuery1 ?
-        this.todo : this.todo.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+      let filtTodo = !this.filtersearchQuery1 ? this.todo : this.todo.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+      filtTodo = !this.milestoneOnly ? filtTodo : filtTodo.filter((task) => task.value || task.type === "milestone");
+      return filtTodo;
     },
     filterCompleted() {
-      return !this.filtersearchQuery1 ?
-        this.completed : this.completed.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+      let filtCompleted = !this.filtersearchQuery1 ? this.completed : this.completed.filter((task) => task.project.toLowerCase().includes(this.filtersearchQuery1.toLowerCase()));
+      filtCompleted = !this.milestoneOnly ? filtCompleted : filtCompleted.filter((task) => task.value || task.type === "milestone");
+      return filtCompleted;
     },
     filterApproved() {
       return !this.filtersearchQuery1 ?
@@ -178,7 +204,15 @@ export default {
     >
         <form>
           <div class="row g-3">
-            <div class="col-xxl-5 col-sm-12">
+            <div class="col-xxl-2 col-sm-2">
+              <div class="form-check form-switch form-switch-right form-switch-md pt-2">
+                  <label for="stacksvertical-showcode" class="form-label text-muted">Milestones Only?</label>
+                  <input class="form-check-input code-switcher" type="checkbox"
+                    v-model="milestoneOnly"
+                    id="milestoneOnly">
+              </div>
+            </div>
+            <div class="col-xxl-5 col-sm-9">
               <div class="search-box">
                 <input
                   type="text"
@@ -191,7 +225,7 @@ export default {
             </div>
             <!--end col-->
 
-            <div class="col-xxl-3 col-sm-4">
+            <div class="col-xxl-2 col-sm-4" v-if="false">
               <flat-pickr
                 v-model="filterdate1"
                 placeholder="Select date"
@@ -201,7 +235,7 @@ export default {
             </div>
             <!--end col-->
 
-            <div class="col-xxl-3 col-sm-4">
+            <div class="col-xxl-2 col-sm-4" v-if="false">
               <div class="input-light">
                 <Multiselect
                   v-model="filtervalue1"
@@ -271,7 +305,7 @@ export default {
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                      <router-link :to="'/apps/task-details/' + data.projId + '_' + data.id">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -291,7 +325,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/task-details"
+                            :to="'/apps/task-details/' + data.projId + '_' + data.id"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -378,8 +412,8 @@ export default {
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
-                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate" :title="data.payment ? '£' + data.payment.toString() : ''">
+                      <router-link :to="'/apps/task-details/' + data.projId + '_' + data.id">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -399,7 +433,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/task-details"
+                            :to="'/apps/task-details/' + data.projId + '_' + data.id"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -417,6 +451,19 @@ export default {
                               "
                             ></i>
                             Edit</a
+                          >
+                        </li>
+                        <li v-if="data.progress > 10 && data.payment" @click="partPayment(data)">
+                          <a href="#partpayModal" data-bs-toggle="modal" class="dropdown-item"
+                            ><i
+                              class="
+                                ri-file-damage-line
+                                align-bottom
+                                me-2
+                                text-muted
+                              "
+                            ></i>
+                            Part Payment</a
                           >
                         </li>
                         <li>
@@ -514,8 +561,8 @@ export default {
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
-                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                    <h6 class="fs-15 mb-0 flex-grow-1 text-truncate" :title="data.payment ? '£' + data.payment.toString() + (data.reason ? ' (' + data.reason + ')': '') : ''">
+                      <router-link :to="'/apps/task-details/' + data.projId + '_' + data.id">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -535,7 +582,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/task-details"
+                            :to="'/apps/task-details/' + data.projId + '_' + data.id"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -626,15 +673,14 @@ export default {
           <div id="completed-task" class="tasks">
             <draggable :list="approved">
               <div
-                class="card tasks-box my-2"
+                class="card tasks-box my-2 milestone"
                 v-for="(data, index) of filterApproved"
-                :class="{ milestone : data.type === 'milestone' }"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                      <router-link :to="'/apps/task-details/' + data.projId + '_' + data.id">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -654,7 +700,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/task-details"
+                            :to="'/apps/task-details/' + data.projId + '_' + data.id"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -745,15 +791,14 @@ export default {
           <div id="completed-task" class="tasks">
             <draggable :list="paid">
               <div
-                class="card tasks-box my-2"
+                class="card tasks-box my-2 milestone"
                 v-for="(data, index) of filterPaid"
-                :class="{ milestone : data.type === 'milestone' }"
                 :key="index"
               >
                 <div class="card-body pb-0 pt-2">
                   <div class="d-flex mb-0">
                     <h6 class="fs-15 mb-0 flex-grow-1 text-truncate">
-                      <router-link to="/apps/task-details">{{
+                      <router-link :to="'/apps/task-details/' + data.projId + '_' + data.id">{{
                         data.text
                       }}</router-link>
                     </h6>
@@ -773,7 +818,7 @@ export default {
                         <li>
                           <router-link
                             class="dropdown-item"
-                            to="/apps/task-details"
+                            :to="'/apps/task-details/' + data.projId + '_' + data.id"
                             ><i
                               class="ri-eye-fill align-bottom me-2 text-muted"
                             ></i>
@@ -1009,19 +1054,19 @@ export default {
     </div>
     <div
       class="modal fade"
-      id="addmemberModal"
+      id="partpayModal"
       tabindex="-1"
-      aria-labelledby="addmemberModalLabel"
+      aria-labelledby="partpayModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content border-0">
-          <div class="modal-header p-3 bg-soft-warning">
-            <h5 class="modal-title" id="addmemberModalLabel">Add Member</h5>
+          <div class="modal-header p-3 bg-primary">
+            <h5 class="modal-title text-white" id="partpayModalLabel">Request Part Payment</h5>
             <button
               type="button"
               class="btn-close"
-              id="btn-close-member"
+              id="btn-close-partpay"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
@@ -1030,106 +1075,50 @@ export default {
             <form>
               <div class="row g-3">
                 <div class="col-lg-12">
-                  <label for="submissionidInput" class="form-label"
-                    >Submission ID</label
+                  <strong>Project:</strong> {{ partPaymentTask.project }}
+                </div>
+                <div class="col-lg-12">
+                  <strong>Task:</strong> {{ partPaymentTask.text }}
+                </div>
+                <!--end col-->
+                <div class="col-lg-12">
+                  <strong>Task Total Value:</strong> £{{ partPaymentTask.payment }}
+                </div>
+                <!--end col-->
+                <div class="col-lg-12">
+                  <label for="progress" class="form-label"
+                    >Progress</label
                   >
                   <input
                     type="number"
                     class="form-control"
-                    id="submissionidInput"
-                    placeholder="Submission ID"
+                    id="progress"
+                    placeholder="Progress %"
+                    v-model="partPaymentTask.progress"
                   />
                 </div>
                 <!--end col-->
                 <div class="col-lg-12">
-                  <label for="profileimgInput" class="form-label"
-                    >Profile Images</label
-                  >
-                  <input
-                    class="form-control"
-                    type="file"
-                    id="profileimgInput"
-                  />
-                </div>
-                <!--end col-->
-                <div class="col-lg-6">
-                  <label for="firstnameInput" class="form-label"
-                    >First Name</label
+                  <label for="reqPayment" class="form-label"
+                    >Requested Payment</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    id="firstnameInput"
-                    placeholder="Enter firstname"
-                  />
-                </div>
-                <!--end col-->
-                <div class="col-lg-6">
-                  <label for="lastnameInput" class="form-label"
-                    >Last Name</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="lastnameInput"
-                    placeholder="Enter lastname"
+                    id="reqPayment"
+                    placeholder="Enter a value below the total value"
+                    v-model="partPaymentTask.payment"
                   />
                 </div>
                 <!--end col-->
                 <div class="col-lg-12">
-                  <label for="designationInput" class="form-label"
-                    >Designation</label
-                  >
-                  <input
-                    type="text"
+                  <label for="reason" class="form-label">Reason for request</label>
+                  <textarea
+                    rows="3"
                     class="form-control"
-                    id="designationInput"
-                    placeholder="Designation"
-                  />
-                </div>
-                <!--end col-->
-                <div class="col-lg-12">
-                  <label for="titleInput" class="form-label">Title</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="titleInput"
-                    placeholder="Title"
-                  />
-                </div>
-                <!--end col-->
-                <div class="col-lg-6">
-                  <label for="numberInput" class="form-label"
-                    >Phone Number</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="numberInput"
-                    placeholder="Phone number"
-                  />
-                </div>
-                <!--end col-->
-                <div class="col-lg-6">
-                  <label for="joiningdateInput" class="form-label"
-                    >Joining Date</label
-                  >
-
-                  <flat-pickr
-                    v-model="date"
-                    :config="config"
-                    placeholder="Select date"
-                    class="form-control"
-                  ></flat-pickr>
-                </div>
-                <!--end col-->
-                <div class="col-lg-12">
-                  <label for="emailInput" class="form-label">Email ID</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="emailInput"
-                    placeholder="Email"
+                    id="reason"
+                    placeholder="Enter a reason for request"
+                    v-model="partPaymentTask.reason"
                   />
                 </div>
                 <!--end col-->
@@ -1138,17 +1127,17 @@ export default {
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="closePartpay">
               <i class="ri-close-line align-bottom me-1"></i> Close
             </button>
-            <button type="button" class="btn btn-success" id="addMember">
-              Add Member
+            <button type="button" class="btn btn-success" id="partpay" @click="partPay">
+              Request Payment
             </button>
           </div>
         </div>
       </div>
     </div>
-    <!--end add member modal-->
+    <!--end add part pay modal-->
 
     <div
       class="modal fade"

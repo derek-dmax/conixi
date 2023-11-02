@@ -76,6 +76,7 @@ export default {
       todayDate: moment().format("Do") + " day of " + moment().format("MMMM YYYY"),
       yesterdayDate: moment().subtract(1, "days").format("Do MMM, YYYY"),
       currId: 1,
+      tenderView: false,
       userName: localStorage.getItem("userName"),
       refreshModal: false,
       tour: null,
@@ -118,6 +119,8 @@ export default {
     this.userType = localStorage.getItem("userType");
     const queryParams = new URLSearchParams(window.location.search);
     this.currId = queryParams.get("id");
+    this.tenderView = Boolean(queryParams.get("tenderView"));
+    console.log(this.tenderView);
 
     this.selProject = this.projectList[this.currId];
     const suppKeys = Object.keys(this.supplierList);
@@ -464,7 +467,8 @@ export default {
                 <li class="nav-item">
                   <a
                     id="overview-step"
-                    class="nav-link active fw-semibold"
+                    class="nav-link fw-semibold"
+                    :class="{ active : !tenderView }"
                     data-bs-toggle="tab"
                     href="#project-overview"
                     role="tab"
@@ -540,7 +544,7 @@ export default {
     <div class="row">
       <div class="col-lg-12">
         <div class="tab-content text-muted">
-          <div class="tab-pane fade show active" id="project-overview" role="tabpanel">
+          <div class="tab-pane" :class="{ active : !tenderView, show : !tenderView, fade : tenderView }" id="project-overview" role="tabpanel">
             <div class="row">
               <div class="col-xl-9 col-lg-8">
                 <div class="card">
@@ -1133,7 +1137,7 @@ export default {
             <!--end card-->
           </div>
           <!-- end tab pane -->
-          <div class="tab-pane fade" id="project-tender" role="tabpanel">
+          <div class="tab-pane" :class="{ active : tenderView, show : tenderView, fade : !tenderView }" id="project-tender" role="tabpanel">
             <div class="card">
               <div class="card-body">
                 <div class="row mb-3">
