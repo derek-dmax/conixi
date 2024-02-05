@@ -1,7 +1,5 @@
 <script>
-  import {
-    SimpleBar
-  } from "simplebar-vue3";
+  import simplebar from "simplebar-vue";
   
   import i18n from "../i18n";
   
@@ -41,7 +39,7 @@
       }
     },
     components: {
-      SimpleBar
+      simplebar
     },
   
     methods: {
@@ -302,7 +300,7 @@
                   " id="search-close-options"></span>
               </div>
               <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
-                <SimpleBar data-simplebar style="max-height: 320px">
+                <simplebar data-simplebar style="max-height: 320px">
                   <!-- item-->
                   <div class="dropdown-header">
                     <h6 class="text-overflow text-muted mb-0 text-uppercase">
@@ -389,7 +387,7 @@
                       </div>
                     </a>
                   </div>
-                </SimpleBar>
+                </simplebar>
   
                 <div class="text-center pt-3 pb-1">
                   <router-link to="/pages/search-results" class="btn btn-primary btn-sm">View All Results <i
@@ -453,7 +451,7 @@
                     </div>
                   </div>
                 </div>
-                <SimpleBar data-simplebar style="max-height: 300px">
+                <simplebar data-simplebar style="max-height: 300px">
                   <div class="p-2">
                     <div class="text-center empty-cart" id="empty-cart">
                       <div class="avatar-md mx-auto my-3">
@@ -577,7 +575,7 @@
                       </div>
                     </div>
                   </div>
-                </SimpleBar>
+                </simplebar>
                 <div class="p-3 border-bottom-0 border-start-0 border-end-0 border-dashed border" id="checkout-elem">
                   <div class="d-flex justify-content-between align-items-center pb-3">
                     <h5 class="m-0 text-muted">Total:</h5>
@@ -659,7 +657,7 @@
                 <div class="tab-content" id="notificationItemsTabContent">
   
                   <div class="tab-pane fade py-2 ps-2 show active" id="all-noti-tab" role="tabpanel">
-                    <SimpleBar data-simplebar style="max-height: 300px" class="pe-2">
+                    <simplebar data-simplebar style="max-height: 300px" class="pe-2">
                       <div class="text-reset notification-item d-block dropdown-item position-relative">
                         <div class="d-flex">
                           <img src="@/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs"
@@ -696,11 +694,11 @@
                           <i class="ri-arrow-right-line align-middle"></i>
                         </button>
                       </div>
-                    </SimpleBar>
+                    </simplebar>
                   </div>
   
                   <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
-                    <SimpleBar data-simplebar style="max-height: 300px" class="pe-2">
+                    <simplebar data-simplebar style="max-height: 300px" class="pe-2">
                       <div class="text-reset notification-item d-block dropdown-item">
                         <div class="d-flex">
                           <img src="@/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs"
@@ -737,7 +735,7 @@
                           <i class="ri-arrow-right-line align-middle"></i>
                         </button>
                       </div>
-                    </SimpleBar>
+                    </simplebar>
                   </div>
   
                   <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">

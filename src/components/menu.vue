@@ -2,13 +2,11 @@
   import {
     layoutComputed
   } from "@/state/helpers";
-  import {
-    SimpleBar
-  } from "simplebar-vue3";
+  import simplebar from "simplebar-vue";
 
   export default {
     components: {
-      SimpleBar
+      simplebar
     },
     data() {
       return {
@@ -153,7 +151,7 @@
     <div id="two-column-menu"></div>
 
     <template v-if="layoutType === 'twocolumn'">
-      <SimpleBar class="navbar-nav" id="navbar-nav">
+      <simplebar class="navbar-nav" id="navbar-nav">
         <li class="nav-item">
           <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button"
             aria-expanded="false" aria-controls="sidebarApps">
@@ -837,7 +835,7 @@
             </ul>
           </div>
         </li>
-      </SimpleBar>
+      </simplebar>
     </template>
 
     <template v-else>

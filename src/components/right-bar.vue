@@ -1,13 +1,13 @@
 <script>
   localStorage.setItem("rightbar_isopen", false);
   import { layoutMethods, layoutComputed } from "@/state/helpers";
-  import { SimpleBar } from "simplebar-vue3";
+  import simplebar from "simplebar-vue";
   /**
    * Right sidebar component
    */
   export default {
     components: {
-      SimpleBar,
+      simplebar,
     },
     data() {
       return {
@@ -432,7 +432,7 @@
             aria-label="Close"></button>
         </div>
         <div class="offcanvas-body p-0">
-          <SimpleBar class="h-100">
+          <simplebar class="h-100">
             <div class="p-4">
               <h6 class="mb-0 fw-semibold text-uppercase">Layout</h6>
               <p class="text-muted">Choose your layout</p>
@@ -1177,7 +1177,7 @@
               </div>
   
             </div>
-          </SimpleBar>
+          </simplebar>
         </div>
         <div class="offcanvas-footer border-top p-3 text-center">
           <div class="row">

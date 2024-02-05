@@ -1,6 +1,6 @@
 <script>
 import router from "@/router";
-import { SimpleBar } from "simplebar-vue3";
+import simplebar from "simplebar-vue";
 import { layoutComputed } from "@/state/helpers";
 import Menu from "@/components/menu.vue";
 import NavBar from "@/components/nav-bar";
@@ -15,7 +15,7 @@ export default {
     NavBar,
     RightBar,
     Footer,
-    SimpleBar,
+    simplebar,
     Menu,
   },
   data() {
@@ -245,7 +245,7 @@ export default {
         <div id="scrollbar" v-if="rmenu == 'twocolumn'">
           <div class="container-fluid">
             <div id="two-column-menu">
-              <SimpleBar class="twocolumn-iconview list-unstyled">
+              <simplebar class="twocolumn-iconview list-unstyled">
                 <a href="#" class="logo"
                   ><img src="@/assets/images/logo-sm-c.png" alt="Logo" height="36"
                 /></a>
@@ -388,10 +388,10 @@ export default {
                     <i class="las la-folder-plus"></i>
                   </a>
                 </li>
-              </SimpleBar>
+              </simplebar>
             </div>
             <template v-if="layoutType === 'twocolumn'">
-              <SimpleBar class="navbar-nav" id="navbar-nav">
+              <simplebar class="navbar-nav" id="navbar-nav">
                 <li class="menu-title">
                   <span data-key="t-menu"> {{ $t("t-menu") }}</span>
                 </li>
@@ -1942,19 +1942,19 @@ export default {
                     </ul>
                   </div>
                 </li>
-              </SimpleBar>
+              </simplebar>
             </template>
           </div>
         </div>
 
-        <SimpleBar
+        <simplebar
           id="scrollbar"
           class="h-100"
           ref="scrollbar"
           v-if="rmenu == 'vertical'"
         >
           <Menu></Menu>
-        </SimpleBar>
+        </simplebar>
 
         <div class="sidebar-background"></div>
       </div>

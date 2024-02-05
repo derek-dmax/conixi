@@ -204,7 +204,7 @@
           </div>
 
           <div class="chat-message-list">
-            <SimpleBar class="list-unstyled chat-list chat-user-list">
+            <simplebar class="list-unstyled chat-list chat-user-list">
               <li class v-for="data of chatData" :key="data.id" @click="chatUsername(data.name, data.image)"
                 :class="{ active: username == data.name }">
                 <a href="javascript: void(0);">
@@ -231,7 +231,7 @@
                   </div>
                 </a>
               </li>
-            </SimpleBar>
+            </simplebar>
           </div>
 
           <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">

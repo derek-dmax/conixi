@@ -1,6 +1,6 @@
 <script>
   import router from "@/router";
-  import { SimpleBar } from "simplebar-vue3";
+  import simplebar from "simplebar-vue";
   import { layoutComputed } from "@/state/helpers";
   
   import NavBar from "@/components/nav-bar";
@@ -13,7 +13,7 @@
    * Vertical layout
    */
   export default {
-    components: { NavBar, RightBar, Footer, SimpleBar, Menu },
+    components: { NavBar, RightBar, Footer, simplebar, Menu },
     data() {
       return {
         isMenuCondensed: false,
@@ -109,9 +109,9 @@
             </button>
           </div>
   
-          <SimpleBar id="scrollbar" class="h-100" ref="scrollbar">
+          <simplebar id="scrollbar" class="h-100" ref="scrollbar">
             <Menu></Menu>
-          </SimpleBar>
+          </simplebar>
           <div class="sidebar-background"></div>
         </div>
         <!-- Left Sidebar End -->

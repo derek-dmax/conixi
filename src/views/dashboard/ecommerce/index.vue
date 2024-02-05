@@ -5,7 +5,7 @@ import "swiper/swiper-bundle.css";
 
 SwiperCore.use([]);
 import flatPickr from "vue-flatpickr-component";
-import { SimpleBar } from "simplebar-vue3";
+import simplebar from "simplebar-vue";
 import "flatpickr/dist/flatpickr.css";
 import { CountTo } from "vue3-count-to";
 
@@ -23,7 +23,7 @@ export default {
     SwiperSlide,
     PageHeader,
     flatPickr,
-    SimpleBar,
+    simplebar,
     Revenue,
     SalesLocation,
   },
@@ -1289,7 +1289,7 @@ export default {
                   Recent Activity
                 </h6>
               </div>
-              <SimpleBar
+              <simplebar
                 data-simplebar
                 style="max-height: 410px"
                 class="p-3 pt-0"
@@ -1516,7 +1516,7 @@ export default {
                     </div>
                   </div>
                 </div>
-              </SimpleBar>
+              </simplebar>
 
               <div class="p-3 mt-2">
                 <h6 class="text-muted mb-3 text-uppercase fw-semibold">

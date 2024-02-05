@@ -1,7 +1,7 @@
 <script>
 import Swal from "sweetalert2";
 import "@fullcalendar/core/vdom";
-import { SimpleBar } from "simplebar-vue3";
+import simplebar from "simplebar-vue";
 import { CalendarIcon } from "@zhuowenli/vue-feather-icons";
 
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -106,7 +106,7 @@ export default {
     Layout,
     PageHeader,
     FullCalendar,
-    SimpleBar,
+    simplebar,
     CalendarIcon
   },
   mounted() {
@@ -335,7 +335,7 @@ export default {
             <div>
               <h5 class="mb-1">Upcoming Events</h5>
               <p class="text-muted">Don't miss scheduled events</p>
-              <SimpleBar
+              <simplebar
                 class="upcoming-events pe-2 me-n1 mb-3"
                 data-simplebar="init"
                 style="height: 400px"
@@ -365,7 +365,7 @@ export default {
                     </p>
                   </div>
                 </div>
-              </SimpleBar>
+              </simplebar>
             </div>
             <div class="card">
               <div class="card-body bg-soft-info">
